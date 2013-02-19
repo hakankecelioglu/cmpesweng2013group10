@@ -1,8 +1,7 @@
-#summary One-sentence summary of this page.
-
+#This is a page about me, myself, Enes Emre Babur
 = Introduction =
 
-Add your content here.
+I am one of members of the team 10.
 
 
 = Details =
