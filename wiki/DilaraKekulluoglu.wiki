@@ -1,0 +1,16 @@
+#summary One-sentence summary of this page.
+#labels Featured,introduction,dilara
+
+= Introduction =
+
+Hello everyone. My name is Dilara Kekulluoglu, it is my third year at Bogazici University, Computer Engineering.
+
+
+= Details =
+I had no idea about what computer engineers did when I entered this university. Although it is hard to fulfill the expectations, I am somewhat contented with my major.
+
+I have interest in asian languages. 
+ * It is my third year studying Japanese, I have upper intermediate Japanese 
+ * I am also learning Korean by myself.
+ * I don't have any more courage to tackle Chinese.
+ * I would also love to learn Thai, though it seems impossible at this point.
