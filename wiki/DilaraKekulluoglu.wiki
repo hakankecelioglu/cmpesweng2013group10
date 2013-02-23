@@ -1,6 +1,8 @@
 #labels Featured,introduction,dilara
 #brief introduction of me.
 
+[http://i49.tinypic.com/2a92n3t.jpg]
+
 = Introduction =
 
 Hello everyone. My name is Dilara Kekulluoglu, it is my third year at Bogazici University, Computer Engineering.
@@ -14,3 +16,7 @@ I have interest in asian languages.
  * I am also learning Korean by myself.
  * I don't have any more courage to tackle Chinese.
  * I would also love to learn Thai, though it seems impossible at this point.
+
+= Contact Info =
+ * dilarahae@gmail.com
+ * dilara.kekulluoglu@boun.edu.tr
