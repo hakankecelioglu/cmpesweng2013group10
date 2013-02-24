@@ -4,7 +4,7 @@ Linked Data is a method of publishing. The data going to be published are struct
 
 = Introduction =
 
-Tim Berners-Lee, the inventor of the World Wide Web, asked the users to put their information as documents and users did not do this of course. So he proposed us to keep the information on web pages as raw data, because raw data can be linked to another raw data. It creates a connection between users and their information which makes whole information as a one single interlinked data space. 
+Tim Berners-Lee, the inventor of the World Wide Web, asked the users to put their information as documents and users did not do this of course. So he proposed us to keep the information on web pages as raw data, because raw data can be linked to another raw data. It creates a connection between users and their information which makes whole information as one single interlinked data space. 
 
 = Details =
 
