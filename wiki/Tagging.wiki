@@ -1,4 +1,4 @@
-
+#labels Featured
 = What Is Tagging? =
 
 In information systems, a tag is a non-hierarchical keyword or term assigned to a piece of information (such as an Internet bookmark, digital image, or computer file). This kind of metadata helps describe an item and allows it to be found again by browsing or searching. Tags are generally chosen informally and personally by the item's creator or by its viewer, depending on the system.
