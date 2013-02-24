@@ -10,10 +10,10 @@ Tim Berners-Lee, the inventor of the World Wide Web, asked the users to put thei
 
 There are 4 steps to establish Linked Data:
 
- #Data on the web should be open to anyone so that it can be manipulated and reached by others.
- #The links between the data should be established in a proper and absoulte way which is called Resource Description Framework. All the RDF of all information is interconnected.
- #As each web site has its own unique address, data should have too. This is done by Uniform Resource Identifier. Using protocels, a specific resource represent itself in a specific way. It simply is a string of characters.
- #Data should be online in a certain protocol, named HTTP. 
+ # Data on the web should be open to anyone so that it can be manipulated and reached by others.
+ # The links between the data should be established in a proper and absolute way which is called Resource Description Framework. All the RDF of all information are interconnected.
+ # As each web site has its own unique address, data should have too. This is done by Uniform Resource Identifier. Using protocols, a specific resource represents itself in a specific way. It simply is a string of characters.
+ # Data should be online in a certain protocol, named HTTP. 
 
 =Why is it good to use?=
 
