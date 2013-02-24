@@ -5,7 +5,7 @@
 Welcome to my wiki page for Fundamentals of Software Engineering course. This page gives a brief description about myself, junior at Boğaziçi University Computer Engineering Department.
 
 
-= Details =
+= Details about me =
 
 I've always wanted to be an ambitious computer engineer but instead, I found other staffs to have fun with. I'm still trying to imagine myself as a computer engineer though.
 
