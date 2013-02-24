@@ -1,0 +1,16 @@
+= Introduction =
+
+Welcome to my wiki page for Fundamentals of Software Engineering course. This page gives a brief description about myself, junior at Boğaziçi University Computer Engineering Department.
+
+
+= Details =
+
+I've always wanted to be an ambitious computer engineer but instead, I found other staffs to have fun with. I'm still trying to imagine myself as a computer engineer though.
+
+ * Although I'm 22, I am still playing with LEGO. LEGO is programmable now and it's very easy and enjoyable to create robots that do basic daily works such as automatic flusher or remote controlled tank that serves for guests etc.
+ * I can play classical guitar at an intermediate level but now that I'm bored, I bought a bass guitar. I'm not very good at it but I'm still trying to be as good as Flea, although it's impossible. I spend a lot of time on my bass.
+ * I use bicycle and I am against any big vehicles for personal use.
+
+=Contact Info=
+
+alpercetiner1@gmail.com
