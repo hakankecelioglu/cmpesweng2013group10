@@ -1,3 +1,5 @@
+#labels AlperÇetiner,Software,Engineering
+'<img src="http://cmpesweng2013group10.googlecode.com/files/alperc.png" alt="Logo"/>'
 = Introduction =
 
 Welcome to my wiki page for Fundamentals of Software Engineering course. This page gives a brief description about myself, junior at Boğaziçi University Computer Engineering Department.
