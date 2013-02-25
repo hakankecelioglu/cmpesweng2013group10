@@ -1,4 +1,11 @@
 #summary This is my wiki page about me, a brief description of mine.
+#labels MuhammedSabriSahin
+
 = Who am I ? =
 
-* My name is Muhammed Sabri Şahin. This is my 7th semester in Boğaziçi University. I'm _used to_ be interested in coding, but now I'm not. I love listening to music of new genres. I also like to play _classical_ guitar.
+My name is Muhammed Sabri Şahin. This is my 7th semester in Boğaziçi University, Computer Engineering.
+
+== Details ==
+ * I _used to_ be interested in coding, but now I'm not. I hope I'll have my enthusiasm for coding soon.
+ * I love listening to music of new genres. _Classical music_ is however my favorite one. I'm also into _jazz_, _lounge_ and _chillout_ lately.
+ * I play _classical guitar music_ (not Akdeniz Akşamları!) with my _classical guitar_, a lot.
