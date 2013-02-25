@@ -1,4 +1,4 @@
 #This is a page about me, myself, Enes Emre Babur
-'<img src="http://cmpesweng2013group10.googlecode.com/files/IMAG0322.jpg" alt="profile_pic"/>'
+'<img src="http://cmpesweng2013group10.googlecode.com/files/profile_pic.jpg" alt="profile_pic"/>'
 = Introduction =
 = Details =
