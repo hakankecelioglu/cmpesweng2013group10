@@ -1,12 +1,4 @@
 #This is a page about me, myself, Enes Emre Babur
+'<img src="http://cmpesweng2013group10.googlecode.com/files/IMAG0322.jpg" alt="profile_pic"/>'
 = Introduction =
-
-I am one of members of the team 10.
-
-
 = Details =
-
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
