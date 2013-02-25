@@ -1,0 +1,15 @@
+#labels meeting
+
+
+= Meeting Notes =
+<hr>
+
+=== Meeting #1 25.02.2013 ===
+
+*Participants:* All members<br>
+*Location:* ETA A4 <br><hr>
+*Meeting Objective:* Meeting, member introduction, assignment #1 discussion<br>
+
+*Action Items of the previous week:* Familiarize ourselves with the wiki syntax, creating member introduction pages, searching in the given areas.<br>
+*New Action Items:* Waiting for further assignments.<br>
+<hr>
