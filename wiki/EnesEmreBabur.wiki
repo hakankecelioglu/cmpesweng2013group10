@@ -1,4 +1,18 @@
-#This is a page about me, myself, Enes Emre Babur
-'<img src="http://cmpesweng2013group10.googlecode.com/files/profile_pic.jpg" alt="profile_pic"/>'
+<br>This is a page about me, myself, Enes Emre Babur</br><br></br>
+<img src="http://cmpesweng2013group10.googlecode.com/files/profile_pic.jpg" alt="profile_pic"/ width="300" height="170">
+
 = Introduction =
-= Details =
+
+I am a junior student at Computer Engineering Department in Bogazici University - Istanbul. Expecting a bachelor degree in summer of 2014.
+
+= Some more details =
+
+I am interested in computer technology to enable myself to become a successful entrepreneur in the area of new business models related to big data derived from mass human behaviour.
+
+ * I like playing golf.
+ * Hablo Español
+ * I am currently working in a startup company. We are working on a sports analytics software. I am working on computer vision mostly.
+
+=Contact=
+
+[mailto:e.e.babur@gmail.com]
