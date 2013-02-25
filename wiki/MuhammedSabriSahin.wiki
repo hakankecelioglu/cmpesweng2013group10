@@ -12,6 +12,10 @@ My name is Muhammed Sabri Şahin. This is my 7th semester in Boğaziçi Universi
 
 == Contact Info ==
 
-sabsah@gmail.com <br/>
-fb.com/mssahinn <br/>
-twitter.com/msabrisahin
+<img src=http://cmpesweng2013group10.googlecode.com/files/email.png width=2%> sabsah@gmail.com <br/>
+<img src=http://cmpesweng2013group10.googlecode.com/files/facebook.png width=2%> fb.com/mssahinn <br/>
+<img src=http://cmpesweng2013group10.googlecode.com/files/twitter.png width=2%> twitter.com/msabrisahin
+
+== Links ==
+
+<wiki:video url="http://www.youtube.com/watch?v=GqA1Y4AI8CY"/>
