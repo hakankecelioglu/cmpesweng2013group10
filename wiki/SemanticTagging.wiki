@@ -8,4 +8,4 @@ While social tagging can be made more semantic, we have to remember that social 
 
 =Where to use it?=
 
-While social tagging can be made more semantic, we have to remember that social tagging is not always about pure findability. The social aspect is about identifying what other people have labeled as interesting or noteworthy, especially if there is a rating aspect in involved. For the semantic web, on the other hand, information findability is a major objective, as stated in W3C’s Semantic Web Activity Statement: "to create a universal medium for the exchange of data. It is envisaged to smoothly interconnect personal infor- mation management, enterprise application integration, and the global sharing of commercial, scientific and cultural data.”
+Silverchair’s Zarnegar put it well: “Semantic tagging is best applied in areas when there is a qualitative ‘best answer’ to a user query (as opposed to a ‘most popular’ answer) ... If you look at industries where semantic tagging (and structured data) have found a foothold (aviation, medicine, genetics, chemistry, and others) you’ll see they are not areas where you want to go too far with iffy information!”
