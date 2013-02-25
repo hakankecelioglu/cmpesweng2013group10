@@ -1,6 +1,6 @@
 #summary This is my wiki page about me, a brief description of mine.
 #labels MuhammedSabriSahin,computer,engineering,Bogazici
-
+<img src=http://cmpesweng2013group10.googlecode.com/files/msabri_profile.jpg width=30%>
 = Who am I ? =
 
 My name is Muhammed Sabri Şahin. This is my 7th semester in Boğaziçi University, Computer Engineering.
