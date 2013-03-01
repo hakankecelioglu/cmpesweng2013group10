@@ -1,0 +1,16 @@
+#summary One-sentence summary of this page.
+#labels Domain,Analysis
+
+= Domain Analysis =
+
+[http://livemocha.com livemocha.com] : Livemocha is an online language learning community, in fact the world's largest. The main purpose of the community is to create a world in which every human being is fluent in multiple languages. Anyone can create an account for free and learn any language by taking interactive courses from native speakers. There is a token system which allows people to buy tokens and spend them to take a desired course.
+
+[http://koowie.com koowie.com] : Koowie?! is a safe, purposeful social network where anyone can connect with anyone based on his/her thoughts. Unlike other social networks, you own your own data. The word "safe" is stated in the definition on a purpose, by the way. Koowie?! gives the entire control of the account to the user, in such a way that you can manipulate your koos, profile, conversations etc. as you like. The term koo means a thought in a form of a question. For example you can write a koo like "Do you always buy food at a sporting event?", "Do you enjoy cycling?" or "Are you addicted to the History Channel?". Then you get responses to your koos so you can meet the people who have common hobbies or interests with you.
+
+[http://deviantart.com deviantart.com] : DeviantArt is the largest art community in the world with over 25 million members. This website allows you to exhibit, promote and share your art with fellow artists and art enthusiasts.
+
+[http://zumbara.com zumbara.com] : Zumbara is a community in which skills and experiences are shared, and time is thought as money. So you can take your time to teach something you know to someone, and then gain that time period like money that you can spend on anything you want to learn.
+
+[http://indiegogo.com indiegogo.com] : Indiegogo is an international crowd funding site which allows users to create a page for their funding campaign, set up an account with PayPal, make a list of "perks" for different levels of donation, then create a social media-based publicity effort.
+
+[http://appsplit.com appsplit.com] : Appsplit is a website that provides an online platform to raise funds, find freelancers or sell apps via crowd sourcing. The idea behind appsplit is much the same as other crowdfunding sites, you post a campaign for your app, explain the purpose of your app and seek financial help to complete the development of the app.
