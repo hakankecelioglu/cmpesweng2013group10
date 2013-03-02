@@ -5,12 +5,42 @@
 
 [http://livemocha.com livemocha.com] : Livemocha is an online language learning community, in fact the world's largest. The main purpose of the community is to create a world in which every human being is fluent in multiple languages. Anyone can create an account for free and learn any language by taking interactive courses from native speakers. There is a token system which allows people to buy tokens and spend them to take a desired course.
 
+==Design:== The color brown is used dominantly on the website with several light and eye-catchy colors like orange and pistachio green. It seems easy to use. I wanted to sign in for the site when I saw it.
+The design seems user-friendly. 
+==Usability:== The site has interfaces for several languages including Turkish tough it is sometimes not translated successfully. 
+Signing up is easy. You indicate your own language, then the language you want to learn. After that they ask you three questions to find out how you want to learn the language.
+There is also an application for mobile phones. 
+Log in with facebook account is not supported.
+==Suitability For Our Project:== It is certainly a purposeful community example but I think it is not suitable for our project description. It is constrained to just one type of service/help need.
+
 [http://koowie.com koowie.com] : Koowie?! is a safe, purposeful social network where anyone can connect with anyone based on his/her thoughts. Unlike other social networks, you own your own data. The word "safe" is stated in the definition on a purpose, by the way. Koowie?! gives the entire control of the account to the user, in such a way that you can manipulate your koos, profile, conversations etc. as you like. The term koo means a thought in a form of a question. For example you can write a koo like "Do you always buy food at a sporting event?", "Do you enjoy cycling?" or "Are you addicted to the History Channel?". Then you get responses to your koos so you can meet the people who have common hobbies or interests with you.
-
+==Design:==The design consists mainly blue colors. Seems a bit amateur. 
+==Usability:== Main page shows the recent reactions to Koo's and new Koo's. It seems pretty easy to use, but personally I didn't want to login.
+Log in with facebook account is supported.
+==Suitability For Our Project:==  It can be used to get attention for our objective, but I don't think it suits our project where we need to find services or funds for the needy people.
 [http://deviantart.com deviantart.com] : DeviantArt is the largest art community in the world with over 25 million members. This website allows you to exhibit, promote and share your art with fellow artists and art enthusiasts.
-
+==Design:== Deviantart mainly uses grey and green tones. It looks pretty, probably because of the people's art on the main page.
+==Usability:==  Main page shows the pieces that are popular 
+at the last 8 hours, but users are allowed to change that according to their tastes.
+You can search an art by tags associated to the art. You can upload and get feedback on your art. It is easy to use, very organized. 
+Log in with facebook account is not supported.
+==Suitabiliy For Our Project:== It can be used to get recognition for your art and possibly get a job but it does not fit our project description again.
 [http://zumbara.com zumbara.com] : Zumbara is a community in which skills and experiences are shared, and time is thought as money. So you can take your time to teach something you know to someone, and then gain that time period like money that you can spend on anything you want to learn.
+==Design:==Consists light colors with rainbow colors here and there. Seems simple and yet to develop.
+==Usability:== It seems easy to use, it has "I want to get service" and "I want to take service" buttons on the right side. You click them and enter what you want to do, you earn points as you give service. You can take services with your points.
+The main page consists the latest entries. You can search your interest and find people who give lessons on your interest.
+Log in with facebook account is supported.
+==Suitability For Our Projects:== It is very useful and it fits our project description too. Of course in the "Van Depremi" example you can't use this site, but you can use this format for people who want to learn new abilities and for people who want to teach other people their abilities. There are people who needs lessons, and there are people who want to give lessons this site make them meet.
 
 [http://indiegogo.com indiegogo.com] : Indiegogo is an international crowd funding site which allows users to create a page for their funding campaign, set up an account with PayPal, make a list of "perks" for different levels of donation, then create a social media-based publicity effort.
-
+==Design:== Consists of light colors like white and grey. 
+==Usability:== Seems easy to use. It helps people with ideas but 
+not much as money to find funds to make their ideas come to life. Users write their projects,budget and a deadline day, if they manage to raise the money they set initially before the deadline, they are able to get the money. For the opposite case where they can't raise the money, the fundraisers get their money back. 
+ It also has a completeness-meter which indicates what percent of the initially set target money is raised.
+Log in with facebook account is supported.
+==Suitability For Our Project:== This fits our project description nicely. People who want money explain why they need it, people who have spare money donate for that people's cause. 
+You can use this site for disaster reliefs too, though this website is not specialized in that area.
 [http://appsplit.com appsplit.com] : Appsplit is a website that provides an online platform to raise funds, find freelancers or sell apps via crowd sourcing. The idea behind appsplit is much the same as other crowdfunding sites, you post a campaign for your app, explain the purpose of your app and seek financial help to complete the development of the app.
+==Design:== Mainly white with some red on it. Looks nice. 
+==Usability:== 
+==Suitability For Our Project:==
