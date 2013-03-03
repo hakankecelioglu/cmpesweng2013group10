@@ -24,6 +24,7 @@ The design consists mainly blue colors. Seems a bit amateur.
  * Log in with facebook account is supported.
 ===Suitability For Our Project:===
 It can be used to get attention for our objective, but I don't think it suits our project where we need to find services or funds for the needy people.
+
 [http://deviantart.com deviantart.com] : DeviantArt is the largest art community in the world with over 25 million members. This website allows you to exhibit, promote and share your art with fellow artists and art enthusiasts.
 ===Design:===
 Deviantart mainly uses grey and green tones. It looks pretty, probably because of the people's art on the main page.
@@ -33,6 +34,7 @@ Deviantart mainly uses grey and green tones. It looks pretty, probably because o
  * Log in with facebook account is not supported.
 ===Suitabiliy For Our Project:=== 
 It can be used to get recognition for your art and possibly get a job but it does not fit our project description again.
+
 [http://zumbara.com zumbara.com] : Zumbara is a community in which skills and experiences are shared, and time is thought as money. So you can take your time to teach something you know to someone, and then gain that time period like money that you can spend on anything you want to learn.
 ===Design:===
 Consists light colors with rainbow colors here and there. Seems simple and yet to develop.
@@ -40,7 +42,7 @@ Consists light colors with rainbow colors here and there. Seems simple and yet t
  * It seems easy to use, it has "I want to get service" and "I want to take service" buttons on the right side. You click them and enter what you want to do, you earn points as you give service. You can take services with your points.
  * The main page consists the latest entries. You can search your interest and find people who give lessons on your interest.
  * Log in with facebook account is supported.
-===Suitability For Our Projects:=== 
+===Suitability For Our Project:=== 
 It is very useful and it fits our project description too. Of course in the "Van Depremi" example you can't use this site, but you can use this format for people who want to learn new abilities and for people who want to teach other people their abilities. There are people who needs lessons, and there are people who want to give lessons this site make them meet.
 
 [http://indiegogo.com indiegogo.com] : Indiegogo is an international crowd funding site which allows users to create a page for their funding campaign, set up an account with PayPal, make a list of "perks" for different levels of donation, then create a social media-based publicity effort.
@@ -53,8 +55,19 @@ Consists of light colors like white and grey.
 ===Suitability For Our Project:===
 This fits our project description nicely. People who want money explain why they need it, people who have spare money donate for that people's cause. 
 You can use this site for disaster reliefs too, though this website is not specialized in that area.
+
 [http://appsplit.com appsplit.com] : Appsplit is a website that provides an online platform to raise funds, find freelancers or sell apps via crowd sourcing. The idea behind appsplit is much the same as other crowdfunding sites, you post a campaign for your app, explain the purpose of your app and seek financial help to complete the development of the app.
 ===Design:=== 
 Mainly white with some red on it. Looks nice.  
 ===Usability:=== 
 ===Suitability For Our Project:===
+
+
+== Advantages and Disadvantages ==
+
+ * Livemocha: The design of Livemocha is pretty tempting. It invites people cordially to sign up. Moreover, thw workflow between users, share of tasks, completion of tasks are handled nicely by Livemocha. However, the whole site is specialized on one thing: Socializing through language learning. This web site's abilities are limited.
+ * Koowie:  Koowie is a terribly designed web site. It helps people for finding people who like or do same things and this is very useful. But since we are focusing on filtering some koo's(just like tweets in twitter) and we are planning to make a share of objectives, koowie is not enough. Koowie is using Php and MySql which can be considered the only advantage, because these 2 languages collaborate finely. 
+ * Deviantart: It's design is very simple. Home page shows great art works which can inspire visitors. Users can change these art works according to their tastes. This is cool for us because if we see art works as tasks then any user can manipulate them and moreover we may create connections between people. Just like Livemocha, deviantart specialized on art, only. This is an important limitation.
+ * Zumbara: The main important feature of the Zumbara is, it connects people in the most efficient way. Money is not an issue in this web site and gaining points as you give service and spending the points to get service is like the movie "Pay it forward" which sounds impossible for the real world.
+ * Indiegogo: Indiegogo has a brilliant idea in funding and supporting the entrepreneurs. Payment is done by PayPal which is great. It supports entrepreneurs and it also keeps the rights of contributors. However, compared to the rival company Kickstarter, some very successful projects may get lower raised funds and there may be some inequality in the system.
+ * Appsplit: It has a charming design and the web site shows itself as a platinum business club. However, it was created not so long ago and it's not recognized by millions.
