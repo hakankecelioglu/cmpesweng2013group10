@@ -4,7 +4,7 @@
 === Meeting #2 01.03.2013 ===
 *Participants: Dilara Keküllüoğlu, Şeyma Erdem, İlker İnanç, Alper Çetiner, H Anıl Özmen, M Sabri Şahin, Enes Emre Babür
 
-*Location:* ETA A2 <br><hr>
+*Location:* ETA A2 <br>
 
 *Meeting Objective:* Role assignments for the assignment
 
@@ -63,11 +63,12 @@
 </tr>
 </table>
 
+<hr>
 
 === Meeting #1 25.02.2013 ===
 
 *Participants:* All members<br>
-*Location:* ETA A4 <br><hr>
+*Location:* ETA A4 <br>
 *Meeting Objective:* Meeting, member introduction, assignment #1 discussion<br>
 
 *Action Items of the previous week:* Familiarize ourselves with the wiki syntax, creating member introduction pages, searching in the given areas.<br>
