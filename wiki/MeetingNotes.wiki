@@ -11,13 +11,57 @@
 *Action Items of the previous week:* Pre analysis for the given assignment, decided on a weekly meeting day
 
 *New Action Items:*Role assignments for project are as follows;
- * M Sabri Şahin, H Anıl Özmen: Looking for similar sites and their user and customer profiles
- * Dilara Keküllüoğlu: Exploring their design, usability, environment, size and suitability for your task
- * Alper Çetiner: Discussing their advantages and disadvantages
- * Enes Emre Babür: Trying to find out the technologies/algorithms used in their implementation
- * İlker İnanç, Şeyma Erdem: Performing a requirement analysis on our project.
+ 
 
+<table border="3">
 
+<tr>
+<td>
+  <ul>
+    <li>M Sabri Şahin</li>
+    <li>H Anıl Özmen</li>
+  </ul>
+</td>
+<td>   Looking for similar sites and their user and customer profiles <br></br>   Making modifications on the google code page   </td>
+</tr>
+
+<tr>
+<td>
+  <ul>
+    <li>Dilara Keküllüoğlu</li>  
+  </ul>
+</td>
+<td>   Exploring their design, usability, environment, size and suitability for your task.   </td>
+</tr>
+
+<tr>
+<td>
+  <ul>
+    <li>Alper Çetiner</li>  
+  </ul>
+</td>
+<td>   Discussing their advantages and disadvantages.   </td>
+</tr>
+
+<tr>
+<td>
+  <ul>
+    <li>Enes Emre Babür</li>  
+  </ul>
+</td>
+<td>   Trying to find out the technologies/algorithms used in their implementation.  </td>
+</tr>
+
+<tr>
+<td>
+  <ul>
+    <li>İlker İnanç</li>
+    <li>Şeyma Erdem</li>
+  </ul>
+</td>
+<td>   Performing a requirement analysis on our project.   </td>
+</tr>
+</table>
 
 
 === Meeting #1 25.02.2013 ===
