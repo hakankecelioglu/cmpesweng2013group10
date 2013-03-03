@@ -1,7 +1,6 @@
-
 = Requirement Analysis =
  
- = 1.Functioal Requirements =
+ = 1.Functional Requirements =
  
   == 1.1 User Profiles ==
  * Each user shall have information fields such as his/her name, surname, contact address(e-mail) and password.
