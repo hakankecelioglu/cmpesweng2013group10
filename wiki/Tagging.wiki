@@ -17,3 +17,8 @@ Commonly used in blogs, site authors attach keyword descriptions (called tags) t
 In a typical tagging system, there is no explicit information about the meaning or semantics of each tag, and a user can apply new tags to an item as easily as applying older tags. The flexibility of tagging allows users to classify their collections of items in the ways that they find useful, but the personalized variety of terms can present challenges when searching and browsing.
 
 When users can freely choose tags, the resulting metadata can include homonyms (the same tags used with different meanings) and synonyms (multiple tags for the same concept), which may lead to inappropriate connections between items and inefficient searches for information about a subject. For example, the tag "orange" may refer to the fruit or the color, and items related to a version of the Linux kernel may be tagged "Linux", "kernel", "Penguin", "software", or a variety of other terms. Users can also choose tags that are different inflections of words (such as singular and plural), which can contribute to navigation difficulties if the system does not include stemming ( the process for reducing inflected (or sometimes derived) words to their base) of tags when searching or browsing. 
+
+= References =
+
+ * http://en.wikipedia.org/wiki/Tag_(metadata)
+ * http://www.webopedia.com/TERM/T/tagging.html
