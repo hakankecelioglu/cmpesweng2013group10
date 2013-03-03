@@ -1,0 +1,19 @@
+
+= Requirement Analysis =
+ 
+ = 1.Functioal Requirements =
+ 
+  == 1.1 User Profiles ==
+ * Each user shall have information fields such as his/her name, surname, contact address(e-mail) and password.
+ * Registrations should be checked for validation via e-mail. 
+ * Users should login the site by using e-mail address and password.
+
+ == 1.2 Home Page ==
+ * Design of home page should be simple and user friendly.
+ * Color choices should be done consciously.
+ * Each user shall login with his/her e-mail address as user id and password from this page.
+
+ == 1.3 Searching ==
+ * Users should be able to search for tasks with which they are interested.
+ * System also should be able to suggest new areas according to their past searches or tasks.
+ 
