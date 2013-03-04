@@ -14,16 +14,26 @@
  * Design of home page should be simple and user friendly.
  * Color choices should be done consciously.
  * Each user shall login with his/her e-mail address as user id and password from this page.
- * Homepage should consist the recent urgent needs.
+ * Homepage shall consist the recent urgent tasks.
 
  == 1.3 Searching ==
  * Users should be able to search for tasks with which they are interested.
  * System also should be able to suggest new areas according to their past searches or tasks.
  == 1.4 Task ==
- * User should be able to open a new thread.
- * User should be able to edit the threads that they have privileges on.
-user that have privileges on a thread should be able to give privileges to other users.
- * User should be able to delete thread. 
- * The thread should close automatically if the target need is met.
+ * User should be able to open a new task.
+ * User should be able to edit the task that they have privileges on.
+user that have privileges on a task should be able to give privileges to other users.
+ * User should be able to delete task. 
+ * The thread shall close the incoming donation automatically if the target need is met.
  * User should give donations via paypal or credit card.
- 
+ * User should give feedbacks about a task.
+ == 1.5 Tagging ==
+ * Users shall tag their threads.
+ * Users shall use up to 10 tags.
+ * Users shall tag their threads according to their thread's content.
+ * Users should give feedbacks about tags.
+ ==1.6 Point System == 
+ * Users should earn points by helping a task fulfilled.
+ * Users should earn points by checking whether a task is righteous.
+ * Users should earn points by checking whether tags of a task make sense.
+ * Users that have the most points shall be able to feature their tasks on the main page.
