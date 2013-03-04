@@ -14,7 +14,7 @@ The design seems user-friendly. <br>
  * Log in with facebook account is not supported.
 ===Suitability For Our Project:=== 
 It is certainly a purposeful community example but I think it is not suitable for our project description. It is constrained to just one type of service/help need.
-<hr>
+
 [http://koowie.com koowie.com] : Koowie?! is a safe, purposeful social network where anyone can connect with anyone based on his/her thoughts. Unlike other social networks, you own your own data. The word "safe" is stated in the definition on a purpose, by the way. Koowie?! gives the entire control of the account to the user, in such a way that you can manipulate your koos, profile, conversations etc. as you like. The term koo means a thought in a form of a question. For example you can write a koo like "Do you always buy food at a sporting event?", "Do you enjoy cycling?" or "Are you addicted to the History Channel?". Then you get responses to your koos so you can meet the people who have common hobbies or interests with you.
 ===Design:===
 The design consists mainly blue colors. Seems a bit amateur. 
