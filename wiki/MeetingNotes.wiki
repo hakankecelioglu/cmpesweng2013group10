@@ -18,7 +18,7 @@
 *Action Items of the previous week:* Domain Analysis and Requirement Analysis <br>
 *New Action Items:* Writing Non-functional requirements, brain-storming about the project and finding unique ideas to improve the functionality of the project.
 
-
+<hr>
 === Meeting #2 01.03.2013 ===
 *Participants: 
 <a href="http://code.google.com/p/cmpesweng2013group10/wiki/DilaraKekulluoglu">Dilara Keküllüoğlu</a>,
