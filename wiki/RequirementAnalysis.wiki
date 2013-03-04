@@ -37,3 +37,40 @@
  * Users should earn points by checking whether a task is righteous.
  * Users should earn points by checking whether tags of a task make sense.
  * Users that have the most points shall be able to feature their tasks on the main page.
+
+ = 2.Non-Functional Requirements =
+
+ == 2.1 Operating & Platform constraints ==
+ * The application should be supported by Google Chrome, Safari, Internet Explorer and Mozilla Firefox.
+
+ == 2.2 Modifiability ==
+ * The system should be designed so that the developers can modify it to respond the varying needs of users.
+
+ == 2.3 Portability ==
+ * A mobile application to interact with community shall be supported with less features relative to the web application.
+
+ == 2.4 Security ==
+ * The application shall be accessed via a user authentification process. (i.e. sign in) Only members shall see the contents. Registration shall be validated since it is a restricted community.
+
+ == 2.5 Usability ==
+ * The user interface of the application should be similar to popular social media applications (e.g. Facebook) at the launch stage to achieve ease of use.
+ * There shall be more visual design to focus on the content.
+ 
+ == 2.6 Privacy ==
+ * The user shall be able to arrange the visibility of their information etc.
+
+ == 2.7 Language ==
+ * In the early stage, the application shall be in English for everybody including foreigners to understand.
+
+ == 2.8 Response Time ==
+ * Response time of the web pages and database queries should be less than ten seconds with an average quality Internet connection.
+
+ == 2.9 Reliability ==
+ * All the records and database shall be copied for possible failures and the copied data should be updated periodically(daily or after some amount of changes).
+
+ == 2.10 System Availability ==
+ * The user interface of the system shall be supported by Google Chrome, Safari, Internet Explorer and Mozilla Firefox.
+ * The user interface of the system shall be available during day and the maintenance shall be performed at nights when necessary.
+
+ == 2.11 Physical Requirements ==
+ * System shall be written using an IDE in Windows, OS X or Linux operating systems.
