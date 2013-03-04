@@ -2,12 +2,13 @@
  
  = 1.Functional Requirements =
  
-  == 1.1 User Profiles ==
+ == 1.1 User Profiles ==
  * Each user shall have information fields such as his/her name, surname, contact address(e-mail) and password.
- * Registrations should be checked for validation via e-mail. 
- * Users should login the site by using e-mail address and password.
- * Users may login with a facebook account.
+ * Registrations shall be checked for validation via e-mail. 
+ * Users shall login the site by using e-mail address and password.
+ * Users should login with a facebook account.
  * Users should edit their profile page.
+ * Users should be able to acquire their passwords if forgotten.
 
  == 1.2 Home Page ==
  * Design of home page should be simple and user friendly.
@@ -23,6 +24,6 @@
  * User should be able to edit the threads that they have privileges on.
 user that have privileges on a thread should be able to give privileges to other users.
  * User should be able to delete thread. 
- * The thread should close automatically if the target money is met.
+ * The thread should close automatically if the target need is met.
  * User should give donations via paypal or credit card.
  
