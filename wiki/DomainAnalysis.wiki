@@ -63,7 +63,8 @@ Mainly white with some red on it. Looks nice.
 ===Suitability For Our Project:===
 
 
-== Advantages and Disadvantages ==
+
+== Advantages and Disadvantages of These Respectively ==
 
  * Livemocha: The design of Livemocha is pretty tempting. It invites people cordially to sign up. Moreover, thw workflow between users, share of tasks, completion of tasks are handled nicely by Livemocha. However, the whole site is specialized on one thing: Socializing through language learning. This web site's abilities are limited.
  * Koowie:  Koowie is a terribly designed web site. It helps people for finding people who like or do same things and this is very useful. But since we are focusing on filtering some koo's(just like tweets in twitter) and we are planning to make a share of objectives, koowie is not enough. Koowie is using Php and MySql which can be considered the only advantage, because these 2 languages collaborate finely. 
