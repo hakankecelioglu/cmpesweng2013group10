@@ -1,6 +1,24 @@
 #labels meeting
 = Meeting Notes =
 <hr>
+
+=== Meeting #3 04.03.2013 ===
+
+*Participants: 
+<a href="http://code.google.com/p/cmpesweng2013group10/wiki/DilaraKekulluoglu">Dilara Keküllüoğlu</a>,
+<a href="http://code.google.com/p/cmpesweng2013group10/wiki/MuhammedSabriSahin">M Sabri Şahin</a>,
+<a href="http://code.google.com/p/cmpesweng2013group10/wiki/AlperCetinersWikiPage">Alper Çetiner</a>,
+<a href="https://code.google.com/p/cmpesweng2013group10/wiki/NSeymaErdem">N Şeyma Erdem</a>,
+
+*Location:* ETA A2 
+<br>
+
+*Meeting Objective:* Looking through the last week's tasks and expanding the project idea.
+
+*Action Items of the previous week:* Domain Analysis and Requirement Analysis
+*New Action Items:* Writing Non-functional requirements, brain-storming about the project and finding unique ideas to improve the functionality of the project.
+
+
 === Meeting #2 01.03.2013 ===
 *Participants: 
 <a href="http://code.google.com/p/cmpesweng2013group10/wiki/DilaraKekulluoglu">Dilara Keküllüoğlu</a>,
