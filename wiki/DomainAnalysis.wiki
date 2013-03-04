@@ -58,7 +58,8 @@ You can use this site for disaster reliefs too, though this website is not speci
 
 [http://appsplit.com appsplit.com] : Appsplit is a website that provides an online platform to raise funds, find freelancers or sell apps via crowd sourcing. The idea behind appsplit is much the same as other crowdfunding sites, you post a campaign for your app, explain the purpose of your app and seek financial help to complete the development of the app.
 ===Design:=== 
-Mainly white with some red on it. Looks nice.  
+Mainly white with some red on it. Looks nice. 
+In addition, homepage is very simple and this makes the website user-friendly. On the other hand, footer of the website is very common in the web. This is also simple but designers should develop this in terms of uniqueness. 
 ===Usability:=== 
  * It could be used for searching funds for both big and small projects or applications.
  * Companies organize lots of competition for projects which were coded by creative people. These are good for entrepreneurs to sell their projects or to improve them. However, such type of competitions are not worldwide generally. This negative consequence is not a drawback via this site. 
