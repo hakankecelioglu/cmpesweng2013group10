@@ -67,7 +67,7 @@ In addition, homepage is very simple and this makes the website user-friendly. O
  * Design of the website is simple and creative according to me.
  * I saw a lot of ads for projects and some of them was funded by people. However, these ads generally demand money like $100,$250, $500. This situation is not good for larger projects.I mean, the logic of the website is very good but supporters should also be more brave to fund projects.
 ===Suitability For Our Project:===
-
+ * This could be useful for finding funds for project. There are lots of people in this community which could help us. 
 
 
 == Advantages and Disadvantages of These Respectively ==
