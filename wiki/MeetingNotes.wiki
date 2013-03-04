@@ -15,7 +15,7 @@
 
 *Meeting Objective:* Looking through the last week's tasks and expanding the project idea.
 
-*Action Items of the previous week:* Domain Analysis and Requirement Analysis
+*Action Items of the previous week:* Domain Analysis and Requirement Analysis <br>
 *New Action Items:* Writing Non-functional requirements, brain-storming about the project and finding unique ideas to improve the functionality of the project.
 
 
