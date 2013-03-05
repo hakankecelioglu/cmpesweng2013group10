@@ -47,7 +47,7 @@
  * The system should be designed so that the developers can modify it to respond the varying needs of users.
 
  == 2.3 Portability ==
- * A mobile application to interact with community shall be supported with less features relative to the web application.
+ * A mobile application to interact with community and tasks shall be supported with less features relative to the web application.
 
  == 2.4 Security ==
  * The application shall be accessed via a user authentification process. (i.e. sign in) Only members shall see the contents. Registration shall be validated since it is a restricted community.
@@ -57,7 +57,7 @@
  * There shall be more visual design to focus on the content.
  
  == 2.6 Privacy ==
- * The user shall be able to arrange the visibility of their information etc.
+ * The user shall be able to arrange the visibility of their information, tasks etc.
 
  == 2.7 Language ==
  * In the early stage, the application shall be in English for everybody including foreigners to understand.
