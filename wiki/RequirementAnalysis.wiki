@@ -53,7 +53,7 @@
  * The application shall be accessed via a user authentification process. (i.e. sign in) Only members shall see the contents. Registration shall be validated since it is a restricted community.
 
  == 2.5 Usability ==
- * The user interface of the application should be similar to popular social media applications (e.g. Facebook) at the launch stage to achieve ease of use.
+ * The user interface of the application should be similar to popular task management applications (e.g. Pivotal Tracker) at the launch stage to achieve ease of use.
  * There shall be more visual design to focus on the content.
  
  == 2.6 Privacy ==
