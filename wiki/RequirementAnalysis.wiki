@@ -28,17 +28,17 @@
  == 1.4 Task ==
 1.4.1 User should open a new task.
 
-1.4.2 User should edit the task that they have privileges on.
+1.4.2 User that opened the task should edit the task that they have privileges on.
 
 1.4.3 User that have privileges on a task should give privileges to other users.
 
-1.4.4 User should delete task. 
+1.4.4 User that opened the task shall delete task. 
 
-1.4.5 The thread shall close the incoming donation automatically if the target need is met.
+1.4.5 User that opened the task shall have the option to close the incoming donation automatically if the target need is met.
 
-1.4.6 User should give donations via paypal or credit card.
+1.4.6 Users shall give donations via paypal or credit card.
 
-1.4.7 User should give feedbacks about a task.
+1.4.7 Users shall give feedbacks about a task.
 
  == 1.5 Tagging ==
 1.5.1 Users shall tag their threads.
