@@ -5,6 +5,29 @@
 === Meeting #4 13.03.2013 ===
 
 *Participants: 
+
+<a href="http://code.google.com/p/cmpesweng2013group10/wiki/AlperCetinersWikiPage">Alper Çetiner</a>,
+<a href="https://code.google.com/p/cmpesweng2013group10/wiki/NSeymaErdem">N Şeyma Erdem</a>,
+<a href="http://code.google.com/p/cmpesweng2013group10/wiki/HuseyinAnilOzmen">H Anıl Özmen</a>,
+<a href="http://code.google.com/p/cmpesweng2013group10/wiki/CanUzum">Can Uzum</a><br>
+
+*Location:* ETA A4
+<br>
+
+*Meeting Objective:* Creation process of UML design and scenario.
+Revision of our previous ideas related to system of the website, user limitations, admin control mechanism.
+
+*Action Items of the previous week:* We have created UML diagram and a scenario -an earthquake case-.   <br>
+*New Action Items:* Alternative scenarios about website. Revising UML diagram
+
+
+
+
+<hr>
+
+=== Meeting #4 13.03.2013 ===
+
+*Participants: 
 <a href="http://code.google.com/p/cmpesweng2013group10/wiki/DilaraKekulluoglu">Dilara Keküllüoğlu</a>,
 <a href="http://code.google.com/p/cmpesweng2013group10/wiki/MuhammedSabriSahin">M Sabri Şahin</a>,
 <a href="http://code.google.com/p/cmpesweng2013group10/wiki/AlperCetinersWikiPage">Alper Çetiner</a>,
