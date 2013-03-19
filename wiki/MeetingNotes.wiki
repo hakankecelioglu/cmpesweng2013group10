@@ -2,7 +2,7 @@
 = Meeting Notes =
 <hr>
 
-=== Meeting #4 13.03.2013 ===
+=== Meeting #5 18.03.2013 ===
 
 *Participants: 
 
@@ -14,10 +14,10 @@
 *Location:* ETA A4
 <br>
 
-*Meeting Objective:* Creation process of UML design and scenario.
+*Meeting Objective:* Creation process of use-case design and scenario.
 Revision of our previous ideas related to system of the website, user limitations, admin control mechanism.
 
-*Action Items of the previous week:* We have created UML diagram and a scenario -an earthquake case-.   <br>
+*Action Items of the previous week:* We have created UML design and a scenario -an earthquake case-.   <br>
 *New Action Items:* Alternative scenarios about website. Revising UML diagram
 
 
