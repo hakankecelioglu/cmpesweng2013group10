@@ -14,7 +14,7 @@
 *Location:* ETA A4
 <br>
 
-*Meeting Objective:* Creation process of use-case design and scenario.
+*Meeting Objective:* Creation process of use-case scenario.
 Revision of our previous ideas related to system of the website, user limitations, admin control mechanism.
 
 *Action Items of the previous week:* We have created UML design and a scenario -an earthquake case-.   <br>
