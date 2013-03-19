@@ -17,7 +17,7 @@
 *Meeting Objective:* Creation process of use-case scenario.
 Revision of our previous ideas related to system of the website, user limitations, admin control mechanism.
 
-*Action Items of the previous week:* We have created UML design and a scenario -an earthquake case-.   <br>
+*Action Items of the previous week:* We have created Use Case Diagram and a scenario -an earthquake case-.   <br>
 *New Action Items:* Alternative scenarios about website. Revising UML diagram
 
 
