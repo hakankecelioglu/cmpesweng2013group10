@@ -8,7 +8,20 @@
 
 = Use Case Scenario=
 
-An earthquake occurred with magnitude 7.1 in Zonguldak region.  There is a serious damage in some of buildings and there are many people who need a place to stay. Ahmet who also lives in Zonguldak survived this earthquake and saw some of those people in his neighborhood.  And then he wanted to help them in an efficient way. He remembered that there is website which is very effective in organization of help in such situations.<br></br>
-Ahmet goes to this website and *requests a membership* and after **validation of his membership** he *logins* to the site. And then he *creates a task* which is about to find 500 of tents for the homeless people. System checks whether there is a *similar task* in the same place or not. If there is, it warns Ahmet ‘There is also such a case, are you sure to continue?’ .If Ahmet is sure about adding this task, process will be completed. 
-After adding the task* for 500 of tents, visitors or members of the website want to *help those people. They promise to send some tents with different numbers. After tents came, people give a *feedback* to the site, for instance, we took 100 of tents from this person. And system will check that person whether s/he is a member of the site or not. Then if s/he is a member, system will increase his or her points by using *point ranking algorithm*. Also the number of tents arrived will be decreased from the total number of needed tents. It goes to *task completion approval* and tested via *percentage of task completion algorithm*.<br></br>
-Finally, when the need of 500 tents is met, this task will be automatically *closed*. 
+ * An earthquake occurred with magnitude 7.1 in Zonguldak region.
+ * There is a serious damage in some of buildings and there are many people who need a place to stay.
+ * Ahmet who also lives in Zonguldak survived this earthquake and saw some of those people in his neighborhood. 
+ * He wanted to help them in an efficient way. He remembered that there is website which is very effective in organization of help in such situations.
+ * Ahmet goes to this website and *requests a membership* and after **validation of his membership** he *logins* to the site.
+ * Then he *creates a task* which is about to find 500 of tents for the homeless people.
+ * System checks whether there is a *similar task* in the same place or not.
+ * If there is, it warns Ahmet ‘There is also such a case, are you sure to continue?’.
+ * If Ahmet is sure about adding this task, process will be completed. 
+ * After adding the task* for 500 of tents, visitors or members of the website want to *help those people.
+ * They promise to send some tents with different numbers.
+ * After tents came, people give a *feedback* to the site, for instance, we took 100 of tents from this person.
+ * And system will check that person whether s/he is a member of the site or not.
+ * Then if s/he is a member, system will increase his or her points by using *point ranking algorithm*.
+ * Also the number of tents arrived will be decreased from the total number of needed tents.
+ * It goes to *task completion approval* and tested via *percentage of task completion algorithm*.
+ * Finally, when the need of 500 tents is met, this task will be automatically *closed*. 
