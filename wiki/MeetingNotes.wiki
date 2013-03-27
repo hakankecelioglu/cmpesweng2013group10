@@ -1,5 +1,31 @@
 #labels meeting
 = Meeting Notes =
+
+=== Meeting #6 27.03.2013 ===
+
+*Participants
+
+ N Seyma Erdem
+ Ilker Inanc
+ Dilara Kekulluoglu
+ H Anil Ozmen
+ Alper Cetiner
+ M Sabri Sahin
+
+*Location:* ETA 
+<br>
+
+*Meeting Objective:* Role distribution of the new assignment
+
+ N Seyma Erdem, Alper Cetiner : Completion of use case diagram and scenarios.
+ Ilker Inanc, M Sabri Sahin, Emre Babur: Creating mock-up interfaces for use cases.
+ Dilara Kekulluoglu: Creating activity diagrams for the use case scenarios
+ H Anil Ozmen: Drawing sequence chart of the project.
+
+*Action Items of the previous week:* Creating use case diagram and a new scenario<br>
+
+*New Action Items:* Completing Assignment
+
 <hr>
 
 === Meeting #5 18.03.2013 ===
