@@ -17,6 +17,51 @@
 
 *Meeting Objective:* Role distribution of the new assignment
 
+
+<table border="3">
+
+<tr>
+
+<td>     H Anıl Özmen<br></br>  
+</td>
+<td>   Drawing sequence chart of the project.
+</td>
+</tr>
+
+<tr>
+<td>    Dilara Keküllüoğlu<br></br>  
+</td>
+<td>   Creating activity diagrams for the use case scenarios 
+ </td>
+</tr>
+
+<tr>
+<td>
+ 
+   Alper Çetiner, N Seyma Erdem 
+  
+</td>
+<td>   Completion of use case diagram and scenarios.   </td>
+</tr>
+
+
+<tr>
+<td>
+  Ilker Inanc, M Sabri Sahin, Emre Babur
+</td>
+<td>  Creating mock-up interfaces for use cases.  </td>
+</tr>
+
+<tr>
+<td>
+  Can Üzüm
+</td>
+<td>  Re-design of use case analysis and making modifications on it  </td>
+</tr>
+</table>
+
+
+
  N Seyma Erdem, Alper Cetiner : Completion of use case diagram and scenarios.
  Ilker Inanc, M Sabri Sahin, Emre Babur: Creating mock-up interfaces for use cases.
  Dilara Kekulluoglu: Creating activity diagrams for the use case scenarios
