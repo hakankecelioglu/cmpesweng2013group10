@@ -1,0 +1,11 @@
+#summary Activity diagram of the situation where ahmet opens a task.
+#labels activitydiagram
+
+= Activity Diagram =
+
+<h1>[http://cmpesweng2013group10.googlecode.com/files/adtask.jpg]</h1>
+
+
+= Details =
+
+The activity diagram where Ahmet opens a task requiring 500 tents for an earthquake in Zonguldak.
