@@ -8,7 +8,7 @@
 
 = Use Case Scenario=
 
-* Name: Create A Task*
+* Use Case Name: Create A Task*
 
 * Actors:* Member
 
@@ -35,7 +35,7 @@
  * The task can be seen by public.
  * Any helper would use the task and get to know about the unnatural event
  
-*Name: Member's Help*
+*Use Case Name: A member helps*
 
 *Goal:* A member helps the lacker
 
@@ -61,7 +61,7 @@
  * System should close the task if the target need is met.
  * User's point should be updated.
 
-*Name:* Guest's Help
+* Use Case Name:* A guest helps
 
 *Goal:* A guest helps the lacker
 
