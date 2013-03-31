@@ -1,3 +1,3 @@
  === Sequence Chart That Describes The Contribution Of New User Content ===
 
- <wiki:gadget url="http://creately.com/player/gadget/createlyplayer.xml" height="1000" width="800" border="3"  up_did="hey7z6k0-t24pXZ0EQlFNcbZAaetYMXhKc=" up_dlogo="true" up_dtitle="sequnce diagram" up_bgcolor="#eeeeee" /> 
+ <wiki:gadget url="http://creately.com/player/gadget/createlyplayer.xml" height="1100" width="600" border="3"  up_did="hey7z6k0-t24pXZ0EQlFNcbZAaetYMXhKc=" up_dlogo="true" up_dtitle="sequnce diagram" up_bgcolor="#eeeeee" /> 
