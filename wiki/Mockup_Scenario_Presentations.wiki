@@ -1,5 +1,3 @@
 Here you can find mockup scenario presentations.
 
-= Introduction =
-
 Creating a task as a member -> <a href="http://cmpesweng2013group10.googlecode.com/files/cmpe352 mockup scenario.ppt"> Click Here!</a>
