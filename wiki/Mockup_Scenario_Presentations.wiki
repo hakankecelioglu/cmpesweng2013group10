@@ -8,4 +8,4 @@ Here you can find mockup scenario presentations.
 
 <h2>Desktop Interface</h2>
 
-<a href="https://cmpesweng2013group10.googlecode.com/files/DESKTOP%20INTERFACE.ppt"> Click Here!</a>
+<a href="https://cmpesweng2013group10.googlecode.com/files/desktopInter.pptx"> Click Here!</a>
