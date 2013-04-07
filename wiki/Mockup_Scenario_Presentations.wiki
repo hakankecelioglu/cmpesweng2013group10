@@ -1,4 +1,4 @@
-#labels Mockup,Scenerio,Presentation
+#labels Mockup,Scenario,Presentation
 Here you can find mockup scenario presentations.
 
 <h2>Mobile Interface</h2>
