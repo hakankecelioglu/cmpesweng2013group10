@@ -6,6 +6,6 @@ Here you can find mockup scenario presentations.
 <a href="http://cmpesweng2013group10.googlecode.com/files/Mobile%20interface.pptx"> Click Here!</a>
 <br/>
 
-<h2>Hanılın Link</h2>
+<h2>Desktop Interface</h2>
 
-A member helps -> <a href="https://cmpesweng2013group10.googlecode.com/files/mockup_scenerio_2.pptx"> Click Here!</a>
+<a href="https://cmpesweng2013group10.googlecode.com/files/DESKTOP%20INTERFACE.ppt"> Click Here!</a>
