@@ -1,6 +1,34 @@
 #labels meeting
 = Meeting Notes =
 
+
+
+=== Meeting #7 02.05.2013 ===
+*Participants: 
+<a href="http://code.google.com/p/cmpesweng2013group10/wiki/DilaraKekulluoglu">Dilara Keküllüoğlu</a>,
+<a href="http://code.google.com/p/cmpesweng2013group10/wiki/MuhammedSabriSahin">M Sabri Şahin</a>,
+<a href="http://code.google.com/p/cmpesweng2013group10/wiki/AlperCetinersWikiPage">Alper Çetiner</a>,
+<a href="https://code.google.com/p/cmpesweng2013group10/wiki/EnesEmreBabur">Emre Babür</a>,
+<a href="https://code.google.com/p/cmpesweng2013group10/wiki/NSeymaErdem">N Şeyma Erdem</a>,
+<a href="http://code.google.com/p/cmpesweng2013group10/wiki/HuseyinAnilOzmen">H Anıl Özmen</a>,
+<a href="http://code.google.com/p/cmpesweng2013group10/wiki/IlkerInanc">İlker İnanç</a><br>
+<a href="http://code.google.com/p/cmpesweng2013group10/wiki/CanUzum">Can Üzüm</a><br>
+
+*Location:* North Campus Study Hall 
+<br>
+
+
+*Meeting Objective:* Deciding on a project plan
+<br>
+
+
+*Action Items of the previous week:* Reading about planning a project and analyzing previous project plans examples  <br>
+
+
+*New Action Items:* Working on the next assignment, team code creation
+
+<hr>
+
 === Meeting #6 27.03.2013 ===
 
 *Participants
