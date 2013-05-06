@@ -6,6 +6,7 @@ public class Assignment {
 		int d=Dilara();
 		int c=Can(3,5);
 		boolean s=Sabri();
+		boolean dead=Alper();
 	}
 	public static int Dilara(){
 		System.out.println("There was nothing more...");
@@ -28,5 +29,12 @@ public class Assignment {
 		boolean vero=true;
 		return vero;
 	}
+	public static boolean Alper(){
+		System.out.println("No soup for other groups!");
+		System.out.println("and Kurt Cobain is not dead!");
+		boolean dead = false;
+		return false;
+	}
 
 }
+
