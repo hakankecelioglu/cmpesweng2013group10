@@ -8,6 +8,7 @@ public class Assignment {
 		boolean s=Sabri();
 		boolean dead=Alper();
 		boolean x=Anil();
+		int m=Seyma();
 	}
 	public static int Dilara(){
 		System.out.println("There was nothing more...");
@@ -39,6 +40,10 @@ public class Assignment {
 	public static boolean Anil(){
 		System.out.println("x=x");
 		return true;
+	}
+	public static int Seyma(){
+		System.out.println("Seem as you are or be as you seem.");
+		return 0;
 	}
 }
 
