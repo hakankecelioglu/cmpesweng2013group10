@@ -7,6 +7,7 @@ public class Assignment {
 		int c=Can(3,5);
 		boolean s=Sabri();
 		boolean dead=Alper();
+		boolean x=Anil();
 	}
 	public static int Dilara(){
 		System.out.println("There was nothing more...");
@@ -35,6 +36,9 @@ public class Assignment {
 		boolean dead = false;
 		return false;
 	}
-
+	public static boolean Anil(){
+		System.out.println("x=x");
+		return true;
+	}
 }
 
