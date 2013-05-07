@@ -45,5 +45,9 @@ public class Assignment {
 		System.out.println("Seem as you are or be as you seem.");
 		return 0;
 	}
+	public static int Ilker(int a) {
+		System.out.println("github 4eva!");
+		return a*a;
+	}
 }
 
