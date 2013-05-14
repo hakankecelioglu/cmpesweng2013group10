@@ -14,7 +14,6 @@ public class testAssignment {
 		assertEquals("Alper must be false", false, tester.Alper());
 		assertEquals("Anil must be true", true, tester.Anil());
 		assertEquals("Seyma must be 0", 0, tester.Seyma());
-		fail("test failed");	
 	}
-
+	
 }
