@@ -54,7 +54,7 @@
 
 1.6.2 Users should earn points by checking whether a task is righteous.
 
-1.6.3 Users should earn points by checking whether tags of a task make sense.
+
 
 1.6.4 Users that have the most points shall be able to feature their tasks on the main page.
 
