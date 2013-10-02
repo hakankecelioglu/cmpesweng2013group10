@@ -125,5 +125,5 @@
 
  == 2.12 + Search engine Optimization==
  
-2.12.1 * When a new task is created the URL should be formed according to
+2.12.1 + When a new task is created the URL should be formed according to
 header of the task which is important for search engine indexing.
