@@ -3,12 +3,13 @@
 <img src=http://cmpesweng2013group10.googlecode.com/files/msabri_profile.jpg width=30%>
 = Who am I ? =
 
-My name is Muhammed Sabri Şahin. This is my 7th semester in Boğaziçi University, Computer Engineering.
+My name is Muhammed Sabri Şahin. This is my 8th semester in Boğaziçi University, Computer Engineering.
 
 == Details ==
  * I _used to_ be interested in coding, but now I'm not. I hope I'll have my enthusiasm for coding soon.
  * I love listening to music of new genres. _Classical music_ is however my favorite one. I'm also into _jazz_, _lounge_ and _chillout_ lately.
- * I play _classical guitar music_ (not Akdeniz Akşamları!) with my _classical guitar_, a lot.
+ * I play _classical guitar music_ with my _classical guitar_, a lot.
+ * I'm beginning to learn playing oud this semester.
 
 == Contact Info ==
 
