@@ -1,5 +1,5 @@
+#summary More About Me
 #labels serdarkuzucu,inomera,netmera,cmpe,boun,asosyalbebe,serdar,kuzucu
-#More About Me
 
 <img src="http://4.bp.blogspot.com/-zxJxGQC0vzw/T_B9UXFtmYI/AAAAAAAADdk/jM6bPg_2xRU/s1600/me.jpg" />
 
