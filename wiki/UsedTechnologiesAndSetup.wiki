@@ -1,0 +1,18 @@
+= Used Technologies and Setup =
+
+== Technologies ==
+ # Maven
+ # Tomcat6
+ # Spring MVC 3
+ # Hibernate 2
+
+== Setup of Development Environment ==
+ # First of all, download and install "Eclipse IDE for Java EE Developers". You can find it on that page: [http://www.eclipse.org/downloads/packages/eclipse-ide-java-ee-developers/keplersr1]
+ # Install SVN Kit plugin. This link could be helpful but I didn't try it. : http://nileshk.com/2009/06/05/svn-in-eclipse-subversive-and-svnkit-for-subversion.html
+ # Through the Help -> Eclipse MarketPlace menu, find and install "Maven integration for Eclipse".
+ # Download apache tomcat6. In windows, you can download it from here: http://tomcat.apache.org/download-60.cgi or in ubuntu you can install it via sudo apt-get commands.
+ # Checkout the project 'GrouponWeb' from SVN. 
+ # Right click the project, Configure -> Configure To Maven Project
+ # In order to run the project, you need to configure your eclipse's tomcat settings. I don't remember how. When it asks you for the location of tomcat, you should show where the tomcat6 is.
+ # Then in my workspace, the project is working when I do that: Right click to project -> Run as -> Run on Server
+ # Connect me when any problem: serdarkuzucu13[at]gmail[dot]com
