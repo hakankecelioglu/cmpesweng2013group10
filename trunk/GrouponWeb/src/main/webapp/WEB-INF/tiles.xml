@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN" "http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
+
+<tiles-definitions>
+	<definition name="template" template="/WEB-INF/views/template/layout.jsp">
+		<put-attribute name="header" value="/WEB-INF/views/common/header.jsp" />
+		<put-attribute name="nav"
+			value="/WEB-INF/views/common/navigation.jsp" />
+		<put-attribute name="innerNav"
+			value="/WEB-INF/views/common/innerNavigation.jsp" />
+		<put-attribute name="footer" value="/WEB-INF/views/common/footer.jsp" />
+	</definition>
+	
+	<definition name="pushNotifications.view" extends="template">
+		<put-attribute name="title" cascade="true" value="Push Notification" />
+		<put-attribute name="pushAside" cascade="true"
+			value="/WEB-INF/views/common/pushAside.jsp" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/pushNotifications.jsp" />
+		<put-list-attribute name="cssFiles" cascade="true">
+			<add-attribute value="/css/push/main" />
+			<add-attribute value="/css/hint" />
+		</put-list-attribute>
+		<put-list-attribute name="jsFiles" cascade="true">
+			<add-attribute value="/js/push/plugins" />
+			<add-attribute value="/js/push/main" />
+		</put-list-attribute>
+	</definition>
+</tiles-definitions>

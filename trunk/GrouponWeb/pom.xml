@@ -8,27 +8,25 @@
 	<name>GrouponWeb</name>
 	<description>SWENG Project</description>
 
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.1</version>
-				<configuration>
-					<source>1.6</source>
-					<target>1.6</target>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
-
 	<properties>
-		<spring.version>3.2.3.RELEASE</spring.version>
+		<spring.version>3.2.2.RELEASE</spring.version>
 		<hibernate.version>4.2.2.Final</hibernate.version>
+		<org.json.version>20090211</org.json.version>
+		<slf4j.version>1.5.10</slf4j.version>
 	</properties>
 
 	<dependencies>
 		<!-- Spring -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-core</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-web</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context</artifactId>
@@ -45,6 +43,45 @@
 			<version>${spring.version}</version>
 		</dependency>
 
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-aspects</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+
+		<!-- AspectJ -->
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjrt</artifactId>
+			<version>1.6.12</version>
+		</dependency>
+
+		<!-- Jackson JSON Mapper -->
+		<dependency>
+			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-core-asl</artifactId>
+			<version>1.9.7</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-mapper-asl</artifactId>
+			<version>1.9.7</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.codehaus.jackson</groupId>
+					<artifactId>jackson-core-asl</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<!-- Urlrewrite -->
+		<dependency>
+			<groupId>org.tuckey</groupId>
+			<artifactId>urlrewritefilter</artifactId>
+			<version>4.0.3</version>
+		</dependency>
+
 		<!-- Hibernate -->
 		<dependency>
 			<groupId>org.hibernate</groupId>
@@ -59,8 +96,16 @@
 			<version>2.5</version>
 			<scope>provided</scope>
 		</dependency>
+
 		<dependency>
-			<groupId>jstl</groupId>
+			<groupId>javax.servlet.jsp</groupId>
+			<artifactId>jsp-api</artifactId>
+			<version>2.1</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>javax.servlet</groupId>
 			<artifactId>jstl</artifactId>
 			<version>1.2</version>
 		</dependency>
@@ -77,5 +122,145 @@
 			<version>5.1.25</version>
 		</dependency>
 
+		<!-- JSON Lib -->
+		<dependency>
+			<groupId>org.json</groupId>
+			<artifactId>json</artifactId>
+			<version>${org.json.version}</version>
+		</dependency>
+
+		<!-- Tiles -->
+		<dependency>
+			<groupId>org.apache.tiles</groupId>
+			<artifactId>tiles-jsp</artifactId>
+			<version>2.2.2</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>jcl-over-slf4j</artifactId>
+					<groupId>org.slf4j</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<!-- Logging -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>${slf4j.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+			<version>${slf4j.version}</version>
+			<scope>runtime</scope>
+		</dependency>
+
+		<!-- Test -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.7</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<version>${spring.version}</version>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
+
+	<build>
+		<defaultGoal>dev</defaultGoal>
+
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<includes>
+					<include>**/*</include>
+				</includes>
+			</resource>
+		</resources>
+
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.3.1</version>
+				<configuration>
+					<source>1.6</source>
+					<target>1.6</target>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>tomcat-maven-plugin</artifactId>
+				<configuration>
+					<port>1717</port>
+					<charset>UTF-8</charset>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>2.2</version>
+				<configuration>
+					<warSourceDirectory>src/main/webapp</warSourceDirectory>
+					<warName>ROOT</warName>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+	<profiles>
+		<profile>
+			<id>dev</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<build>
+				<resources>
+					<resource>
+						<directory>src/main/config-dev</directory>
+						<includes>
+							<include>**/*</include>
+						</includes>
+					</resource>
+				</resources>
+				<plugins>
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>tomcat-maven-plugin</artifactId>
+						<configuration>
+							<path>/</path>
+							<port>${port}</port>
+							<contextFile>src/main/resources/context.xml</contextFile>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+		<profile>
+			<id>prod</id>
+			<build>
+				<resources>
+					<resource>
+						<directory>src/main/config-prod</directory>
+						<includes>
+							<include>**/*</include>
+						</includes>
+					</resource>
+				</resources>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-war-plugin</artifactId>
+						<version>2.1</version>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 </project>
