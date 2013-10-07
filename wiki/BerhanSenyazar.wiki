@@ -1,0 +1,15 @@
+<img src="https://dl.dropboxusercontent.com/u/25528153/225514_2074544821572_1183491185_2567711_6569241_n.jpg"  width="300" height="450" border="6">
+<hr>
+<h1>Personal Info</h1>
+I'm Berhan Şenyazar, a senior Computer Engineering student at Boğaziçi University.
+
+My hometown is Kastamonu but I also see Karabük, the city I spent my high school years, as my secondary hometown.
+
+Everything with a story is an interest area for me but especially two end points of the spectrum, literature and interactive storytelling media are my main interests.
+
+I may work on video game industry or digital media development but I may also keep them as hobbies and work on more hardcore areas like embedded systems or machine learning applications.
+
+<hr>
+= Contact =
+berhan.senyazar {at} boun.edu.tr<br/>
+twitter.com/bsenyazar
