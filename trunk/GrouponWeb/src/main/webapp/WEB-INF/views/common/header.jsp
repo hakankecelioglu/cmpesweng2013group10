@@ -24,7 +24,7 @@
 	</c:forEach>
 	
 	<%-- favicon --%>
-	<link rel="shortcut icon" href="${imgFolder}/favicon.png">
+	<link rel="shortcut icon" href="<c:url value="${imgFolder}/favicon.png" />" />
 
 	<%-- JavaScript Files --%>
 	<script type="text/javascript" src="<c:url value="${jsFolder}/jquery-1.10.2.min.js"/>"></script>

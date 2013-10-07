@@ -23,6 +23,7 @@ public class HomeController extends BaseController {
 
 	/**
 	 * Opens home page
+	 * 
 	 * @return the view which will be shown on homepage
 	 * @throws JSONException
 	 */
@@ -40,8 +41,7 @@ public class HomeController extends BaseController {
 	}
 
 	@RequestMapping(value = "login", method = RequestMethod.POST)
-	public ResponseEntity<Map<String, Object>> login(
-			@RequestParam String username, @RequestParam String password) {
+	public ResponseEntity<Map<String, Object>> login(@RequestParam String username, @RequestParam String password) {
 		Map<String, Object> response = new HashMap<String, Object>();
 		if ("test".equals(username) && "12345".equals(password)) {
 			response.put("answer", true);
