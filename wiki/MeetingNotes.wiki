@@ -2,15 +2,40 @@
 = Meeting Notes - Current Semester =
 
 === Meeting #1 07.10.2013 ===
-*Participants: <a href="http://code.google.com/p/cmpesweng2013group10/wiki/MuhammedSabriSahin">M Sabri Şahin</a>, <a href="https://code.google.com/p/cmpesweng2013group10/wiki/NSeymaErdem">N Şeyma Erdem</a>, <a href="http://code.google.com/p/cmpesweng2013group10/wiki/HuseyinAnilOzmen">H Anıl Özmen</a>, Serkan Özer, Serdar Kuzucu, Berhan Şenyazar, Berke Can Gürer, Mehmet Alparslan Bal
+*Participants:* <a href="http://code.google.com/p/cmpesweng2013group10/wiki/MuhammedSabriSahin">M Sabri Şahin</a>, <a href="https://code.google.com/p/cmpesweng2013group10/wiki/NSeymaErdem">N Şeyma Erdem</a>, <a href="http://code.google.com/p/cmpesweng2013group10/wiki/HuseyinAnilOzmen">H Anıl Özmen</a>, Serkan Özer, Serdar Kuzucu, Berhan Şenyazar, Berke Can Gürer, Mehmet Alparslan Bal
 <br>
+
 *Location:* ETA Lounge 
 <br>
+
 *Meeting Objective:* Assigning tasks for assignment 2
 <br>
-*New Action Items:* Updating mockups(WEB & Android), Writing a manual describing all the steps to take in creating our development environment setup, trying the system on windows and linux.
 
+*New Action Items:* Updating mockups(WEB & Android), Writing a manual describing all the steps to take in creating our development environment setup, trying the system on windows and linux.
 <br>
+
+<table border="3">
+<tr>
+<td>H Anıl Özmen</td>
+<td>Update Mockups (WEB)</td>
+</tr>
+
+<tr>
+<td>M Sabri Şahin</td>
+<td>Update Mockups (Android)</td>
+</tr>
+
+<tr>
+<td>Serdar Kuzucu</td>
+<td>Writing a manual describing all the steps to take in creating our development environment setup.</td>
+</tr>
+
+<tr>
+<td>Everybody</td>
+<td>Trying the development environment on windows and linux</td>
+</tr>
+</table>
+
 
 = Meeting Notes - Previous Semester =
 
