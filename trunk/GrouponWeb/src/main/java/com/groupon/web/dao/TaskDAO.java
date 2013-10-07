@@ -19,6 +19,7 @@ public class TaskDAO {
     @Transactional
     public List<PCTask> findAll() {
 	Session session = sessionFactory.getCurrentSession();
+	// test commit hanil
 	@SuppressWarnings("unchecked")
 	List<PCTask> tasks = session.createQuery("from PCTask").list();
 	return tasks;

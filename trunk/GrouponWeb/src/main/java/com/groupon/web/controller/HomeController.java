@@ -30,7 +30,7 @@ public class HomeController extends BaseController {
 	public Object home() throws JSONException {
 		return "home.view";
 	}
-
+	// commit deneme
 	@RequestMapping(value = "testjson", method = RequestMethod.GET)
 	public @ResponseBody
 	ResponseEntity<Map<String, Object>> testjson() throws JSONException {
