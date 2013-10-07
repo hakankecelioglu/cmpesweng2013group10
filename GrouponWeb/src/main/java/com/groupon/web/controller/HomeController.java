@@ -18,31 +18,37 @@ import com.groupon.web.service.TaskService;
 @Controller
 public class HomeController extends BaseController {
 
-    @Autowired
-    private TaskService taskService;
+	@Autowired
+	private TaskService taskService;
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
-    public Object home() throws JSONException {
-	return "home.view";
-    }
-
-    @RequestMapping(value = "testjson", method = RequestMethod.GET)
-    public @ResponseBody
-    ResponseEntity<Map<String, Object>> testjson() throws JSONException {
-	Map<String, Object> map = new HashMap<String, Object>();
-	map.put("a", 21);
-	return new ResponseEntity<Map<String, Object>>(map, HttpStatus.OK);
-    }
-    
-    @RequestMapping(value = "login", method = RequestMethod.POST)
-    public ResponseEntity<Map<String, Object>> login(@RequestParam String username, @RequestParam String password) {
-	Map<String, Object> response = new HashMap<String, Object>();
-	if ("test".equals(username) && "12345".equals(password)) {
-	    response.put("answer", true);
-	    return prepareSuccessResponse(response);
-	} else {
-	    response.put("error", "Wrong username or password!");
-	    return prepareErrorResponse(response);
+	/**
+	 * Opens home page
+	 * @return the view which will be shown on homepage
+	 * @throws JSONException
+	 */
+	@RequestMapping(value = "/", method = RequestMethod.GET)
+	public Object home() throws JSONException {
+		return "home.view";
 	}
-    }
+
+	@RequestMapping(value = "testjson", method = RequestMethod.GET)
+	public @ResponseBody
+	ResponseEntity<Map<String, Object>> testjson() throws JSONException {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("a", 21);
+		return new ResponseEntity<Map<String, Object>>(map, HttpStatus.OK);
+	}
+
+	@RequestMapping(value = "login", method = RequestMethod.POST)
+	public ResponseEntity<Map<String, Object>> login(
+			@RequestParam String username, @RequestParam String password) {
+		Map<String, Object> response = new HashMap<String, Object>();
+		if ("test".equals(username) && "12345".equals(password)) {
+			response.put("answer", true);
+			return prepareSuccessResponse(response);
+		} else {
+			response.put("error", "Wrong username or password!");
+			return prepareErrorResponse(response);
+		}
+	}
 }
