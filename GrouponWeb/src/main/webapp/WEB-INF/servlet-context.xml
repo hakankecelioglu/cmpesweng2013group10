@@ -23,6 +23,7 @@
 
 	<context:property-placeholder location="classpath*:*.properties" />
 
+ 	<mvc:resources mapping="/res/**" location="/res/" />
 
 	<!-- Enable Tiles View Resolver -->
 	<bean class="org.springframework.web.servlet.view.tiles2.TilesViewResolver">

@@ -208,7 +208,7 @@
 				<version>2.2</version>
 				<configuration>
 					<warSourceDirectory>src/main/webapp</warSourceDirectory>
-					<warName>ROOT</warName>
+					<warName>GROUPON</warName>
 				</configuration>
 			</plugin>
 		</plugins>

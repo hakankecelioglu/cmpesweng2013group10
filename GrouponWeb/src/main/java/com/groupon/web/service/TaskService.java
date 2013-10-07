@@ -11,10 +11,10 @@ import com.groupon.web.dao.model.PCTask;
 @Component
 public class TaskService {
 
-	@Autowired
-	private TaskDAO taskDao;
+    @Autowired
+    private TaskDAO taskDao;
 
-	public List<PCTask> getAllTasks() {
-		return taskDao.findAll();
-	}
+    public List<PCTask> getAllTasks() {
+	return taskDao.findAll();
+    }
 }
