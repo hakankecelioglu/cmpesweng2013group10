@@ -13,14 +13,14 @@ import com.groupon.web.dao.model.PCTask;
 @Repository
 public class TaskDAO {
 
-	@Autowired
-	private SessionFactory sessionFactory;
+    @Autowired
+    private SessionFactory sessionFactory;
 
-	@Transactional
-	public List<PCTask> findAll() {
-		Session session = sessionFactory.getCurrentSession();
-		@SuppressWarnings("unchecked")
-		List<PCTask> tasks = session.createQuery("from PCTask").list();
-		return tasks;
-	}
+    @Transactional
+    public List<PCTask> findAll() {
+	Session session = sessionFactory.getCurrentSession();
+	@SuppressWarnings("unchecked")
+	List<PCTask> tasks = session.createQuery("from PCTask").list();
+	return tasks;
+    }
 }
