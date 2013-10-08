@@ -11,7 +11,7 @@
 
 1.1.4 Users should login with a facebook account.
 
-1.1.5 Users should edit their profile page.
+1.1.5 Users should be able to edit their profile page.
 
 1.1.6 Users should acquire their passwords if forgotten.
 
@@ -48,7 +48,7 @@
 
 1.4.4 User that opened the task shall have the option to close the incoming donation automatically if the target need is met.
 
-1.4.6 Users shall give donations via paypal or credit card.
+1.4.6 Users shall give donations via paypal.
 
 1.4.7 Users shall give feedbacks about a task.
 
