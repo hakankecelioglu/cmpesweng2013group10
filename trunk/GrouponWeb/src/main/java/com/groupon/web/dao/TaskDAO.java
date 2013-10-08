@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.groupon.web.dao.model.PCTask;
+import com.groupon.web.dao.model.Task;
 
 @Repository
 public class TaskDAO {
@@ -17,11 +17,10 @@ public class TaskDAO {
 	private SessionFactory sessionFactory;
 
 	@Transactional
-	public List<PCTask> findAll() {
+	public List<Task> findAll() {
 		Session session = sessionFactory.getCurrentSession();
-		// test commit hanil
 		@SuppressWarnings("unchecked")
-		List<PCTask> tasks = session.createQuery("from PCTask").list();
+		List<Task> tasks = session.createQuery("from Task").list();
 		return tasks;
 	}
 }
