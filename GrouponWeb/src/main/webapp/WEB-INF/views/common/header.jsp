@@ -8,6 +8,7 @@
 	<link href="<c:url value="${cssFolder}/bootstrap.min.css"/>" rel="stylesheet" type="text/css">
 	<link href="<c:url value="${cssFolder}/bootstrap-responsive.min.css"/>" rel="stylesheet" type="text/css">
 	<link href="<c:url value="${cssFolder}/customize-bootstrap.css"/>" rel="stylesheet" type="text/css">
+	<link href="<c:url value="${cssFolder}/main.css"/>" rel="stylesheet" type="text/css">
     
 	<%-- CSS Files Defined in tiles.xml --%>
 	<tiles:importAttribute name="cssFiles" ignore="true" />
