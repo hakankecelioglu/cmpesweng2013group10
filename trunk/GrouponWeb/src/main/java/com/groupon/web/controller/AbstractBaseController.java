@@ -21,7 +21,7 @@ public abstract class AbstractBaseController {
 		}
 		return null;
 	}
-
+	
 	public ResponseEntity<Map<String, Object>> prepareSuccessResponse(Map<String, Object> response) {
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
 	}
