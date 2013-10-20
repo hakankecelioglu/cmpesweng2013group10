@@ -1,3 +1,5 @@
+create database groupon character set 'utf8';
+
 insert into role (id, name) values (1, 'ADMIN');
 insert into role (id, name) values (2, 'MODERATOR');
 insert into role (id, name) values (3, 'USER');

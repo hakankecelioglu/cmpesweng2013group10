@@ -36,6 +36,10 @@ public class Task {
 	@JoinColumn(name = "owner_id", nullable = false)
 	private User owner;
 
+	@ManyToOne
+	@JoinColumn(name = "community_id", nullable = true)
+	private Community community;
+
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "create_date", nullable = false)
 	private Date createDate;
@@ -87,6 +91,14 @@ public class Task {
 
 	public void setOwner(User owner) {
 		this.owner = owner;
+	}
+
+	public Community getCommunity() {
+		return community;
+	}
+
+	public void setCommunity(Community community) {
+		this.community = community;
 	}
 
 	public Collection<TaskRequirement> getRequirements() {

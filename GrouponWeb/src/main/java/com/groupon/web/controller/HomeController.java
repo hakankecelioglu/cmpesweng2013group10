@@ -28,6 +28,7 @@ public class HomeController extends AbstractBaseController {
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public Object home(HttpServletRequest request, Model model) throws JSONException {
 		setGlobalAttributesToModel(model, request);
+		model.addAttribute("page", "home");
 		generateDummyContent(model);
 		return "home.view";
 	}
