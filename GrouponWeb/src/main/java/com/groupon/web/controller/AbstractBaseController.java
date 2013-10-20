@@ -12,7 +12,7 @@ import org.springframework.ui.Model;
 import com.groupon.web.dao.model.User;
 import com.groupon.web.util.ControllerConstants;
 
-public class BaseController {
+public abstract class AbstractBaseController {
 	public User getUser(HttpServletRequest request) {
 		HttpSession session = request.getSession(true);
 		Object userObject = session.getAttribute(ControllerConstants.SESSION_ATTR_USER);

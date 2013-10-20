@@ -19,7 +19,7 @@ import com.groupon.web.util.ControllerConstants;
 import com.groupon.web.util.GrouponWebUtils;
 
 @Controller
-public class UserController extends BaseController {
+public class UserController extends AbstractBaseController {
 
 	@Autowired
 	private UserService userService;
