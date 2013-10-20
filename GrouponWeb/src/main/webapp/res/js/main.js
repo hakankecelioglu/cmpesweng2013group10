@@ -26,7 +26,11 @@ $(function() {
 		userData.password = password;
 		
 		$.post("http://" + window.location.host + "/login", userData, function (resp) {
-			alert(JSON.stringify(resp));
+			if (resp.message == "OK") {
+				window.location.reload();
+			} else {
+				alert(resp.message);
+			}
 		}).fail(function (err) {
 			try {
 				var jsonErr = JSON.parse(err.responseText);

@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.json.JSONException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,7 +26,8 @@ public class HomeController extends AbstractBaseController {
 	 * @throws JSONException
 	 */
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public Object home(Model model) throws JSONException {
+	public Object home(HttpServletRequest request, Model model) throws JSONException {
+		setGlobalAttributesToModel(model, request);
 		generateDummyContent(model);
 		return "home.view";
 	}
@@ -38,6 +41,9 @@ public class HomeController extends AbstractBaseController {
 		List<Task> latestTasks = new ArrayList<Task>();
 		latestTasks.add(generateDummyTask());
 		latestTasks.add(generateDummyTask());
+		latestTasks.add(generateDummyTask());
+		latestTasks.add(generateDummyTask());
+		latestTasks.add(generateDummyTask());
 		model.addAttribute("latestTasks", latestTasks);
 		
 		List<Task> randomTasks = new ArrayList<Task>();
@@ -49,7 +55,7 @@ public class HomeController extends AbstractBaseController {
 	private static Task generateDummyTask() {
 		Task task = new Task();
 		task.setCreateDate(new Date());
-		task.setDescription("We are waiting for doctors inside of the Taksim Burger which is placed Imam Adnan Sokak. We have only gas masks!");
+		task.setDescription("We are waiting for doctors inside of the Taksim Burger which is placed Imam Adnan Sokak. We have only gas masks! We are waiting for doctors inside of the Taksim Burger which is placed Imam Adnan Sokak. We have only gas masks!We are waiting for doctors inside of the Taksim Burger which is placed Imam Adnan Sokak. We have only gas masks!We are waiting for doctors inside of the Taksim Burger which is placed Imam Adnan Sokak. We have only gas masks!");
 		task.setTitle("We need a doctor near Taksim.");
 		
 		List<TaskRequirement> requirements = new ArrayList<TaskRequirement>();

@@ -1,3 +1,8 @@
+img.nav-user-thumb {
+	width: 64px;
+	height: 64px;
+}
+
 .label.label-home-header {
 	font-size: 30px;
 	line-height: 35px;

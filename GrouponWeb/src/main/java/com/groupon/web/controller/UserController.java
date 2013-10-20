@@ -63,6 +63,13 @@ public class UserController extends AbstractBaseController {
 		}
 	}
 
+	@RequestMapping(value = "logout", method = { RequestMethod.GET,
+			RequestMethod.POST })
+	public String logout(HttpServletRequest request) {
+		setUserSession(request, null);
+		return "redirect:/";
+	}
+
 	@RequestMapping(value = "signup", method = RequestMethod.GET)
 	public Object signup() {
 		// TODO to be implemented
@@ -105,6 +112,10 @@ public class UserController extends AbstractBaseController {
 
 	private void setUserSession(HttpServletRequest request, User user) {
 		HttpSession session = request.getSession(true);
-		session.setAttribute(ControllerConstants.SESSION_ATTR_USER, user);
+		if (user != null) {
+			session.setAttribute(ControllerConstants.SESSION_ATTR_USER, user);
+		} else {
+			session.removeAttribute(ControllerConstants.SESSION_ATTR_USER);
+		}
 	}
 }

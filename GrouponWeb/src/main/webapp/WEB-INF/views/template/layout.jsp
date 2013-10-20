@@ -10,7 +10,7 @@
 	<div class="container">
 	
 		<c:if test="${not empty user}">
-			<tiles:insertAttribute name="innerNav" />
+			<%-- <tiles:insertAttribute name="innerNav" /> --%>
 		</c:if>
 
 		<tiles:insertAttribute name="body" />
