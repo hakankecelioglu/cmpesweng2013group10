@@ -41,16 +41,40 @@
 	</div>
 </div>
 
-<div class="navbar navbar-static-top navbar-inverse">
+<div class="navbar navbar-static-top navbar-inverse header-navbar">
 	<div class="navbar-inner">
 		<div class="container">
 			<ul class="nav">
-				<li class="active"><a href="#"><i class="icon-home"></i> Home</a></li>
-				<li><a href="#"><i class="icon-info-sign"></i> About Us</a></li>
-				<li><a href="#"><i class="icon-user"></i> Top Helpful Users</a></li>
-				<li><a href="#"><i class="icon-download"></i> Android Version</a></li>
-				<li><a href="#"><i class="icon-question-sign"></i> Contact Us</a></li>
-				<li><a href="#"><i class="icon-search"></i> Advanced Search</a></li>
+				<c:choose>
+					<c:when test="${page eq 'home'}">
+						<li class="active"><a href="<c:url value="/" />"><i class="icon-home"></i> Home</a></li>
+					</c:when>
+					<c:otherwise>
+						<li><a href="<c:url value="/" />"><i class="icon-home"></i> Home</a></li>
+					</c:otherwise>
+				</c:choose>
+				
+				<c:choose>
+					<c:when test="${empty user}">
+						<li><a href="#"><i class="icon-info-sign"></i> About Us</a></li>
+						<li><a href="#"><i class="icon-user"></i> Top Helpful Users</a></li>
+						<li><a href="#"><i class="icon-download"></i> Android Version</a></li>
+						<li><a href="#"><i class="icon-question-sign"></i> Contact Us</a></li>
+						<li><a href="#"><i class="icon-search"></i> Advanced Search</a></li>
+					</c:when>
+					<c:otherwise>
+						<c:choose>
+							<c:when test="${page eq 'createCommunity'}">
+								<li class="active"><a href="<c:url value="/createCommunity" />"><i class="icon-plus"></i> Create Community</a></li>
+							</c:when>
+							<c:otherwise>
+								<li><a href="<c:url value="/createCommunity" />"><i class="icon-plus"></i> Create Community</a></li>
+							</c:otherwise>
+						</c:choose>
+						<li><a href="#"><i class="icon-user"></i> Top Helpful Users</a></li>
+						<li><a href="#"><i class="icon-search"></i> Advanced Search</a></li>
+					</c:otherwise>
+				</c:choose>
 			</ul>
 			
 			<ul class="nav pull-right">

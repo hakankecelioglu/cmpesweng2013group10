@@ -1,7 +1,7 @@
 <%@ include file="/WEB-INF/views/common/includes.jsp"%>
 
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <tiles:insertAttribute name="htmlHead" />
 
@@ -14,8 +14,7 @@
 		</c:if>
 
 		<tiles:insertAttribute name="body" />
-		
-		<tiles:insertAttribute name="footer" />
 	</div>
+	<tiles:insertAttribute name="footer" />
 </body>
 </html>

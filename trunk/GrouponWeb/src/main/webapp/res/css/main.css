@@ -3,6 +3,10 @@ img.nav-user-thumb {
 	height: 64px;
 }
 
+.header-navbar {
+	margin-bottom: 10px;
+}
+
 .label.label-home-header {
 	font-size: 30px;
 	line-height: 35px;
@@ -22,4 +26,8 @@ img.nav-user-thumb {
 	-moz-border-radius: 10px;
 	border-radius: 10px;
 	line-height: 18px;
+}
+
+.footer-nav {
+	position: relative !important;
 }
