@@ -19,6 +19,22 @@ public class GrouponWebUtils {
 		return stringBuilder.toString();
 	}
 
+	public static Long extractUserIdFromCookieValue(String cookieValue) {
+		int index = cookieValue.indexOf('#');
+		if (index == -1)
+			return null;
+		String lhs = cookieValue.substring(0, index);
+		return Long.parseLong(lhs);
+	}
+
+	public static String extractUserHashFromCookieValue(String cookieValue) {
+		int index = cookieValue.indexOf('#');
+		if (index == -1)
+			return "";
+		String rhs = cookieValue.substring(index + 1);
+		return rhs;
+	}
+
 	public static String generateUserHash(User user) {
 		StringBuilder toBeHashed = new StringBuilder();
 		toBeHashed.append("abcdef123456789jfuejdhs!'?^='?+)=%&)%&");
@@ -27,7 +43,7 @@ public class GrouponWebUtils {
 		toBeHashed.append(user.getUsername());
 		return md5(toBeHashed.toString());
 	}
-	
+
 	public static String hashPasswordForDB(String password) {
 		StringBuilder builder = new StringBuilder();
 		builder.append(md5(password));
@@ -49,7 +65,7 @@ public class GrouponWebUtils {
 		}
 		return null;
 	}
-	
+
 	public static void rejectIfEmpty(HttpServletRequest request, String... params) throws GrouponException {
 		for (String param : params) {
 			String value = request.getParameter(param);
