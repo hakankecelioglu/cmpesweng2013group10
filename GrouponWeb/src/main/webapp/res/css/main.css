@@ -15,7 +15,8 @@ img.nav-user-thumb {
 	text-align: center;
 }
 
-.well.task-well hr {
+.well.task-well hr,
+.well.community-task-well hr {
 	margin: 15px 0;
 	border-top-color: #000;
 	border-bottom-color: #eee;
@@ -31,3 +32,22 @@ img.nav-user-thumb {
 .footer-nav {
 	position: relative !important;
 }
+
+img.community-icon {
+	width: 128px;
+	height: 128px;
+	border: 2px solid #ccc;
+	border-radius: 5px;
+}
+
+.well.community-task-well {
+	position: relative;
+}
+
+/*
+.community-task-well .community-meta {
+	top: 0;
+	right: 0;
+	position: absolute;
+}
+*/

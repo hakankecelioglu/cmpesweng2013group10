@@ -68,4 +68,12 @@ public class UserDao {
 		query.setParameter("roleName", roleName);
 		return (Role) query.uniqueResult();
 	}
+
+	@Transactional
+	public User findUserById(Long id) {
+		Session session = sessionFactory.getCurrentSession();
+		Query query = session.createQuery("from User where id = :id");
+		query.setParameter("id", id);
+		return (User) query.uniqueResult();
+	}
 }

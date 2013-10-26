@@ -82,4 +82,12 @@ public class UserService {
 			return user;
 		}
 	}
+	
+	/**
+	 * Find the user from DB object by its id (primary key)
+	 */
+	public User getUserById(Long id) {
+		User user = userDao.findUserById(id);
+		return user;
+	}
 }

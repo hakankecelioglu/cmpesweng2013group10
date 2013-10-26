@@ -3,7 +3,9 @@ package com.groupon.web.controller;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +33,7 @@ public class UserController extends AbstractBaseController {
 	}
 
 	@RequestMapping(value = "login", method = RequestMethod.POST)
-	public ResponseEntity<Map<String, Object>> login(HttpServletRequest request) {
+	public ResponseEntity<Map<String, Object>> login(HttpServletRequest request, HttpServletResponse resp) {
 		Map<String, Object> response = new HashMap<String, Object>();
 
 		try {
@@ -42,18 +44,15 @@ public class UserController extends AbstractBaseController {
 
 			String passwordHash = GrouponWebUtils.hashPasswordForDB(password);
 
-			User user = userService.getUserByEmailAndPassword(username,
-					passwordHash);
+			User user = userService.getUserByEmailAndPassword(username, passwordHash);
 			if (user == null) {
-				user = userService.getUserByUsernameAndPassword(username,
-						passwordHash);
+				user = userService.getUserByUsernameAndPassword(username, passwordHash);
 				if (user == null) {
-					throw new GrouponException(
-							"User not found with this username or email address!");
+					throw new GrouponException("User not found with this username or email address!");
 				}
 			}
 
-			setUserSession(request, user);
+			setUserSession(request, resp, user);
 
 			response.put("message", "OK");
 			return prepareSuccessResponse(response);
@@ -63,10 +62,9 @@ public class UserController extends AbstractBaseController {
 		}
 	}
 
-	@RequestMapping(value = "logout", method = { RequestMethod.GET,
-			RequestMethod.POST })
-	public String logout(HttpServletRequest request) {
-		setUserSession(request, null);
+	@RequestMapping(value = "logout", method = { RequestMethod.GET, RequestMethod.POST })
+	public String logout(HttpServletRequest request, HttpServletResponse response) {
+		setUserSession(request, response, null);
 		return "redirect:/";
 	}
 
@@ -77,12 +75,11 @@ public class UserController extends AbstractBaseController {
 	}
 
 	@RequestMapping(value = "signup", method = RequestMethod.POST)
-	public ResponseEntity<Map<String, Object>> signup(HttpServletRequest request) {
+	public ResponseEntity<Map<String, Object>> signup(HttpServletRequest request, HttpServletResponse servletResponse) {
 		Map<String, Object> response = new HashMap<String, Object>();
 
 		try {
-			GrouponWebUtils.rejectIfEmpty(request, "email", "password",
-					"username");
+			GrouponWebUtils.rejectIfEmpty(request, "email", "password", "username");
 
 			String email = request.getParameter("email");
 			String username = request.getParameter("username");
@@ -100,7 +97,7 @@ public class UserController extends AbstractBaseController {
 			user.setSurname(surname);
 
 			userService.registerUser(user, RoleName.USER);
-			setUserSession(request, user);
+			setUserSession(request, servletResponse, user);
 
 			response.put("message", "OK");
 			return prepareSuccessResponse(response);
@@ -110,12 +107,24 @@ public class UserController extends AbstractBaseController {
 		}
 	}
 
-	private void setUserSession(HttpServletRequest request, User user) {
+	private void setUserSession(HttpServletRequest request, HttpServletResponse response, User user) {
 		HttpSession session = request.getSession(true);
 		if (user != null) {
 			session.setAttribute(ControllerConstants.SESSION_ATTR_USER, user);
+			Cookie cookie = new Cookie(ControllerConstants.COOKIE_NAME_USER, GrouponWebUtils.generateCookieForUser(user));
+			cookie.setPath("/");
+			cookie.setMaxAge(ControllerConstants.COOKIE_USER_MAX_AGE);
+			response.addCookie(cookie);
 		} else {
 			session.removeAttribute(ControllerConstants.SESSION_ATTR_USER);
+			Cookie[] cookies = request.getCookies();
+			for (Cookie cookie : cookies) {
+				if (cookie.getName().equals(ControllerConstants.COOKIE_NAME_USER)) {
+					cookie.setMaxAge(0);
+					cookie.setValue("");
+					response.addCookie(cookie);
+				}
+			}
 		}
 	}
 }

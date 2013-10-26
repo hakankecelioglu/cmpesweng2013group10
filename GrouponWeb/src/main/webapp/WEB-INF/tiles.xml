@@ -32,4 +32,9 @@
 		<put-attribute name="title" cascade="true" value="View Community" />
 		<put-attribute name="body" value="/WEB-INF/views/community.jsp" />
 	</definition>
+	
+	<definition name="signup.view" extends="grouponTemplate">
+		<put-attribute name="title" cascade="true" value="Signup for Task Together!" />
+		<put-attribute name="body" value="/WEB-INF/views/signup.jsp" />
+	</definition>
 </tiles-definitions>
