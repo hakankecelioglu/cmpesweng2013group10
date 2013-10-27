@@ -6,7 +6,7 @@
 
 *Location:* ETA Lounge 
 <br>
-*Meeting Objective:* Updating mockups based on the given feedback. Updating sequence activity and class diagrams
+*New action items:* Updating mockups based on the given feedback. Updating sequence activity and class diagrams. Updating requirements document.
 
 <table border="3">
 <tr>
