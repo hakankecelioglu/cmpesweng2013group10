@@ -1,8 +1,46 @@
 #labels meeting
 = Meeting Notes - Current Semester =
+=== Meeting #2 21.10.2013 ===
+*Participants:* <a href="http://code.google.com/p/cmpesweng2013group10/wiki/MuhammedSabriSahin">M Sabri Şahin</a>, <a href="https://code.google.com/p/cmpesweng2013group10/wiki/NSeymaErdem">N Şeyma Erdem</a>, <a href="http://code.google.com/p/cmpesweng2013group10/wiki/HuseyinAnilOzmen">H Anıl Özmen</a>,<a
+href="https://code.google.com/p/cmpesweng2013group10/wiki/SerkanOzer"> Serkan Özer</a>,<a
+href="https://code.google.com/p/cmpesweng2013group10/wiki/SerdarKuzucu"> Serdar Kuzucu</a>,<a
+href="https://code.google.com/p/cmpesweng2013group10/wiki/BerhanSenyazar">Berhan Şenyazar</a> , Mehmet Alparslan Bal
+<br>
 
+*Location:* ETA Lounge 
+<br>
+*Meeting Objective:* Updating mockups based on the given feedback. Updating sequence activity and class diagrams
+
+<table border="3">
+<tr>
+<td>H Anıl Özmen, Serkan Özer, Serdar Kuzucu, Berhan Şenyazar</td>
+<td>Update Mockups (WEB)</td>
+</tr>
+
+<tr>
+<td>M Sabri Şahin</td>
+<td>Update Mockups (Android)</td>
+</tr>
+
+<tr>
+<td>Serdar Kuzucu</td>
+<td>Class diagram update</td>
+</tr>
+
+<tr>
+<td>Mehmet Alparslan</td>
+<td>Sequence and activity diagram update</td>
+</tr>
+<tr>
+<td>Serkan Özer</td>
+<td>Requirements Update</td>
+</tr>
+</table>
 === Meeting #1 07.10.2013 ===
-*Participants:* <a href="http://code.google.com/p/cmpesweng2013group10/wiki/MuhammedSabriSahin">M Sabri Şahin</a>, <a href="https://code.google.com/p/cmpesweng2013group10/wiki/NSeymaErdem">N Şeyma Erdem</a>, <a href="http://code.google.com/p/cmpesweng2013group10/wiki/HuseyinAnilOzmen">H Anıl Özmen</a>, Serkan Özer, Serdar Kuzucu, Berhan Şenyazar, Berke Can Gürer, Mehmet Alparslan Bal
+*Participants:* <a href="http://code.google.com/p/cmpesweng2013group10/wiki/MuhammedSabriSahin">M Sabri Şahin</a>, <a href="https://code.google.com/p/cmpesweng2013group10/wiki/NSeymaErdem">N Şeyma Erdem</a>, <a href="http://code.google.com/p/cmpesweng2013group10/wiki/HuseyinAnilOzmen">H Anıl Özmen</a>,<a
+href="https://code.google.com/p/cmpesweng2013group10/wiki/SerkanOzer"> Serkan Özer</a>,<a
+href="https://code.google.com/p/cmpesweng2013group10/wiki/SerdarKuzucu"> Serdar Kuzucu</a>,<a
+href="https://code.google.com/p/cmpesweng2013group10/wiki/BerhanSenyazar">Berhan Şenyazar</a> , Berke Can Gürer, Mehmet Alparslan Bal
 <br>
 
 *Location:* ETA Lounge 
