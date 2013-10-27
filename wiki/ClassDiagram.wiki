@@ -2,6 +2,7 @@
 
 = Class Diagram =
 
-<h1>[http://cmpesweng2013group10.googlecode.com/files/classDiagramGroup10.png]</h1>
+[https://cmpesweng2013group10.googlecode.com/files/class_diagram.png]
 
-
+To download:
+[https://cmpesweng2013group10.googlecode.com/files/class_diagram.png download]
