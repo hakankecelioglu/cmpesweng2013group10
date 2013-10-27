@@ -1,7 +1,7 @@
 #labels meeting
 = Meeting Notes - Current Semester =
 === Meeting #2 21.10.2013 ===
-*Participants:* <a href="http://code.google.com/p/cmpesweng2013group10/wiki/MuhammedSabriSahin">M Sabri Şahin</a>, <a href="https://code.google.com/p/cmpesweng2013group10/wiki/NSeymaErdem">N Şeyma Erdem</a>, <a href="http://code.google.com/p/cmpesweng2013group10/wiki/HuseyinAnilOzmen">H Anıl Özmen</a>,<a
+*Participants:* <a href="http://code.google.com/p/cmpesweng2013group10/wiki/MuhammedSabriSahin">M Sabri Şahin</a>, <a href="https://code.google.com/p/cmpesweng2013group10/wiki/NSeymaErdem">N Şeyma Erdem</a>, <a href="http://code.google.com/p/cmpesweng2013group10/wiki/HuseyinAnilOzmen">H Anıl Özmen</a>, <a
 href="https://code.google.com/p/cmpesweng2013group10/wiki/SerkanOzer"> Serkan Özer</a>,<a
 href="https://code.google.com/p/cmpesweng2013group10/wiki/SerdarKuzucu"> Serdar Kuzucu</a>,<a
 href="https://code.google.com/p/cmpesweng2013group10/wiki/BerhanSenyazar">Berhan Şenyazar</a> , Mehmet Alparslan Bal
