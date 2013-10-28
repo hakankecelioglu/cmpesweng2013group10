@@ -55,7 +55,7 @@ Purposeful Communities is an crowd sourcing application whose goal is to create 
  
 2.2.5.Completion status(Percentage of needs satisfied) of the task shall automatically be tracked by the system.
 
-2.2.6. Tasks shall be monitored with their name, description, completion status, follower number, and remaning day information.
+2.2.6.Tasks shall be monitored with their name, description, completion status, follower number, and remaning day information.
 
 2.2.7.Tasks(task description and name) shall be updatable by task owners.
 
@@ -76,7 +76,7 @@ Users There should be 4 different user types: general admin, user, guest and co
 
 2.3.7.Users shall be provided with the facilities to edit their profiles.
 
-2.3.8. General admins shall have, in addition to normal users' abilities,  
+2.3.8.General admins shall have, in addition to normal users' abilities,  
 authorities  to  ban users, and remove all types of content
 
 2.3.9.Community admins shall be provided with additional authority to edit 
@@ -95,30 +95,30 @@ community profile information,ban members, remove  tasks unrelated to community 
 
  ==2.6 Searching == 
 
-2.6.1. Community and task search  with a basic keyword shall be supported
+2.6.1.Community and task search  with a basic keyword shall be supported
 
-2.6.2. There should be a advanced search for tasks which is based on
+2.6.2.There should be a advanced search for tasks which is based on
 
-  2.6.2.1. Task deadline
+  2.6.2.1.Task deadline
 
-  2.6.2.2. location
+  2.6.2.2.location
 
-  2.6.2.3. task need
+  2.6.2.3.task need
 
-  2.6.2.4. completion status
+  2.6.2.4.completion status
 
 
 ==2.7 Follow / Share ==
 
-2.7.1 Community members shall be able to follow community tasks. Followers shall get   notifications when a progress occurs in a task.
+2.7.1Community members shall be able to follow community tasks. Followers shall get   notifications when a progress occurs in a task.
 
-2.7.2 Users shall  be able to share tasks via facebook or twitter. 
+2.7.2Users shall  be able to share tasks via facebook or twitter. 
 
 ==2.8 Recommendation system ==
 
-2.8.1. Communities similar to another community shall be recommended.
+2.8.1.Communities similar to another community shall be recommended.
 
-2.8.2. Communities which are related to users profile information such as job  skill and locations shall be recommended
+2.8.2.Communities which are related to users profile information such as job  skill and locations shall be recommended
 
 2.8.3.Tasks shall be recommended to users using users profile information  and task help history. 
 
@@ -137,9 +137,9 @@ community profile information,ban members, remove  tasks unrelated to community 
 
 == 2.10. Reputation System ==
 
-2.10.1. Users shall earn points by helping a task fulfilled.
+2.10.1.Users shall earn points by helping a task fulfilled.
 
-2.10.2. Each completed task shall bring points to the task owners
+2.10.2.Each completed task shall bring points to the task owners
 
 
 
