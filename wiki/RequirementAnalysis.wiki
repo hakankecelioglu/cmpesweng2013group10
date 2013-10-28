@@ -11,39 +11,39 @@ Purposeful Communities is an crowd sourcing application whose goal is to create 
 
  == 2.1 Communities ==
 
-2.1.1.Communities shall be created by registered users providing a name and description which states its purpose
+2.1.1. Communities shall be created by registered users providing a name and description which states its purpose
 
 2.1.2. Communities shall support membership. Users shall be able to join a community
 
 2.1.3. Creator of a community shall become automatically community admin who have the rights  specified in 2.3.9.
 
-2.1.4.Community members shall be able to create community tasks.
+2.1.4. Community members shall be able to create community tasks.
 
-2.1.5.Communities members list shall be available to other community members.
+2.1.5. Communities members list shall be available to other community members.
 
-2.1.6.Community tasks with  progress statuses and remaining day information  shall be listed in main community interface and tracked by community members.
+2.1.6. Community tasks with  progress statuses and remaining day information  shall be listed in main community interface and tracked by community members.
 
-2.1.7.Community tasks shall be sortable by two criteria: latest(determined by task creation date), and urgent (determined by task deadline)
+2.1.7. Community tasks shall be sortable by two criteria: latest(determined by task creation date), and urgent (determined by task deadline)
 
 2.1.8. Community members shall  be able to contribute to  community tasks.
 
-2.1.9.Communities members shall be notified when a new community task is created.
+2.1.9. Communities members shall be notified when a new community task is created.
 
  == 2.2 Tasks ==
 
-2.2.1.Tasks shall be created by community members .
+2.2.1. Tasks shall be created by community members .
 
-2.2.2.Following information should be provided by user to create a task.
+2.2.2. Following information should be provided by user to create a task.
 
-  2.2.2.1.task name which states task's identity.
+  2.2.2.1. task name which states task's identity.
 
-  2.2.2.2.task description which describes task more detailed and provides necessary information to possible task contributers.
+  2.2.2.2. task description which describes task more detailed and provides necessary information to possible task contributers.
 
-  2.2.2.3.deadline: latest day of for task to be done. After deadline tasks shall be closed.
+  2.2.2.3. deadline: latest day of for task to be done. After deadline tasks shall be closed.
 
-  2.2.2.4.need: main need which characterize the task.
+  2.2.2.4. need: main need which characterize the task.
 
-  2.2.2.5.need type: a need can be a service or good as explained in definitions.
+  2.2.2.5. need type: a need can be a service or good as explained in definitions.
 
 2.2.3. Users who creates tasks shall be able to add a form to tasks to be filled by members replying the task in order to persist structured data.
 
@@ -51,95 +51,95 @@ Purposeful Communities is an crowd sourcing application whose goal is to create 
 
   2.2.3.2 Single text line, text area, photo, multiple choice, single choice and optional set field types shall be provided
 
-2.2.4.Tasks shall be done by users providing task need and completing task form 
+2.2.4. Tasks shall be done by users providing task need and completing task form 
  
-2.2.5.Completion status(Percentage of needs satisfied) of the task shall automatically be tracked by the system.
+2.2.5. Completion status(Percentage of needs satisfied) of the task shall automatically be tracked by the system.
 
-2.2.6.Tasks shall be monitored with their name, description, completion status, follower number, and remaning day information.
+2.2.6. Tasks shall be monitored with their name, description, completion status, follower number, and remaning day information.
 
-2.2.7.Tasks(task description and name) shall be updatable by task owners.
+2.2.7. Tasks(task description and name) shall be updatable by task owners.
 
  == 2.3 Users ==
 Users There should be 4 different user types: general admin, user, guest and community  admin
 
-2.3.1.Guests shall be able to browse the system but not create content and participate 
+2.3.1. Guests shall be able to browse the system but not create content and participate 
 
-2.3.2.Guests should provide name, surname, email, password,  job information to become registered users.
+2.3.2. Guests should provide name, surname, email, password,  job information to become registered users.
 
-2.3.3.After step 2 users shall be asked for nonrequired information fields : date of birth, gender, address, interest areas, skills, telephone number, education and a brief info about user.
+2.3.3. After step 2 users shall be asked for nonrequired information fields : date of birth, gender, address, interest areas, skills, telephone number, education and a brief info about user.
 
-2.3.4.Personal information (unless they want to hide), communities and tasks of an user shall be presented publicly to the other users.
+2.3.4. Personal information (unless they want to hide), communities and tasks of an user shall be presented publicly to the other users.
 
-2.3.5.Users shall have a reputation score  calculated based on the tasks he helped.
+2.3.5. Users shall have a reputation score  calculated based on the tasks he helped.
 
-2.3.6.Users shall login system providing email and password.
+2.3.6. Users shall login system providing email and password.
 
-2.3.7.Users shall be provided with the facilities to edit their profiles.
+2.3.7. Users shall be provided with the facilities to edit their profiles.
 
-2.3.8.General admins shall have, in addition to normal users' abilities,  
+2.3.8. General admins shall have, in addition to normal users' abilities,  
 authorities  to  ban users, and remove all types of content
 
-2.3.9.Community admins shall be provided with additional authority to edit 
+2.3.9. Community admins shall be provided with additional authority to edit 
 community profile information,ban members, remove  tasks unrelated to community purpose, and appoint other members of community as admin
 
  == 2.5 Tagging ==
 
 2.5.1.Tasks and  communities shall be tagged by the ones who create them.
 
-2.5.2.Semantic tagging shall be supported (tags shall be stored and processed with their semantics)
+2.5.2. Semantic tagging shall be supported (tags shall be stored and processed with their semantics)
 
-2.5.3.Users shall be encouraged  to use semantic tags using a semantic tag interface . 
+2.5.3. Users shall be encouraged  to use semantic tags using a semantic tag interface . 
 
-2.5.4.Number of tags for a task or community shall be restricted 
+2.5.4. Number of tags for a task or community shall be restricted 
 
 
  ==2.6 Searching == 
 
-2.6.1.Community and task search  with a basic keyword shall be supported
+2.6.1. Community and task search  with a basic keyword shall be supported
 
-2.6.2.There should be a advanced search for tasks which is based on
+2.6.2. There should be a advanced search for tasks which is based on
 
-  2.6.2.1.Task deadline
+  2.6.2.1. Task deadline
 
-  2.6.2.2.location
+  2.6.2.2. location
 
-  2.6.2.3.task need
+  2.6.2.3. task need
 
-  2.6.2.4.completion status
+  2.6.2.4. completion status
 
 
 ==2.7 Follow / Share ==
 
-2.7.1Community members shall be able to follow community tasks. Followers shall get   notifications when a progress occurs in a task.
+2.7.1. Community members shall be able to follow community tasks. Followers shall get   notifications when a progress occurs in a task.
 
-2.7.2Users shall  be able to share tasks via facebook or twitter. 
+2.7.2U. sers shall  be able to share tasks via facebook or twitter. 
 
 ==2.8 Recommendation system ==
 
-2.8.1.Communities similar to another community shall be recommended.
+2.8.1. Communities similar to another community shall be recommended.
 
-2.8.2.Communities which are related to users profile information such as job  skill and locations shall be recommended
+2.8.2. Communities which are related to users profile information such as job  skill and locations shall be recommended
 
-2.8.3.Tasks shall be recommended to users using users profile information  and task help history. 
+2.8.3. Tasks shall be recommended to users using users profile information  and task help history. 
 
 
 ==2.9 Messaging and Communications ==
 
-2.9.1.Users shall have (mail) message box and message through here
+2.9.1. Users shall have (mail) message box and message through here
 
-2.9.2.Community mail list shall be automatically stored
+2.9.2. Community mail list shall be automatically stored
 
-2.9.3.Task creator shall be able to message all community members via their message box or community mail list.
+2.9.3. Task creator shall be able to message all community members via their message box or community mail list.
 
-2.9.4.Community members who want to contribute to a task shall be able to send a message to task owner from task reply page.
+2.9.4. Community members who want to contribute to a task shall be able to send a message to task owner from task reply page.
 
-2.9.5.Discussion about a task shall be provided via simple commenting system which appear below a page of a task.
+2.9.5. Discussion about a task shall be provided via simple commenting system which appear below a page of a task.
 
 == 2.10. Reputation System ==
 
-2.10.1.Users shall earn points by helping a task fulfilled.
+2.10.1. Users shall earn points by helping a task fulfilled.
 
-2.10.2.Each completed task shall bring points to the task owners
+2.10.2. Each completed task shall bring points to the task owners
 
 
 
