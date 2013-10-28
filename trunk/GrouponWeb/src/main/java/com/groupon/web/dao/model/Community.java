@@ -34,6 +34,9 @@ public class Community {
 	@Column(name = "create_date", nullable = false)
 	private Date createDate;
 
+	@Column(name = "picture")
+	private String picture;
+
 	public long getId() {
 		return id;
 	}
@@ -72,5 +75,13 @@ public class Community {
 
 	public void setCreateDate(Date createDate) {
 		this.createDate = createDate;
+	}
+
+	public String getPicture() {
+		return picture;
+	}
+
+	public void setPicture(String picture) {
+		this.picture = picture;
 	}
 }

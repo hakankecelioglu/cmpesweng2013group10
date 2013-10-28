@@ -15,9 +15,16 @@
 			</div>
 			
 			<div class="control-group">
-				<label class="control-label" for="inputPassword">Description</label>
+				<label class="control-label" for="inputDescription">Description</label>
 				<div class="controls">
 					<textarea class="span4" id="inputDescription" rows="10" cols="100"></textarea>
+				</div>
+			</div>
+			
+			<div class="control-group">
+				<label class="control-label" for="inputPhoto">Community Picture</label>
+				<div class="controls">
+					<input class="span4" type="file" id="inputPhoto" >
 				</div>
 			</div>
 			

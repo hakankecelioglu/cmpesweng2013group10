@@ -52,9 +52,6 @@ public class Task {
 	@Column(name = "deadline", nullable = false)
 	private Date deadline;
 
-	@Column(name = "is_urgent", nullable = false)
-	private boolean isUrgent = false;
-
 	@Column(name = "location", length = 500)
 	private String location;
 
@@ -131,14 +128,6 @@ public class Task {
 
 	public void setDeadline(Date deadline) {
 		this.deadline = deadline;
-	}
-
-	public boolean isUrgent() {
-		return isUrgent;
-	}
-
-	public void setUrgent(boolean isUrgent) {
-		this.isUrgent = isUrgent;
 	}
 
 	public String getLocation() {
