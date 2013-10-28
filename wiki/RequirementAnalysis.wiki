@@ -35,7 +35,7 @@ Purposeful Communities is an crowd sourcing application whose goal is to create 
 
 2.2.2.Following information should be provided by user to create a task.
 
-2.2.2.1.task namewhich states task's identity.
+2.2.2.1.task name which states task's identity.
 
 2.2.2.2.task description which describes task more detailed and provides necessary information to possible task contributers.
 
