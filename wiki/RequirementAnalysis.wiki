@@ -143,49 +143,49 @@ community profile information,ban members, remove  tasks unrelated to community 
 
 
 
- = 2.Non-Functional Requirements =
+ = 3.Non-Functional Requirements =
 
- == 2.1 Operating & Platform constraints ==
-2.1.1 The application should be supported by Google Chrome (All version), Safari (4.1.3 or higher), Internet Explorer (7 or higher) and Mozilla Firefox (12 or higher).
+ == 3.1 Operating & Platform constraints ==
+3.1.1 The application should be supported by Google Chrome (All version), Safari (4.1.3 or higher), Internet Explorer (7 or higher) and Mozilla Firefox (12 or higher).
 
- == 2.2 Modifiability ==
-2.2.1 The system should be designed in a modular manner so that the developers can modify it to respond the varying needs of users.
+ == 3.2 Modifiability ==
+3.2.1 The system should be designed in a modular manner so that the developers can modify it to respond the varying needs of users.
 
- == 2.3 Portability ==
-2.3.1 A mobile application to interact with users shall be supported with less features relative to the web application.
-2.3.2 Mobile application shall be implemented for Android devices.
+ == 3.3 Portability ==
+3.3.1 A mobile application to interact with users shall be supported with less features relative to the web application.
+3.3.2 Mobile application shall be implemented for Android devices.
 
- == 2.4 Security ==
-2.4.1 The application shall be accessed via a user authentification process. (i.e. sign in). The contents shall be public. Only members shall manipulate the contents.
-2.4.2. Registration shall be validated.
+ == 3.4 Security ==
+3.4.1 The application shall be accessed via a user authentification process. (i.e. sign in). The contents shall be public. Only members shall manipulate the contents.
+3.4.2. Registration shall be validated.
 
- == 2.5 Usability ==
-2.5.1 The user interface of the application should be similar to popular task management applications (e.g. PivotalTracker) at the launch stage to achieve ease of use.
-2.5.2 There shall be more visual design to focus than the content.
+ == 3.5 Usability ==
+3.5.1 The user interface of the application should be similar to popular task management applications (e.g. PivotalTracker) at the launch stage to achieve ease of use.
+3.5.2 There shall be more visual design to focus than the content.
 
- == 2.6 Language ==
-2.6.1 The language of the application shall be in English.
+ == 3.6 Language ==
+3.6.1 The language of the application shall be in English.
 
- == 2.7 Response Time ==
-2.7.1 Response time of the web pages and database queries should be less than five seconds with an average quality Internet connection.
+ == 3.7 Response Time ==
+3.7.1 Response time of the web pages and database queries should be less than five seconds with an average quality Internet connection.
 
- == 2.8 Reliability ==
+ == 3.8 Reliability ==
 2.8.1 All the records and database shall be copied for possible failures and the copied data should be updated periodically (daily).
 
- == 2.9 System Availability ==
+ == 3.9 System Availability ==
  2.9.2 The user interface of the system shall be available during day and the maintenance shall be performed at nights when necessary.
 
- == 2.10 Physical Requirements ==
-2.10.1 System shall be written using an IDE in Windows, OS X or Linux operating systems.
+ == 3.10 Physical Requirements ==
+3.10.1 System shall be written using an IDE in Windows, OS X or Linux operating systems.
 
- == 2.11 Design ==
-2.11.1 Design of home page should be simple and user friendly.
+ == 3.11 Design ==
+3.11.1 Design of home page should be simple and user friendly.
 
-2.11.2 Color choices should be done consciously.
+3.11.2 Color choices should be done consciously.
 
-2.11.3 Homepage shall consist the recent urgent tasks.
+3.11.3 Homepage shall consist the recent urgent tasks.
 
- == 2.12 + Search engine Optimization==
+ == 3.12 + Search engine Optimization==
  
-2.12.1 + When a new task is created the URL should be formed according to
+3.12.1 + When a new task is created the URL should be formed according to
 header of the task which is important for search engine indexing.
