@@ -3,16 +3,22 @@ $(document).ready(function () {
 		var name = $("#inputName").val();
 		var description = $("#inputDescription").val();
 		
-		var communityData = {
-			name: name,
-			description: description
-		};
+		var data = new FormData();
+		data.append("name", name);
+		data.append("description", description);
+		
+		$.each($("#inputPhoto")[0].files, function (i, file) {
+			data.append("file", file);
+			return false;
+		});
 		
 		$.ajax({
 			type: "POST",
-			contentType: 'application/json',
+			contentType: false,
+			cache: false,
 			url: '/createCommunity',
-			data: JSON.stringify(communityData),
+			processData: false,
+			data: data,
 		    success: function(response) {
 				if (response.message == "OK" && response.communityId) {
 					window.location.href = "http://" + window.location.host + "/community/" + response.communityId;

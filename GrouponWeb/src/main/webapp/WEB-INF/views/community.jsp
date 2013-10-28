@@ -3,7 +3,14 @@
 <div class="well">
 	<div class="media">
 		<a class="pull-left" href="#">
-			<img class="media-object community-icon" src="http://b.vimeocdn.com/ps/445/980/4459809_300.jpg">
+			<c:choose>
+				<c:when test="${not empty community.picture}">
+					<img class="media-object community-icon" src="<c:url value="/community/picture/${community.picture}" />">
+				</c:when>
+				<c:otherwise>
+					<img class="media-object community-icon" src="http://b.vimeocdn.com/ps/445/980/4459809_300.jpg">
+				</c:otherwise>
+			</c:choose>
 		</a>
 		
 		<div class="media-body">

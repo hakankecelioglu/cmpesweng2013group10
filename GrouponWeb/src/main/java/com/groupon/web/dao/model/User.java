@@ -38,6 +38,9 @@ public class User implements Serializable {
 
 	@Column(name = "rating")
 	private Long rating = 0L;
+	
+	@Column(name = "picture")
+	private String picture;
 
 	@OneToOne(fetch = FetchType.EAGER, cascade = { CascadeType.ALL }, mappedBy = "user")
 	private UserRole role;
@@ -104,6 +107,14 @@ public class User implements Serializable {
 
 	public void setRole(UserRole role) {
 		this.role = role;
+	}
+
+	public String getPicture() {
+		return picture;
+	}
+
+	public void setPicture(String picture) {
+		this.picture = picture;
 	}
 
 	@Override
