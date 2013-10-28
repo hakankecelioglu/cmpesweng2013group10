@@ -47,26 +47,26 @@ Purposeful Communities is an crowd sourcing application whose goal is to create 
 
 2.2.3. Users who creates tasks shall be able to add a form to tasks to be filled by members replying the task in order to persist structured data.
 
-2.2.3.1 Forms shall consists of form fields which consists of a field label and a field type
+  2.2.3.1 Forms shall consists of form fields which consists of a field label and a field type
 
-2.2.3.2 Single text line, text area, photo, multiple choice, single choice and optional set field types shall be provided
+  2.2.3.2 Single text line, text area, photo, multiple choice, single choice and optional set field types shall be provided
 
-2.2.3.4.Tasks shall be done by users providing task need and completing task form 
+  2.2.3.4.Tasks shall be done by users providing task need and completing task form 
  
-2.2.3.5.Completion status(Percentage of needs satisfied) of the task shall automatically be tracked by the system.
+  2.2.3.5.Completion status(Percentage of needs satisfied) of the task shall automatically be tracked by the system.
 
-2.2.3.6. Tasks shall be monitored with their name, description, completion status, follower number, and remaning day information.
+  2.2.3.6. Tasks shall be monitored with their name, description, completion status, follower number, and remaning day information.
 
-2.2.3.7.Tasks(task description and name) shall be updatable by task owners.
+  2.2.3.7.Tasks(task description and name) shall be updatable by task owners.
 
  == 2.3 Users ==
-Users There should be 4 different user types: general admin, user, guest and general admin
+Users There should be 4 different user types: general admin, user, guest and community  admin
 
 2.3.1.Guests shall be able to browse the system but not create content and participate 
 
 2.3.2.Guests should provide name, surname, email, password,  job information to become registered users.
 
-2.3.3. After step 2 users shall be asked for nonrequired information fields : date of birth, gender, address, interest areas, skills, telephone number, education and a brief info about user.
+2.3.3.After step 2 users shall be asked for nonrequired information fields : date of birth, gender, address, interest areas, skills, telephone number, education and a brief info about user.
 
 2.3.4.Personal information (unless they want to hide), communities and tasks of an user shall be presented publicly to the other users.
 
@@ -99,13 +99,13 @@ community profile information,ban members, remove  tasks unrelated to community 
 
 2.6.2. There should be a advanced search for tasks which is based on
 
-2.6.2.1. Task deadline
+  2.6.2.1. Task deadline
 
-2.6.2.2. location
+  2.6.2.2. location
 
-2.6.2.3. task need
+  2.6.2.3. task need
 
-2.6.2.4. completion status
+  2.6.2.4. completion status
 
 
 ==2.7 Follow / Share ==
