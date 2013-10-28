@@ -114,7 +114,7 @@ community profile information,ban members, remove  tasks unrelated to community 
 
 2.6.2 Users shall  be able to share tasks via facebook or twitter. 
 
-==2.7 Recommendation system ==
+  ==2.7 Recommendation system ==
 
 2.7.1. Communities similar to another community shall be recommended.
 
