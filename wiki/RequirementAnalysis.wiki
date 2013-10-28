@@ -43,7 +43,7 @@ Purposeful Communities is an crowd sourcing application whose goal is to create 
 
 2.2.2.4.need: main need which characterize the task.
 
-2.2.2.5.need type: a need can be a service or good as described in blabla.
+2.2.2.5.need type: a need can be a service or good as explained in definitions.
 
 2.2.3. Users who creates tasks shall be able to add a form to tasks to be filled by members replying the task in order to persist structured data.
 
