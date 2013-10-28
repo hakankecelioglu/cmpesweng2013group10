@@ -1,4 +1,8 @@
 $(function() {
+	window.GrouponUtils = {
+		siteBase: "http://" + window.location.host + $("#siteBaseUrl").val()
+	};
+	
 	// Setup drop down menu
 	$('.dropdown-toggle').dropdown();
 
@@ -25,7 +29,9 @@ $(function() {
 		userData.username = username;
 		userData.password = password;
 		
-		$.post("http://" + window.location.host + "/login", userData, function (resp) {
+		var url = $(this).attr("action");
+		
+		$.post(url, userData, function (resp) {
 			if (resp.message == "OK") {
 				window.location.reload();
 			} else {
