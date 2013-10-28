@@ -6,7 +6,7 @@
 			You can create a community like diamonds in the sky!
 		</div>
 
-		<form class="form-horizontal">
+		<form class="form-horizontal" id="createCommunityForm" action="<c:url value="/createCommunity" />" method="post">
 			<div class="control-group">
 				<label class="control-label" for="inputEmail">Name</label>
 				<div class="controls">
@@ -30,7 +30,7 @@
 			
 			<div class="control-group">
 				<div class="controls">
-					<button type="button" class="btn btn-success" id="createCommunityBtn">Create Community</button>
+					<button type="submit" class="btn btn-success" id="createCommunityBtn">Create Community</button>
 				</div>
 			</div>
 		</form>

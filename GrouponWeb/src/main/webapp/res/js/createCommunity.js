@@ -1,5 +1,5 @@
 $(document).ready(function () {
-	$("#createCommunityBtn").click(function () {
+	$("#createCommunityForm").submit(function () {
 		var name = $("#inputName").val();
 		var description = $("#inputDescription").val();
 		
@@ -12,16 +12,18 @@ $(document).ready(function () {
 			return false;
 		});
 		
+		var url = $(this).attr('action');
+		
 		$.ajax({
 			type: "POST",
 			contentType: false,
 			cache: false,
-			url: '/createCommunity',
+			url: url,
 			processData: false,
 			data: data,
 		    success: function(response) {
 				if (response.message == "OK" && response.communityId) {
-					window.location.href = "http://" + window.location.host + "/community/" + response.communityId;
+					window.location.href = GrouponUtils.siteBase + "community/" + response.communityId;
 				} else {
 					alert("err");
 				}

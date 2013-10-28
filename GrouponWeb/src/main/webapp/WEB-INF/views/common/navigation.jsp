@@ -1,5 +1,7 @@
 <%@ include file="/WEB-INF/views/common/includes.jsp"%>
 
+<input type="hidden" id="siteBaseUrl" value="<c:url value="/" />" />
+
 <div class="container">
 	<div class="row" style="padding-top: 10px; padding-bottom: 10px;">
 		<div class="span5">
@@ -84,7 +86,7 @@
 						<li class="dropdown">
 							<a class="dropdown-toggle" data-toggle="dropdown" href="#">Login <strong class="caret"></strong></a>
 							<div class="dropdown-menu" style="padding: 20px;">
-								<form class="form-horizontal" id="dropdownLoginForm">
+								<form class="form-horizontal" id="dropdownLoginForm" action="<c:url value="/login" />" method="post">
 									<div class="control-group">
 										<div class="input-prepend">
 										  <span class="add-on">Username: </span>
