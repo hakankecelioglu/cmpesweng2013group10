@@ -82,7 +82,7 @@ authorities  to  ban users, and remove all types of content
 2.3.9. Community admins shall be provided with additional authority to edit 
 community profile information,ban members, remove  tasks unrelated to community purpose, and appoint other members of community as admin
 
- == 2.5 Tagging ==
+ == 2.4 Tagging ==
 
 2.5.1.Tasks and  communities shall be tagged by the ones who create them.
 
@@ -93,7 +93,7 @@ community profile information,ban members, remove  tasks unrelated to community 
 2.5.4. Number of tags for a task or community shall be restricted 
 
 
- ==2.6 Searching == 
+ ==2.5 Searching == 
 
 2.6.1. Community and task search  with a basic keyword shall be supported
 
@@ -108,7 +108,7 @@ community profile information,ban members, remove  tasks unrelated to community 
   2.6.2.4. completion status
 
 
-==2.7 Follow / Share ==
+  ==2.6 Follow / Share ==
 
 2.7.1. Community members shall be able to follow community tasks. Followers shall get   notifications when a progress occurs in a task.
 
@@ -123,7 +123,7 @@ community profile information,ban members, remove  tasks unrelated to community 
 2.8.3. Tasks shall be recommended to users using users profile information  and task help history. 
 
 
-==2.9 Messaging and Communications ==
+ ==2.7 Messaging and Communications ==
 
 2.9.1. Users shall have (mail) message box and message through here
 
@@ -135,7 +135,7 @@ community profile information,ban members, remove  tasks unrelated to community 
 
 2.9.5. Discussion about a task shall be provided via simple commenting system which appear below a page of a task.
 
-== 2.10. Reputation System ==
+ == 2.8. Reputation System ==
 
 2.10.1. Users shall earn points by helping a task fulfilled.
 
