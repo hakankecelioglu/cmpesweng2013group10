@@ -110,36 +110,36 @@ community profile information,ban members, remove  tasks unrelated to community 
 
   ==2.6 Follow / Share ==
 
-2.7.1. Community members shall be able to follow community tasks. Followers shall get   notifications when a progress occurs in a task.
+2.6.1. Community members shall be able to follow community tasks. Followers shall get   notifications when a progress occurs in a task.
 
-2.7.2U. sers shall  be able to share tasks via facebook or twitter. 
+2.6.2 Users shall  be able to share tasks via facebook or twitter. 
 
-==2.8 Recommendation system ==
+==2.7 Recommendation system ==
 
-2.8.1. Communities similar to another community shall be recommended.
+2.7.1. Communities similar to another community shall be recommended.
 
-2.8.2. Communities which are related to users profile information such as job  skill and locations shall be recommended
+2.7.2. Communities which are related to users profile information such as job  skill and locations shall be recommended
 
-2.8.3. Tasks shall be recommended to users using users profile information  and task help history. 
+2.7.3. Tasks shall be recommended to users using users profile information  and task help history. 
 
 
- ==2.7 Messaging and Communications ==
+ ==2.8 Messaging and Communications ==
 
-2.9.1. Users shall have (mail) message box and message through here
+2.8.1. Users shall have (mail) message box and message through here
 
-2.9.2. Community mail list shall be automatically stored
+2.8.2. Community mail list shall be automatically stored
 
-2.9.3. Task creator shall be able to message all community members via their message box or community mail list.
+2.8.3. Task creator shall be able to message all community members via their message box or community mail list.
 
-2.9.4. Community members who want to contribute to a task shall be able to send a message to task owner from task reply page.
+2.8.4. Community members who want to contribute to a task shall be able to send a message to task owner from task reply page.
 
-2.9.5. Discussion about a task shall be provided via simple commenting system which appear below a page of a task.
+2.8.5. Discussion about a task shall be provided via simple commenting system which appear below a page of a task.
 
- == 2.8. Reputation System ==
+ == 2.9. Reputation System ==
 
-2.10.1. Users shall earn points by helping a task fulfilled.
+2.9.1. Users shall earn points by helping a task fulfilled.
 
-2.10.2. Each completed task shall bring points to the task owners
+2.9.2. Each completed task shall bring points to the task owners
 
 
 
