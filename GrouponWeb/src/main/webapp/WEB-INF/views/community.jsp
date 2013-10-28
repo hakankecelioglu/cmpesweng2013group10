@@ -27,7 +27,7 @@
 	<li><a href="#">Members</a></li>
 	<li><a href="#">Closed Tasks</a></li>
 	
-	<li class="pull-right"><a href="#">+ Create Task</a></li>
+	<li class="pull-right"><a href="<c:url value="/task/create?communityId=${community.id}" />">+ Create Task</a></li>
 	<li class="pull-right"><a href="#">Join Community</a></li>
 </ul>
 

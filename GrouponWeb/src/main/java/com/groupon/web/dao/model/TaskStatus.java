@@ -1,5 +1,7 @@
 package com.groupon.web.dao.model;
 
-public enum TaskStatus {
+import java.io.Serializable;
+
+public enum TaskStatus implements Serializable {
 	OPEN, CLOSED, CLOSED_BY_MOD;
 }

@@ -1,5 +1,7 @@
 package com.groupon.web.dao.model;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,7 +15,9 @@ import javax.persistence.UniqueConstraint;
 @Entity
 @Table(name = "user_role", uniqueConstraints = @UniqueConstraint(columnNames = {
 		"user_id", "role_id" }))
-public class UserRole {
+public class UserRole implements Serializable {
+	private static final long serialVersionUID = 6368583425211090554L;
+
 	@Id
 	@GeneratedValue
 	@Column(name = "id")

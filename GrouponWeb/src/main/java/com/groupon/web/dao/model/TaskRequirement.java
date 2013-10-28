@@ -1,5 +1,7 @@
 package com.groupon.web.dao.model;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,7 +14,9 @@ import javax.persistence.UniqueConstraint;
 @Entity
 @Table(name = "task_requirement", uniqueConstraints = @UniqueConstraint(columnNames = {
 		"task_id", "requirement_id" }))
-public class TaskRequirement {
+public class TaskRequirement implements Serializable {
+	private static final long serialVersionUID = 2747430016794064702L;
+
 	@Id
 	@GeneratedValue
 	@Column(name = "id", nullable = false)

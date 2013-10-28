@@ -1,5 +1,7 @@
 package com.groupon.web.dao.model;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -8,7 +10,9 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "requirement")
-public class Requirement {
+public class Requirement implements Serializable {
+	private static final long serialVersionUID = 7284531901424699279L;
+
 	@Id
 	@GeneratedValue
 	@Column(name = "id")

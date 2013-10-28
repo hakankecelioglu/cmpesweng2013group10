@@ -1,33 +1,31 @@
 package com.groupon.web.dao;
 
-import java.util.List;
-
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.groupon.web.dao.model.Task;
+import com.groupon.web.dao.model.Tag;
 
 @Repository
-public class TaskDAO {
-
+public class TagDao {
 	@Autowired
 	private SessionFactory sessionFactory;
-
+	
 	@Transactional
-	public Task saveTask(Task task) {
+	public Tag getTagByName(String tagName) {
 		Session session = sessionFactory.getCurrentSession();
-		session.save(task);
-		return task;
+		Query query = session.createQuery("from Tag where name = :name");
+		query.setParameter("name", tagName);
+		return (Tag) query.uniqueResult();
 	}
-
+	
 	@Transactional
-	public List<Task> findAll() {
+	public Tag saveTag(Tag tag) {
 		Session session = sessionFactory.getCurrentSession();
-		@SuppressWarnings("unchecked")
-		List<Task> tasks = session.createQuery("from Task").list();
-		return tasks;
+		session.save(tag);
+		return tag;
 	}
 }
