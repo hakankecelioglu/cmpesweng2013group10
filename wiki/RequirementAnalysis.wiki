@@ -1,7 +1,14 @@
-= Requirement Analysis =
- 
- = 1.Functional Requirements =
- 
+= Introduction =
+
+Purposeful Communities is an crowd sourcing application whose goal is to create an collaborative on line environment that will enable people to publish and fulfillt heir needs and act together to solve a problem . As the name implies, system is based on communities consisting of a group of users who have a common aim to provide as animal rights, anti-pollution, and charity.Some applications such as Twitter and Facebook are being used similarly but they are not able to solve coordination problem (for example, old “need” keeps getting re-tweeted even after that need is met). Purposeful Communities will also solve this problem by enabling coordination among users and building dependencies between tasks and tracking the completion statuses of tasks.
+
+= Definitions =
+  * *Community:* The place where group of people having a common purpose communicates and creates and completes tasks .
+  * *Task:*  Publications of a need created by a community member and demanded from members of the community and information about how need should be provided.
+  * *Need type:* A need can be a service or a good. Goods are  countable needs specified with a quantity (Ex: 50 tents needed for an help after an earthquake ). Services are generally actions such as cleaning of a place or treatment of wounded people.
+
+= 1.Functional requirements =
+
  == 1.1 User Profiles ==
 1.1.1 Each user shall have information fields such as his/her name, surname, contact address(e-mail) and password.
 
