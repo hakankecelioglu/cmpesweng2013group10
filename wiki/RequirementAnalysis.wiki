@@ -51,13 +51,13 @@ Purposeful Communities is an crowd sourcing application whose goal is to create 
 
   2.2.3.2 Single text line, text area, photo, multiple choice, single choice and optional set field types shall be provided
 
-  2.2.3.4.Tasks shall be done by users providing task need and completing task form 
+2.2.4.Tasks shall be done by users providing task need and completing task form 
  
-  2.2.3.5.Completion status(Percentage of needs satisfied) of the task shall automatically be tracked by the system.
+2.2.5.Completion status(Percentage of needs satisfied) of the task shall automatically be tracked by the system.
 
-  2.2.3.6. Tasks shall be monitored with their name, description, completion status, follower number, and remaning day information.
+2.2.6. Tasks shall be monitored with their name, description, completion status, follower number, and remaning day information.
 
-  2.2.3.7.Tasks(task description and name) shall be updatable by task owners.
+2.2.7.Tasks(task description and name) shall be updatable by task owners.
 
  == 2.3 Users ==
 Users There should be 4 different user types: general admin, user, guest and community  admin
