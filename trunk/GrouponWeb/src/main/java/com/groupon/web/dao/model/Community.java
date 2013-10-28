@@ -1,5 +1,6 @@
 package com.groupon.web.dao.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -14,7 +15,9 @@ import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "community")
-public class Community {
+public class Community implements Serializable {
+	private static final long serialVersionUID = -3290182848857364839L;
+
 	@Id
 	@GeneratedValue
 	@Column(name = "id")

@@ -1,7 +1,9 @@
 package com.groupon.web.dao.model;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -12,15 +14,20 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+
 @Entity
 @Table(name = "task")
-public class Task {
+public class Task implements Serializable {
+	private static final long serialVersionUID = 3338898679144800802L;
+
 	@Id
 	@GeneratedValue
 	@Column(name = "id")
@@ -37,7 +44,7 @@ public class Task {
 	private User owner;
 
 	@ManyToOne
-	@JoinColumn(name = "community_id", nullable = true)
+	@JoinColumn(name = "community_id", nullable = false)
 	private Community community;
 
 	@Temporal(TemporalType.TIMESTAMP)
@@ -54,9 +61,23 @@ public class Task {
 
 	@Column(name = "location", length = 500)
 	private String location;
+	
+	@Column(name = "loc_latitude")
+	private Float latitude;
+	
+	@Column(name = "loc_longitude")
+	private Float longitude;
+	
+	@Column(name = "need_type")
+	@Enumerated(EnumType.STRING)
+	private NeedType needType;
 
 	@OneToMany(fetch = FetchType.LAZY, cascade = { CascadeType.ALL }, mappedBy = "task")
 	private Collection<TaskRequirement> requirements;
+
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinTable(name = "task_tags", joinColumns = @JoinColumn(name = "task_id"), inverseJoinColumns = @JoinColumn(name = "tag_id"))
+	private List<Tag> tags;
 
 	public long getId() {
 		return id;
@@ -136,6 +157,38 @@ public class Task {
 
 	public void setLocation(String location) {
 		this.location = location;
+	}
+
+	public List<Tag> getTags() {
+		return tags;
+	}
+
+	public void setTags(List<Tag> tags) {
+		this.tags = tags;
+	}
+
+	public Float getLatitude() {
+		return latitude;
+	}
+
+	public void setLatitude(Float latitude) {
+		this.latitude = latitude;
+	}
+
+	public Float getLongitude() {
+		return longitude;
+	}
+
+	public void setLongitude(Float longitude) {
+		this.longitude = longitude;
+	}
+
+	public NeedType getNeedType() {
+		return needType;
+	}
+
+	public void setNeedType(NeedType needType) {
+		this.needType = needType;
 	}
 
 }

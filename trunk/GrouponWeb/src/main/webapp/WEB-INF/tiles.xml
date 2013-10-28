@@ -37,4 +37,18 @@
 		<put-attribute name="title" cascade="true" value="Signup for Task Together!" />
 		<put-attribute name="body" value="/WEB-INF/views/signup.jsp" />
 	</definition>
+	
+	<definition name="createTask.view" extends="grouponTemplate">
+		<put-attribute name="title" cascade="true" value="Create a Task" />
+		<put-attribute name="body" value="/WEB-INF/views/createTask.jsp" />
+		<put-list-attribute name="cssFiles" cascade="true">
+			<add-attribute value="/jquery-ui.css" />
+			<add-attribute value="/select2.css" />
+		</put-list-attribute>
+		<put-list-attribute name="jsFiles" cascade="true">
+		    <add-attribute value="/jquery-ui.js" />
+		    <add-attribute value="/select2.js" />
+			<add-attribute value="/createTask.js" />
+		</put-list-attribute>
+	</definition>
 </tiles-definitions>

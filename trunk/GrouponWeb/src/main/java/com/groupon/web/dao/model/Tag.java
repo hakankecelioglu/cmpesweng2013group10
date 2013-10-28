@@ -1,5 +1,6 @@
 package com.groupon.web.dao.model;
 
+import java.io.Serializable;
 import java.util.Collection;
 
 import javax.persistence.CascadeType;
@@ -15,13 +16,15 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "tag")
-public class Tag {
+public class Tag implements Serializable {
+	private static final long serialVersionUID = -5059825584462987228L;
+
 	@Id
 	@GeneratedValue
 	@Column(name = "id")
 	private long id;
 
-	@Column(name = "name")
+	@Column(name = "name", unique = true)
 	private String name;
 
 	@ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.ALL })
