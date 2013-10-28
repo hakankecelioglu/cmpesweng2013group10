@@ -15,7 +15,7 @@ Purposeful Communities is an crowd sourcing application whose goal is to create 
 
 2.1.2. Communities shall support membership. Users shall be able to join a community
 
-2.1.3. Creator of a community shall become automatically community admin who have the rights  specified in blabla
+2.1.3. Creator of a community shall become automatically community admin who have the rights  specified in 2.3.9.
 
 2.1.4.Community members shall be able to create community tasks.
 
