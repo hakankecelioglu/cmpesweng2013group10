@@ -3,9 +3,17 @@
 
 = Activity Diagram =
 
-<h1>[http://cmpesweng2013group10.googlecode.com/files/adtask.jpg]</h1>
+[https://cmpesweng2013group10.googlecode.com/files/activitydiag2.jpg]
 
 
 = Details =
 
-The activity diagram where Ahmet opens a task requiring 500 tents for an earthquake in Zonguldak.
+The activity diagram where Ahmet opens a task requiring 500 tents for an earthquake in Zonguldak.,
+
+= Activity Diagram =
+
+[https://cmpesweng2013group10.googlecode.com/files/activitydiag1.jpg]
+
+== Details ==
+
+The activity diagram where Ayşe comments a task
