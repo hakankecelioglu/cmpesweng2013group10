@@ -18,4 +18,5 @@ public class TagDao extends BaseDaoImpl {
 		this.save(tag);
 		return tag;
 	}
+	
 }

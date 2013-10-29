@@ -14,7 +14,12 @@ public class TaskDAO extends BaseDaoImpl {
 		this.save(task);
 		return task;
 	}
-
+	
+	public Task updateTask(Task task) {
+		this.update(task);
+		return task;
+	}
+	
 	public List<Task> findAll() {
 		@SuppressWarnings("unchecked")
 		List<Task> tasks = this.getSession().createQuery("from Task").list();
@@ -28,5 +33,9 @@ public class TaskDAO extends BaseDaoImpl {
 		query.setMaxResults(numberOfTasksPerPage);
 		query.setFirstResult(page * numberOfTasksPerPage);
 		return (List<Task>) query.list();
+	}
+
+	public Task getTaskById(Long taskId) {
+		return findById(Task.class, taskId);
 	}
 }

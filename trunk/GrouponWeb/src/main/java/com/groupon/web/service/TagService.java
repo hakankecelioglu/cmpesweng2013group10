@@ -10,12 +10,13 @@ import com.groupon.web.dao.model.Tag;
 public class TagService {
 	@Autowired
 	private TagDao tagDao;
-	
+
 	public Tag getTagByName(String tagName) {
 		return tagDao.getTagByName(tagName);
 	}
-	
+
 	public Tag createTag(Tag tag) {
 		return tagDao.saveTag(tag);
 	}
+
 }

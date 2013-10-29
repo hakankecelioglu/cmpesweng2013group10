@@ -56,7 +56,7 @@
 					<div class="well community-task-well">
 						<h3>${task.title}</h3>
 						<div>
-							<p class="pull-left">by <b>${task.owner.name} ${task.owner.surname}</b></p>
+							<p class="pull-left">by <b>${task.owner.name}&nbsp;${task.owner.surname}</b></p>
 							<p class="pull-right">Location: <b>Van/Turkey</b></p>
 							<div class="clearfix"></div>
 						</div>
@@ -67,7 +67,19 @@
 						
 						<div class="clearfix">
 							<div class="pull-left">Need: 55 more cadir</div>
-							<div class="pull-right">72 followers</div>
+							<div class="pull-right">
+								<c:choose>
+									<c:when test="${task.followerCount == 0}">
+										No follower
+									</c:when>
+									<c:when test="${task.followerCount == 1}">
+										1 follower
+									</c:when>
+									<c:otherwise>
+										<c:out value="${task.followerCount}" /> followers
+									</c:otherwise>
+								</c:choose>
+							</div>
 						</div>
 						
 						<div class="progress progress-striped">
@@ -76,9 +88,9 @@
 						</div>
 						
 						<div class="clearfix">
-							<div class="pull-left">5 days left!</div>
+							<div class="pull-left">${grouponfn:dateDiff(task.deadline)} days left!</div>
 							<div class="pull-right">
-								<button class="btn btn-success">Follow</button>
+								<button class="btn btn-success" id="followTask" data-taskid="${task.id}">Follow</button>
 								<button class="btn btn-success">Reply</button>
 							</div>
 						</div>
