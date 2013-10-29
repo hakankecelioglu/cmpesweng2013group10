@@ -2,32 +2,31 @@ package com.groupon.web.dao;
 
 import java.util.List;
 
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.groupon.web.dao.model.Task;
 
 @Repository
-public class TaskDAO {
+public class TaskDAO extends BaseDaoImpl {
 
-	@Autowired
-	private SessionFactory sessionFactory;
-
-	@Transactional
 	public Task saveTask(Task task) {
-		Session session = sessionFactory.getCurrentSession();
-		session.save(task);
+		this.save(task);
 		return task;
 	}
 
-	@Transactional
 	public List<Task> findAll() {
-		Session session = sessionFactory.getCurrentSession();
 		@SuppressWarnings("unchecked")
-		List<Task> tasks = session.createQuery("from Task").list();
+		List<Task> tasks = this.getSession().createQuery("from Task").list();
 		return tasks;
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<Task> getTasks(long communityId, int page, int numberOfTasksPerPage) {
+		Query query = this.getSession().createQuery("SELECT t from Task t where t.community.id=:communityId");
+		query.setParameter("communityId", communityId);
+		query.setMaxResults(numberOfTasksPerPage);
+		query.setFirstResult(page * numberOfTasksPerPage);
+		return (List<Task>) query.list();
 	}
 }

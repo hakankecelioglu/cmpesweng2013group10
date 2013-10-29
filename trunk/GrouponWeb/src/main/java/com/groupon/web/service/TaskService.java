@@ -18,24 +18,28 @@ public class TaskService {
 
 	@Autowired
 	private TaskDAO taskDao;
-	
+
 	@Autowired
 	private TagService tagService;
 
 	public List<Task> getAllTasks() {
 		return taskDao.findAll();
 	}
-	
+
 	public Task createTask(Task task, User owner) {
 		task.setCreateDate(new Date());
 		task.setOwner(owner);
 		task.setStatus(TaskStatus.OPEN);
-		
+
 		arrangeTagsOfTask(task);
-		
+
 		return taskDao.saveTask(task);
 	}
-	
+
+	public List<Task> getTasks(long communityId, int page, int numberOfTasksPerPage) {
+		return taskDao.getTasks(communityId, page, numberOfTasksPerPage);
+	}
+
 	private void arrangeTagsOfTask(Task task) {
 		List<Tag> tags = task.getTags();
 		List<Tag> tags2 = new ArrayList<Tag>(tags.size());
