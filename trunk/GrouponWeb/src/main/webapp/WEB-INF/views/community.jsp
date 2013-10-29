@@ -91,7 +91,7 @@
 							<div class="pull-left">${grouponfn:dateDiff(task.deadline)} days left!</div>
 							<div class="pull-right">
 								<button class="btn btn-success" id="followTask" data-taskid="${task.id}">Follow</button>
-								<button class="btn btn-success">Reply</button>
+								<button class="btn btn-success" id="replyTask">Reply</button>
 							</div>
 						</div>
 					</div>

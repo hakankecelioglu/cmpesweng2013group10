@@ -6,7 +6,7 @@
 			You can create a community like diamonds in the sky!
 		</div>
 
-		<form class="form-horizontal" id="createCommunityForm" action="<c:url value="/createCommunity" />" method="post">
+		<form class="form-horizontal" id="createCommunityForm" action="<c:url value="/createCommunity" />">
 			<div class="control-group">
 				<label class="control-label" for="inputEmail">Name</label>
 				<div class="controls">
