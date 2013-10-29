@@ -11,8 +11,6 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
@@ -25,13 +23,8 @@ import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "task")
-public class Task implements Serializable {
+public class Task extends BaseModel implements Serializable {
 	private static final long serialVersionUID = 3338898679144800802L;
-
-	@Id
-	@GeneratedValue
-	@Column(name = "id")
-	private long id;
 
 	@Column(name = "title")
 	private String title;
@@ -46,10 +39,6 @@ public class Task implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "community_id", nullable = false)
 	private Community community;
-
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "create_date", nullable = false)
-	private Date createDate;
 
 	@Enumerated(EnumType.STRING)
 	@Column(name = "status", nullable = false, length = 50)
@@ -72,20 +61,12 @@ public class Task implements Serializable {
 	@Enumerated(EnumType.STRING)
 	private NeedType needType;
 
-	@OneToMany(fetch = FetchType.LAZY, cascade = { CascadeType.ALL }, mappedBy = "task")
+	@OneToMany(fetch = FetchType.EAGER, cascade = { CascadeType.ALL }, mappedBy = "task")
 	private Collection<TaskRequirement> requirements;
 
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinTable(name = "task_tags", joinColumns = @JoinColumn(name = "task_id"), inverseJoinColumns = @JoinColumn(name = "tag_id"))
 	private List<Tag> tags;
-
-	public long getId() {
-		return id;
-	}
-
-	public void setId(long id) {
-		this.id = id;
-	}
 
 	public String getTitle() {
 		return title;
@@ -125,14 +106,6 @@ public class Task implements Serializable {
 
 	public void setRequirements(Collection<TaskRequirement> requirements) {
 		this.requirements = requirements;
-	}
-
-	public Date getCreateDate() {
-		return createDate;
-	}
-
-	public void setCreateDate(Date createDate) {
-		this.createDate = createDate;
 	}
 
 	public TaskStatus getStatus() {

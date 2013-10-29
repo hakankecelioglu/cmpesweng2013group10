@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
@@ -26,8 +27,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.groupon.web.dao.model.Community;
+import com.groupon.web.dao.model.Task;
 import com.groupon.web.dao.model.User;
 import com.groupon.web.service.CommunityService;
+import com.groupon.web.service.TaskService;
 
 @Controller
 /**
@@ -39,6 +42,12 @@ public class CommunityController extends AbstractBaseController {
 
 	@Autowired
 	private CommunityService communityService;
+	
+	@Autowired
+	private TaskService taskService;
+	
+	@Value("${tasks.per.community.page}")
+	private int numberOfTasksPerPage;
 
 	@Value("${PHOTO_SRC}")
 	private String photoDirectory;
@@ -114,6 +123,9 @@ public class CommunityController extends AbstractBaseController {
 			return "redirect:/";
 		}
 		model.addAttribute("community", community);
+		
+		List<Task> tasks = taskService.getTasks(community.getId(), 0, numberOfTasksPerPage);
+		model.addAttribute("tasks", tasks);
 
 		return "community.view";
 	}

@@ -6,20 +6,13 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "user")
-public class User implements Serializable {
+public class User extends BaseModel implements Serializable {
 	private static final long serialVersionUID = 8464105544313686923L;
-
-	@Id
-	@GeneratedValue
-	@Column(name = "id")
-	private long id;
 
 	@Column(name = "username", unique = true)
 	private String username;
@@ -44,14 +37,6 @@ public class User implements Serializable {
 
 	@OneToOne(fetch = FetchType.EAGER, cascade = { CascadeType.ALL }, mappedBy = "user")
 	private UserRole role;
-
-	public long getId() {
-		return id;
-	}
-
-	public void setId(long id) {
-		this.id = id;
-	}
 
 	public String getUsername() {
 		return username;
