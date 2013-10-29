@@ -1,12 +1,15 @@
 $(document).ready(function () {
 	var isMapOpen = false;
 	var createTaskMap = null;
+	
+	$("#showWhenService").hide();
 	var mapOptions = {
 		center: new google.maps.LatLng(41, 29),
 		zoom: 6,
 		mapTypeId: google.maps.MapTypeId.ROADMAP
 	};
 	
+
 	$("#inputLocation").click(function () {
 		if (!isMapOpen) {
 			if (createTaskMap == null) {
@@ -48,7 +51,25 @@ $(document).ready(function () {
 			return {id: term, text: term};
 		}
 	});
-	
+	$("#inputNeedType").change(function(){
+		var selected=$('#inputNeedType option:selected').val();
+		
+			switch(selected){
+			case("GOODS"):
+				
+				$("#showWhenGoods").show();
+				$("#showWhenService").hide();
+				break;
+			case("SERVICE"):
+				$("#showWhenService").show();
+				$("#showWhenGoods").hide();
+				break;
+			case("ONLY_FORM"):
+				$("#showWhenGoods").hide();
+				$("#showWhenService").hide();
+				break;
+			}
+	});
 	$("#createTaskButton").click(function () {
 		var that = $(this);
 		that.attr("disabled", "disabled");
