@@ -31,6 +31,9 @@
 	<definition name="community.view" extends="grouponTemplate">
 		<put-attribute name="title" cascade="true" value="View Community" />
 		<put-attribute name="body" value="/WEB-INF/views/community.jsp" />
+		<put-list-attribute name="jsFiles" cascade="true">
+			<add-attribute value="/community.js" />
+		</put-list-attribute>
 	</definition>
 	
 	<definition name="signup.view" extends="grouponTemplate">

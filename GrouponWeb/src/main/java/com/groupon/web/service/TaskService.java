@@ -39,6 +39,22 @@ public class TaskService {
 	public List<Task> getTasks(long communityId, int page, int numberOfTasksPerPage) {
 		return taskDao.getTasks(communityId, page, numberOfTasksPerPage);
 	}
+	
+	public synchronized Long followTask(Long taskId, User user) {
+		Task task = taskDao.getTaskById(taskId);
+		task.getFollowers().add(user);
+		task.setFollowerCount(task.getFollowerCount() + 1);
+		taskDao.updateTask(task);
+		return task.getFollowerCount();
+	}
+	
+	public synchronized Long unfollowTask(Long taskId, User user) {
+		Task task = taskDao.getTaskById(taskId);
+		task.getFollowers().remove(user);
+		task.setFollowerCount(task.getFollowerCount() - 1);
+		taskDao.updateTask(task);
+		return task.getFollowerCount();
+	}
 
 	private void arrangeTagsOfTask(Task task) {
 		List<Tag> tags = task.getTags();

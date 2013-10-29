@@ -20,6 +20,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.groupon.web.dao.model.Community;
 import com.groupon.web.dao.model.NeedType;
@@ -71,10 +72,24 @@ public class TaskController extends AbstractBaseController {
 			return prepareSuccessResponse(response);
 		} catch (JSONException e) {
 			e.printStackTrace();
+			response.put("error", e.getMessage());
 		} catch (ParseException e) {
 			e.printStackTrace();
+			response.put("error", e.getMessage());
 		}
 
+		return prepareErrorResponse(response);
+	}
+	
+	@RequestMapping(value = "/followTask", method = RequestMethod.POST)
+	public ResponseEntity<Map<String, Object>> followTask(HttpServletRequest request, @RequestParam Long taskId) {
+		Map<String, Object> response = new HashMap<String, Object>();
+		
+		User user = getUser(request);
+		Long followerCount = taskService.followTask(taskId, user);
+		
+		response.put("followerCount", followerCount);
+		
 		return prepareSuccessResponse(response);
 	}
 
