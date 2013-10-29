@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -38,7 +39,24 @@ public class TaskController extends AbstractBaseController {
 
 	@Autowired
 	private CommunityService communityService;
+	
+	@RequestMapping(value = "/show/{id}")
+	public Object taskPage(HttpServletRequest request, Model model, @PathVariable Long id){
 
+		if (id == null) {
+			return "redirect:/";
+		}
+		setGlobalAttributesToModel(model, request);
+		Task task = taskService.getTaskById(id);
+
+		if (task == null) {
+			return "redirect:/";
+		}
+		model.addAttribute("task", task);
+		return "task.view";
+		
+	}
+	
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
 	public Object createTask(HttpServletRequest request, Model model) {
 		User user = getUser(request);
@@ -92,7 +110,7 @@ public class TaskController extends AbstractBaseController {
 		
 		return prepareSuccessResponse(response);
 	}
-
+	
 	private Task generateTaskFromJSON(String body) throws JSONException, ParseException {
 		JSONObject json = new JSONObject(body);
 		String name = json.getString("name");
