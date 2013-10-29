@@ -3,8 +3,7 @@
 
 = Activity Diagram =
 
-[https://cmpesweng2013group10.googlecode.com/files/activitydiag2.jpg]
-
+[https://cmpesweng2013group10.googlecode.com/files/activitydiag1.jpg]
 
 = Details =
 
@@ -12,7 +11,7 @@ The activity diagram where Ahmet opens a task requiring 500 tents for an earthqu
 
 = Activity Diagram =
 
-[https://cmpesweng2013group10.googlecode.com/files/activitydiag1.jpg]
+[https://cmpesweng2013group10.googlecode.com/files/activitydiag2.jpg]
 
 == Details ==
 
