@@ -31,7 +31,7 @@ public class User extends BaseModel implements Serializable {
 
 	@Column(name = "rating")
 	private Long rating = 0L;
-	
+
 	@Column(name = "picture")
 	private String picture;
 

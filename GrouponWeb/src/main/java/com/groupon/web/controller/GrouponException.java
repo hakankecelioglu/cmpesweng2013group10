@@ -19,8 +19,7 @@ public class GrouponException extends Exception {
 		super(message, cause);
 	}
 
-	public GrouponException(String message, Throwable cause,
-			boolean enableSuppression, boolean writableStackTrace) {
+	public GrouponException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
 		super(message, cause, enableSuppression, writableStackTrace);
 	}
 

@@ -21,7 +21,7 @@ public abstract class AbstractBaseController {
 		}
 		return null;
 	}
-	
+
 	public ResponseEntity<Map<String, Object>> prepareSuccessResponse(Map<String, Object> response) {
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
 	}
@@ -33,12 +33,12 @@ public abstract class AbstractBaseController {
 	public void setGlobalAttributesToModel(Model model, HttpServletRequest request) {
 		model.addAttribute("user", getUser(request));
 	}
-	
+
 	public Long getLongParameter(HttpServletRequest request, String parameterName) {
 		String value = request.getParameter(parameterName);
 		return Long.parseLong(value);
 	}
-	
+
 	public Integer getIntegerParameter(HttpServletRequest request, String parameterName) {
 		String value = request.getParameter(parameterName);
 		return Integer.parseInt(value);

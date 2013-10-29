@@ -17,7 +17,7 @@ public class CommunityService {
 		community.setCreateDate(new Date());
 		communityDao.saveCommunity(community);
 	}
-	
+
 	public Community getCommunityById(Long id) {
 		return communityDao.getCommunityById(id);
 	}

@@ -9,7 +9,7 @@ public class DateUtils {
 	public static int calculateDayDifference(Date date) {
 		LocalDate local1 = new LocalDate(date);
 		LocalDate local2 = new LocalDate();
-		
+
 		return Days.daysBetween(local2, local1).getDays();
 	}
 }

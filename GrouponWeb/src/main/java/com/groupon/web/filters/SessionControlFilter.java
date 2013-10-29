@@ -22,9 +22,11 @@ import com.groupon.web.util.ControllerConstants;
 import com.groupon.web.util.GrouponWebUtils;
 
 /**
- * If there is no user in session, checks cookie and puts logged in user to the session if he exists in cookie.
+ * If there is no user in session, checks cookie and puts logged in user to the
+ * session if he exists in cookie.
+ * 
  * @author sedrik
- *
+ * 
  */
 @Component("sessionControlFilter")
 public class SessionControlFilter implements Filter {

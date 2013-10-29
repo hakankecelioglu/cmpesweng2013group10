@@ -42,10 +42,10 @@ public class CommunityController extends AbstractBaseController {
 
 	@Autowired
 	private CommunityService communityService;
-	
+
 	@Autowired
 	private TaskService taskService;
-	
+
 	@Value("${tasks.per.community.page}")
 	private int numberOfTasksPerPage;
 
@@ -123,7 +123,7 @@ public class CommunityController extends AbstractBaseController {
 			return "redirect:/";
 		}
 		model.addAttribute("community", community);
-		
+
 		List<Task> tasks = taskService.getTasks(community.getId(), 0, numberOfTasksPerPage);
 		model.addAttribute("tasks", tasks);
 

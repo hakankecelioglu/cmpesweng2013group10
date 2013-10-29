@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.groupon.web.dao.TaskDAO;
-import com.groupon.web.dao.model.Community;
 import com.groupon.web.dao.model.Tag;
 import com.groupon.web.dao.model.Task;
 import com.groupon.web.dao.model.TaskStatus;
@@ -40,7 +39,7 @@ public class TaskService {
 	public List<Task> getTasks(long communityId, int page, int numberOfTasksPerPage) {
 		return taskDao.getTasks(communityId, page, numberOfTasksPerPage);
 	}
-	
+
 	public synchronized Long followTask(Long taskId, User user) {
 		Task task = taskDao.getTaskById(taskId);
 		task.getFollowers().add(user);
@@ -48,7 +47,7 @@ public class TaskService {
 		taskDao.updateTask(task);
 		return task.getFollowerCount();
 	}
-	
+
 	public synchronized Long unfollowTask(Long taskId, User user) {
 		Task task = taskDao.getTaskById(taskId);
 		task.getFollowers().remove(user);
@@ -69,7 +68,8 @@ public class TaskService {
 		}
 		task.setTags(tags2);
 	}
+
 	public Task getTaskById(Long id) {
-		return taskDao.getTaskById2(id);
+		return taskDao.getTaskById(id);
 	}
 }
