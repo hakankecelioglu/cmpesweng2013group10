@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.groupon.web.dao.TaskDAO;
+import com.groupon.web.dao.model.Community;
 import com.groupon.web.dao.model.Tag;
 import com.groupon.web.dao.model.Task;
 import com.groupon.web.dao.model.TaskStatus;
@@ -67,5 +68,8 @@ public class TaskService {
 			tags2.add(tagInDb);
 		}
 		task.setTags(tags2);
+	}
+	public Task getTaskById(Long id) {
+		return taskDao.getTaskById2(id);
 	}
 }
