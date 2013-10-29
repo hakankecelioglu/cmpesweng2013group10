@@ -47,8 +47,31 @@
 						<option value="ONLY_FORM">Only Form</option>
 					</select>
 				</div>
+
+			</div>
+			<div id="showWhenGoods" class="control-group">
+					<div class="control-group">
+						<label class="control-label" for="goodName">Name</label>
+						<div class="controls">
+							<input class="span1" type="text" id="goodName">
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label" for="goodQuantity">Quantity</label>
+						<div class="controls">
+							<input class="span1" type="text" id="goodName">
+						</div>
+					</div>						
 			</div>
 			
+			<div id="showWhenService" class="control-group">
+					<div class="control-group">
+						<label class="control-label" for="serviceName">Name</label>
+						<div class="controls">
+							<input class="span1" type="text" id="serviceName">
+						</div>
+					</div>				
+			</div>			
 			
 			<div class="control-group">
 				<label class="control-label" for="inputAddExtraForm">Add Extra Form Field</label>
