@@ -39,9 +39,9 @@ public class TaskController extends AbstractBaseController {
 
 	@Autowired
 	private CommunityService communityService;
-	
+
 	@RequestMapping(value = "/show/{id}")
-	public Object taskPage(HttpServletRequest request, Model model, @PathVariable Long id){
+	public Object taskPage(HttpServletRequest request, Model model, @PathVariable Long id) {
 
 		if (id == null) {
 			return "redirect:/";
@@ -54,9 +54,9 @@ public class TaskController extends AbstractBaseController {
 		}
 		model.addAttribute("task", task);
 		return "task.view";
-		
+
 	}
-	
+
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
 	public Object createTask(HttpServletRequest request, Model model) {
 		User user = getUser(request);
@@ -98,29 +98,29 @@ public class TaskController extends AbstractBaseController {
 
 		return prepareErrorResponse(response);
 	}
-	
+
 	@RequestMapping(value = "/followTask", method = RequestMethod.POST)
 	public ResponseEntity<Map<String, Object>> followTask(HttpServletRequest request, @RequestParam Long taskId) {
 		Map<String, Object> response = new HashMap<String, Object>();
-		
+
 		User user = getUser(request);
 		Long followerCount = taskService.followTask(taskId, user);
-		
+
 		response.put("followerCount", followerCount);
-		
+
 		return prepareSuccessResponse(response);
 	}
-	
+
 	private Task generateTaskFromJSON(String body) throws JSONException, ParseException {
 		JSONObject json = new JSONObject(body);
 		String name = json.getString("name");
 		String description = json.getString("description");
 		String deadline = json.getString("deadline");
-		
+
 		Task task = new Task();
 		task.setTitle(name);
 		task.setDescription(description);
-		
+
 		SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
 		Date deadlineDate = formatter.parse(deadline);
 		task.setDeadline(deadlineDate);
@@ -130,7 +130,7 @@ public class TaskController extends AbstractBaseController {
 			Float latitude = (float) location.getDouble("latitude");
 			Float longitude = (float) location.getDouble("longitude");
 			String locationText = location.getString("text");
-			
+
 			task.setLocation(locationText);
 			task.setLatitude(latitude);
 			task.setLongitude(longitude);
@@ -139,7 +139,7 @@ public class TaskController extends AbstractBaseController {
 		String type = json.getString("type");
 		NeedType needType = NeedType.valueOf(type);
 		task.setNeedType(needType);
-		
+
 		JSONArray tags = json.getJSONArray("tags");
 		List<Tag> tagList = new ArrayList<Tag>();
 		for (int i = 0; i < tags.length(); i++) {
@@ -149,7 +149,7 @@ public class TaskController extends AbstractBaseController {
 			tagList.add(tag);
 		}
 		task.setTags(tagList);
-		
+
 		Long communityId = json.getLong("communityId");
 		Community community = communityService.getCommunityById(communityId);
 		task.setCommunity(community);

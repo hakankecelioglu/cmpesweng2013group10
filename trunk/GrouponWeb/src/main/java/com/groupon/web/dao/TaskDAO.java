@@ -5,7 +5,6 @@ import java.util.List;
 import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
 
-import com.groupon.web.dao.model.Community;
 import com.groupon.web.dao.model.Task;
 
 @Repository
@@ -15,12 +14,12 @@ public class TaskDAO extends BaseDaoImpl {
 		this.save(task);
 		return task;
 	}
-	
+
 	public Task updateTask(Task task) {
 		this.update(task);
 		return task;
 	}
-	
+
 	public List<Task> findAll() {
 		@SuppressWarnings("unchecked")
 		List<Task> tasks = this.getSession().createQuery("from Task").list();
@@ -39,6 +38,7 @@ public class TaskDAO extends BaseDaoImpl {
 	public Task getTaskById(Long taskId) {
 		return findById(Task.class, taskId);
 	}
+
 	public Task getTaskById2(Long id) {
 		Query query = this.getSession().createQuery("from Task where id = :id");
 		query.setParameter("id", id);
