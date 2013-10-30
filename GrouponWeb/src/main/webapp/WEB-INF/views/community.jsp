@@ -54,7 +54,9 @@
 			<c:when test="${not empty tasks}">
 				<c:forEach var="task" items="${tasks}">
 					<div class="well community-task-well">
-						<h3>${task.title}</h3>
+						<h3 class="pull-left">${task.title}</h3>
+						<h6 class="pull-right">community: ${task.community.name}</h6>
+						<div class="clearfix"></div>
 						<div>
 							<p class="pull-left">by <b>${task.owner.name}&nbsp;${task.owner.surname}</b></p>
 							<p class="pull-right">Location: <b>Van/Turkey</b></p>
