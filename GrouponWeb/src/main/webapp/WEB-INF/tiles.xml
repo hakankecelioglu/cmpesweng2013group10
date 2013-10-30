@@ -19,7 +19,16 @@
 			<add-attribute value="/home.js" />
 		</put-list-attribute>
 	</definition>
-	
+	<definition name="homeguest.view" extends="grouponTemplate">
+		<put-attribute name="title" cascade="true" value="Purposeful Communities" />
+		<put-attribute name="body" value="/WEB-INF/views/homeguest.jsp" />
+		<put-list-attribute name="cssFiles" cascade="true">
+			<add-attribute value="/home.css" />
+		</put-list-attribute>
+		<put-list-attribute name="jsFiles" cascade="true">
+			<add-attribute value="/home.js" />
+		</put-list-attribute>
+	</definition>	
 	<definition name="createCommunity.view" extends="grouponTemplate">
 		<put-attribute name="title" cascade="true" value="Create a Community" />
 		<put-attribute name="body" value="/WEB-INF/views/createCommunity.jsp" />
