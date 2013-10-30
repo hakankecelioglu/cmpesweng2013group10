@@ -79,6 +79,19 @@ $(document).ready(function () {
 		task.deadline = $("#inputDeadline").val();
 		task.type = $("#inputNeedType").val();
 		task.tags = [];
+		if(task.type!="ONLY_FORM"){
+			
+			if(task.type=="GOOD"){
+				task.goodName=$("#goodName").val();
+				task.goodQuantity=$("#goodQuantity").val();				
+				
+			}
+			else{
+				task.servicename=$("#serviceName").val();	
+			}
+		}
+
+
 		task.communityId = parseInt($("#communityId").val());
 		$.each($("#inputTags").val().split(","), function (i, tag) {
 			task.tags.push(tag);
@@ -91,11 +104,10 @@ $(document).ready(function () {
 			data: JSON.stringify(task),
 		    success: function(response) {
 				if (response.taskId) {
-					window.location.href = GrouponUtils.siteBase + "task/" + response.taskId;
+					window.location.href = GrouponUtils.siteBase + "task/show/" + response.taskId;
 				}
 			}
 		}).always(function () {
-			alert("always");
 			that.removeAttr("disabled");
 		});
 	});
