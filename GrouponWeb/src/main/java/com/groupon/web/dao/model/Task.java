@@ -17,6 +17,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -61,6 +62,10 @@ public class Task extends BaseModel implements Serializable {
 	@Column(name = "need_type")
 	@Enumerated(EnumType.STRING)
 	private NeedType needType;
+	
+	@OneToOne
+	@JoinColumn(name = "predecessor_id", nullable = true)
+	private Task predecessor;
 
 	@OneToMany(fetch = FetchType.LAZY, cascade = { CascadeType.ALL }, mappedBy = "task")
 	private Collection<TaskRequirement> requirements;
@@ -187,6 +192,14 @@ public class Task extends BaseModel implements Serializable {
 
 	public void setFollowerCount(Long followerCount) {
 		this.followerCount = followerCount;
+	}
+
+	public Task getPredecessor() {
+		return predecessor;
+	}
+
+	public void setPredecessor(Task predecessor) {
+		this.predecessor = predecessor;
 	}
 
 }
