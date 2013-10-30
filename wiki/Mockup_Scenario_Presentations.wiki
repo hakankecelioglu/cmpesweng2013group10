@@ -1,12 +1,11 @@
 #labels Mockup,Scenario,Presentation
 Here you can find mockup scenario presentations.
 
-<h2>Mobile Interface</h2>
+= Mobile Interface =
 
-<a href="https://cmpesweng2013group10.googlecode.com/files/mobile%20mockup.zip"> Click Here!</a>
-<br/>
+[https://code.google.com/p/cmpesweng2013group10/wiki/AndroidMockups?ts=1383096571&updated=AndroidMockups Click Here!]
 
-<h2>Desktop Interface-UPDATED</h2>
+= Desktop Interface-UPDATED =
 I used Pencil for Mock-up.
 
 
