@@ -2,7 +2,6 @@ package com.groupon.web.dao.model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -16,7 +15,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -62,13 +60,16 @@ public class Task extends BaseModel implements Serializable {
 	@Column(name = "need_type")
 	@Enumerated(EnumType.STRING)
 	private NeedType needType;
-	
+
 	@OneToOne
 	@JoinColumn(name = "predecessor_id", nullable = true)
 	private Task predecessor;
 
-	@OneToMany(fetch = FetchType.LAZY, cascade = { CascadeType.ALL }, mappedBy = "task")
-	private Collection<TaskRequirement> requirements;
+	@Column(name = "requirement_name", nullable = true)
+	private String requirementName;
+
+	@Column(name = "requirement_quantity", nullable = true)
+	private Integer requirementQuantity;
 
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinTable(name = "task_tags", joinColumns = @JoinColumn(name = "task_id"), inverseJoinColumns = @JoinColumn(name = "tag_id"))
@@ -112,14 +113,6 @@ public class Task extends BaseModel implements Serializable {
 
 	public void setCommunity(Community community) {
 		this.community = community;
-	}
-
-	public Collection<TaskRequirement> getRequirements() {
-		return requirements;
-	}
-
-	public void setRequirements(Collection<TaskRequirement> requirements) {
-		this.requirements = requirements;
 	}
 
 	public TaskStatus getStatus() {
@@ -200,6 +193,22 @@ public class Task extends BaseModel implements Serializable {
 
 	public void setPredecessor(Task predecessor) {
 		this.predecessor = predecessor;
+	}
+
+	public String getRequirementName() {
+		return requirementName;
+	}
+
+	public void setRequirementName(String requirementName) {
+		this.requirementName = requirementName;
+	}
+
+	public Integer getRequirementQuantity() {
+		return requirementQuantity;
+	}
+
+	public void setRequirementQuantity(Integer requirementQuantity) {
+		this.requirementQuantity = requirementQuantity;
 	}
 
 }
