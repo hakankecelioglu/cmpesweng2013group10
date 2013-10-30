@@ -59,7 +59,7 @@
 					<div class="control-group">
 						<label class="control-label" for="goodQuantity">Quantity</label>
 						<div class="controls">
-							<input class="span1" type="text" id="goodName">
+							<input class="span1" type="text" id="goodQuantity">
 						</div>
 					</div>						
 			</div>
