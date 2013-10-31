@@ -117,7 +117,7 @@ public class TaskController extends AbstractBaseController {
 		String name = json.getString("name");
 		String description = json.getString("description");
 		String deadline = json.getString("deadline");
-		String needname=json.getString("goodName");
+
 		
 		Task task = new Task();
 		task.setTitle(name);
@@ -142,14 +142,15 @@ public class TaskController extends AbstractBaseController {
 		NeedType needType = NeedType.valueOf(type);
 		task.setNeedType(needType);
 		if(needType==NeedType.GOODS){
-			//task.setgoodName(needname);
-			int needquantity=json.getInt("goodQuantity");
-			//task.setQuantity(needquantity);
-			
+			String requirementName=json.getString("requirementName");
+			int requirementQuantity=json.getInt("requirementQuantity");
+			task.setRequirementName(requirementName);
+			task.setRequirementQuantity(requirementQuantity);
 		}
 		
 		else if(needType==NeedType.SERVICE){
-			//task.setgoodName(needname);
+			String requirementName=json.getString("requirementName");
+			task.setRequirementName(requirementName);		
 		}
 		
 		
