@@ -21,5 +21,8 @@
     <string name="add_tags">Add tags</string>
     <string name="create">Create</string>
     <string name="title_activity_community">Community</string>
+    <string name="title_activity_create_task">CreateTaskActivity</string>
+    <string name="task_name">Task Name</string>
+    <string name="task_description">Description</string>
 
 </resources>
