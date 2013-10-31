@@ -27,7 +27,6 @@ import com.groupon.web.dao.model.Community;
 import com.groupon.web.dao.model.NeedType;
 import com.groupon.web.dao.model.Tag;
 import com.groupon.web.dao.model.Task;
-import com.groupon.web.dao.model.TaskRequirement;
 import com.groupon.web.dao.model.User;
 import com.groupon.web.service.CommunityService;
 import com.groupon.web.service.TaskService;
@@ -118,7 +117,6 @@ public class TaskController extends AbstractBaseController {
 		String description = json.getString("description");
 		String deadline = json.getString("deadline");
 
-		
 		Task task = new Task();
 		task.setTitle(name);
 		task.setDescription(description);
@@ -141,20 +139,18 @@ public class TaskController extends AbstractBaseController {
 		String type = json.getString("type");
 		NeedType needType = NeedType.valueOf(type);
 		task.setNeedType(needType);
-		if(needType==NeedType.GOODS){
-			String requirementName=json.getString("requirementName");
-			int requirementQuantity=json.getInt("requirementQuantity");
+		if (needType == NeedType.GOODS) {
+			String requirementName = json.getString("requirementName");
+			int requirementQuantity = json.getInt("requirementQuantity");
 			task.setRequirementName(requirementName);
 			task.setRequirementQuantity(requirementQuantity);
 		}
-		
-		else if(needType==NeedType.SERVICE){
-			String requirementName=json.getString("requirementName");
-			task.setRequirementName(requirementName);		
+
+		else if (needType == NeedType.SERVICE) {
+			String requirementName = json.getString("requirementName");
+			task.setRequirementName(requirementName);
 		}
-		
-		
-		
+
 		JSONArray tags = json.getJSONArray("tags");
 		List<Tag> tagList = new ArrayList<Tag>();
 		for (int i = 0; i < tags.length(); i++) {
