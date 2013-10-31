@@ -24,5 +24,7 @@
     <string name="title_activity_create_task">CreateTaskActivity</string>
     <string name="task_name">Task Name</string>
     <string name="task_description">Description</string>
+    <string name="create_task">Create Task</string>
+    <string name="title_activity_task">Task</string>
 
 </resources>
