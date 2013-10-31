@@ -7,8 +7,8 @@
 		<c:forEach var="task" items="${alltasks}">
 			<div class="well community-task-well">
 			
-				<h5>${task.title}</h5>
-				<h6 class="text-right">community: ${task.community.name}</h6>
+				<h5><a href="<c:url value="/task/show/${task.id}" />">${task.title}</a></h5>
+				<h6 class="text-right">community: <a href="<c:url value="/community/${task.community.id}" />">${task.community.name}</a></h6>
 				<div class="clearfix"></div>
 				<div>
 					<p class="pull-left">by <b>${task.owner.name}&nbsp;${task.owner.surname}</b></p>
@@ -59,8 +59,8 @@
 		<c:forEach var="task" items="${alltasks}">
 			<div class="well community-task-well">
 			
-				<h5>${task.title}</h5>
-				<h6 class="text-right">community: ${task.community.name}</h6>
+				<h5><a href="<c:url value="/task/show/${task.id}" />">${task.title}</a></h5>
+				<h6 class="text-right">community: <a href="<c:url value="/community/${task.community.id}" />">${task.community.name}</a></h6>
 				<div class="clearfix"></div>
 				<div>
 					<p class="pull-left">by <b>${task.owner.name}&nbsp;${task.owner.surname}</b></p>
@@ -111,8 +111,8 @@
 		<c:forEach var="task" items="${alltasks}">
 				<div class="well community-task-well">
 			
-				<h5>${task.title}</h5>
-				<h6 class="text-right">community: ${task.community.name}</h6>
+				<h5><a href="<c:url value="/task/show/${task.id}" />">${task.title}</a></h5>
+				<h6 class="text-right">community: <a href="<c:url value="/community/${task.community.id}" />">${task.community.name}</a></h6>
 				<div class="clearfix"></div>
 				<div>
 					<p class="pull-left">by <b>${task.owner.name}&nbsp;${task.owner.surname}</b></p>
