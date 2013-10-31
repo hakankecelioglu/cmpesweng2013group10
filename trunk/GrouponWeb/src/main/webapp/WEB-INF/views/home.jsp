@@ -46,7 +46,7 @@
 					<div class="pull-left">${grouponfn:dateDiff(task.deadline)} days left!</div>
 					<div class="pull-right">
 						<button class="btn btn-success" id="followTask" data-taskid="${task.id}">Follow</button>
-						<button class="btn btn-success" id="replyTask">Reply</button>
+						<a class="btn btn-success" href="<c:url value="/task/show/${task.id}" />">Reply</a>
 					</div>
 				</div>
 			</div>
@@ -98,7 +98,7 @@
 					<div class="pull-left">${grouponfn:dateDiff(task.deadline)} days left!</div>
 					<div class="pull-right">
 						<button class="btn btn-success" id="followTask" data-taskid="${task.id}">Follow</button>
-						<button class="btn btn-success" id="replyTask">Reply</button>
+						<a class="btn btn-success" href="<c:url value="/task/show/${task.id}" />">Reply</a>
 					</div>
 				</div>
 			</div>
@@ -150,7 +150,7 @@
 					<div class="pull-left">${grouponfn:dateDiff(task.deadline)} days left!</div>
 					<div class="pull-right">
 						<button class="btn btn-success" id="followTask" data-taskid="${task.id}">Follow</button>
-						<button class="btn btn-success" id="replyTask">Reply</button>
+						<a class="btn btn-success" href="<c:url value="/task/show/${task.id}" />">Reply</a>
 					</div>
 				</div>
 			</div>
