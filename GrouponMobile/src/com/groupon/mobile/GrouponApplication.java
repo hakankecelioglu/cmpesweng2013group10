@@ -1,10 +1,10 @@
 package com.groupon.mobile;
 
-import com.groupon.mobile.model.User;
-
 import android.app.Activity;
 import android.app.Application;
 import android.content.SharedPreferences;
+
+import com.groupon.mobile.model.User;
 
 public class GrouponApplication extends Application {
 	private User user;

@@ -12,9 +12,9 @@ public class DummyController {
 	public static List<Map<String, Object>> communities = new LinkedList<Map<String, Object>>();
 
 	public static List<Map<String, Object>> tasks = new LinkedList<Map<String, Object>>();
-	
+
 	public static User admin = new User();
-	
+
 	public static void init() {
 		admin.setUsername("admin");
 		admin.setPassword("password");
@@ -33,9 +33,11 @@ public class DummyController {
 	public static Map<String, Object> getCommunity(int id) {
 		return communities.get(id);
 	}
+
 	public static Map<String, Object> getTask(int id) {
 		return tasks.get(id);
 	}
+
 	@SuppressWarnings("unchecked")
 	public static int createTask(Map<String, Object> task, int communityId) {
 		task.put("communityId", communityId);
