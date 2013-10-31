@@ -29,7 +29,7 @@ public class CommunityActivity extends Activity {
 	}
 
 	private void setupUI(String name, String description) {
-		createButton = (Button) findViewById(R.id.button_create_community);
+		createButton = (Button) findViewById(R.id.button_create_task);
 		createButton.setOnClickListener(createButtonClickListener);
 		communityNameField = (TextView) findViewById(R.id.communityName);
 		communityNameField.setText(name);
