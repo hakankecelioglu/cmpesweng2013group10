@@ -26,5 +26,9 @@
     <string name="task_description">Description</string>
     <string name="create_task">Create Task</string>
     <string name="title_activity_task">Task</string>
+    <string name="task_deadline">Deadline</string>
+    <string name="task_type_of_need">Type of need</string>
+    
+    
 
 </resources>
