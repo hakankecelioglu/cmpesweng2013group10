@@ -1,5 +1,7 @@
 package com.groupon.mobile;
 
+import java.util.Map;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,15 +21,19 @@ public class CommunityActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_community);
 		
-		getIntent().getIntExtra("communityId", -1);
-		
-		setupUI();
+		int id=getIntent().getIntExtra("communityId", -1);
+		Map<String, Object> m=DummyController.getCommunity(id);
+		String name=(String)m.get("name");
+		String description=(String)m.get("description");
+		setupUI(name,description);
 	}
-	private void setupUI() {
+	private void setupUI(String name, String description) {
 		createButton = (Button) findViewById(R.id.button_create_community);		
 		createButton.setOnClickListener(createButtonClickListener);
-		communityNameField = (EditText) findViewById(R.id.communityName);
-		communityDescriptionField = (EditText) findViewById(R.id.communityDescription);
+		communityNameField = (TextView) findViewById(R.id.communityName);
+		communityNameField.setText(name);
+		communityDescriptionField = (TextView) findViewById(R.id.communityDescription);
+		communityDescriptionField.setText(description);
 	}
 	private OnClickListener createButtonClickListener = new OnClickListener() {
 		@Override
