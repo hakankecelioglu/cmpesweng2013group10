@@ -81,13 +81,13 @@ $(document).ready(function () {
 		task.tags = [];
 		if(task.type!="ONLY_FORM"){
 			
-			if(task.type=="GOOD"){
-				task.goodName=$("#goodName").val();
-				task.goodQuantity=$("#goodQuantity").val();				
+			if(task.type=="GOODS"){
+				task.requirementName=$("#goodName").val();
+				task.requirementQuantity=$("#goodQuantity").val();				
 				
 			}
 			else{
-				task.servicename=$("#serviceName").val();	
+				task.requirementName=$("#serviceName").val();	
 			}
 		}
 
