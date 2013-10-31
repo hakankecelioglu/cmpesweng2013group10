@@ -37,6 +37,10 @@
             android:name="com.groupon.mobile.CommunityActivity"
             android:label="@string/title_activity_community" >
         </activity>
+        <activity
+            android:name="com.groupon.mobile.CreateTaskActivity"
+            android:label="@string/title_activity_create_task" >
+        </activity>
     </application>
 
 </manifest>
