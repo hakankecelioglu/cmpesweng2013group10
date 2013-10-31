@@ -21,18 +21,18 @@ public class HomeActivity extends Activity {
 
 		GrouponApplication app = (GrouponApplication) getApplication();
 		user = app.getLoggedUser();
-		
+
 		TextView view = (TextView) findViewById(R.id.home_hello_username);
 		view.setText("Hello, " + user.getUsername() + "!");
-		
+
 		setupUI();
 	}
-	
+
 	private void setupUI() {
 		createCommunityTaskButton = (Button) findViewById(R.id.button_home_create_new_community);
 		createCommunityTaskButton.setOnClickListener(createNewCommunityListener);
 	}
-	
+
 	private OnClickListener createNewCommunityListener = new OnClickListener() {
 		@Override
 		public void onClick(View v) {
