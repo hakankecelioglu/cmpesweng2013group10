@@ -23,7 +23,6 @@
         android:id="@+id/task_description"
         android:layout_width="fill_parent"
         android:layout_height="100dp"
-        android:layout_alignLeft="@+id/task_name"
         android:layout_below="@id/task_name"
         android:background="@android:drawable/editbox_background"
         android:ems="10"
@@ -31,43 +30,37 @@
         android:inputType="textMultiLine" />
 
     <EditText
-        android:id="@+id/deadline"
-        android:layout_width="220dp"
+        android:id="@+id/task_deadline"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/desc"
-        android:layout_below="@+id/desc"
+        android:layout_below="@id/task_description"
         android:background="@android:drawable/editbox_background"
         android:ems="10"
-        android:hint="Deadline" />
+        android:hint="@string/task_deadline" />
 
     <EditText
-        android:id="@+id/type"
-        android:layout_width="220dp"
+        android:id="@+id/task_type"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/deadline"
-        android:layout_below="@+id/type"
-        android:layout_marginTop="10dp"
+        android:layout_below="@id/task_deadline"
         android:background="@android:drawable/editbox_background"
         android:ems="10"
-        android:hint="Add a tag" />
+        android:hint="@string/task_type_of_need" />
+
+    <EditText
+        android:id="@+id/task_tags"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/task_type"
+        android:background="@android:drawable/editbox_background"
+        android:ems="10"
+        android:hint="@string/add_tags" />
 
     <Button
-        android:id="@+id/button1"
+        android:id="@+id/button_task_create"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="14dp"
-        android:text="Done" />
-
-    <EditText
-        android:id="@+id/type"
-        android:layout_width="220dp"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/type"
-        android:layout_below="@+id/deadline"
-        android:layout_marginTop="14dp"
-        android:background="@android:drawable/editbox_background"
-        android:ems="10"
-        android:hint="Type of need" />
+        android:layout_below="@id/task_tags"
+        android:text="@string/create" />
 
 </RelativeLayout>
