@@ -54,7 +54,7 @@
 			<c:when test="${not empty tasks}">
 				<c:forEach var="task" items="${tasks}">
 					<div class="well community-task-well">
-						<h3 class="pull-left">${task.title}</h3>
+						<h3 class="pull-left"><a href="<c:url value="/task/show/${task.id}" />">${task.title}</a></h3>
 						<h6 class="pull-right">community: ${task.community.name}</h6>
 						<div class="clearfix"></div>
 						<div>
@@ -93,7 +93,7 @@
 							<div class="pull-left">${grouponfn:dateDiff(task.deadline)} days left!</div>
 							<div class="pull-right">
 								<button class="btn btn-success" id="followTask" data-taskid="${task.id}">Follow</button>
-								<button class="btn btn-success" id="replyTask">Reply</button>
+								<a class="btn btn-success" href="<c:url value="/task/show/${task.id}" />">Reply</a>
 							</div>
 						</div>
 					</div>
