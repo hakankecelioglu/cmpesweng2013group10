@@ -4,5 +4,22 @@
     <string name="app_name">GrouponMobile</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
+    <string name="username">Username: </string>
+    <string name="password">Password: </string>
+    <string name="login">Login</string>
+    <string name="signup">Sign Up</string>
+    <string name="forget_password">Forget Password?</string>
+    <string name="about">About</string>
+    <string name="top_helpful_users">Top Helpful Users</string>
+    <string name="advanced_search">Advanced Search</string>
+    <string name="title_activity_home">HomeActivity</string>
+    <string name="my_profile">My Profile</string>
+    <string name="create_new_community">Create New Community</string>
+    <string name="title_activity_create_community">Create Community</string>
+    <string name="community_name">Community Name</string>
+    <string name="description">Description</string>
+    <string name="add_tags">Add tags</string>
+    <string name="create">Create</string>
+    <string name="title_activity_community">Community</string>
 
 </resources>
