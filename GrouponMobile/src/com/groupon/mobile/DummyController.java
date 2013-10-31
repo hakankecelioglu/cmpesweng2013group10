@@ -33,7 +33,9 @@ public class DummyController {
 	public static Map<String, Object> getCommunity(int id) {
 		return communities.get(id);
 	}
-
+	public static Map<String, Object> getTask(int id) {
+		return tasks.get(id);
+	}
 	@SuppressWarnings("unchecked")
 	public static int createTask(Map<String, Object> task, int communityId) {
 		task.put("communityId", communityId);
