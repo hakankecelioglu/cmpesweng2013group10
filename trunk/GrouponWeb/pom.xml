@@ -12,7 +12,7 @@
 		<spring.version>3.2.2.RELEASE</spring.version>
 		<hibernate.version>3.4.0.GA</hibernate.version>
 		<org.json.version>20090211</org.json.version>
-		<slf4j.version>1.5.10</slf4j.version>
+		<slf4j.version>1.6.0</slf4j.version>
 	</properties>
 
 	<dependencies>
@@ -105,6 +105,12 @@
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-entitymanager</artifactId>
 			<version>${hibernate.version}</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>slf4j-api</artifactId>
+					<groupId>org.slf4j</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 
 		<!-- Java EE -->
@@ -163,15 +169,8 @@
 		<!-- Logging -->
 		<dependency>
 			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-api</artifactId>
-			<version>${slf4j.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-log4j12</artifactId>
 			<version>${slf4j.version}</version>
-			<scope>runtime</scope>
 		</dependency>
 
 		<dependency>
