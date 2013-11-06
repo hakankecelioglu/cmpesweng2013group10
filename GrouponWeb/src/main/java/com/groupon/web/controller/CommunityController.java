@@ -134,6 +134,25 @@ public class CommunityController extends AbstractBaseController {
 		return "community.view";
 	}
 
+	@RequestMapping(value = "community/join")
+	public Object joinCommunity(HttpServletRequest request, @RequestParam Long communityId) {
+		if (communityId == null) {
+			return "redirect:/";
+		}
+		
+		Community community = communityService.getCommunityById(communityId);
+
+		if (community == null) {
+			return "redirect:/";
+		}
+
+		User user = getUser(request);
+		
+		communityService.addMemberToCommunity(community, user);
+		
+		return "redirect:/community/" + communityId;
+	}
+	
 	@RequestMapping(value = "community/picture/{pictureName:.+}", method = RequestMethod.GET)
 	public void getCommunityPicture(@PathVariable String pictureName, HttpServletResponse response) {
 		try {
