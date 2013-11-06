@@ -1,0 +1,29 @@
+#summary Task Together System Test Plan
+
+= Task Together System Test Plan =
+
+== Testing Strategy ==
+
+Will be written until November 14th.
+
+== Test Case Document for Testers ==
+
+[https://docs.google.com/spreadsheet/ccc?key=0Au-ZeA-5ENDidGtKbFg1SXdUR21kU0lFbm02TEZQUUE&usp=sharing Google Doc Link]
+
+== Tools ==
+
+=== JUnit ===
+
+JUnit is a simple framework to write repeatable tests. It is an instance of the xUnit architecture for unit testing frameworks.
+
+[http://junit.org/ HomePage]
+
+=== Google Code Issue System ===
+
+Bug tracking tool for opening issues, reporting bugs, tracking them.
+
+[https://code.google.com/p/cmpesweng2013group10/issues/list Issues]
+
+== Resources/Roles & Responsibilities ==
+
+Will be written until November 14th.
