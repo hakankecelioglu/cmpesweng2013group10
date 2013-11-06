@@ -4,13 +4,16 @@
 <tiles-definitions>
 	<definition name="grouponTemplate" template="/WEB-INF/views/template/layout.jsp">
 		<put-attribute name="htmlHead" value="/WEB-INF/views/common/header.jsp" />
-		<put-attribute name="nav" value="/WEB-INF/views/common/navigation.jsp" />
-		<!-- <put-attribute name="innerNav" value="/WEB-INF/views/common/innerNavigation.jsp" /> -->
+		<put-attribute name="nav"
+			value="/WEB-INF/views/common/navigation.jsp" />
+		<!-- <put-attribute name="innerNav" value="/WEB-INF/views/common/innerNavigation.jsp" 
+			/> -->
 		<put-attribute name="footer" value="/WEB-INF/views/common/footer.jsp" />
 	</definition>
-	
+
 	<definition name="home.view" extends="grouponTemplate">
-		<put-attribute name="title" cascade="true" value="Purposeful Communities" />
+		<put-attribute name="title" cascade="true"
+			value="Purposeful Communities" />
 		<put-attribute name="body" value="/WEB-INF/views/home.jsp" />
 		<put-list-attribute name="cssFiles" cascade="true">
 			<add-attribute value="/home.css" />
@@ -20,7 +23,8 @@
 		</put-list-attribute>
 	</definition>
 	<definition name="homeguest.view" extends="grouponTemplate">
-		<put-attribute name="title" cascade="true" value="Purposeful Communities" />
+		<put-attribute name="title" cascade="true"
+			value="Purposeful Communities" />
 		<put-attribute name="body" value="/WEB-INF/views/homeguest.jsp" />
 		<put-list-attribute name="cssFiles" cascade="true">
 			<add-attribute value="/home.css" />
@@ -28,7 +32,7 @@
 		<put-list-attribute name="jsFiles" cascade="true">
 			<add-attribute value="/home.js" />
 		</put-list-attribute>
-	</definition>	
+	</definition>
 	<definition name="createCommunity.view" extends="grouponTemplate">
 		<put-attribute name="title" cascade="true" value="Create a Community" />
 		<put-attribute name="body" value="/WEB-INF/views/createCommunity.jsp" />
@@ -36,7 +40,7 @@
 			<add-attribute value="/createCommunity.js" />
 		</put-list-attribute>
 	</definition>
-	
+
 	<definition name="community.view" extends="grouponTemplate">
 		<put-attribute name="title" cascade="true" value="View Community" />
 		<put-attribute name="body" value="/WEB-INF/views/community.jsp" />
@@ -44,12 +48,31 @@
 			<add-attribute value="/community.js" />
 		</put-list-attribute>
 	</definition>
-	
+
 	<definition name="signup.view" extends="grouponTemplate">
-		<put-attribute name="title" cascade="true" value="Signup for Task Together!" />
+		<put-attribute name="title" cascade="true"
+			value="Signup for Task Together!" />
 		<put-attribute name="body" value="/WEB-INF/views/signup.jsp" />
 	</definition>
-	
+
+	<definition name="userDeactivated.view" extends="grouponTemplate">
+		<put-attribute name="title" cascade="true"
+			value="Activate Your Account!" />
+		<put-attribute name="body" value="/WEB-INF/views/userDeactivated.jsp" />
+	</definition>
+
+	<definition name="userBanned.view" extends="grouponTemplate">
+		<put-attribute name="title" cascade="true"
+			value="Banned! Contact Us!" />
+		<put-attribute name="body" value="/WEB-INF/views/userBanned.jsp" />
+	</definition>
+
+	<definition name="userDeleted.view" extends="grouponTemplate">
+		<put-attribute name="title" cascade="true"
+			value="Deleted! Contact Us!" />
+		<put-attribute name="body" value="/WEB-INF/views/userDeleted.jsp" />
+	</definition>
+
 	<definition name="createTask.view" extends="grouponTemplate">
 		<put-attribute name="title" cascade="true" value="Create a Task" />
 		<put-attribute name="body" value="/WEB-INF/views/createTask.jsp" />
@@ -58,22 +81,32 @@
 			<add-attribute value="/select2.css" />
 		</put-list-attribute>
 		<put-list-attribute name="jsFiles" cascade="true">
-		    <add-attribute value="/jquery-ui.js" />
-		    <add-attribute value="/select2.js" />
+			<add-attribute value="/jquery-ui.js" />
+			<add-attribute value="/select2.js" />
 			<add-attribute value="/createTask.js" />
 		</put-list-attribute>
 	</definition>
+
 	<definition name="task.view" extends="grouponTemplate">
-		<put-attribute name="title" cascade="true" value="task" />
+		<put-attribute name="title" cascade="true" value="Task" />
 		<put-attribute name="body" value="/WEB-INF/views/task.jsp" />
 		<put-list-attribute name="cssFiles" cascade="true">
 			<add-attribute value="/jquery-ui.css" />
 			<add-attribute value="/select2.css" />
 		</put-list-attribute>
 		<put-list-attribute name="jsFiles" cascade="true">
-		    <add-attribute value="/jquery-ui.js" />
-		    <add-attribute value="/select2.js" />
+			<add-attribute value="/jquery-ui.js" />
+			<add-attribute value="/select2.js" />
 			<add-attribute value="/task.js" />
+		</put-list-attribute>
+	</definition>
+
+	<definition name="profile.view" extends="grouponTemplate">
+		<put-attribute name="title" cascade="true" value="Profile" />
+		<put-attribute name="body" value="/WEB-INF/views/profile.jsp" />
+		<put-list-attribute name="cssFiles" cascade="true">
+		</put-list-attribute>
+		<put-list-attribute name="jsFiles" cascade="true">
 		</put-list-attribute>
 	</definition>
 </tiles-definitions>

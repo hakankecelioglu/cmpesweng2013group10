@@ -66,6 +66,14 @@
 					</c:when>
 					<c:otherwise>
 						<c:choose>
+							<c:when test="${page eq 'myprofile'}">
+								<li class="active"><a href="<c:url value="/profile" />"><i class="icon-plus"></i> My Profile</a></li>
+							</c:when>
+							<c:otherwise>
+								<li><a href="<c:url value="/profile" />"><i class="icon-plus"></i> My Profile</a></li>
+							</c:otherwise>
+						</c:choose>
+						<c:choose>
 							<c:when test="${page eq 'createCommunity'}">
 								<li class="active"><a href="<c:url value="/createCommunity" />"><i class="icon-plus"></i> Create Community</a></li>
 							</c:when>
@@ -79,10 +87,40 @@
 				</c:choose>
 			</ul>
 			
-			<ul class="nav pull-right">
+			<ul class="nav pull-right onairuserforms">
 				<c:choose>
 					<c:when test="${empty user}">
-						<li><a href="#">Sign Up</a></li>
+						<li class="dropdown">
+							<a class="dropdown-toggle" data-toggle="dropdown" href="#">Sign Up <strong class="caret"></strong></a>
+							<div class="dropdown-menu" style="padding: 20px;">
+								<form class="form-horizontal" id="dropdownSignupForm" action="<c:url value="/signup" />" method="POST">
+									<div class="control-group">
+										<div class="input-prepend">
+										  <span class="add-on">Username: </span>
+										  <input class="span2" id="signupFormUsername" type="text" placeholder="Username">
+										</div>
+									</div>
+									
+									<div class="control-group">
+										<div class="input-prepend">
+										  <span class="add-on">Email: </span>
+										  <input class="span2" id="signupFormEmail" type="text" placeholder="Email">
+										</div>
+									</div>
+									
+									<div class="control-group">
+										<div class="input-prepend">
+										  <span class="add-on">Password: </span>
+										  <input class="span2" id="signupFormPassword" type="password" placeholder="Password">
+										</div>
+									</div>
+									
+									<div class="control-group">
+										<button type="submit" class="btn btn-info">Sign up</button>
+									</div>
+								</form>
+							</div>
+						</li>
 						<li class="dropdown">
 							<a class="dropdown-toggle" data-toggle="dropdown" href="#">Login <strong class="caret"></strong></a>
 							<div class="dropdown-menu" style="padding: 20px;">
@@ -105,7 +143,7 @@
 										<label class="checkbox">
 											<input type="checkbox"> Remember me
 										</label>
-										<button type="submit" class="btn">Sign in</button>
+										<button type="submit" class="btn btn-info">Login</button>
 									</div>
 								</form>
 							</div>

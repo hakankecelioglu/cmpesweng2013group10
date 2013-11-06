@@ -43,6 +43,19 @@
 	<filter>
 		<filter-name>sessionControlFilter</filter-name>
 		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+		<init-param>
+			<param-name>excludePatterns</param-name>
+			<param-value>res/*</param-value>
+		</init-param>
+	</filter>
+
+	<filter>
+		<filter-name>permissionControlFilter</filter-name>
+		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+		<init-param>
+			<param-name>excludePatterns</param-name>
+			<param-value>res/*</param-value>
+		</init-param>
 	</filter>
 
 	<servlet>
@@ -72,6 +85,11 @@
 
 	<filter-mapping>
 		<filter-name>sessionControlFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+	<filter-mapping>
+		<filter-name>permissionControlFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 
