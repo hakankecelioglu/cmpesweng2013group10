@@ -7,6 +7,16 @@ img.nav-user-thumb {
 	margin-bottom: 10px;
 }
 
+/* for login and signup forms */
+.dropdown-menu {
+	z-index: 1031 !important;
+}
+
+.onairuserforms .input-prepend .add-on {
+	width: 100px;
+	text-align: left;
+}
+
 .label.label-home-header {
 	font-size: 30px;
 	line-height: 35px;
@@ -37,11 +47,48 @@ img.community-icon {
 	width: 128px;
 	height: 128px;
 	border: 2px solid #ccc;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
 	border-radius: 5px;
+}
+
+.profile-picture-ctnr {
+	width: 100px;
+	height: 100px;
+	border: 2px solid #ccc;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	float: left;
+	margin-right: 5px;
+	margin-left: 20px;
+}
+
+img.profile-picture {
+	width: 100%;
+	height: 100%;
 }
 
 .well.community-task-well {
 	position: relative;
+}
+
+.bottom-margin {
+	margin-bottom: 10px;
+}
+
+h2.profile-heading {
+	text-transform:capitalize;
+	line-height: 130px;
+	border-bottom: 1px solid #000;
+	height: 80px;
+}
+
+.profile-well {
+}
+
+.no-margin-left {
+	margin-left: 0;
 }
 
 /*

@@ -7,7 +7,7 @@ $(function() {
 	$('.dropdown-toggle').dropdown();
 
 	// Fix input element click problem
-	$('#dropdownLoginForm').click(function(e) {
+	$('#dropdownLoginForm, #dropdownSignupForm').closest('.dropdown-menu').click(function(e) {
 		e.stopPropagation();
 	});
 	
@@ -30,6 +30,49 @@ $(function() {
 		userData.password = password;
 		
 		var url = $(this).attr("action");
+		
+		$.post(url, userData, function (resp) {
+			if (resp.message == "OK") {
+				window.location.reload();
+			} else {
+				alert(resp.message);
+			}
+		}).fail(function (err) {
+			try {
+				var jsonErr = JSON.parse(err.responseText);
+				alert(jsonErr.error);
+			} catch (e) {
+				alert("An error occured!");
+			}
+		});
+		
+		return false;
+	});
+	
+	$("#dropdownSignupForm").submit(function () {
+		var username = $("#signupFormUsername").val();
+		if (!username) {
+			alert("Please provide a username!");
+			return;
+		}
+		
+		var email = $("#signupFormEmail").val();
+		if (!email) {
+			alert("Please provide an email address!");
+			return;
+		}
+		
+		var password = $("#signupFormPassword").val();
+		if (!password) {
+			alert("Please provide a password!");
+			return;
+		}
+		
+		var url = $(this).attr("action");
+		var userData = {};
+		userData.email = email;
+		userData.username = username;
+		userData.password = password;
 		
 		$.post(url, userData, function (resp) {
 			if (resp.message == "OK") {
