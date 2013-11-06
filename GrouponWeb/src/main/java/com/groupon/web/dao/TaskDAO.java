@@ -32,6 +32,7 @@ public class TaskDAO extends BaseDaoImpl {
 		query.setParameter("communityId", communityId);
 		query.setMaxResults(numberOfTasksPerPage);
 		query.setFirstResult(page * numberOfTasksPerPage);
+		query.setCacheable(true);
 		return (List<Task>) query.list();
 	}
 

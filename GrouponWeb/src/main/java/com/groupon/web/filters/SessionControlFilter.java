@@ -1,6 +1,8 @@
 package com.groupon.web.filters;
 
 import java.io.IOException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -10,11 +12,11 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.util.Assert;
 
 import com.groupon.web.dao.model.User;
 import com.groupon.web.service.UserService;
@@ -31,6 +33,8 @@ import com.groupon.web.util.GrouponWebUtils;
 @Component("sessionControlFilter")
 public class SessionControlFilter implements Filter {
 
+	final Pattern excludePatternRes = Pattern.compile("((^/res/))");
+
 	@Autowired
 	private UserService userService;
 
@@ -40,33 +44,44 @@ public class SessionControlFilter implements Filter {
 
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-		Assert.notNull(userService);
-
 		HttpServletRequest req = (HttpServletRequest) request;
+		Matcher matcher = excludePatternRes.matcher(req.getRequestURI());
+		if (matcher.find()) {
+			chain.doFilter(request, response);
+			return;
+		}
+
+		HttpServletResponse resp = (HttpServletResponse) response;
 		HttpSession session = req.getSession(true);
-		if (session.getAttribute(ControllerConstants.SESSION_ATTR_USER) == null) {
-			Cookie[] cookies = req.getCookies();
-			if (cookies != null) {
-				for (Cookie cookie : cookies) {
-					if (cookie.getName().equals(ControllerConstants.COOKIE_NAME_USER)) {
-						String cookieValue = cookie.getValue();
-						Long userId = GrouponWebUtils.extractUserIdFromCookieValue(cookieValue);
-						if (userId != null) {
-							User user = userService.getUserById(userId);
-							if (user != null) {
-								String userHash = GrouponWebUtils.generateUserHash(user);
-								String userHashInCookie = GrouponWebUtils.extractUserHashFromCookieValue(cookieValue);
-								if (userHash.equals(userHashInCookie)) {
-									session.setAttribute(ControllerConstants.SESSION_ATTR_USER, user);
-								}
+		User user = (User) session.getAttribute(ControllerConstants.SESSION_ATTR_USER);
+
+		if (user == null) {
+			checkCookieAndSetSession(user, req, resp, chain, session);
+		}
+		chain.doFilter(req, resp);
+	}
+
+	private void checkCookieAndSetSession(User user, HttpServletRequest req, HttpServletResponse resp, FilterChain chain, HttpSession session) throws IOException, ServletException {
+		Cookie[] cookies = req.getCookies();
+		if (cookies != null) {
+			for (Cookie cookie : cookies) {
+				if (cookie.getName().equals(ControllerConstants.COOKIE_NAME_USER)) {
+					String cookieValue = cookie.getValue();
+					Long userId = GrouponWebUtils.extractUserIdFromCookieValue(cookieValue);
+					if (userId != null) {
+						user = userService.getUserById(userId);
+						if (user != null) {
+							String userHash = GrouponWebUtils.generateUserHash(user);
+							String userHashInCookie = GrouponWebUtils.extractUserHashFromCookieValue(cookieValue);
+							if (userHash.equals(userHashInCookie)) {
+								session.setAttribute(ControllerConstants.SESSION_ATTR_USER, user);
 							}
-							break;
 						}
+						break;
 					}
 				}
 			}
 		}
-		chain.doFilter(request, response);
 	}
 
 	@Override
