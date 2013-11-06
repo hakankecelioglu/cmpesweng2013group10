@@ -28,7 +28,7 @@
 	<li><a href="#">Closed Tasks</a></li>
 	
 	<li class="pull-right"><a href="<c:url value="/task/create?communityId=${community.id}" />"><i class="icon-plus"></i> Create Task</a></li>
-	<li class="pull-right"><a href="#">Join Community</a></li>
+	<li class="pull-right"><a href="<c:url value="/community/join?communityId=${community.id}" />">Join Community</a></li>
 </ul>
 
 <div class="row">
