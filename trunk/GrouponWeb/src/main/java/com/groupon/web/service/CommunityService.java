@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 import com.groupon.web.dao.CommunityDao;
 import com.groupon.web.dao.model.Community;
+import com.groupon.web.dao.model.User;
 
 @Component
 public class CommunityService {
@@ -23,7 +24,16 @@ public class CommunityService {
 		return communityDao.getCommunityById(id);
 	}
 
+	public List<Community> getCommunitiesByFollowerId(Long userId) {
+		return communityDao.getCommunitiesByFollowerId(userId);
+	}
+
 	public List<Community> getAllCommunities() {
 		return communityDao.findAll();
+	}
+
+	public void addMemberToCommunity(Community community, User user) {
+		community.getMembers().add(user);
+		communityDao.update(community);
 	}
 }

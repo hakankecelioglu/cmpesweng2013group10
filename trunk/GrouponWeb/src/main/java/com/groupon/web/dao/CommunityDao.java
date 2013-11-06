@@ -25,4 +25,12 @@ public class CommunityDao extends BaseDaoImpl {
 		List<Community> communities = this.getSession().createQuery("from Community").list();
 		return communities;
 	}
+
+	@SuppressWarnings("unchecked")
+	public List<Community> getCommunitiesByFollowerId(Long userId) {
+		Query query = getSession().createQuery("select c from Community c join fetch c.members m where m.id = :userId");
+		query.setParameter("userId", userId);
+		return query.list();
+	}
+
 }

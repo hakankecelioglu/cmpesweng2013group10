@@ -1,6 +1,7 @@
 package com.groupon.web.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.Cookie;
@@ -11,11 +12,16 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import com.groupon.web.dao.model.Community;
 import com.groupon.web.dao.model.RoleName;
 import com.groupon.web.dao.model.User;
+import com.groupon.web.service.CommunityService;
 import com.groupon.web.service.UserService;
 import com.groupon.web.util.ControllerConstants;
 import com.groupon.web.util.GrouponWebUtils;
@@ -25,6 +31,9 @@ public class UserController extends AbstractBaseController {
 
 	@Autowired
 	private UserService userService;
+
+	@Autowired
+	private CommunityService communityService;
 
 	@RequestMapping(value = "login", method = RequestMethod.GET)
 	public Object login() {
@@ -105,6 +114,73 @@ public class UserController extends AbstractBaseController {
 			response.put("error", e.getMessage());
 			return prepareErrorResponse(response);
 		}
+	}
+
+	@RequestMapping(value = "profile", method = RequestMethod.GET)
+	public Object getMyProfile(HttpServletRequest request, Model model) {
+		User user = getUser(request);
+		if (user == null) {
+			return "redirect:/";
+		}
+
+		List<Community> usersCommunities = communityService.getCommunitiesByFollowerId(user.getId());
+		model.addAttribute("myCommunities", usersCommunities);
+
+		model.addAttribute("page", "myprofile");
+		model.addAttribute("profile", user);
+		setGlobalAttributesToModel(model, request);
+		return "profile.view";
+	}
+
+	@RequestMapping(value = "profile/{username}", method = RequestMethod.GET)
+	public Object getMyProfile(HttpServletRequest request, Model model, @PathVariable("username") String username) {
+		User user = getUser(request);
+		if (user != null && username.equals(user.getUsername())) {
+			return "redirect:/profile";
+		}
+
+		User profile = userService.getUserByUsername(username);
+		if (profile == null) {
+			return "redirect:/";
+		}
+
+		List<Community> usersCommunities = communityService.getCommunitiesByFollowerId(profile.getId());
+		model.addAttribute("myCommunities", usersCommunities);
+
+		model.addAttribute("page", "myprofile");
+		model.addAttribute("profile", profile);
+		setGlobalAttributesToModel(model, request);
+		return "profile.view";
+	}
+
+	@RequestMapping(value = "emailApproval", method = RequestMethod.GET)
+	public Object emailApproval(@RequestParam String code, @RequestParam Long userId, HttpServletRequest request, HttpServletResponse response) {
+		if (userId != null && code != null) {
+			User user = userService.getUserById(userId);
+			String hash = GrouponWebUtils.generateUserHash(user);
+			if (hash.equals(code)) {
+				userService.activateUser(user);
+
+				setUserSession(request, response, user);
+				return "redirect:/?approvalSuccessful";
+			}
+		}
+		return "redirect:/user/deactivated?failed=true";
+	}
+
+	@RequestMapping(value = "user/deactivated", method = RequestMethod.GET)
+	public Object userDeactivated() {
+		return "userDeactivated.view";
+	}
+
+	@RequestMapping(value = "user/banned", method = RequestMethod.GET)
+	public Object userBanned() {
+		return "userBanned.view";
+	}
+
+	@RequestMapping(value = "user/deleted", method = RequestMethod.GET)
+	public Object userDeleted() {
+		return "userDeleted.view";
 	}
 
 	private void setUserSession(HttpServletRequest request, HttpServletResponse response, User user) {

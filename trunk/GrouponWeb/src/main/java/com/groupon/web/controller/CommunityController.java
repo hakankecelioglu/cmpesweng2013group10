@@ -99,8 +99,12 @@ public class CommunityController extends AbstractBaseController {
 					e.printStackTrace();
 				}
 			}
-
+			
 			communityService.createCommunity(community);
+			logger.debug("Community Created::communityId::{0}", community.getId());
+			
+			// Every user is a member of his own communities
+			communityService.addMemberToCommunity(community, user);
 
 			response.put("message", "OK");
 			response.put("communityId", community.getId());

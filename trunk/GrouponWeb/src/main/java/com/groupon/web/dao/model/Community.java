@@ -1,8 +1,8 @@
 package com.groupon.web.dao.model;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -15,8 +15,12 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
 @Entity
 @Table(name = "community")
+@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class Community extends BaseModel implements Serializable {
 	private static final long serialVersionUID = -3290182848857364839L;
 
@@ -36,7 +40,7 @@ public class Community extends BaseModel implements Serializable {
 	@ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
 	@JoinTable(name = "community_member", joinColumns = @JoinColumn(name = "community_id"), inverseJoinColumns = @JoinColumn(name = "user_id"), uniqueConstraints = @UniqueConstraint(columnNames = {
 			"user_id", "community_id" }))
-	private List<User> members = new ArrayList<User>();
+	private Set<User> members = new HashSet<User>();
 
 	public String getName() {
 		return name;
@@ -70,11 +74,11 @@ public class Community extends BaseModel implements Serializable {
 		this.picture = picture;
 	}
 
-	public List<User> getMembers() {
+	public Set<User> getMembers() {
 		return members;
 	}
 
-	public void setMembers(List<User> members) {
+	public void setMembers(Set<User> members) {
 		this.members = members;
 	}
 }

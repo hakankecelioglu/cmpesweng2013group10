@@ -5,19 +5,25 @@ import java.io.Serializable;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
 @Entity
 @Table(name = "user")
+@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class User extends BaseModel implements Serializable {
 	private static final long serialVersionUID = 8464105544313686923L;
 
-	@Column(name = "username", unique = true)
+	@Column(name = "username", unique = true, nullable = false)
 	private String username;
 
-	@Column(name = "email", unique = true)
+	@Column(name = "email", unique = true, nullable = false)
 	private String email;
 
 	@Column(name = "name", nullable = true)
@@ -26,10 +32,10 @@ public class User extends BaseModel implements Serializable {
 	@Column(name = "surname", nullable = true)
 	private String surname;
 
-	@Column(name = "password")
+	@Column(name = "password", nullable = false)
 	private String password;
 
-	@Column(name = "rating")
+	@Column(name = "rating", nullable = false)
 	private Long rating = 0L;
 
 	@Column(name = "picture")
@@ -38,6 +44,10 @@ public class User extends BaseModel implements Serializable {
 	@OneToOne(fetch = FetchType.EAGER, cascade = { CascadeType.ALL }, mappedBy = "user")
 	private UserRole role;
 
+	@Enumerated(EnumType.STRING)
+	@Column(name = "status", nullable = false)
+	private UserStatus status = UserStatus.DEACTIVE;
+	
 	public String getUsername() {
 		return username;
 	}
@@ -100,6 +110,14 @@ public class User extends BaseModel implements Serializable {
 
 	public void setPicture(String picture) {
 		this.picture = picture;
+	}
+
+	public UserStatus getStatus() {
+		return status;
+	}
+
+	public void setStatus(UserStatus status) {
+		this.status = status;
 	}
 
 	@Override
