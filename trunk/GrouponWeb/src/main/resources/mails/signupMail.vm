@@ -1,0 +1,76 @@
+<table width="98%" border="0" cellspacing="0" cellpadding="40">
+	<tbody>
+		<tr>
+			<td bgcolor="#f7f7f7" width="100%" style="font-family:'lucida grande',tahoma,verdana,arial,sans-serif">
+				<table cellpadding="0" cellspacing="0" border="0" width="620">
+					<tbody>
+						<tr>
+							<td style="background:#3b5998;color:#ffffff;font-weight:bold;font-family:'lucida grande',tahoma,verdana,arial,sans-serif;vertical-align:middle;padding:4px 8px;font-size:16px;letter-spacing:-0.03em;text-align:left">
+								<span class="il">task together</span>
+							</td>
+							
+							<td style="background:#3b5998;color:#ffffff;font-weight:bold;font-family:'lucida grande',tahoma,verdana,arial,sans-serif;vertical-align:middle;padding:4px 8px;font-size:11px;text-align:right">
+							</td>
+						</tr>
+						
+						<tr>
+							<td colspan="2" style="border-right:1px solid #cccccc;border-bottom:1px solid #3b5998;font-family:'lucida grande',tahoma,verdana,arial,sans-serif;padding:15px;border-left:1px solid #cccccc" valign="top">
+								<table width="100%" cellpadding="0" cellspacing="0">
+									<tbody>
+										<tr>
+											<td width="470" style="font-size:12px" valign="top" align="left">
+												#if ($signup_username)
+													<div style="margin-bottom:15px;font-size:12px;font-family:'lucida grande',tahoma,verdana,arial,sans-serif">
+														Hello $signup_username,
+													</div>
+												#end
+												
+												<div style="margin-bottom:15px"></div>
+												
+												<div style="margin-bottom:15px">
+													Welcome to Task Together! There is a final step for your registration to be completed. Please confirm your email address by clicking the link below:
+													<br><br>
+													<table cellspacing="0" cellpadding="0" style="border-collapse:collapse">
+														<tbody>
+															<tr>
+																<td style="font-size:11px;font-family:LucidaGrande,tahoma,verdana,arial,sans-serif;padding:10px;background-color:#fff9d7;border-left:1px solid #e2c822;border-right:1px solid #e2c822;border-top:1px solid #e2c822;border-bottom:1px solid #e2c822">
+																	<a href="$signup_approval_link" style="color:#3b5998;text-decoration:none" target="_blank">$signup_approval_link</a>
+																</td>
+															</tr>
+														</tbody>
+													</table>
+													
+													<br><br>
+													
+													If the link does not work, then try copying the link to your browser's address bar.
+												</div>
+												
+												<div style="margin-bottom:15px"></div>
+												
+												<div style="margin-bottom:15px;font-size:12px;font-family:'lucida grande',tahoma,verdana,arial,sans-serif;margin:0">
+													Thanks,<br>
+													<span class="il">Task Together</span> Team
+												</div>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</td>
+						</tr>
+						
+						#if ($_mail_to)
+							<tr>
+								<td colspan="2" style="color:#999999;padding:10px;font-size:12px;font-family:'lucida grande',tahoma,verdana,arial,sans-serif">
+									This email is sent to the address <a href="mailto:$_mail_to" style="color:#3b5998;text-decoration:none" target="_blank">$_mail_to</a>.
+									<br>
+									<a href="$SITE_URL"><span class="il">Task Together</span></a> 
+								</td>
+							</tr>
+						#end
+						
+					</tbody>
+				</table>
+			</td>
+		</tr>
+	</tbody>
+</table>
