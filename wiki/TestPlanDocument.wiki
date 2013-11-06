@@ -1,6 +1,9 @@
 #summary Task Together System Test Plan
+#labels TestDocument,TestPlan
 
 = Task Together System Test Plan =
+
+This test plan consists of testing strategy(unit testing, system testing, user acceptance testing), test case document for testers, test automation tools used in the project, resources/roles and responsibilities for testing. All system functionalities must be tested and they must be working well before the final deployment. Also, sub-tasks must be tested and working before milestone-deployments.
 
 == Testing Strategy ==
 
