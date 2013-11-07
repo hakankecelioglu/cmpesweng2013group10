@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -117,6 +118,8 @@ public class CommunityController extends AbstractBaseController {
 
 	@RequestMapping(value = "community/{id}")
 	public Object communityPage(HttpServletRequest request, Model model, @PathVariable Long id) {
+		User user = getUser(request);
+		
 		if (id == null) {
 			return "redirect:/";
 		}
@@ -130,6 +133,12 @@ public class CommunityController extends AbstractBaseController {
 
 		List<Task> tasks = taskService.getTasks(community.getId(), 0, numberOfTasksPerPage);
 		model.addAttribute("tasks", tasks);
+		
+		Set<User> members = community.getMembers();
+		
+		boolean isMember = (user == null) ? false : members.contains(user);
+		model.addAttribute("members", members);
+		model.addAttribute("isMember", isMember);
 
 		return "community.view";
 	}
@@ -149,6 +158,28 @@ public class CommunityController extends AbstractBaseController {
 		User user = getUser(request);
 		
 		communityService.addMemberToCommunity(community, user);
+		
+		return "redirect:/community/" + communityId;
+	}
+	
+	@RequestMapping(value = "community/leave")
+	public Object leaveCommunity(HttpServletRequest request, @RequestParam Long communityId) {
+		User user = getUser(request);
+		if (communityId == null) {
+			return "redirect:/";
+		}
+		
+		Community community = communityService.getCommunityById(communityId);
+
+		if (community == null) {
+			return "redirect:/";
+		}
+		
+		if (community.getOwner().equals(user)) {
+			return "redirect:/community/" + communityId + "?err=leaveowncommunity";
+		}
+
+		communityService.removeMemberFromCommunity(community, user);
 		
 		return "redirect:/community/" + communityId;
 	}
@@ -175,6 +206,8 @@ public class CommunityController extends AbstractBaseController {
 
 		String fileName = generateUniqueFileName(multipartFile);
 		File file = new File(photoDirectory + fileName);
+		
+		logger.debug("saveFile::file is transfering to::{0}", fileName);
 
 		multipartFile.transferTo(file);
 

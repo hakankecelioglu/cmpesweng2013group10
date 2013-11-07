@@ -28,7 +28,14 @@
 	<li><a href="#">Closed Tasks</a></li>
 	
 	<li class="pull-right"><a href="<c:url value="/task/create?communityId=${community.id}" />"><i class="icon-plus"></i> Create Task</a></li>
-	<li class="pull-right"><a href="<c:url value="/community/join?communityId=${community.id}" />">Join Community</a></li>
+	<c:choose>
+		<c:when test="${isMember}">
+			<li class="pull-right"><a href="<c:url value="/community/leave?communityId=${community.id}" />">Leave Community</a></li>
+		</c:when>
+		<c:otherwise>
+			<li class="pull-right"><a href="<c:url value="/community/join?communityId=${community.id}" />">Join Community</a></li>
+		</c:otherwise>
+	</c:choose>
 </ul>
 
 <div class="row">
