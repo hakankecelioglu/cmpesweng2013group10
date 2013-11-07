@@ -33,7 +33,18 @@ public class CommunityService {
 	}
 
 	public void addMemberToCommunity(Community community, User user) {
+		if (community.getMembers().contains(user)) {
+			return;
+		}
 		community.getMembers().add(user);
+		communityDao.update(community);
+	}
+	
+	public void removeMemberFromCommunity(Community community, User user) {
+		if (!community.getMembers().contains(user)) {
+			return;
+		}
+		community.getMembers().remove(user);
 		communityDao.update(community);
 	}
 }

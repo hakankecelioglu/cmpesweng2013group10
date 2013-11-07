@@ -81,4 +81,6 @@ public class Community extends BaseModel implements Serializable {
 	public void setMembers(Set<User> members) {
 		this.members = members;
 	}
+	
+	
 }
