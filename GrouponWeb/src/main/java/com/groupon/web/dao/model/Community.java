@@ -12,6 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
@@ -41,6 +42,9 @@ public class Community extends BaseModel implements Serializable {
 	@JoinTable(name = "community_member", joinColumns = @JoinColumn(name = "community_id"), inverseJoinColumns = @JoinColumn(name = "user_id"), uniqueConstraints = @UniqueConstraint(columnNames = {
 			"user_id", "community_id" }))
 	private Set<User> members = new HashSet<User>();
+	
+	@OneToMany(mappedBy = "community", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private Set<TaskType> taskTypes;
 
 	public String getName() {
 		return name;
@@ -80,6 +84,14 @@ public class Community extends BaseModel implements Serializable {
 
 	public void setMembers(Set<User> members) {
 		this.members = members;
+	}
+
+	public Set<TaskType> getTaskTypes() {
+		return taskTypes;
+	}
+
+	public void setTaskTypes(Set<TaskType> taskTypes) {
+		this.taskTypes = taskTypes;
 	}
 	
 	

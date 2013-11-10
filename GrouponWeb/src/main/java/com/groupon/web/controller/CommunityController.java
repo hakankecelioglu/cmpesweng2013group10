@@ -137,8 +137,10 @@ public class CommunityController extends AbstractBaseController {
 		Set<User> members = community.getMembers();
 		
 		boolean isMember = (user == null) ? false : members.contains(user);
+		boolean isOwner = community.getOwner().equals(user);
 		model.addAttribute("members", members);
 		model.addAttribute("isMember", isMember);
+		model.addAttribute("isOwner", isOwner);
 
 		return "community.view";
 	}
@@ -182,6 +184,24 @@ public class CommunityController extends AbstractBaseController {
 		communityService.removeMemberFromCommunity(community, user);
 		
 		return "redirect:/community/" + communityId;
+	}
+	
+	@RequestMapping(value = "community/createTaskType", method = RequestMethod.GET)
+	public Object createTaskType(HttpServletRequest request, Model model, @RequestParam Long communityId) {
+		User user = getUser(request);
+		if (user == null) {
+			return "redirect:/";
+		}
+		
+		if (communityId == null) {
+			return "redirect:/";
+		}
+		
+		Community community = communityService.getCommunityById(communityId);
+		model.addAttribute("community", community);
+		model.addAttribute("bodyClass", "createTaskType");
+		
+		return "createTaskType.view";
 	}
 	
 	@RequestMapping(value = "community/picture/{pictureName:.+}", method = RequestMethod.GET)
