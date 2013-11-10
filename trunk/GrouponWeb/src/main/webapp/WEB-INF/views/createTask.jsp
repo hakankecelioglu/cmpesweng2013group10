@@ -8,7 +8,6 @@
 
 <div class="row">
 	<div class="span7">
-	
 		<form class="form-horizontal">
 			<div class="control-group">
 				<label class="control-label" for="inputEmail">Name</label>

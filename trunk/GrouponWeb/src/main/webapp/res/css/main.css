@@ -98,3 +98,88 @@ h2.profile-heading {
 	position: absolute;
 }
 */
+
+/**
+ * Sprites in create task type form
+ */
+.sprite-icon {
+	width: 22px;
+	height: 22px;
+	background: #fff url('../img/sprite01.png') no-repeat top left;
+	display: block;
+	float: left;
+	margin-right: 3px;
+	margin-left: 0;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+}
+
+.sprite-icon-text {
+	background-position: 0 -1932px;
+}
+
+.sprite-icon-paragraph {
+	background-position: -21px -2037px;
+}
+
+.sprite-icon-multiple-choice {
+	background-position: 0 -2478px;
+}
+
+.sprite-icon-dropdown {
+	background-position: -21px -588px;
+}
+
+.sprite-icon-checkboxes {
+	background-position: 0 -1827px;
+}
+
+.sprite-icon-date {
+	background-position: 0 -2520px;
+}
+
+.sprite-icon-integer {
+	background-position: 0 -651px;
+}
+
+.sprite-icon-decimal-number {
+	background-position: 0 -1491px;
+}
+
+.sprite-icon-image {
+	background-position: 0 -1302px;
+}
+
+.sprite-icon-phone-number {
+	background-position: -21px -1617px;
+}
+
+.sprite-icon-location-map {
+	background-position: 0 -1869px;
+}
+
+body.createTaskType .popover.right .popover-content {
+	padding: 0;
+}
+
+body.createTaskType .popover.right {
+	max-width: 500px;
+	z-index: 3000;
+}
+
+body.createTaskType .popover.right table {
+	margin-bottom: 0;
+}
+
+.input-type-table tr td {
+	width: 175px;
+}
+
+.top-bottom-border {
+	border-top: 1px dotted #468847;
+	border-bottom: 1px dotted #468847;
+	padding: 10px 0;
+}
+
+body.createTaskType .whenClosed {
+}
