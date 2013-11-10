@@ -28,6 +28,11 @@
 	<li><a href="#">Closed Tasks</a></li>
 	
 	<li class="pull-right"><a href="<c:url value="/task/create?communityId=${community.id}" />"><i class="icon-plus"></i> Create Task</a></li>
+	
+	<c:if test="${isOwner}">
+		<li class="pull-right"><a href="<c:url value="/community/createTaskType?communityId=${community.id}" />"><i class="icon-plus"></i> Create Task Type</a></li>
+	</c:if>
+	
 	<c:choose>
 		<c:when test="${isMember}">
 			<li class="pull-right"><a href="<c:url value="/community/leave?communityId=${community.id}" />">Leave Community</a></li>
