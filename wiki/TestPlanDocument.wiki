@@ -7,7 +7,25 @@ This test plan consists of testing strategy(unit testing, system testing, user a
 
 == Testing Strategy ==
 
-Will be written until November 14th.
+=== Unit Testing ===
+
+In this project, unit testing will be done individually. Project members will be testing the methods that they are responsible of. As soon as a method is implemented, related unit testing for that method have to be written and run.
+
+Therefore, every project member is responsible of writing and running unit tests.
+
+ * Serdar Kuzucu
+ * H. Anıl Özmen
+ * Serkan Özer
+ * Mehmet Alparslan Bal 
+ * Muhammed Sabri Şahin
+ * Berhan Şenyazar
+ * Şeyma Erdem
+
+=== System Testing ===
+
+System testing will take place at the end of project development of the system. All the components of the project will be tested according to requirements which are specified in the beginning.
+
+... to be implemented soon.
 
 == Test Case Document for Testers ==
 
