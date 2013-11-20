@@ -35,7 +35,7 @@
 		</div>
 		
 		<div class="well clearfix">
-			<button class="btn-large btn btn-success span6" type="button">Create Task Type</button>
+			<button class="btn-large btn btn-success span6" type="button" id="createTaskType">Create Task Type</button>
 		</div>
 	</div>
 </div>
@@ -69,12 +69,12 @@
 			</tr>
 			<tr class="info">
 				<td>
-					<button title="Let them choose their options from a list of existing options by scrolling." class="btn btn-info span2 no-margin-left">
+					<button title="Let them choose their options from a list of existing options by scrolling." class="btn btn-info span2 no-margin-left addDropdown">
 						<i class="sprite-icon sprite-icon-dropdown"></i>Drop Down
 					</button>
 				</td>
 				<td>
-					<button title="Provide them a beautiful date picker to choose a date, of course!" class="btn btn-info span2 no-margin-left">
+					<button title="Provide them a beautiful date picker to choose a date, of course!" class="btn btn-info span2 no-margin-left addDate">
 						<i class="sprite-icon sprite-icon-date"></i>Date
 					</button>
 				</td>
