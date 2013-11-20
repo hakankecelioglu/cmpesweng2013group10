@@ -1,5 +1,10 @@
 package com.groupon.mobile;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import com.groupon.mobile.conn.ConnectionUtils;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -46,7 +51,21 @@ public class CreateCommunityActivity extends Activity {
 				Toast.makeText(CreateCommunityActivity.this, "Community description cannot be empty!", Toast.LENGTH_SHORT).show();
 				return;
 			}
-
+			final Map<String, String> community = new HashMap<String, String>();
+			community.put("name", name);
+			community.put("description", description);
+			Thread t = new Thread(new Runnable() {
+				@Override
+				public void run() {
+					try {
+			        	ConnectionUtils.makePostRequest("http://192.168.1.42:1616/createCommunityAndroid", community);
+			        } catch (Exception e) {
+			            e.printStackTrace();
+			        }
+				}
+			});
+			t.start();		
+			
 			int communityId = DummyController.createCommunity(name, description);
 			Intent intent = new Intent(CreateCommunityActivity.this, CommunityActivity.class);
 			intent.putExtra("communityId", communityId);

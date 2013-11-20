@@ -30,7 +30,7 @@ public class ConnectionUtils {
 	public static String makePostRequest(String url, Map<String, String> attributeMap) throws GrouponException {
 		List<NameValuePair> params = new LinkedList<NameValuePair>();
 
-		params.add(new BasicNameValuePair("", ""));
+		//params.add(new BasicNameValuePair("", ""));
 
 		if (attributeMap != null) {
 			Set<String> keys = attributeMap.keySet();
