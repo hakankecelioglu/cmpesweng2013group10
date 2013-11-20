@@ -43,14 +43,14 @@ User acceptance testing is performed by real-world end-users after system testin
 
 == Tools ==
 
-=== JUnit ===
+==== JUnit ====
 
 JUnit is a simple framework to write repeatable tests. It is an instance of the xUnit architecture for unit testing frameworks.
 
 [http://junit.org/ HomePage]
 
-=== Code Google  Issue Tracker===
-=== Google Code Issue System ===
+
+==== Google Code Issue System ====
 
 Bug tracking tool for opening issues, reporting bugs, tracking them.
 
