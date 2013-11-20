@@ -8,12 +8,14 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.groupon.mobile.conn.ConnectionUtils;
+import com.groupon.mobile.exception.GrouponException;
 import com.groupon.mobile.model.User;
 
 public class HomeActivity extends Activity {
 	private User user;
 	private Button createCommunityTaskButton;
-
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -24,7 +26,28 @@ public class HomeActivity extends Activity {
 
 		TextView view = (TextView) findViewById(R.id.home_hello_username);
 		view.setText("Hello, " + user.getUsername() + "!");
-
+		final TextView view2 = (TextView) findViewById(R.id.conn);
+		view2.setText("dummy");
+		
+		Thread t = new Thread(new Runnable() {
+			@Override
+			public void run() {
+				try {
+		        	final String response=ConnectionUtils.makeGetRequest("http://10.0.2.2:1616/dummy", null);
+		        	
+		        	runOnUiThread(new Runnable() {
+		        		@Override
+		        		public void run() {
+		        			view2.setText(response);
+		        		}
+		        	});
+		        } catch (Exception e) {
+		            e.printStackTrace();
+		        }
+			}
+		});
+		t.start();
+		
 		setupUI();
 	}
 
