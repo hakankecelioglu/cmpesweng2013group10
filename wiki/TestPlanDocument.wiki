@@ -23,9 +23,13 @@ Therefore, every project member is responsible of writing and running unit tests
 
 === System Testing ===
 
-System testing will take place at the end of project development of the system. All the components of the project will be tested according to requirements which are specified in the beginning.
+System testing is testing a complete system to verify its specified requirements . After our system is complete, system testing will be done based on the requirements document. System testers will test all functional requirements of the system from user point of view and will not concern  about internal source code.
 
-... to be implemented soon.
+
+Testers who will be responsible for system testing are :
+Muhammed Sabri Şahin
+Berhan Şenyazar
+Şeyma Erdem
 
 == Test Case Document for Testers ==
 
