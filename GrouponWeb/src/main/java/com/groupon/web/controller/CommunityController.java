@@ -32,6 +32,7 @@ import com.groupon.web.dao.model.Task;
 import com.groupon.web.dao.model.User;
 import com.groupon.web.service.CommunityService;
 import com.groupon.web.service.TaskService;
+import com.groupon.web.service.UserService;
 
 @Controller
 /**
@@ -71,7 +72,7 @@ public class CommunityController extends AbstractBaseController {
 			@RequestParam String name, @RequestParam String description) {
 		Map<String, Object> response = new HashMap<String, Object>();
 		User user = getUser(request);
-
+	
 		try {
 			if (user == null) {
 				throw new GrouponException("You must be logged in before creating a community!");
@@ -115,7 +116,42 @@ public class CommunityController extends AbstractBaseController {
 			return prepareErrorResponse(response);
 		}
 	}
+	@RequestMapping(value = "createCommunityAndroid", method = RequestMethod.POST)
+	public ResponseEntity<Map<String, Object>> createCommunityAndroid(HttpServletRequest request, 
+			@RequestParam String name, @RequestParam String description) {
+		Map<String, Object> response = new HashMap<String, Object>();
+		UserService userService=new UserService();
+		User user=userService.getUserById((long)1);
 
+		
+		try {
+	
+
+			Community community = new Community();
+			if (StringUtils.isBlank(name)) {
+				throw new GrouponException("community name cannot be empty!");
+			}
+
+			if (StringUtils.isBlank(description)) {
+				throw new GrouponException("community description cannot be empty!");
+			}
+
+			community.setName(name);
+			community.setDescription(description);
+			community.setOwner(user);
+
+
+
+			communityService.createCommunity(community);
+
+			response.put("message", "OK");
+			response.put("communityId", community.getId());
+			return prepareSuccessResponse(response);
+		} catch (GrouponException e) {
+			response.put("error", e.getMessage());
+			return prepareErrorResponse(response);
+		}
+	}
 	@RequestMapping(value = "community/{id}")
 	public Object communityPage(HttpServletRequest request, Model model, @PathVariable Long id) {
 		User user = getUser(request);
@@ -144,7 +180,7 @@ public class CommunityController extends AbstractBaseController {
 
 		return "community.view";
 	}
-
+	
 	@RequestMapping(value = "community/join")
 	public Object joinCommunity(HttpServletRequest request, @RequestParam Long communityId) {
 		if (communityId == null) {
