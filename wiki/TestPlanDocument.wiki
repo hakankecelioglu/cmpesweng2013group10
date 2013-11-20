@@ -27,15 +27,18 @@ System testing is testing a complete system to verify its specified requirements
 
 
 Testers who will be responsible for system testing are :
-Muhammed Sabri Şahin
-Berhan Şenyazar
-Şeyma Erdem
+ * Muhammed Sabri Şahin
+ * Berhan Şenyazar
+ * Şeyma Erdem
 
 === User Acceptance Testing ===
 
 User Acceptance Testing (UAT) is the last phase of the software testing process. During UAT, actual software users test the software to make sure it can handle required tasks in real world scenarios, according to specifications. 
 
-User acceptance testing is performed by real-world end-users after system testing is complete.
+User acceptance testing is performed by real-world end-users after system testing is complete.Also, some project members will make user acceptance testing : 
+ * Muhammed Sabri Şahin
+ * Berhan Şenyazar
+ * Şeyma Erdem
 
 == Test Case Document for Testers ==
 
