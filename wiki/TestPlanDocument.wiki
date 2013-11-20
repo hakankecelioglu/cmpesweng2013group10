@@ -23,13 +23,19 @@ Therefore, every project member is responsible of writing and running unit tests
 
 === System Testing ===
 
-System testing is testing a complete system to verify its specified requirements . After our system is complete, system testing will be done based on the requirements document. System testers will test all functional requirements of the system from user point of view and will not concern  about internal source code.
+System testing is testing a complete system to verify its specified requirements . After our system is complete, system testing will be done based on the requirements document. System testers will test all  requirements of the system from user point of view and will not concern  about internal source code.
 
 
 Testers who will be responsible for system testing are :
 Muhammed Sabri Şahin
 Berhan Şenyazar
 Şeyma Erdem
+
+=== User Acceptance Testing ===
+
+User Acceptance Testing (UAT) is the last phase of the software testing process. During UAT, actual software users test the software to make sure it can handle required tasks in real world scenarios, according to specifications. 
+
+User acceptance testing is performed by real-world end-users after system testing is complete.
 
 == Test Case Document for Testers ==
 
@@ -43,6 +49,7 @@ JUnit is a simple framework to write repeatable tests. It is an instance of the 
 
 [http://junit.org/ HomePage]
 
+=== Code Google  Issue Tracker===
 === Google Code Issue System ===
 
 Bug tracking tool for opening issues, reporting bugs, tracking them.
