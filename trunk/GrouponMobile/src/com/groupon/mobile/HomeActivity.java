@@ -33,7 +33,7 @@ public class HomeActivity extends Activity {
 			@Override
 			public void run() {
 				try {
-		        	final String response=ConnectionUtils.makeGetRequest("http://10.0.2.2:1616/dummy", null);
+		        	final String response=ConnectionUtils.makeGetRequest("http://192.168.1.42:1616/dummy", null);
 		        	
 		        	runOnUiThread(new Runnable() {
 		        		@Override
