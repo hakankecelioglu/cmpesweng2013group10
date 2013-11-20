@@ -55,7 +55,3 @@ JUnit is a simple framework to write repeatable tests. It is an instance of the 
 Bug tracking tool for opening issues, reporting bugs, tracking them.
 
 [https://code.google.com/p/cmpesweng2013group10/issues/list Issues]
-
-== Resources/Roles & Responsibilities ==
-
-Will be written until November 14th.
