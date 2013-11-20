@@ -31,6 +31,9 @@ $(function () {
 		}
 	};
 	
+	/**
+	 * Single line text input api
+	 */
 	form.addTextInput = function () {
 		var id = form.lastId++;
 		var $group = $('<label class="text-success whenOpen" for="text_input_' + id + '">Question title:</label>');
@@ -38,6 +41,7 @@ $(function () {
 		
 		$group = $group.add('<label class="text-success whenClosed hide singleTextValue"></label>');
 		$group = $group.add('<input disabled="disabled" class="span6 whenClosed hide" type="text" placeholder="This is how it looks!">');
+		$group = $group.add('<input type="hidden" id="inputLineType" value="SINGLE_TEXT" />');
 		
 		form.addNewField($group, id, 'doneSingleText');
 	};
@@ -51,6 +55,16 @@ $(function () {
 		parent.one('click', form.openClosedInput);
 	};
 	
+	form.readSingleTextData = function (e) {
+		var field = {};
+		field.name = e.find('.singleTextInput').val();
+		field.type = 'SHORT_TEXT';
+		return field;
+	};
+	
+	/**
+	 * Multiple line text api
+	 */
 	form.addMultipleTextInput = function () {
 		var id = form.lastId++;
 		var $group = $('<label class="text-success whenOpen" for="large_text_input_' + id + '">Question title:</label>');
@@ -58,6 +72,7 @@ $(function () {
 		
 		$group = $group.add('<label class="text-success whenClosed hide multipleTextValue"></label>');
 		$group = $group.add('<textarea disabled="disabled" class="span6 whenClosed hide" placeholder="This is how it looks!"></textarea>');
+		$group = $group.add('<input type="hidden" id="inputLineType" value="MULTIPLE_TEXT" />');
 		
 		form.addNewField($group, id, 'doneMultipleText');
 	};
@@ -69,6 +84,13 @@ $(function () {
 		parent.find("label.multipleTextValue").html(val);
 		parent.find('.whenClosed').removeClass('hide');
 		parent.one('click', form.openClosedInput);
+	};
+	
+	form.readMultipleTextData = function (e) {
+		var field = {};
+		field.name = e.find('.multipleTextInput').val();
+		field.type = 'LONG_TEXT';
+		return field;
 	};
 	
 	/**
@@ -101,6 +123,7 @@ $(function () {
 		
 		$group = $group.add($choiceGroup);
 		$group = $group.add('<p class="whenOpen"><button class="btn btn-info multipleChoiceAddAnotherOption" type="button">Add another option</button></p>');
+		$group = $group.add('<input type="hidden" id="inputLineType" value="MULTIPLE_CHOICE" />');
 		
 		form.addNewField($group, id, 'doneMultipleChoice');
 	};
@@ -134,6 +157,22 @@ $(function () {
 		$choiceGroup.append($pLine);
 	};
 	
+	form.readMultipleChoiceData = function (t) {
+		var field = {};
+		field.name = t.find('.multipleChoiceInput').val();
+		field.type = 'RADIO';
+		field.attributes = [];
+		
+		$.each(t.find('.form-inline .multipleChoiceLine'), function (i, e) {
+			var line = $(e);
+			var val = line.find('input.multipleChoiceOptionInput').val();
+			line.find('.multipleChoiceOptionValue').html('<input type="radio" disabled="disabled" />' + val);
+			// TODO
+		});
+		
+		return field;
+	};
+	
 	/**
 	 * Checkboxes api
 	 */
@@ -161,6 +200,7 @@ $(function () {
 		
 		$group = $group.add($choiceGroup);
 		$group = $group.add('<p class="whenOpen"><button class="btn btn-info checkboxAddAnotherOption" type="button">Add another option</button></p>');
+		$group = $group.add('<input type="hidden" id="inputLineType" value="CHECKBOX" />');
 		
 		form.addNewField($group, id, 'doneCheckbox');
 	};
@@ -195,6 +235,96 @@ $(function () {
 	};
 	
 	/**
+	 * Dropdown api
+	 */
+	form.createDropdownOption = function (removable) {
+		var $pLine = $('<p class="dropdownLine"></p>');
+		$pLine.append('<input type="text" class="input-medium dropdownOptionInput" value="Option" placeholder="Option description" />');
+		$pLine.append('<label class="checkbox text-success whenClosed hide dropdownOptionValue"></label>');
+		if (removable) {
+			$pLine.append('<i class="icon-trash removeDropdownOption whenOpen"></i>');
+		}
+		return $pLine;
+	};
+	
+	form.addDropdown = function () {
+		var id = form.lastId++;
+		var $group = $('<label class="text-success whenOpen" for="dropdown_input_' + id + '">Question title:</label>');
+		$group = $group.add('<input class="span6 whenOpen dropdownInput" id="dropdown_input_' + id + '" type="text" placeholder="Write question title" value="Question">');
+		
+		$group = $group.add('<label class="text-success whenClosed hide dropdownValue"></label>');
+		$group = $group.add('<select disabled="disabled" class="input-medium span6 whenClosed hide"></select>');
+		
+		var $choiceGroup = $('<form class="form-inline whenOpen"></form>');
+		
+		var $pLine1 = form.createDropdownOption(false);
+		var $pLine2 = form.createDropdownOption(false);
+		$choiceGroup.append($pLine1);
+		$choiceGroup.append($pLine2);
+		
+		$group = $group.add($choiceGroup);
+		$group = $group.add('<p class="whenOpen"><button class="btn btn-info dropdownAddAnotherOption" type="button">Add another option</button></p>');
+		$group = $group.add('<input type="hidden" id="inputLineType" value="DROPDOWN" />');
+		
+		form.addNewField($group, id, 'doneDropdown');
+	};
+	
+	form.doneDropdown = function () {
+		var parent = $(this).closest('.formInputLine');
+		parent.find('.whenOpen').addClass('hide');
+		var val = parent.find('input.dropdownInput').val();
+		parent.find("label.dropdownValue").html(val);
+		
+		parent.find('select').html('');
+		$.each(parent.find('.form-inline .dropdownLine'), function (i, e) {
+			var line = $(e);
+			var val = line.find('input.dropdownOptionInput').val();
+			var opt = $("<option></option>").val(val).html(val);
+			parent.find('select').append(opt);
+		});
+		
+		parent.find('.whenClosed').removeClass('hide');
+		parent.one('click', form.openClosedInput);
+	};
+	
+	form.removeDropdownOption = function () {
+		var parent = $(this).closest('.dropdownLine');
+		parent.remove();
+	};
+	
+	form.dropdownAddAnotherOption = function () {
+		var parent = $(this).closest('.formInputLine');
+		var $choiceGroup = parent.find('.form-inline');
+		
+		var $pLine = form.createDropdownOption(true);
+		$choiceGroup.append($pLine);
+	};
+	
+	/**
+	 * Date api
+	 */
+	form.addDate = function () {
+		var id = form.lastId++;
+		var $group = $('<label class="text-success whenOpen" for="date_input_' + id + '">Question title:</label>');
+		$group = $group.add('<input class="span6 whenOpen dateInput" id="date_input_' + id + '" type="text" placeholder="Write question title">');
+		
+		$group = $group.add('<label class="text-success whenClosed hide dateValue"></label>');
+		$group = $group.add('<input disabled="disabled" class="span6 whenClosed hide" type="text" placeholder="10/10/2014">');
+		$group = $group.add('<input type="hidden" id="inputLineType" value="DATE" />');
+		
+		form.addNewField($group, id, 'doneDate');
+	};
+	
+	form.doneDate = function () {
+		var parent = $(this).closest('.formInputLine');
+		parent.find('.whenOpen').addClass('hide');
+		var val = parent.find('input.dateInput').val();
+		parent.find("label.dateValue").html(val);
+		parent.find('.whenClosed').removeClass('hide');
+		parent.one('click', form.openClosedInput);
+	};
+	
+	/**
 	 * DOM Listeners for adding form field actions
 	 */
 	$(document).on('click', '.removeFormField', form.removeField);
@@ -218,6 +348,16 @@ $(function () {
 	$(document).on('click', '.doneCheckbox', form.doneCheckbox);
 	$(document).on('click', '.removeCheckboxOption', form.removeCheckboxOption);
 	$(document).on('click', '.checkboxAddAnotherOption', form.checkboxAddAnotherOption);
+	
+	// Dropdown listeners
+	$(document).on('click', '.addDropdown', form.addDropdown);
+	$(document).on('click', '.doneDropdown', form.doneDropdown);
+	$(document).on('click', '.removeDropdownOption', form.removeDropdownOption);
+	$(document).on('click', '.dropdownAddAnotherOption', form.dropdownAddAnotherOption);
+	
+	// Date listeners
+	$(document).on('click', '.addDate', form.addDate);
+	$(document).on('click', '.doneDate', form.doneDate);
 	
 	/**
 	 * Code of the popover which is opening when the user pressed 'add' button
@@ -254,5 +394,29 @@ $(function () {
 	
 	$("body").tooltip({
 		selector: '.popover .popover-add-item button'
+	});
+	
+	$("#createTaskType").click(function () {
+		var taskType = {};
+		taskType.name = $("#taskTypeName").val();
+		taskType.description = $("#taskTypeDesc").val();
+		taskType.fields = [];
+		
+		$.each($(".formInputLine"), function (i, e) {
+			var line = $(e);
+			var type = line.find("#inputLineType").val();
+			switch (type) {
+			case 'SINGLE_TEXT':
+				var field = form.readSingleTextData(line);
+				taskType.fields.push(field);
+				break;
+			case 'MULTIPLE_TEXT':
+				var field = form.readMultipleTextData(line);
+				taskType.fields.push(field);
+				break;
+			}
+		});
+		
+		console.log(taskType);
 	});
 });
