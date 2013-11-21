@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.groupon.web.controller.json.CommunityJson;
 import com.groupon.web.dao.model.Community;
 import com.groupon.web.dao.model.Task;
 import com.groupon.web.dao.model.User;
@@ -47,6 +48,9 @@ public class CommunityController extends AbstractBaseController {
 
 	@Autowired
 	private TaskService taskService;
+	
+	@Autowired
+	private UserService userService;
 
 	@Value("${tasks.per.community.page}")
 	private int numberOfTasksPerPage;
@@ -120,9 +124,7 @@ public class CommunityController extends AbstractBaseController {
 	public ResponseEntity<Map<String, Object>> createCommunityAndroid(HttpServletRequest request, 
 			@RequestParam String name, @RequestParam String description) {
 		Map<String, Object> response = new HashMap<String, Object>();
-		UserService userService=new UserService();
 		User user=userService.getUserById((long)1);
-
 		
 		try {
 	
@@ -180,7 +182,15 @@ public class CommunityController extends AbstractBaseController {
 
 		return "community.view";
 	}
-	
+	@RequestMapping(value = "communityMobile/{id}")
+	public  ResponseEntity<Map<String, Object>> communityPageMobile(HttpServletRequest request, Model model, @PathVariable Long id) {
+		User user = userService.getUserById((long)1);
+		Community community = communityService.getCommunityById(id);
+		Map<String, Object> response = new HashMap<String, Object>();
+		response.put("community", CommunityJson.convert(community));
+		return prepareSuccessResponse(response);
+
+	}	
 	@RequestMapping(value = "community/join")
 	public Object joinCommunity(HttpServletRequest request, @RequestParam Long communityId) {
 		if (communityId == null) {
