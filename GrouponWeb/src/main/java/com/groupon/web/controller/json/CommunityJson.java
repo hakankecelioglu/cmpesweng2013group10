@@ -1,6 +1,5 @@
 package com.groupon.web.controller.json;
 
-import java.awt.color.CMMException;
 import java.io.Serializable;
 
 import com.groupon.web.dao.model.Community;

@@ -29,6 +29,13 @@
 			</div>
 			
 			<div class="control-group">
+				<label class="control-label" for="inputTags">Tags</label>
+				<div class="controls">
+					<input class="span4" type="text" id="inputTags" placeholder="">
+				</div>
+			</div>
+			
+			<div class="control-group">
 				<div class="controls">
 					<button type="submit" class="btn btn-success" id="createCommunityBtn">Create Community</button>
 				</div>
