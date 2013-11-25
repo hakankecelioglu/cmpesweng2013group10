@@ -12,6 +12,7 @@ import com.groupon.web.dao.model.Tag;
 import com.groupon.web.dao.model.Task;
 import com.groupon.web.dao.model.TaskStatus;
 import com.groupon.web.dao.model.User;
+import com.groupon.web.util.ControllerConstants;
 
 @Component
 public class TaskService {
@@ -21,6 +22,10 @@ public class TaskService {
 
 	@Autowired
 	private TagService tagService;
+	
+	public Task getTaskById(Long id) {
+		return taskDao.getTaskById(id);
+	}
 
 	public List<Task> getAllTasks() {
 		return taskDao.findAll();
@@ -32,8 +37,11 @@ public class TaskService {
 		task.setStatus(TaskStatus.OPEN);
 
 		arrangeTagsOfTask(task);
-
-		return taskDao.saveTask(task);
+		Task taskCreated = taskDao.saveTask(task);
+		
+		tagService.createTagUserRelations(task.getTags(), owner, ControllerConstants.TAG_USER_CREATE_TASK);
+		
+		return taskCreated;
 	}
 
 	public List<Task> getTasks(long communityId, int page, int numberOfTasksPerPage) {
@@ -45,6 +53,8 @@ public class TaskService {
 		task.getFollowers().add(user);
 		task.setFollowerCount(task.getFollowerCount() + 1);
 		taskDao.updateTask(task);
+		
+		tagService.createTagUserRelations(task.getTags(), user, ControllerConstants.TAG_USER_FOLLOW_TASK);
 		return task.getFollowerCount();
 	}
 
@@ -67,9 +77,5 @@ public class TaskService {
 			tags2.add(tagInDb);
 		}
 		task.setTags(tags2);
-	}
-
-	public Task getTaskById(Long id) {
-		return taskDao.getTaskById(id);
 	}
 }

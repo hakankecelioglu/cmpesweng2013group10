@@ -38,7 +38,13 @@
 	<definition name="createCommunity.view" extends="grouponTemplate">
 		<put-attribute name="title" cascade="true" value="Create a Community" />
 		<put-attribute name="body" value="/WEB-INF/views/createCommunity.jsp" />
+		<put-list-attribute name="cssFiles" cascade="true">
+			<add-attribute value="/jquery-ui.css" />
+			<add-attribute value="/select2.css" />
+		</put-list-attribute>
 		<put-list-attribute name="jsFiles" cascade="true">
+			<add-attribute value="/jquery-ui.js" />
+			<add-attribute value="/select2.js" />
 			<add-attribute value="/createCommunity.js" />
 		</put-list-attribute>
 	</definition>

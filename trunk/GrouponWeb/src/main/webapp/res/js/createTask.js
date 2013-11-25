@@ -51,24 +51,24 @@ $(document).ready(function () {
 			return {id: term, text: term};
 		}
 	});
+	
 	$("#inputNeedType").change(function(){
 		var selected=$('#inputNeedType option:selected').val();
 		
-			switch(selected){
-			case("GOODS"):
-				
-				$("#showWhenGoods").show();
-				$("#showWhenService").hide();
-				break;
-			case("SERVICE"):
-				$("#showWhenService").show();
-				$("#showWhenGoods").hide();
-				break;
-			case("ONLY_FORM"):
-				$("#showWhenGoods").hide();
-				$("#showWhenService").hide();
-				break;
-			}
+		switch(selected){
+		case("GOODS"):
+			$("#showWhenGoods").show();
+			$("#showWhenService").hide();
+			break;
+		case("SERVICE"):
+			$("#showWhenService").show();
+			$("#showWhenGoods").hide();
+			break;
+		case("ONLY_FORM"):
+			$("#showWhenGoods").hide();
+			$("#showWhenService").hide();
+			break;
+		}
 	});
 	$("#createTaskButton").click(function () {
 		var that = $(this);
@@ -79,18 +79,15 @@ $(document).ready(function () {
 		task.deadline = $("#inputDeadline").val();
 		task.type = $("#inputNeedType").val();
 		task.tags = [];
-		if(task.type!="ONLY_FORM"){
-			
-			if(task.type=="GOODS"){
+		
+		if(task.type!="ONLY_FORM") {
+			if(task.type=="GOODS") {
 				task.requirementName=$("#goodName").val();
 				task.requirementQuantity=$("#goodQuantity").val();				
-				
-			}
-			else{
+			} else{
 				task.requirementName=$("#serviceName").val();	
 			}
 		}
-
 
 		task.communityId = parseInt($("#communityId").val());
 		$.each($("#inputTags").val().split(","), function (i, tag) {
