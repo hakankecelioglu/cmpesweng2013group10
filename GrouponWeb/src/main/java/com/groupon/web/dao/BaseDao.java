@@ -7,7 +7,7 @@ import java.util.List;
 import com.groupon.web.dao.model.BaseModel;
 
 /**
- * @author turankonan
+ * @author serdarkuzucu
  * 
  */
 public interface BaseDao {
