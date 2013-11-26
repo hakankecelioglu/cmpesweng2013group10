@@ -1,10 +1,5 @@
 package com.groupon.mobile;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import org.json.JSONObject;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -13,14 +8,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.groupon.mobile.conn.ConnectionUtils;
+import com.groupon.mobile.conn.GrouponCallback;
+import com.groupon.mobile.model.Community;
+import com.groupon.mobile.service.CommunityService;
 
 public class CreateCommunityActivity extends BaseActivity {
 
 	private Button createButton;
 	private EditText communityNameField;
 	private EditText communityDescriptionField;
-	private int communityId;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -53,29 +49,24 @@ public class CreateCommunityActivity extends BaseActivity {
 				Toast.makeText(CreateCommunityActivity.this, "Community description cannot be empty!", Toast.LENGTH_SHORT).show();
 				return;
 			}
-			final Map<String, String> community = new HashMap<String, String>();
-			community.put("name", name);
-			community.put("description", description);
 
-			Thread t = new Thread(new Runnable() {
-				@Override
-				public void run() {
-					try {
-						JSONObject json = ConnectionUtils.makePostRequest("http://192.168.1.3:1616/createCommunityAndroid", community, null);
+			Community community = new Community();
+			community.setName(name);
+			community.setDescription(description);
 
-						communityId = json.getInt("communityId");
+			CommunityService service = new CommunityService(getApp());
+			service.createCommunity(community, new GrouponCallback<Community>() {
+				public void onSuccess(Community response) {
+					Intent intent = new Intent(CreateCommunityActivity.this, CommunityActivity.class);
+					intent.putExtra("communityId", response.getId());
+					startActivity(intent);
+					finish();
+				}
 
-						Intent intent = new Intent(CreateCommunityActivity.this, CommunityActivity.class);
-						intent.putExtra("communityId", communityId);
-						startActivity(intent);
-						finish();
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
+				public void onFail(String errorMessage) {
+					Toast.makeText(CreateCommunityActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
 				}
 			});
-			t.start();
-
 		}
 	};
 
