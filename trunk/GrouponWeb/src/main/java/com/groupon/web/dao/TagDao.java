@@ -21,14 +21,14 @@ public class TagDao extends BaseDaoImpl {
 		this.save(tag);
 		return tag;
 	}
-	
+
 	public TagUser findTagUserRelation(long tagId, long userId) {
 		Query query = this.getSession().createQuery("from TagUser tu where tu.user.id = :userId and tu.tag.id = :tagId");
 		query.setParameter("userId", userId);
 		query.setParameter("tagId", tagId);
 		return (TagUser) query.uniqueResult();
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public List<Tag> searchTags(String queryStr, int page, int maxResults) {
 		Query query = this.getSession().createQuery("from Tag tag where tag.name like :queryStr");

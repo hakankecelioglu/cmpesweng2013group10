@@ -44,10 +44,10 @@ public class Community extends BaseModel implements Serializable {
 	@JoinTable(name = "community_member", joinColumns = @JoinColumn(name = "community_id"), inverseJoinColumns = @JoinColumn(name = "user_id"), uniqueConstraints = @UniqueConstraint(columnNames = {
 			"user_id", "community_id" }))
 	private Set<User> members = new HashSet<User>();
-	
+
 	@OneToMany(mappedBy = "community", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<TaskType> taskTypes;
-	
+
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinTable(name = "community_tags", joinColumns = @JoinColumn(name = "community_id"), inverseJoinColumns = @JoinColumn(name = "tag_id"))
 	private List<Tag> tags = new ArrayList<Tag>(0);
@@ -107,6 +107,5 @@ public class Community extends BaseModel implements Serializable {
 	public void setTags(List<Tag> tags) {
 		this.tags = tags;
 	}
-	
-	
+
 }

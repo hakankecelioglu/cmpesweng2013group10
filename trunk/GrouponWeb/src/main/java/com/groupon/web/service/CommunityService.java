@@ -23,7 +23,7 @@ public class CommunityService {
 
 	public void createCommunity(Community community) {
 		community.setCreateDate(new Date());
-		
+
 		arrangeTagsOfCommunity(community);
 		communityDao.saveCommunity(community);
 
@@ -62,7 +62,7 @@ public class CommunityService {
 		community.getMembers().remove(user);
 		communityDao.update(community);
 	}
-	
+
 	private void arrangeTagsOfCommunity(Community community) {
 		List<Tag> tags = community.getTags();
 		List<Tag> tags2 = new ArrayList<Tag>(tags.size());

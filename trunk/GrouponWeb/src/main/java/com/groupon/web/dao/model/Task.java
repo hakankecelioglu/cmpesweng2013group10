@@ -86,7 +86,7 @@ public class Task extends BaseModel implements Serializable {
 
 	@Column(name = "followers", nullable = false)
 	private Long followerCount = 0L;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "task_type_id", nullable = true)
 	private TaskType taskType;

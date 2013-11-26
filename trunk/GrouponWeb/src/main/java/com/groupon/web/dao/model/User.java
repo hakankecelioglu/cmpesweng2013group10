@@ -47,7 +47,7 @@ public class User extends BaseModel implements Serializable {
 	@Enumerated(EnumType.STRING)
 	@Column(name = "status", nullable = false)
 	private UserStatus status = UserStatus.DEACTIVE;
-	
+
 	public String getUsername() {
 		return username;
 	}

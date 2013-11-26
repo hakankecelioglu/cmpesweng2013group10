@@ -98,7 +98,7 @@ public class CommunityController extends AbstractBaseController {
 			community.setName(name);
 			community.setDescription(description);
 			community.setOwner(user);
-			
+
 			if (tags != null) {
 				JSONArray tagArray = new JSONArray(tags);
 				List<Tag> tagList = new ArrayList<Tag>(tagArray.length());
@@ -201,7 +201,7 @@ public class CommunityController extends AbstractBaseController {
 
 	@RequestMapping(value = "communityMobile/{id}")
 	public ResponseEntity<Map<String, Object>> communityPageMobile(HttpServletRequest request, Model model, @PathVariable Long id) {
-		//User user = userService.getUserById((long) 1);
+		// User user = userService.getUserById((long) 1);
 		Community community = communityService.getCommunityById(id);
 		Map<String, Object> response = new HashMap<String, Object>();
 		response.put("community", CommunityJson.convert(community));

@@ -17,7 +17,7 @@ import com.groupon.web.util.GrouponLogger;
 
 public abstract class AbstractBaseController {
 	protected GrouponLogger logger = GrouponLogger.getLogger(getClass());
-	
+
 	public User getUser(HttpServletRequest request) {
 		HttpSession session = request.getSession(true);
 		Object userObject = session.getAttribute(ControllerConstants.SESSION_ATTR_USER);
