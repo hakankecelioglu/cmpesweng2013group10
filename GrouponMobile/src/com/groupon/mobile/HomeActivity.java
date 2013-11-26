@@ -9,7 +9,6 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.groupon.mobile.conn.ConnectionUtils;
-import com.groupon.mobile.exception.GrouponException;
 import com.groupon.mobile.model.User;
 
 public class HomeActivity extends Activity {
@@ -33,7 +32,7 @@ public class HomeActivity extends Activity {
 			@Override
 			public void run() {
 				try {
-		        	final String response=ConnectionUtils.makeGetRequest("http://192.168.1.42:1616/dummy", null);
+		        	final String response=ConnectionUtils.makeGetRequest("http://192.168.1.42:1616/dummy", null, null);
 		        	
 		        	runOnUiThread(new Runnable() {
 		        		@Override

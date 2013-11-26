@@ -58,7 +58,7 @@ public class CreateCommunityActivity extends Activity {
 				@Override
 				public void run() {
 					try {
-			        	ConnectionUtils.makePostRequest("http://192.168.1.42:1616/createCommunityAndroid", community);
+			        	ConnectionUtils.makePostRequest("http://192.168.1.42:1616/createCommunityAndroid", community, null);
 			        } catch (Exception e) {
 			            e.printStackTrace();
 			        }

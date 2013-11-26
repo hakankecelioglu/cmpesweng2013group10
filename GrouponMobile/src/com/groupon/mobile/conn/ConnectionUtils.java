@@ -27,10 +27,8 @@ import com.groupon.mobile.exception.GrouponException;
 import com.groupon.mobile.utils.StringUtils;
 
 public class ConnectionUtils {
-	public static String makePostRequest(String url, Map<String, String> attributeMap) throws GrouponException {
+	public static String makePostRequest(String url, Map<String, String> attributeMap, String authToken) throws GrouponException {
 		List<NameValuePair> params = new LinkedList<NameValuePair>();
-
-		//params.add(new BasicNameValuePair("", ""));
 
 		if (attributeMap != null) {
 			Set<String> keys = attributeMap.keySet();
@@ -47,7 +45,10 @@ public class ConnectionUtils {
 		try {
 			HttpClient client = new DefaultHttpClient();
 			HttpPost post = new HttpPost(url);
-			post.setHeader(HTTP.CONTENT_TYPE, "application/json;charset=UTF-8");
+			post.addHeader(HTTP.CONTENT_TYPE, "application/json;charset=UTF-8");
+			if (authToken != null && StringUtils.isNotBlank(authToken)) {
+				post.addHeader("X-auth-token", authToken);
+			}
 			HttpResponse response = client.execute(post);
 			if (response != null) {
 				String respContent = getResponseContent(response);
@@ -67,7 +68,7 @@ public class ConnectionUtils {
 		}
 	}
 
-	public static String makeGetRequest(String url, Map<String, String> attributeMap) throws GrouponException {
+	public static String makeGetRequest(String url, Map<String, String> attributeMap, String authToken) throws GrouponException {
 		List<NameValuePair> params = new LinkedList<NameValuePair>();
 
 		if (attributeMap != null) {
@@ -86,6 +87,9 @@ public class ConnectionUtils {
 			HttpClient client = new DefaultHttpClient();
 			HttpGet get = new HttpGet(url);
 			get.addHeader(HTTP.CONTENT_TYPE, "application/json;charset=UTF-8");
+			if (authToken != null && StringUtils.isNotBlank(authToken)) {
+				get.addHeader("X-auth-token", authToken);
+			}
 			HttpResponse response = client.execute(get);
 			if (response != null) {
 				String respContent = getResponseContent(response);
