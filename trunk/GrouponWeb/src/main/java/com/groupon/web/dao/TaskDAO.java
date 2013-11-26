@@ -70,4 +70,24 @@ public class TaskDAO extends BaseDaoImpl {
 		query.setParameter("taskFollowerUserId", userId);
 		return (List<Task>) query.list();
 	}
+
+	@SuppressWarnings("unchecked")
+	public List<Task> getFollowedTasks(long userId) {
+		/**
+		 * TODO add pagination and sorting
+		 */
+		Query query = this.getSession().createQuery("SELECT t FROM Task t join fetch t.followers tf where tf.id = :uid");
+		query.setParameter("uid", userId);
+		return (List<Task>) query.list();
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<Task> getCommunityTasks(long userId) {
+		/**
+		 * TODO add pagination and sorting
+		 */
+		Query query = this.getSession().createQuery("select t from Task t, Community c where c.id = t.community.id and :uid MEMBER OF c.members");
+		query.setParameter("uid", userId);
+		return (List<Task>) query.list();
+	}
 }
