@@ -139,8 +139,8 @@ public class CommunityController extends AbstractBaseController {
 	@RequestMapping(value = "createCommunityAndroid", method = RequestMethod.POST)
 	public ResponseEntity<Map<String, Object>> createCommunityAndroid(HttpServletRequest request, @RequestParam String name, @RequestParam String description) {
 		Map<String, Object> response = new HashMap<String, Object>();
-		User user = userService.getUserById((long) 1);
-
+		User user = getUser();
+		getUser();
 		Community community = new Community();
 		if (StringUtils.isBlank(name)) {
 			throw new GrouponException("community name cannot be empty!");
