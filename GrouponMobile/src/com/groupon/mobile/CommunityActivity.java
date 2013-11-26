@@ -29,7 +29,7 @@ public class CommunityActivity extends BaseActivity {
 			public void run() {
 				try {
 					String path = "http://192.168.1.3:1616/communityMobile/" + communityId;
-					JSONObject obj = ConnectionUtils.makePostRequest(path, null, null);
+					JSONObject obj = ConnectionUtils.makePostRequest(path, null, getAuthToken());
 
 					JSONObject community = obj.getJSONObject("community");
 					final String communityName = community.getString("name");

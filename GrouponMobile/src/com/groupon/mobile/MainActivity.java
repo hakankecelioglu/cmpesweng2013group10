@@ -8,6 +8,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.groupon.mobile.conn.GrouponCallback;
+import com.groupon.mobile.model.User;
+import com.groupon.mobile.service.UserService;
+
 public class MainActivity extends BaseActivity {
 
 	private Button loginButton;
@@ -44,15 +48,20 @@ public class MainActivity extends BaseActivity {
 			String username = loginUsername.getText().toString();
 			String password = loginPassword.getText().toString();
 
-			if (DummyController.admin.getUsername().equals(username) && DummyController.admin.getPassword().equals(password)) {
-				GrouponApplication app = (GrouponApplication) getApplication();
-				app.setLoggedUser(DummyController.admin);
-				Intent intent = new Intent(MainActivity.this, HomeActivity.class);
-				startActivity(intent);
-				finish();
-			} else {
-				Toast.makeText(MainActivity.this, "Wrong username or password!", Toast.LENGTH_SHORT).show();
-			}
+			UserService userService = new UserService(getApp());
+			userService.login(username, password, new GrouponCallback<User>() {
+				public void onSuccess(User response) {
+					setLoggedUser(response);
+
+					Intent intent = new Intent(MainActivity.this, HomeActivity.class);
+					startActivity(intent);
+					finish();
+				}
+
+				public void onFail(String errorMessage) {
+					Toast.makeText(MainActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
+				}
+			});
 		}
 	};
 }

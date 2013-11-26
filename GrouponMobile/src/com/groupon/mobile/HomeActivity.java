@@ -17,35 +17,12 @@ public class HomeActivity extends BaseActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_home);
-
-		GrouponApplication app = (GrouponApplication) getApplication();
-		user = app.getLoggedUser();
+		user = getLoggedUser();
 
 		TextView view = (TextView) findViewById(R.id.home_hello_username);
 		view.setText("Hello, " + user.getUsername() + "!");
 		final TextView view2 = (TextView) findViewById(R.id.conn);
-		view2.setText("dummy");
-
-		Thread t = new Thread(new Runnable() {
-			@Override
-			public void run() {
-				try {
-					// final String response =
-					// ConnectionUtils.makeGetRequest("http://192.168.1.42:1616/dummy",
-					// null, null);
-
-					runOnUiThread(new Runnable() {
-						@Override
-						public void run() {
-							view2.setText("DummyUser");
-						}
-					});
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-		t.start();
+		view2.setText(" ");
 
 		setupUI();
 	}
