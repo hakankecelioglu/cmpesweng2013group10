@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.groupon.web.dao.model.Community;
 import com.groupon.web.dao.model.RoleName;
 import com.groupon.web.dao.model.User;
+import com.groupon.web.exception.GrouponException;
 import com.groupon.web.service.CommunityService;
 import com.groupon.web.service.UserService;
 import com.groupon.web.util.ControllerConstants;

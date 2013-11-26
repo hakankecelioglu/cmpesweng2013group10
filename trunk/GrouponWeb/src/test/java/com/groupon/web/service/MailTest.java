@@ -12,8 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
 import com.groupon.web.AbstractGrouponTest;
-import com.groupon.web.controller.GrouponException;
 import com.groupon.web.dao.model.User;
+import com.groupon.web.exception.GrouponException;
 import com.groupon.web.util.GrouponWebUtils;
 
 public class MailTest extends AbstractGrouponTest {

@@ -31,10 +31,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.groupon.web.controller.json.CommunityJson;
+import com.groupon.web.controller.json.UserJson;
 import com.groupon.web.dao.model.Community;
 import com.groupon.web.dao.model.Tag;
 import com.groupon.web.dao.model.Task;
 import com.groupon.web.dao.model.User;
+import com.groupon.web.exception.GrouponException;
 import com.groupon.web.service.CommunityService;
 import com.groupon.web.service.TaskService;
 import com.groupon.web.service.UserService;
@@ -76,67 +78,62 @@ public class CommunityController extends AbstractBaseController {
 	}
 
 	@RequestMapping(value = "createCommunity", method = RequestMethod.POST)
-	public ResponseEntity<Map<String, Object>> createCommunity(HttpServletRequest request, @RequestParam(value = "file", required = false) MultipartFile file,
-			@RequestParam String name, @RequestParam String description, @RequestParam(required = false) String tags) {
+	public ResponseEntity<Map<String, Object>> createCommunity(HttpServletRequest request, @RequestParam(value = "file", required = false) MultipartFile file) throws JSONException {
 		Map<String, Object> response = new HashMap<String, Object>();
 		User user = getUser(request);
 
-		try {
-			if (user == null) {
-				throw new GrouponException("You must be logged in before creating a community!");
-			}
-
-			Community community = new Community();
-			if (StringUtils.isBlank(name)) {
-				throw new GrouponException("community name cannot be empty!");
-			}
-
-			if (StringUtils.isBlank(description)) {
-				throw new GrouponException("community description cannot be empty!");
-			}
-
-			community.setName(name);
-			community.setDescription(description);
-			community.setOwner(user);
-
-			if (tags != null) {
-				JSONArray tagArray = new JSONArray(tags);
-				List<Tag> tagList = new ArrayList<Tag>(tagArray.length());
-				for (int i = 0; i < tagArray.length(); i++) {
-					Tag tag = new Tag();
-					tag.setName(tagArray.getString(i));
-					tagList.add(tag);
-				}
-				community.setTags(tagList);
-			}
-
-			if (file != null && file.getSize() > 0) {
-				try {
-					String fileName = saveFile(file);
-					community.setPicture(fileName);
-				} catch (IllegalStateException e) {
-					e.printStackTrace();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-
-			communityService.createCommunity(community);
-			logger.debug("Community Created::communityId::{0}", community.getId());
-
-			// Every user is a member of his own communities
-			communityService.addMemberToCommunity(community, user);
-
-			response.put("message", "OK");
-			response.put("communityId", community.getId());
-			return prepareSuccessResponse(response);
-		} catch (GrouponException e) {
-			response.put("error", e.getMessage());
-			return prepareErrorResponse(response);
-		} catch (JSONException e) {
-			response.put("error", e.getMessage());
-			return prepareErrorResponse(response);
+		if (user == null) {
+			throw new GrouponException("You must be logged in before creating a community!");
 		}
+
+		Community community = new Community();
+		String name = request.getParameter("name");
+		if (StringUtils.isBlank(name)) {
+			throw new GrouponException("community name cannot be empty!");
+		}
+
+		String description = request.getParameter("description");
+		if (StringUtils.isBlank(description)) {
+			throw new GrouponException("community description cannot be empty!");
+		}
+
+		community.setName(name);
+		community.setDescription(description);
+		community.setOwner(user);
+
+		String tags = request.getParameter("tags");
+
+		if (tags != null) {
+			JSONArray tagArray = new JSONArray(tags);
+			List<Tag> tagList = new ArrayList<Tag>(tagArray.length());
+			for (int i = 0; i < tagArray.length(); i++) {
+				Tag tag = new Tag();
+				tag.setName(tagArray.getString(i));
+				tagList.add(tag);
+			}
+			community.setTags(tagList);
+		}
+
+		if (file != null && file.getSize() > 0) {
+			try {
+				String fileName = saveFile(file);
+				community.setPicture(fileName);
+			} catch (IllegalStateException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+
+		communityService.createCommunity(community);
+		logger.debug("Community Created::communityId::{0}", community.getId());
+
+		// Every user is a member of his own communities
+		communityService.addMemberToCommunity(community, user);
+
+		response.put("message", "OK");
+		response.put("communityId", community.getId());
+		return prepareSuccessResponse(response);
 	}
 
 	@RequestMapping(value = "createCommunityAndroid", method = RequestMethod.POST)
@@ -144,30 +141,24 @@ public class CommunityController extends AbstractBaseController {
 		Map<String, Object> response = new HashMap<String, Object>();
 		User user = userService.getUserById((long) 1);
 
-		try {
-
-			Community community = new Community();
-			if (StringUtils.isBlank(name)) {
-				throw new GrouponException("community name cannot be empty!");
-			}
-
-			if (StringUtils.isBlank(description)) {
-				throw new GrouponException("community description cannot be empty!");
-			}
-
-			community.setName(name);
-			community.setDescription(description);
-			community.setOwner(user);
-
-			communityService.createCommunity(community);
-
-			response.put("message", "OK");
-			response.put("communityId", community.getId());
-			return prepareSuccessResponse(response);
-		} catch (GrouponException e) {
-			response.put("error", e.getMessage());
-			return prepareErrorResponse(response);
+		Community community = new Community();
+		if (StringUtils.isBlank(name)) {
+			throw new GrouponException("community name cannot be empty!");
 		}
+
+		if (StringUtils.isBlank(description)) {
+			throw new GrouponException("community description cannot be empty!");
+		}
+
+		community.setName(name);
+		community.setDescription(description);
+		community.setOwner(user);
+
+		communityService.createCommunity(community);
+
+		response.put("message", "OK");
+		response.put("communityId", community.getId());
+		return prepareSuccessResponse(response);
 	}
 
 	@RequestMapping(value = "community/{id}")
@@ -197,6 +188,24 @@ public class CommunityController extends AbstractBaseController {
 		model.addAttribute("isOwner", isOwner);
 
 		return "community.view";
+	}
+
+	@RequestMapping(value = "community/{id}/members", method = RequestMethod.GET)
+	public ResponseEntity<Map<String, Object>> getCommunityMembers(HttpServletRequest request, Model model, @PathVariable Long id) {
+		Map<String, Object> response = new HashMap<String, Object>();
+		if (id == null) {
+			throw new GrouponException("Invalid request! community id cannot be null!");
+		}
+
+		Community community = communityService.getCommunityById(id);
+		if (community == null) {
+			throw new GrouponException("community with that id is not found!");
+		}
+
+		Set<User> members = community.getMembers();
+		response.put("members", UserJson.convert(members));
+
+		return prepareSuccessResponse(response);
 	}
 
 	@RequestMapping(value = "communityMobile/{id}")

@@ -10,7 +10,6 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.groupon.web.AbstractGrouponTest;
-import com.groupon.web.controller.GrouponException;
 import com.groupon.web.dao.model.Community;
 import com.groupon.web.dao.model.NeedType;
 import com.groupon.web.dao.model.RoleName;
@@ -18,6 +17,7 @@ import com.groupon.web.dao.model.Tag;
 import com.groupon.web.dao.model.Task;
 import com.groupon.web.dao.model.TaskStatus;
 import com.groupon.web.dao.model.User;
+import com.groupon.web.exception.GrouponException;
 import com.groupon.web.service.CommunityService;
 import com.groupon.web.service.TagService;
 import com.groupon.web.service.TaskService;
