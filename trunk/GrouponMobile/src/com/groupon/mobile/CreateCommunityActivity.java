@@ -3,6 +3,8 @@ package com.groupon.mobile;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.json.JSONObject;
+
 import com.groupon.mobile.conn.ConnectionUtils;
 
 import android.app.Activity;
@@ -19,7 +21,7 @@ public class CreateCommunityActivity extends Activity {
 	private Button createButton;
 	private EditText communityNameField;
 	private EditText communityDescriptionField;
-
+	private int communityId;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -54,11 +56,20 @@ public class CreateCommunityActivity extends Activity {
 			final Map<String, String> community = new HashMap<String, String>();
 			community.put("name", name);
 			community.put("description", description);
+			
 			Thread t = new Thread(new Runnable() {
 				@Override
 				public void run() {
 					try {
-			        	ConnectionUtils.makePostRequest("http://192.168.1.42:1616/createCommunityAndroid", community, null);
+			        	String response=ConnectionUtils.makePostRequest("http://192.168.1.3:1616/createCommunityAndroid", community,null);
+			        	JSONObject json = new JSONObject(response);
+			        	
+			    		communityId = json.getInt("communityId");
+			    		
+						Intent intent = new Intent(CreateCommunityActivity.this, CommunityActivity.class);
+						intent.putExtra("communityId", communityId);
+						startActivity(intent);
+						finish();
 			        } catch (Exception e) {
 			            e.printStackTrace();
 			        }
@@ -66,11 +77,7 @@ public class CreateCommunityActivity extends Activity {
 			});
 			t.start();		
 			
-			int communityId = DummyController.createCommunity(name, description);
-			Intent intent = new Intent(CreateCommunityActivity.this, CommunityActivity.class);
-			intent.putExtra("communityId", communityId);
-			startActivity(intent);
-			finish();
+
 		}
 	};
 
