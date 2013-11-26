@@ -2,7 +2,6 @@ package com.groupon.web.controller;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,10 +27,10 @@ public class HomeController extends AbstractBaseController {
 	 */
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public Object home(HttpServletRequest request, Model model) {
-		setGlobalAttributesToModel(model, request);
+		setGlobalAttributesToModel(model);
 		model.addAttribute("page", "home");
 
-		User user = getUser(request);
+		User user = getUser();
 		if (user == null) {
 			model.addAttribute("allcommunities", communityService.getAllCommunities());
 			return "homeguest.view";

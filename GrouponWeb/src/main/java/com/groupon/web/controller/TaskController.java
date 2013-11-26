@@ -46,7 +46,7 @@ public class TaskController extends AbstractBaseController {
 		if (id == null) {
 			return "redirect:/";
 		}
-		setGlobalAttributesToModel(model, request);
+		setGlobalAttributesToModel(model);
 		Task task = taskService.getTaskById(id);
 
 		if (task == null) {
@@ -59,7 +59,7 @@ public class TaskController extends AbstractBaseController {
 
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
 	public Object createTask(HttpServletRequest request, Model model) {
-		User user = getUser(request);
+		User user = getUser();
 		if (user == null) {
 			return "redirect:/login";
 		}
@@ -74,14 +74,14 @@ public class TaskController extends AbstractBaseController {
 		model.addAttribute("community", community);
 		model.addAttribute("page", "createTask");
 
-		setGlobalAttributesToModel(model, request);
+		setGlobalAttributesToModel(model);
 		return "createTask.view";
 	}
 
 	@RequestMapping(value = "/create", method = RequestMethod.POST)
 	public ResponseEntity<Map<String, Object>> createTask(HttpServletRequest request, @RequestBody String body) {
 		Map<String, Object> response = new HashMap<String, Object>();
-		User user = getUser(request);
+		User user = getUser();
 
 		try {
 			Task task = generateTaskFromJSON(body);
@@ -103,7 +103,7 @@ public class TaskController extends AbstractBaseController {
 	public ResponseEntity<Map<String, Object>> followTask(HttpServletRequest request, @RequestParam Long taskId) {
 		Map<String, Object> response = new HashMap<String, Object>();
 
-		User user = getUser(request);
+		User user = getUser();
 		Long followerCount = taskService.followTask(taskId, user);
 
 		response.put("followerCount", followerCount);
