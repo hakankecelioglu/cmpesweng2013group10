@@ -88,11 +88,11 @@ public class ConnectionUtils {
 			HttpClient client = new DefaultHttpClient();
 			HttpGet get = new HttpGet(url);
 			get.addHeader(HTTP.CONTENT_TYPE, "application/json;charset=UTF-8");
-			
+
 			if (authToken != null && StringUtils.isNotBlank(authToken)) {
 				get.addHeader(Constants.REQUEST_AUTH_HEADER, authToken);
 			}
-			
+
 			HttpResponse response = client.execute(get);
 			if (response.getStatusLine().getStatusCode() != 200) {
 				throw new GrouponException("Error!!!");
