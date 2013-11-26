@@ -47,9 +47,9 @@ public class HomeController extends AbstractBaseController {
 		// generateDummyContent(model);
 		return "home.view";
 	}
+
 	@RequestMapping(value = "/dummy", method = RequestMethod.GET)
-	public ResponseEntity<Map<String, Object>> createCommunityAndroid(HttpServletRequest request 
-			) {
+	public ResponseEntity<Map<String, Object>> createCommunityAndroid(HttpServletRequest request) {
 		Map<String, Object> response = new HashMap<String, Object>();
 		response.put("connection", "ok");
 		return prepareSuccessResponse(response);

@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,49 +32,50 @@ public class TagController extends AbstractBaseController {
 	@RequestMapping(value = "/searchTags")
 	public ResponseEntity<Map<String, Object>> getTags(@RequestParam String term, @RequestParam Long page) {
 		Map<String, Object> response = new HashMap<String, Object>();
+		List<String> respList = new ArrayList<String>();
 
 		if (page == null) {
 			page = 0L;
 		}
 
-		try {
-			URL url = new URL("http://en.wikipedia.org/w/api.php?action=opensearch&search=" + term + "&limit=20&namespace=0&format=json");
-			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-			conn.setRequestMethod("GET");
+		if (StringUtils.isNotBlank(term)) {
+			try {
+				URL url = new URL("http://en.wikipedia.org/w/api.php?action=opensearch&search=" + term + "&limit=20&namespace=0&format=json");
+				HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+				conn.setRequestMethod("GET");
 
-			int responseCode = conn.getResponseCode();
+				int responseCode = conn.getResponseCode();
 
-			if (responseCode == 200) {
-				BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-				
-				String inputLine;
-				StringBuffer responseBuffer = new StringBuffer();
-		 
-				while ((inputLine = in.readLine()) != null) {
-					responseBuffer.append(inputLine);
-				}
-				in.close();
-				
-				JSONArray jsonArray = new JSONArray(responseBuffer.toString());
-				if (jsonArray.length() > 1) {
-					JSONArray list = jsonArray.getJSONArray(1);
-					List<String> respList = new ArrayList<String>(list.length());
-					
-					for (int i = 0; i < list.length(); i++) {
-						respList.add(list.getString(i));
+				if (responseCode == 200) {
+					BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+
+					String inputLine;
+					StringBuffer responseBuffer = new StringBuffer();
+
+					while ((inputLine = in.readLine()) != null) {
+						responseBuffer.append(inputLine);
 					}
-					
-					response.put("tags", respList);
+					in.close();
+
+					JSONArray jsonArray = new JSONArray(responseBuffer.toString());
+					if (jsonArray.length() > 1) {
+						JSONArray list = jsonArray.getJSONArray(1);
+
+						for (int i = 0; i < list.length(); i++) {
+							respList.add(list.getString(i));
+						}
+					}
 				}
+			} catch (MalformedURLException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			} catch (JSONException e) {
+				e.printStackTrace();
 			}
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (JSONException e) {
-			e.printStackTrace();
 		}
 
+		response.put("tags", respList);
 		return prepareSuccessResponse(response);
 	}
 }

@@ -70,7 +70,7 @@ public class UserController extends AbstractBaseController {
 			return prepareErrorResponse(response);
 		}
 	}
-	
+
 	@RequestMapping(value = "mobile/login", method = RequestMethod.POST)
 	public ResponseEntity<Map<String, Object>> loginMobile(HttpServletRequest request, HttpServletResponse resp) {
 		Map<String, Object> response = new HashMap<String, Object>();

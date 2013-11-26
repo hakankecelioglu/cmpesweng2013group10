@@ -6,11 +6,11 @@ import com.groupon.web.dao.model.Community;
 
 public class CommunityJson implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
+
 	private String name;
 	private String description;
 	private Long id;
-	
+
 	public String getName() {
 		return name;
 	}

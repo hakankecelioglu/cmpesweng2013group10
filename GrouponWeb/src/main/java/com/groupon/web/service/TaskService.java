@@ -22,7 +22,7 @@ public class TaskService {
 
 	@Autowired
 	private TagService tagService;
-	
+
 	public Task getTaskById(Long id) {
 		return taskDao.getTaskById(id);
 	}
@@ -38,9 +38,9 @@ public class TaskService {
 
 		arrangeTagsOfTask(task);
 		Task taskCreated = taskDao.saveTask(task);
-		
+
 		tagService.createTagUserRelations(task.getTags(), owner, ControllerConstants.TAG_USER_CREATE_TASK);
-		
+
 		return taskCreated;
 	}
 
@@ -53,7 +53,7 @@ public class TaskService {
 		task.getFollowers().add(user);
 		task.setFollowerCount(task.getFollowerCount() + 1);
 		taskDao.updateTask(task);
-		
+
 		tagService.createTagUserRelations(task.getTags(), user, ControllerConstants.TAG_USER_FOLLOW_TASK);
 		return task.getFollowerCount();
 	}
@@ -64,6 +64,10 @@ public class TaskService {
 		task.setFollowerCount(task.getFollowerCount() - 1);
 		taskDao.updateTask(task);
 		return task.getFollowerCount();
+	}
+
+	public List<Task> getRecommendedTasks(User user) {
+		return taskDao.getRecommendedTasks(user.getId());
 	}
 
 	private void arrangeTagsOfTask(Task task) {
