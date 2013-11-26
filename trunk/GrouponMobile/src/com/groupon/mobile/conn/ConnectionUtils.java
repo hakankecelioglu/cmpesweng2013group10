@@ -17,6 +17,7 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.utils.URLEncodedUtils;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.protocol.HTTP;
@@ -28,6 +29,10 @@ import com.groupon.mobile.utils.StringUtils;
 
 public class ConnectionUtils {
 	public static JSONObject makePostRequest(String url, Map<String, String> attributeMap, String authToken) throws GrouponException {
+		return makePostRequest(url, attributeMap, null, authToken);
+	}
+
+	public static JSONObject makePostRequest(String url, Map<String, String> attributeMap, JSONObject postBody, String authToken) throws GrouponException {
 		List<NameValuePair> params = new LinkedList<NameValuePair>();
 
 		if (attributeMap != null) {
@@ -49,6 +54,12 @@ public class ConnectionUtils {
 
 			if (authToken != null && StringUtils.isNotBlank(authToken)) {
 				post.addHeader(Constants.REQUEST_AUTH_HEADER, authToken);
+			}
+
+			if (postBody != null) {
+				StringEntity entity = new StringEntity(postBody.toString(), HTTP.UTF_8);
+				entity.setContentType("application/json");
+				post.setEntity(entity);
 			}
 
 			HttpResponse response = client.execute(post);
