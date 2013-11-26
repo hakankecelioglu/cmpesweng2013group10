@@ -21,6 +21,7 @@ import org.springframework.stereotype.Component;
 import com.groupon.web.dao.model.User;
 import com.groupon.web.service.UserService;
 import com.groupon.web.util.ControllerConstants;
+import com.groupon.web.util.GrouponThreadLocal;
 import com.groupon.web.util.GrouponWebUtils;
 
 /**
@@ -45,23 +46,34 @@ public class SessionControlFilter implements Filter {
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 		HttpServletRequest req = (HttpServletRequest) request;
+		HttpServletResponse resp = (HttpServletResponse) response;
 		Matcher matcher = excludePatternRes.matcher(req.getRequestURI());
 		if (matcher.find()) {
 			chain.doFilter(request, response);
 			return;
 		}
+		
+		User user = null;
+		
+		String authToken = req.getHeader(ControllerConstants.REQUEST_HEADER_AUTH_KEY);
+		if (authToken == null) {
+			HttpSession session = req.getSession(true);
+			user = (User) session.getAttribute(ControllerConstants.SESSION_ATTR_USER);
 
-		HttpServletResponse resp = (HttpServletResponse) response;
-		HttpSession session = req.getSession(true);
-		User user = (User) session.getAttribute(ControllerConstants.SESSION_ATTR_USER);
-
-		if (user == null) {
-			checkCookieAndSetSession(user, req, resp, chain, session);
+			if (user == null) {
+				user = checkCookieAndSetSession(req, resp, chain, session);
+			}
+		} else {
+			user = checkAuthTokenAndGetUser(authToken);
+		}
+		
+		if (user != null) {
+			GrouponThreadLocal.set(user);
 		}
 		chain.doFilter(req, resp);
 	}
 
-	private void checkCookieAndSetSession(User user, HttpServletRequest req, HttpServletResponse resp, FilterChain chain, HttpSession session) throws IOException, ServletException {
+	private User checkCookieAndSetSession(HttpServletRequest req, HttpServletResponse resp, FilterChain chain, HttpSession session) throws IOException, ServletException {
 		Cookie[] cookies = req.getCookies();
 		if (cookies != null) {
 			for (Cookie cookie : cookies) {
@@ -69,12 +81,13 @@ public class SessionControlFilter implements Filter {
 					String cookieValue = cookie.getValue();
 					Long userId = GrouponWebUtils.extractUserIdFromCookieValue(cookieValue);
 					if (userId != null) {
-						user = userService.getUserById(userId);
+						User user = userService.getUserById(userId);
 						if (user != null) {
 							String userHash = GrouponWebUtils.generateUserHash(user);
 							String userHashInCookie = GrouponWebUtils.extractUserHashFromCookieValue(cookieValue);
 							if (userHash.equals(userHashInCookie)) {
 								session.setAttribute(ControllerConstants.SESSION_ATTR_USER, user);
+								return user;
 							}
 						}
 						break;
@@ -82,6 +95,22 @@ public class SessionControlFilter implements Filter {
 				}
 			}
 		}
+		return null;
+	}
+	
+	private User checkAuthTokenAndGetUser(String authToken) {
+		Long userId = GrouponWebUtils.extractUserIdFromCookieValue(authToken);
+		if (userId != null) {
+			User user = userService.getUserById(userId);
+			if (user != null) {
+				String userHash = GrouponWebUtils.generateUserHash(user);
+				String userHashInCookie = GrouponWebUtils.extractUserHashFromCookieValue(authToken);
+				if (userHash.equals(userHashInCookie)) {
+					return user;
+				}
+			}
+		}
+		return null;
 	}
 
 	@Override

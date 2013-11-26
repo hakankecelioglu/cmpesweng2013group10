@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.groupon.web.controller.json.UserJson;
 import com.groupon.web.dao.model.Community;
 import com.groupon.web.dao.model.RoleName;
 import com.groupon.web.dao.model.User;
@@ -46,60 +47,50 @@ public class UserController extends AbstractBaseController {
 	public ResponseEntity<Map<String, Object>> login(HttpServletRequest request, HttpServletResponse resp) {
 		Map<String, Object> response = new HashMap<String, Object>();
 
-		try {
-			GrouponWebUtils.rejectIfEmpty(request, "username", "password");
+		GrouponWebUtils.rejectIfEmpty(request, "username", "password");
 
-			String username = request.getParameter("username");
-			String password = request.getParameter("password");
+		String username = request.getParameter("username");
+		String password = request.getParameter("password");
 
-			String passwordHash = GrouponWebUtils.hashPasswordForDB(password);
+		String passwordHash = GrouponWebUtils.hashPasswordForDB(password);
 
-			User user = userService.getUserByEmailAndPassword(username, passwordHash);
+		User user = userService.getUserByEmailAndPassword(username, passwordHash);
+		if (user == null) {
+			user = userService.getUserByUsernameAndPassword(username, passwordHash);
 			if (user == null) {
-				user = userService.getUserByUsernameAndPassword(username, passwordHash);
-				if (user == null) {
-					throw new GrouponException("User not found with this username or email address!");
-				}
+				throw new GrouponException("User not found with this username or email address!");
 			}
-
-			setUserSession(request, resp, user);
-
-			response.put("message", "OK");
-			return prepareSuccessResponse(response);
-		} catch (GrouponException e) {
-			response.put("error", e.getMessage());
-			return prepareErrorResponse(response);
 		}
+
+		setUserSession(request, resp, user);
+
+		response.put("message", "OK");
+		return prepareSuccessResponse(response);
 	}
 
 	@RequestMapping(value = "mobile/login", method = RequestMethod.POST)
 	public ResponseEntity<Map<String, Object>> loginMobile(HttpServletRequest request, HttpServletResponse resp) {
 		Map<String, Object> response = new HashMap<String, Object>();
 
-		try {
-			GrouponWebUtils.rejectIfEmpty(request, "username", "password");
+		GrouponWebUtils.rejectIfEmpty(request, "username", "password");
 
-			String username = request.getParameter("username");
-			String password = request.getParameter("password");
+		String username = request.getParameter("username");
+		String password = request.getParameter("password");
 
-			String passwordHash = GrouponWebUtils.hashPasswordForDB(password);
+		String passwordHash = GrouponWebUtils.hashPasswordForDB(password);
 
-			User user = userService.getUserByEmailAndPassword(username, passwordHash);
+		User user = userService.getUserByEmailAndPassword(username, passwordHash);
+		if (user == null) {
+			user = userService.getUserByUsernameAndPassword(username, passwordHash);
 			if (user == null) {
-				user = userService.getUserByUsernameAndPassword(username, passwordHash);
-				if (user == null) {
-					throw new GrouponException("User not found with this username or email address!");
-				}
+				throw new GrouponException("User not found with this username or email address!");
 			}
-
-			response.put("username", user.getUsername());
-
-			response.put("message", "OK");
-			return prepareSuccessResponse(response);
-		} catch (GrouponException e) {
-			response.put("error", e.getMessage());
-			return prepareErrorResponse(response);
 		}
+
+		response.put("user", UserJson.convert(user));
+		response.put("auth", GrouponWebUtils.generateCookieForUser(user));
+		response.put("message", "OK");
+		return prepareSuccessResponse(response);
 	}
 
 	@RequestMapping(value = "logout", method = { RequestMethod.GET, RequestMethod.POST })
@@ -118,38 +109,33 @@ public class UserController extends AbstractBaseController {
 	public ResponseEntity<Map<String, Object>> signup(HttpServletRequest request, HttpServletResponse servletResponse) {
 		Map<String, Object> response = new HashMap<String, Object>();
 
-		try {
-			GrouponWebUtils.rejectIfEmpty(request, "email", "password", "username");
+		GrouponWebUtils.rejectIfEmpty(request, "email", "password", "username");
 
-			String email = request.getParameter("email");
-			String username = request.getParameter("username");
-			String password = request.getParameter("password");
-			String name = request.getParameter("name");
-			String surname = request.getParameter("surname");
+		String email = request.getParameter("email");
+		String username = request.getParameter("username");
+		String password = request.getParameter("password");
+		String name = request.getParameter("name");
+		String surname = request.getParameter("surname");
 
-			String passwordHash = GrouponWebUtils.hashPasswordForDB(password);
+		String passwordHash = GrouponWebUtils.hashPasswordForDB(password);
 
-			User user = new User();
-			user.setEmail(email);
-			user.setUsername(username);
-			user.setPassword(passwordHash);
-			user.setName(name);
-			user.setSurname(surname);
+		User user = new User();
+		user.setEmail(email);
+		user.setUsername(username);
+		user.setPassword(passwordHash);
+		user.setName(name);
+		user.setSurname(surname);
 
-			userService.registerUser(user, RoleName.USER);
-			setUserSession(request, servletResponse, user);
+		userService.registerUser(user, RoleName.USER);
+		setUserSession(request, servletResponse, user);
 
-			response.put("message", "OK");
-			return prepareSuccessResponse(response);
-		} catch (GrouponException e) {
-			response.put("error", e.getMessage());
-			return prepareErrorResponse(response);
-		}
+		response.put("message", "OK");
+		return prepareSuccessResponse(response);
 	}
 
 	@RequestMapping(value = "profile", method = RequestMethod.GET)
 	public Object getMyProfile(HttpServletRequest request, Model model) {
-		User user = getUser(request);
+		User user = getUser();
 		if (user == null) {
 			return "redirect:/";
 		}
@@ -159,13 +145,13 @@ public class UserController extends AbstractBaseController {
 
 		model.addAttribute("page", "myprofile");
 		model.addAttribute("profile", user);
-		setGlobalAttributesToModel(model, request);
+		setGlobalAttributesToModel(model);
 		return "profile.view";
 	}
 
 	@RequestMapping(value = "profile/{username}", method = RequestMethod.GET)
 	public Object getMyProfile(HttpServletRequest request, Model model, @PathVariable("username") String username) {
-		User user = getUser(request);
+		User user = getUser();
 		if (user != null && username.equals(user.getUsername())) {
 			return "redirect:/profile";
 		}
@@ -180,7 +166,7 @@ public class UserController extends AbstractBaseController {
 
 		model.addAttribute("page", "myprofile");
 		model.addAttribute("profile", profile);
-		setGlobalAttributesToModel(model, request);
+		setGlobalAttributesToModel(model);
 		return "profile.view";
 	}
 

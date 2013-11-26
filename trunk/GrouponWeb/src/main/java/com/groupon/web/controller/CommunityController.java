@@ -66,12 +66,12 @@ public class CommunityController extends AbstractBaseController {
 
 	@RequestMapping(value = "createCommunity", method = RequestMethod.GET)
 	public Object createCommunity(HttpServletRequest request, Model model) {
-		User user = getUser(request);
+		User user = getUser();
 		if (user == null) {
 			return "redirect:/login";
 		}
 
-		setGlobalAttributesToModel(model, request);
+		setGlobalAttributesToModel(model);
 		model.addAttribute("page", "createCommunity");
 
 		return "createCommunity.view";
@@ -80,7 +80,7 @@ public class CommunityController extends AbstractBaseController {
 	@RequestMapping(value = "createCommunity", method = RequestMethod.POST)
 	public ResponseEntity<Map<String, Object>> createCommunity(HttpServletRequest request, @RequestParam(value = "file", required = false) MultipartFile file) throws JSONException {
 		Map<String, Object> response = new HashMap<String, Object>();
-		User user = getUser(request);
+		User user = getUser();
 
 		if (user == null) {
 			throw new GrouponException("You must be logged in before creating a community!");
@@ -163,12 +163,12 @@ public class CommunityController extends AbstractBaseController {
 
 	@RequestMapping(value = "community/{id}")
 	public Object communityPage(HttpServletRequest request, Model model, @PathVariable Long id) {
-		User user = getUser(request);
+		User user = getUser();
 
 		if (id == null) {
 			return "redirect:/";
 		}
-		setGlobalAttributesToModel(model, request);
+		setGlobalAttributesToModel(model);
 		Community community = communityService.getCommunityById(id);
 
 		if (community == null) {
@@ -230,7 +230,7 @@ public class CommunityController extends AbstractBaseController {
 			return "redirect:/";
 		}
 
-		User user = getUser(request);
+		User user = getUser();
 
 		communityService.addMemberToCommunity(community, user);
 
@@ -239,7 +239,7 @@ public class CommunityController extends AbstractBaseController {
 
 	@RequestMapping(value = "community/leave")
 	public Object leaveCommunity(HttpServletRequest request, @RequestParam Long communityId) {
-		User user = getUser(request);
+		User user = getUser();
 		if (communityId == null) {
 			return "redirect:/";
 		}
@@ -261,7 +261,7 @@ public class CommunityController extends AbstractBaseController {
 
 	@RequestMapping(value = "community/createTaskType", method = RequestMethod.GET)
 	public Object createTaskType(HttpServletRequest request, Model model, @RequestParam Long communityId) {
-		User user = getUser(request);
+		User user = getUser();
 		if (user == null) {
 			return "redirect:/";
 		}
