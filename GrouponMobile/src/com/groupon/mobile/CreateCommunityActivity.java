@@ -5,9 +5,6 @@ import java.util.Map;
 
 import org.json.JSONObject;
 
-import com.groupon.mobile.conn.ConnectionUtils;
-
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -16,12 +13,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-public class CreateCommunityActivity extends Activity {
+import com.groupon.mobile.conn.ConnectionUtils;
+
+public class CreateCommunityActivity extends BaseActivity {
 
 	private Button createButton;
 	private EditText communityNameField;
 	private EditText communityDescriptionField;
 	private int communityId;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -56,27 +56,25 @@ public class CreateCommunityActivity extends Activity {
 			final Map<String, String> community = new HashMap<String, String>();
 			community.put("name", name);
 			community.put("description", description);
-			
+
 			Thread t = new Thread(new Runnable() {
 				@Override
 				public void run() {
 					try {
-			        	String response=ConnectionUtils.makePostRequest("http://192.168.1.3:1616/createCommunityAndroid", community,null);
-			        	JSONObject json = new JSONObject(response);
-			        	
-			    		communityId = json.getInt("communityId");
-			    		
+						JSONObject json = ConnectionUtils.makePostRequest("http://192.168.1.3:1616/createCommunityAndroid", community, null);
+
+						communityId = json.getInt("communityId");
+
 						Intent intent = new Intent(CreateCommunityActivity.this, CommunityActivity.class);
 						intent.putExtra("communityId", communityId);
 						startActivity(intent);
 						finish();
-			        } catch (Exception e) {
-			            e.printStackTrace();
-			        }
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
 				}
 			});
-			t.start();		
-			
+			t.start();
 
 		}
 	};

@@ -20,14 +20,14 @@ import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.protocol.HTTP;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.groupon.mobile.exception.GrouponException;
+import com.groupon.mobile.utils.Constants;
 import com.groupon.mobile.utils.StringUtils;
 
 public class ConnectionUtils {
-	public static String makePostRequest(String url, Map<String, String> attributeMap, String authToken) throws GrouponException {
+	public static JSONObject makePostRequest(String url, Map<String, String> attributeMap, String authToken) throws GrouponException {
 		List<NameValuePair> params = new LinkedList<NameValuePair>();
 
 		if (attributeMap != null) {
@@ -46,17 +46,18 @@ public class ConnectionUtils {
 			HttpClient client = new DefaultHttpClient();
 			HttpPost post = new HttpPost(url);
 			post.addHeader(HTTP.CONTENT_TYPE, "application/json;charset=UTF-8");
+
 			if (authToken != null && StringUtils.isNotBlank(authToken)) {
-				post.addHeader("X-auth-token", authToken);
+				post.addHeader(Constants.REQUEST_AUTH_HEADER, authToken);
 			}
+
 			HttpResponse response = client.execute(post);
-			if (response != null) {
-				String respContent = getResponseContent(response);
-				checkServerMessage(respContent);
-				return respContent;
-			} else {
-				return "";
+			if (response.getStatusLine().getStatusCode() != 200) {
+				throw new GrouponException("Error!!!");
 			}
+
+			String respContent = getResponseContent(response);
+			return new JSONObject(respContent);
 		} catch (ClientProtocolException e) {
 			throw new GrouponException("Client Protol Exception when connecting to Server.");
 		} catch (IOException e) {
@@ -68,7 +69,7 @@ public class ConnectionUtils {
 		}
 	}
 
-	public static String makeGetRequest(String url, Map<String, String> attributeMap, String authToken) throws GrouponException {
+	public static JSONObject makeGetRequest(String url, Map<String, String> attributeMap, String authToken) throws GrouponException {
 		List<NameValuePair> params = new LinkedList<NameValuePair>();
 
 		if (attributeMap != null) {
@@ -87,17 +88,18 @@ public class ConnectionUtils {
 			HttpClient client = new DefaultHttpClient();
 			HttpGet get = new HttpGet(url);
 			get.addHeader(HTTP.CONTENT_TYPE, "application/json;charset=UTF-8");
+			
 			if (authToken != null && StringUtils.isNotBlank(authToken)) {
-				get.addHeader("X-auth-token", authToken);
+				get.addHeader(Constants.REQUEST_AUTH_HEADER, authToken);
 			}
+			
 			HttpResponse response = client.execute(get);
-			if (response != null) {
-				String respContent = getResponseContent(response);
-				checkServerMessage(respContent);
-				return respContent;
-			} else {
-				return "";
+			if (response.getStatusLine().getStatusCode() != 200) {
+				throw new GrouponException("Error!!!");
 			}
+
+			String respContent = getResponseContent(response);
+			return new JSONObject(respContent);
 		} catch (ClientProtocolException e) {
 			throw new GrouponException("Client Protol Exception when connecting to Netmera.");
 		} catch (IOException e) {
@@ -109,7 +111,7 @@ public class ConnectionUtils {
 		}
 	}
 
-	private static String getResponseContent(HttpResponse response) {
+	private static String getResponseContent(HttpResponse response) throws GrouponException {
 		String respContent = "";
 		HttpEntity entity = response.getEntity();
 		if (entity != null) {
@@ -122,25 +124,10 @@ public class ConnectionUtils {
 				}
 				instream.close();
 			} catch (Exception e) {
+				throw new GrouponException("Exception occured while getting response content!");
 			}
 		}
 		return respContent;
 	}
 
-	private static void checkServerMessage(String respContent) throws GrouponException {
-		if (StringUtils.isNotBlank(respContent)) {
-			try {
-				JSONObject object = new JSONObject(respContent);
-				if (object.has("code") && object.has("message")) {
-					String code = object.getString("code");
-					String message = object.getString("message");
-					if (!code.equals("1000")) {
-						throw new GrouponException(message);
-					}
-				}
-			} catch (JSONException e) {
-				throw new GrouponException("Not a valid response!");
-			}
-		}
-	}
 }
