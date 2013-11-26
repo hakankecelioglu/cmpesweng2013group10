@@ -69,6 +69,8 @@ public class SessionControlFilter implements Filter {
 		
 		if (user != null) {
 			GrouponThreadLocal.set(user);
+		} else {
+			GrouponThreadLocal.unset();
 		}
 		chain.doFilter(req, resp);
 	}

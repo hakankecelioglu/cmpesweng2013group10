@@ -34,9 +34,13 @@ public class TaskService {
 	public List<Task> getCommunityTasks(User user) {
 		return taskDao.getCommunityTasks(user.getId());
 	}
+	
+	public List<Task> getHomeFeedTasks(User user) {
+		return taskDao.getHomeFeedTasks(user.getId());
+	}
 
-	public List<Task> getAllTasks() {
-		return taskDao.findAll();
+	public List<Task> getAllTasks(int page, int max) {
+		return taskDao.findAll(page, max);
 	}
 
 	public Task createTask(Task task, User owner) {
