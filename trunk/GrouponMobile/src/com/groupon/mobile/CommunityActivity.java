@@ -2,6 +2,10 @@ package com.groupon.mobile;
 
 import java.util.Map;
 
+import org.json.JSONObject;
+
+import com.groupon.mobile.conn.ConnectionUtils;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -20,12 +24,34 @@ public class CommunityActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_community);
-
+	
 		communityId = getIntent().getIntExtra("communityId", -1);
-		Map<String, Object> m = DummyController.getCommunity(communityId);
-		String name = (String) m.get("name");
-		String description = (String) m.get("description");
-		setupUI(name, description);
+		Thread t = new Thread(new Runnable() {
+			@Override
+			public void run() {
+				try {
+					String path="http://192.168.1.3:1616/communityMobile/"+communityId;
+		        	String response=ConnectionUtils.makePostRequest(path, null);
+		        	JSONObject obj = new JSONObject(response);
+		        	
+		        		JSONObject community = obj.getJSONObject("community");
+		        		final String communityName = community.getString("name");
+		        		final String communityDescription = community.getString("description");
+		        		runOnUiThread(new Runnable() {
+			        		@Override
+			        		public void run() {
+			        			setupUI(communityName, communityDescription);
+			        		}
+			        	});
+		        		
+		        	
+		        } catch (Exception e) {
+		            e.printStackTrace();
+		        }
+			}
+		});
+		t.start();		
+
 	}
 
 	private void setupUI(String name, String description) {
