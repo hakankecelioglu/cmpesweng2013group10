@@ -327,7 +327,6 @@ public class BaseDaoImpl extends HibernateDaoSupport implements BaseDao {
 		try {
 			this.getHibernateTemplate().saveOrUpdate(transientInstance);
 			this.getHibernateTemplate().flush();
-			// this.getHibernateTemplate().evict(transientInstance);
 		} catch (final RuntimeException re) {
 			throw re;
 		}
@@ -339,13 +338,12 @@ public class BaseDaoImpl extends HibernateDaoSupport implements BaseDao {
 	}
 
 	@Override
-	public Serializable update(Object transientInstance, boolean flushAndEvict) {
+	public Serializable update(Object transientInstance, boolean flush) {
 		final Serializable id = null;
 		try {
 			this.getHibernateTemplate().update(transientInstance);
-			if (flushAndEvict) {
+			if (flush) {
 				this.getHibernateTemplate().flush();
-				this.getHibernateTemplate().evict(transientInstance);
 			}
 		} catch (final RuntimeException re) {
 			throw re;
