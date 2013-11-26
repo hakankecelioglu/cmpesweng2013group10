@@ -1,6 +1,6 @@
-package com.groupon.web.controller;
+package com.groupon.web.exception;
 
-public class GrouponException extends Exception {
+public class GrouponException extends RuntimeException {
 
 	private static final long serialVersionUID = -4412950336471523266L;
 

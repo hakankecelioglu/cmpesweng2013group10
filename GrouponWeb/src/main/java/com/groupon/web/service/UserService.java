@@ -11,13 +11,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import com.groupon.web.controller.GrouponException;
 import com.groupon.web.dao.UserDao;
 import com.groupon.web.dao.model.Role;
 import com.groupon.web.dao.model.RoleName;
 import com.groupon.web.dao.model.User;
 import com.groupon.web.dao.model.UserRole;
 import com.groupon.web.dao.model.UserStatus;
+import com.groupon.web.exception.GrouponException;
 import com.groupon.web.util.GrouponLogger;
 import com.groupon.web.util.GrouponWebUtils;
 
