@@ -2,12 +2,11 @@ package com.groupon.mobile;
 
 import java.util.Map;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.widget.TextView;
 
-public class TaskActivity extends Activity {
+public class TaskActivity extends BaseActivity {
 	private TextView taskNameField;
 	private TextView taskDescriptionField;
 	private TextView taskDeadlineField;

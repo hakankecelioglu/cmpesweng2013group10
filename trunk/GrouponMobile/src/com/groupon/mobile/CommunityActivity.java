@@ -1,12 +1,7 @@
 package com.groupon.mobile;
 
-import java.util.Map;
-
 import org.json.JSONObject;
 
-import com.groupon.mobile.conn.ConnectionUtils;
-
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -14,7 +9,9 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 
-public class CommunityActivity extends Activity {
+import com.groupon.mobile.conn.ConnectionUtils;
+
+public class CommunityActivity extends BaseActivity {
 	private Button createButton;
 	private TextView communityNameField;
 	private TextView communityDescriptionField;
@@ -24,33 +21,32 @@ public class CommunityActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_community);
-	
+
 		communityId = getIntent().getIntExtra("communityId", -1);
+
 		Thread t = new Thread(new Runnable() {
 			@Override
 			public void run() {
 				try {
-					String path="http://192.168.1.3:1616/communityMobile/"+communityId;
-		        	String response=ConnectionUtils.makePostRequest(path, null);
-		        	JSONObject obj = new JSONObject(response);
-		        	
-		        		JSONObject community = obj.getJSONObject("community");
-		        		final String communityName = community.getString("name");
-		        		final String communityDescription = community.getString("description");
-		        		runOnUiThread(new Runnable() {
-			        		@Override
-			        		public void run() {
-			        			setupUI(communityName, communityDescription);
-			        		}
-			        	});
-		        		
-		        	
-		        } catch (Exception e) {
-		            e.printStackTrace();
-		        }
+					String path = "http://192.168.1.3:1616/communityMobile/" + communityId;
+					JSONObject obj = ConnectionUtils.makePostRequest(path, null, null);
+
+					JSONObject community = obj.getJSONObject("community");
+					final String communityName = community.getString("name");
+					final String communityDescription = community.getString("description");
+					runOnUiThread(new Runnable() {
+						@Override
+						public void run() {
+							setupUI(communityName, communityDescription);
+						}
+					});
+
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
 		});
-		t.start();		
+		t.start();
 
 	}
 
