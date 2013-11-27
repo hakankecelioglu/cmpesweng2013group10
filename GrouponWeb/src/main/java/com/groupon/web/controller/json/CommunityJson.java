@@ -1,6 +1,8 @@
 package com.groupon.web.controller.json;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.groupon.web.dao.model.Community;
 
@@ -41,5 +43,15 @@ public class CommunityJson implements Serializable {
 		communityJson.setId(community.getId());
 		communityJson.setName(community.getName());
 		return communityJson;
+	}
+	
+	public static List<CommunityJson> convert(List<Community> communities) {
+		List<CommunityJson> jsons = new ArrayList<CommunityJson>();
+		if (communities != null) {
+			for (Community community : communities) {
+				jsons.add(convert(community));
+			}
+		}
+		return jsons;
 	}
 }

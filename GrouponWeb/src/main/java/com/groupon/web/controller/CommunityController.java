@@ -39,7 +39,6 @@ import com.groupon.web.dao.model.User;
 import com.groupon.web.exception.GrouponException;
 import com.groupon.web.service.CommunityService;
 import com.groupon.web.service.TaskService;
-import com.groupon.web.service.UserService;
 
 @Controller
 /**
@@ -55,28 +54,31 @@ public class CommunityController extends AbstractBaseController {
 	@Autowired
 	private TaskService taskService;
 
-	@Autowired
-	private UserService userService;
-
 	@Value("${tasks.per.community.page}")
 	private int numberOfTasksPerPage;
 
 	@Value("${PHOTO_SRC}")
 	private String photoDirectory;
-	@RequestMapping(value = "getCommunitiesAndroid", method = RequestMethod.POST)
-	public ResponseEntity<Map<String, Object>> getCommunitiesAndroid(HttpServletRequest request, @RequestParam String name, @RequestParam String description) {
-		User user = getUser();
-		
-		List<Community> communities= communityService.getCommunitiesByFollowerId(user.getId());
-		List<CommunityJson> communitiesJSON=new ArrayList<CommunityJson>();
-        for(Community c : communities)
-        {
-        	communitiesJSON.add(CommunityJson.convert(c));
-        }
+
+	@RequestMapping(value = "getCommunitiesOfUser", method = RequestMethod.POST)
+	public ResponseEntity<Map<String, Object>> getCommunitiesAndroid(HttpServletRequest request, @RequestParam String name, @RequestParam String description,
+			@RequestParam(required = false) Integer page, @RequestParam(required = false) Integer max) {
 		Map<String, Object> response = new HashMap<String, Object>();
-		response.put("communities",communitiesJSON);
+		User user = getUser();
+
+		int pagePrimitive = 0;
+		int maxPrimitive = 0;
+		if (page != null && max != null) {
+			pagePrimitive = page;
+			maxPrimitive = max;
+		}
+
+		List<Community> communities = communityService.getCommunitiesByFollowerId(user.getId(), pagePrimitive, maxPrimitive);
+		response.put("communities", CommunityJson.convert(communities));
+		
 		return prepareSuccessResponse(response);
 	}
+
 	@RequestMapping(value = "createCommunity", method = RequestMethod.GET)
 	public Object createCommunity(HttpServletRequest request, Model model) {
 		User user = getUser();
