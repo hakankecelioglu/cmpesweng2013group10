@@ -7,12 +7,13 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.groupon.mobile.model.Community;
 import com.groupon.mobile.model.User;
 
 public class HomeActivity extends BaseActivity {
 	private User user;
 	private Button createCommunityTaskButton;
-
+	private Button myCommunitiesButton;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -30,12 +31,21 @@ public class HomeActivity extends BaseActivity {
 	private void setupUI() {
 		createCommunityTaskButton = (Button) findViewById(R.id.button_home_create_new_community);
 		createCommunityTaskButton.setOnClickListener(createNewCommunityListener);
+		myCommunitiesButton = (Button) findViewById(R.id.button_my_communities);
+		myCommunitiesButton.setOnClickListener(myCommunitiesListener);
 	}
 
 	private OnClickListener createNewCommunityListener = new OnClickListener() {
 		@Override
 		public void onClick(View v) {
 			Intent intent = new Intent(HomeActivity.this, CreateCommunityActivity.class);
+			startActivity(intent);
+		}
+	};
+	private OnClickListener myCommunitiesListener = new OnClickListener() {
+		@Override
+		public void onClick(View v) {
+			Intent intent = new Intent(HomeActivity.this,MyCommunitiesActivity.class);
 			startActivity(intent);
 		}
 	};
