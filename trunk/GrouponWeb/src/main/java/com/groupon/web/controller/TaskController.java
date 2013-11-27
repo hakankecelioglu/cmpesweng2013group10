@@ -99,6 +99,17 @@ public class TaskController extends AbstractBaseController {
 		return prepareErrorResponse(response);
 	}
 
+	@RequestMapping(value = "/suggest", method = RequestMethod.GET)
+	public ResponseEntity<Map<String, Object>> getSuggestedTasks(@RequestParam(required = false) Integer page, @RequestParam(required = false) Integer max) {
+		Map<String, Object> response = new HashMap<String, Object>();
+		
+		User user = getUser();
+		List<Task> suggestedTasks = taskService.getRecommendedTasks(user);
+		
+		response.put("tasks", suggestedTasks);
+		return prepareSuccessResponse(response);
+	}
+
 	@RequestMapping(value = "/followTask", method = RequestMethod.POST)
 	public ResponseEntity<Map<String, Object>> followTask(HttpServletRequest request, @RequestParam Long taskId) {
 		Map<String, Object> response = new HashMap<String, Object>();

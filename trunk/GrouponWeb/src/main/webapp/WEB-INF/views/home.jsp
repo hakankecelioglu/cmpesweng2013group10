@@ -2,19 +2,17 @@
 
 <div class="row">
 	<%------------------------------------ LEFT FRAME ----------------------------------------------%>
-	<div class="span2">
-		<ul>
+	<div class="span2" id="home-left-frame">
+		<ul class="nav nav-tabs nav-stacked">
 			<li><a href="#">Home Feed</a></li>
 			<li><a href="#">Community Feed</a></li>
 			<li><a href="#">Followed Tasks</a></li>
 		</ul>
 		
-		<h4>Communities</h4>
-		<ul>
-			<li><a href="#">Comm1</a></li>
-			<li><a href="#">Comm2</a></li>
-			<li><a href="#">Comm3</a></li>
-		</ul>
+		<div class="h-user-communities" style="display: none;">
+			<h4>Communities</h4>
+			<ul class="nav nav-tabs nav-stacked"></ul>
+		</div>
 	</div>
 	<%------------------------------------ LEFT FRAME ENDS ----------------------------------------------%>
 	
