@@ -61,8 +61,8 @@ public class CommunityController extends AbstractBaseController {
 	private String photoDirectory;
 
 	@RequestMapping(value = "getCommunitiesOfUser", method = RequestMethod.POST)
-	public ResponseEntity<Map<String, Object>> getCommunitiesAndroid(HttpServletRequest request, @RequestParam String name, @RequestParam String description,
-			@RequestParam(required = false) Integer page, @RequestParam(required = false) Integer max) {
+	public ResponseEntity<Map<String, Object>> getCommunitiesAndroid(HttpServletRequest request, @RequestParam(required = false) Integer page,
+			@RequestParam(required = false) Integer max) {
 		Map<String, Object> response = new HashMap<String, Object>();
 		User user = getUser();
 
@@ -75,7 +75,7 @@ public class CommunityController extends AbstractBaseController {
 
 		List<Community> communities = communityService.getCommunitiesByFollowerId(user.getId(), pagePrimitive, maxPrimitive);
 		response.put("communities", CommunityJson.convert(communities));
-		
+
 		return prepareSuccessResponse(response);
 	}
 

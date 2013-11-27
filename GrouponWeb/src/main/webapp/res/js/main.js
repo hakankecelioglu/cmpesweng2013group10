@@ -1,6 +1,10 @@
 $(function() {
 	window.GrouponUtils = {
-		siteBase: "http://" + window.location.host + $("#siteBaseUrl").val()
+		siteBase: "http://" + window.location.host + $("#siteBaseUrl").val(),
+		
+		communityPage: function (id) {
+			return GrouponUtils.siteBase + 'community/' + id;
+		}
 	};
 	
 	// Setup drop down menu
