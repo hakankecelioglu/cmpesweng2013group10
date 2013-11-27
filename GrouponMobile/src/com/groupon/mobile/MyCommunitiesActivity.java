@@ -57,7 +57,7 @@ public class MyCommunitiesActivity extends BaseActivity {
 		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 			if (position >= 0 && position < communities.size()) {
 				Community community = communities.get(position);
-				Intent intent = new Intent(MyCommunitiesActivity.this, Community.class);
+				Intent intent = new Intent(MyCommunitiesActivity.this, CommunityActivity.class);
 				intent.putExtra("communityId", community.getId());
 				startActivity(intent);
 			}
