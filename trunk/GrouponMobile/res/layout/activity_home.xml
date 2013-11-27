@@ -49,5 +49,10 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/button_home_top_helpful_users"
         android:text="@string/advanced_search" />
-
+    <Button
+        android:id="@+id/button_my_communities"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/button_home_advanced_search"
+        android:text="@string/my_communities" />
 </RelativeLayout>
