@@ -140,7 +140,7 @@ public class UserController extends AbstractBaseController {
 			return "redirect:/";
 		}
 
-		List<Community> usersCommunities = communityService.getCommunitiesByFollowerId(user.getId());
+		List<Community> usersCommunities = communityService.getCommunitiesByFollowerId(user.getId(), 0, 0);
 		model.addAttribute("myCommunities", usersCommunities);
 
 		model.addAttribute("page", "myprofile");
@@ -161,7 +161,7 @@ public class UserController extends AbstractBaseController {
 			return "redirect:/";
 		}
 
-		List<Community> usersCommunities = communityService.getCommunitiesByFollowerId(profile.getId());
+		List<Community> usersCommunities = communityService.getCommunitiesByFollowerId(profile.getId(), 0, 0);
 		model.addAttribute("myCommunities", usersCommunities);
 
 		model.addAttribute("page", "myprofile");

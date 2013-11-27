@@ -27,9 +27,13 @@ public class CommunityDao extends BaseDaoImpl {
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<Community> getCommunitiesByFollowerId(Long userId) {
+	public List<Community> getCommunitiesByFollowerId(Long userId, int page, int max) {
 		Query query = getSession().createQuery("select c from Community c join fetch c.members m where m.id = :userId");
 		query.setParameter("userId", userId);
+		if (page >= 0 && max > 0) {
+			query.setFirstResult(page * max);
+			query.setMaxResults(max);
+		}
 		return query.list();
 	}
 

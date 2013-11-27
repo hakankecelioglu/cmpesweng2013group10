@@ -35,8 +35,8 @@ public class CommunityService {
 		return communityDao.getCommunityById(id);
 	}
 
-	public List<Community> getCommunitiesByFollowerId(Long userId) {
-		return communityDao.getCommunitiesByFollowerId(userId);
+	public List<Community> getCommunitiesByFollowerId(Long userId, int page, int max) {
+		return communityDao.getCommunitiesByFollowerId(userId, page, max);
 	}
 
 	public List<Community> getAllCommunities() {
