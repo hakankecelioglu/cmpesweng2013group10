@@ -63,7 +63,20 @@ public class CommunityController extends AbstractBaseController {
 
 	@Value("${PHOTO_SRC}")
 	private String photoDirectory;
-
+	@RequestMapping(value = "getCommunitiesAndroid", method = RequestMethod.POST)
+	public ResponseEntity<Map<String, Object>> getCommunitiesAndroid(HttpServletRequest request, @RequestParam String name, @RequestParam String description) {
+		User user = getUser();
+		
+		List<Community> communities= communityService.getCommunitiesByFollowerId(user.getId());
+		List<CommunityJson> communitiesJSON=new ArrayList<CommunityJson>();
+        for(Community c : communities)
+        {
+        	communitiesJSON.add(CommunityJson.convert(c));
+        }
+		Map<String, Object> response = new HashMap<String, Object>();
+		response.put("communities",communitiesJSON);
+		return prepareSuccessResponse(response);
+	}
 	@RequestMapping(value = "createCommunity", method = RequestMethod.GET)
 	public Object createCommunity(HttpServletRequest request, Model model) {
 		User user = getUser();
