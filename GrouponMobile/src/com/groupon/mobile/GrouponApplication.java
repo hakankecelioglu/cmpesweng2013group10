@@ -70,11 +70,19 @@ public class GrouponApplication extends Application {
 	private void writeLoggedUser(User user) {
 		SharedPreferences preferences = getSharedPreferences("user", Activity.MODE_PRIVATE);
 		SharedPreferences.Editor editor = preferences.edit();
-		editor.putString("username", user.getUsername());
-		editor.putLong("id", user.getId());
-		editor.putString("name", user.getName());
-		editor.putString("surname", user.getSurname());
-		editor.putString("email", user.getEmail());
+		if (user == null) {
+			editor.remove("username");
+			editor.remove("id");
+			editor.remove("name");
+			editor.remove("surname");
+			editor.remove("email");
+		} else {
+			editor.putString("username", user.getUsername());
+			editor.putLong("id", user.getId());
+			editor.putString("name", user.getName());
+			editor.putString("surname", user.getSurname());
+			editor.putString("email", user.getEmail());
+		}
 		editor.commit();
 	}
 }

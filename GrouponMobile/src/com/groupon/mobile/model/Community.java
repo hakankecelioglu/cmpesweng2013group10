@@ -1,6 +1,10 @@
 package com.groupon.mobile.model;
 
-public class Community {
+import java.io.Serializable;
+
+public class Community implements Serializable {
+	private static final long serialVersionUID = 9143384393814027138L;
+
 	private Long id;
 
 	private String name;

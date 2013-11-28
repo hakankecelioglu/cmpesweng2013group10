@@ -7,20 +7,19 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".HomeActivity" >
-    <TextView 
+
+    <TextView
         android:id="@+id/conn"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        
-        android:gravity="right" 
-        />
+        android:gravity="right" />
+
     <TextView
         android:id="@+id/home_hello_username"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/conn"
         android:gravity="right" />
-
 
     <Button
         android:id="@+id/button_home_my_profile"
@@ -49,10 +48,19 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/button_home_top_helpful_users"
         android:text="@string/advanced_search" />
+
     <Button
         android:id="@+id/button_my_communities"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/button_home_advanced_search"
         android:text="@string/my_communities" />
+
+    <Button
+        android:id="@+id/button_logout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/button_my_communities"
+        android:text="@string/logout" />
+
 </RelativeLayout>
