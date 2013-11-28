@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.groupon.mobile.conn.ConnectionUtils;
+import com.groupon.mobile.utils.Constants;
 
 public class CommunityActivity extends BaseActivity {
 	private Button createButton;
@@ -28,7 +29,7 @@ public class CommunityActivity extends BaseActivity {
 			@Override
 			public void run() {
 				try {
-					String path = "http://192.168.1.3:1616/communityMobile/" + communityId;
+					String path = Constants.SERVER + "communityMobile/" + communityId;
 					JSONObject obj = ConnectionUtils.makePostRequest(path, null, getAuthToken());
 
 					JSONObject community = obj.getJSONObject("community");
