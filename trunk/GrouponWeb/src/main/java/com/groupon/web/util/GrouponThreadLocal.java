@@ -9,12 +9,12 @@ public class GrouponThreadLocal {
 
 	public static void set(User user) {
 		GrouponThreadLocal grouponThreadLocal = threadLocal.get();
-		
+
 		if (grouponThreadLocal == null) {
 			grouponThreadLocal = new GrouponThreadLocal();
 		}
 		grouponThreadLocal.user = user;
-		
+
 		threadLocal.set(grouponThreadLocal);
 	}
 
@@ -24,11 +24,11 @@ public class GrouponThreadLocal {
 
 	public static User get() {
 		GrouponThreadLocal grouponThreadLocal = threadLocal.get();
-		
+
 		if (grouponThreadLocal == null) {
 			return null;
 		}
-		
+
 		return grouponThreadLocal.user;
 	}
 

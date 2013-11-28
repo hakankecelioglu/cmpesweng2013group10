@@ -44,7 +44,7 @@ public class CommunityJson implements Serializable {
 		communityJson.setName(community.getName());
 		return communityJson;
 	}
-	
+
 	public static List<CommunityJson> convert(List<Community> communities) {
 		List<CommunityJson> jsons = new ArrayList<CommunityJson>();
 		if (communities != null) {

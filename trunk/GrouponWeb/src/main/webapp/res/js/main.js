@@ -4,6 +4,16 @@ $(function() {
 		
 		communityPage: function (id) {
 			return GrouponUtils.siteBase + 'community/' + id;
+		},
+		
+		taskPage: function (id) {
+			return GrouponUtils.siteBase + 'task/show/' + id;
+		},
+		
+		followTask: function (taskId) {
+			var url = GrouponUtils.siteBase + 'task/followTask';
+			var data = { taskId: taskId };
+			return $.post(url, data);
 		}
 	};
 	
@@ -95,4 +105,5 @@ $(function() {
 		
 		return false;
 	});
+	
 });

@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -36,6 +37,9 @@ public class UserController extends AbstractBaseController {
 
 	@Autowired
 	private CommunityService communityService;
+
+	@Value("${COOKIE_PATH}")
+	private String cookiePath;
 
 	@RequestMapping(value = "login", method = RequestMethod.GET)
 	public Object login() {
@@ -205,7 +209,7 @@ public class UserController extends AbstractBaseController {
 		if (user != null) {
 			session.setAttribute(ControllerConstants.SESSION_ATTR_USER, user);
 			Cookie cookie = new Cookie(ControllerConstants.COOKIE_NAME_USER, GrouponWebUtils.generateCookieForUser(user));
-			cookie.setPath("/");
+			cookie.setPath(cookiePath);
 			cookie.setMaxAge(ControllerConstants.COOKIE_USER_MAX_AGE);
 			response.addCookie(cookie);
 		} else {
@@ -215,6 +219,7 @@ public class UserController extends AbstractBaseController {
 				if (cookie.getName().equals(ControllerConstants.COOKIE_NAME_USER)) {
 					cookie.setMaxAge(0);
 					cookie.setValue("");
+					cookie.setPath(cookiePath);
 					response.addCookie(cookie);
 				}
 			}

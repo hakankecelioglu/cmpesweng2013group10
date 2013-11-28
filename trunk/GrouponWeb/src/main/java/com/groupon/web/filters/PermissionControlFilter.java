@@ -19,11 +19,14 @@ import org.springframework.stereotype.Component;
 import com.groupon.web.dao.model.User;
 import com.groupon.web.dao.model.UserStatus;
 import com.groupon.web.util.ControllerConstants;
+import com.groupon.web.util.GrouponLogger;
 
 @Component("permissionControlFilter")
 public class PermissionControlFilter implements Filter {
 
 	final Pattern excludePatternUsers = Pattern.compile("((^/res/)|(^/user/deactivated)|(^/user/deleted)|(^/user/banned)|(^/logout)|(^/emailApproval))");
+
+	private GrouponLogger logger = GrouponLogger.getLogger(getClass());
 
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
@@ -50,14 +53,19 @@ public class PermissionControlFilter implements Filter {
 
 	private void checkUserStatusAndRedirectOrChain(User user, HttpServletRequest req, HttpServletResponse resp, FilterChain chain) throws IOException, ServletException {
 		String requestURI = req.getRequestURI();
+		if (req.getContextPath().length() > 0) {
+			requestURI = requestURI.substring(req.getContextPath().length());
+		}
 		Matcher matcher = excludePatternUsers.matcher(requestURI);
 
 		if (!matcher.find()) {
+			logger.debug("checkUserStatusAndRedirectOrChain::not matched requestURI::{0}", requestURI);
+
 			if (user.getStatus() == UserStatus.DEACTIVE) {
-				resp.sendRedirect("/user/deactivated");
+				resp.sendRedirect(req.getContextPath() + "/user/deactivated");
 				return;
 			} else if (user.getStatus() == UserStatus.BANNED) {
-				resp.sendRedirect("/user/deleted");
+				resp.sendRedirect(req.getContextPath() + "/user/deleted");
 				return;
 			}
 		}
