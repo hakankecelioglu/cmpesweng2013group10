@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.groupon.web.controller.json.TaskJson;
 import com.groupon.web.dao.model.Community;
 import com.groupon.web.dao.model.NeedType;
 import com.groupon.web.dao.model.Tag;
@@ -102,11 +103,11 @@ public class TaskController extends AbstractBaseController {
 	@RequestMapping(value = "/suggest", method = RequestMethod.GET)
 	public ResponseEntity<Map<String, Object>> getSuggestedTasks(@RequestParam(required = false) Integer page, @RequestParam(required = false) Integer max) {
 		Map<String, Object> response = new HashMap<String, Object>();
-		
+
 		User user = getUser();
 		List<Task> suggestedTasks = taskService.getRecommendedTasks(user);
-		
-		response.put("tasks", suggestedTasks);
+
+		response.put("tasks", TaskJson.convert(suggestedTasks));
 		return prepareSuccessResponse(response);
 	}
 

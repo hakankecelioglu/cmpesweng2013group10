@@ -6,12 +6,14 @@ $(document).ready(function () {
 			
 			var data = {};
 			
+			if (!isNaN(page) && !isNaN(max)) {
+				data.page = page;
+				data.max = max;
+			}
+			
 			$.ajax({
 				type: "POST",
-				contentType: false,
-				cache: false,
 				url: url,
-				processData: false,
 				data: data,
 			    success: function(response) {
 					if (response.communities && response.communities.length > 0) {
@@ -23,7 +25,7 @@ $(document).ready(function () {
 							$li.appendTo($ul);
 						});
 					} else {
-						alert("err no item");
+						// TODO
 					}
 				},
 			    error: function(response){
@@ -32,8 +34,60 @@ $(document).ready(function () {
 			});
 		},
 		
-		
+		loadSuggestions: function (page, max) {
+			var url = GrouponUtils.siteBase + "task/suggest";
+			
+			var data = {};
+			
+			if (!isNaN(page) && !isNaN(max)) {
+				data.page = page;
+				data.max = max;
+			}
+			
+			$.ajax({
+				type: "GET",
+				url: url,
+				data: data,
+			    success: function(response) {
+					if (response.tasks && response.tasks.length > 0) {
+						var tasks = response.tasks;
+						var $container = $(".h-suggestions div.list");
+						$.each(tasks, function (i, task) {
+							var $item = $('<div class="list-item"></div>');
+							$('<a />').html(task.title).attr('href', GrouponUtils.taskPage(task.id)).appendTo($item);
+							$('<p />').html(task.description).appendTo($item);
+							$('<a href="#" />').html('Follow Task').addClass('rli-follow-task').attr('data-taskid', task.id).appendTo($item);
+							$item.appendTo($container);
+						});
+					} else {
+						$(".no-suggestion-info").show();
+					}
+				},
+			    error: function(response){
+			    	$(".no-suggestion-info").removeClass("text-info").addClass("text-error").show().html("An error occured!");
+				}
+			});
+		}
 	};
 	
+	$(document).on('click', '.rli-follow-task', function () {
+		var that = $(this);
+		that.hide();
+		var taskId = that.attr('data-taskid');
+		if (taskId) {
+			GrouponUtils.followTask(taskId).done(function (resp) {
+				if (resp.followerCount) {
+					that.closest('div.list-item').remove();
+				}
+			}).fail(function (jxhr) {
+				alert("An error occured!");
+			}).always(function () {
+				that.show();
+			});
+		}
+		return false;
+	});
+	
 	scope.loadCommunitiesOfUser(0, 10);
+	scope.loadSuggestions(0, 10);
 });

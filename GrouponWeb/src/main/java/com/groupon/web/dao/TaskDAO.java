@@ -28,7 +28,7 @@ public class TaskDAO extends BaseDaoImpl {
 			query.setFirstResult(page * max);
 			query.setMaxResults(max);
 		}
-		
+
 		List<Task> tasks = query.list();
 		return tasks;
 	}
@@ -99,7 +99,10 @@ public class TaskDAO extends BaseDaoImpl {
 
 	@SuppressWarnings("unchecked")
 	public List<Task> getHomeFeedTasks(long userId) {
-		Query query = this.getSession().createQuery("select t from Task t, Community c where c.id = t.community.id and (:uid MEMBER OF c.members or :uid MEMBER OF t.followers) and t.deadline > NOW() order by t.deadline ASC");
+		Query query = this
+				.getSession()
+				.createQuery(
+						"select t from Task t, Community c where c.id = t.community.id and (:uid MEMBER OF c.members or :uid MEMBER OF t.followers) and t.deadline > NOW() order by t.deadline ASC");
 		query.setParameter("uid", userId);
 		return (List<Task>) query.list();
 	}

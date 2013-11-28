@@ -52,9 +52,9 @@ public class SessionControlFilter implements Filter {
 			chain.doFilter(request, response);
 			return;
 		}
-		
+
 		User user = null;
-		
+
 		String authToken = req.getHeader(ControllerConstants.REQUEST_HEADER_AUTH_KEY);
 		if (authToken == null) {
 			HttpSession session = req.getSession(true);
@@ -66,7 +66,7 @@ public class SessionControlFilter implements Filter {
 		} else {
 			user = checkAuthTokenAndGetUser(authToken);
 		}
-		
+
 		if (user != null) {
 			GrouponThreadLocal.set(user);
 		} else {
@@ -99,7 +99,7 @@ public class SessionControlFilter implements Filter {
 		}
 		return null;
 	}
-	
+
 	private User checkAuthTokenAndGetUser(String authToken) {
 		Long userId = GrouponWebUtils.extractUserIdFromCookieValue(authToken);
 		if (userId != null) {

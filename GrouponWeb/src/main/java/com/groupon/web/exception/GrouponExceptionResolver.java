@@ -13,7 +13,8 @@ import org.springframework.web.servlet.view.json.MappingJacksonJsonView;
 import com.groupon.web.util.GrouponLogger;
 
 /**
- * This class handles the exceptions. 
+ * This class handles the exceptions.
+ * 
  * @author sedrik
  */
 public class GrouponExceptionResolver implements HandlerExceptionResolver {
