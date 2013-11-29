@@ -12,6 +12,7 @@ public class CommunityJson implements Serializable {
 	private String name;
 	private String description;
 	private Long id;
+	private String picture;
 
 	public String getName() {
 		return name;
@@ -37,11 +38,20 @@ public class CommunityJson implements Serializable {
 		this.id = id;
 	}
 
+	public String getPicture() {
+		return picture;
+	}
+
+	public void setPicture(String picture) {
+		this.picture = picture;
+	}
+
 	public static CommunityJson convert(Community community) {
 		CommunityJson communityJson = new CommunityJson();
 		communityJson.setDescription(community.getDescription());
 		communityJson.setId(community.getId());
 		communityJson.setName(community.getName());
+		communityJson.setPicture(community.getPicture());
 		return communityJson;
 	}
 

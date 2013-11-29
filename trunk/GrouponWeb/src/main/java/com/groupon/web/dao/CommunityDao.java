@@ -28,7 +28,7 @@ public class CommunityDao extends BaseDaoImpl {
 
 	@SuppressWarnings("unchecked")
 	public List<Community> getCommunitiesByFollowerId(Long userId, int page, int max) {
-		Query query = getSession().createQuery("select c from Community c join fetch c.members m where m.id = :userId");
+		Query query = getSession().createQuery("select c from Community c join fetch c.members m where m.id = :userId order by c.updateDate DESC");
 		query.setParameter("userId", userId);
 		if (page >= 0 && max > 0) {
 			query.setFirstResult(page * max);
@@ -37,4 +37,17 @@ public class CommunityDao extends BaseDaoImpl {
 		return query.list();
 	}
 
+	@SuppressWarnings("unchecked")
+	public List<Community> findSimiliarCommunities(Long communityId, int page, int max) {
+		Query query = getSession().createQuery("select c from Community c " //
+				+ "where c.id != :communityId and exists " //
+				+ "(select t from Tag t, Community c1 " //
+				+ "where t MEMBER OF c1.tags and t MEMBER OF c.tags and c1.id = :communityId)");
+		query.setParameter("communityId", communityId);
+		if (page >= 0 && max > 0) {
+			query.setFirstResult(page * max);
+			query.setMaxResults(max);
+		}
+		return query.list();
+	}
 }

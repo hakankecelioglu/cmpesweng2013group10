@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.groupon.web.dao.TaskDAO;
+import com.groupon.web.dao.model.SortBy;
 import com.groupon.web.dao.model.Tag;
 import com.groupon.web.dao.model.Task;
 import com.groupon.web.dao.model.TaskStatus;
@@ -35,8 +36,8 @@ public class TaskService {
 		return taskDao.getCommunityTasks(user.getId());
 	}
 
-	public List<Task> getHomeFeedTasks(User user) {
-		return taskDao.getHomeFeedTasks(user.getId());
+	public List<Task> getHomeFeedTasks(User user, SortBy sortBy) {
+		return taskDao.getHomeFeedTasks(user.getId(), sortBy);
 	}
 
 	public List<Task> getAllTasks(int page, int max) {
@@ -51,7 +52,9 @@ public class TaskService {
 		arrangeTagsOfTask(task);
 		Task taskCreated = taskDao.saveTask(task);
 
-		tagService.createTagUserRelations(task.getTags(), owner, ControllerConstants.TAG_USER_CREATE_TASK);
+		followTask(taskCreated.getId(), owner);
+
+		tagService.createTagUserRelationsOfTask(task.getId(), owner.getId(), ControllerConstants.TAG_USER_CREATE_TASK);
 
 		return taskCreated;
 	}
@@ -66,7 +69,7 @@ public class TaskService {
 		task.setFollowerCount(task.getFollowerCount() + 1);
 		taskDao.updateTask(task);
 
-		tagService.createTagUserRelations(task.getTags(), user, ControllerConstants.TAG_USER_FOLLOW_TASK);
+		tagService.createTagUserRelationsOfTask(task.getId(), user.getId(), ControllerConstants.TAG_USER_FOLLOW_TASK);
 		return task.getFollowerCount();
 	}
 

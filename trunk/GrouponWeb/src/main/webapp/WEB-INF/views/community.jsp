@@ -8,7 +8,7 @@
 					<img class="media-object community-icon" src="<c:url value="/community/picture/${community.picture}" />">
 				</c:when>
 				<c:otherwise>
-					<img class="media-object community-icon" src="http://b.vimeocdn.com/ps/445/980/4459809_300.jpg">
+					<img class="media-object community-icon" src="<c:url value="/res/img/default_com_picture.jpg" />">
 				</c:otherwise>
 			</c:choose>
 		</a>
@@ -45,23 +45,17 @@
 
 <div class="row">
 	<div class="span8">
-		<h1 class="pull-left">Tasks</h1>
-		<div class="pull-right">
-			Sort by: 
-			<select>
-				<option>Latest</option>
-				<option>Urgency</option>
-			</select>
+		<div class="clearfix">
+			<h1 class="pull-left">Tasks</h1>
+			<div class="pull-right">
+				Sort by: 
+				<select>
+					<option>Latest</option>
+					<option>Urgency</option>
+				</select>
+			</div>
 		</div>
-	</div>
-	
-	<div class="span4">
-		<h3>Similar Communities</h3>
-	</div>
-</div>
-
-<div class="row">
-	<div class="span8">
+		
 		<c:choose>
 			<c:when test="${not empty tasks}">
 				<c:forEach var="task" items="${tasks}">
@@ -140,35 +134,11 @@
 	</div><%-- End of tasks --%>
 	
 	<div class="span4">
-		<c:forEach var="similarCommunity" items="${similarCommunities}">
-			
-		</c:forEach>
-		
-		<%-- TODO: remove later --%>
-		<div class="media">
-			<a class="pull-left" href="#">
-				<img class="media-object nav-user-thumb" src="http://b.vimeocdn.com/ps/445/980/4459809_300.jpg" style="width: 32px; height: 32px;">
-			</a>
-			<div class="media-body">
-				<h4 class="media-heading">Golcuk Depremi</h4>
-			</div>
+		<div class="h-similiar-communities">
+			<h3>Similar Communities</h3>
+			<div class="similiar-communities-body"></div>
 		</div>
-		<div class="media">
-			<a class="pull-left" href="#">
-				<img class="media-object nav-user-thumb" src="http://b.vimeocdn.com/ps/445/980/4459809_300.jpg" style="width: 32px; height: 32px;">
-			</a>
-			<div class="media-body">
-				<h4 class="media-heading">Van Golu Canavari</h4>
-			</div>
-		</div>
-		<div class="media">
-			<a class="pull-left" href="#">
-				<img class="media-object nav-user-thumb" src="http://b.vimeocdn.com/ps/445/980/4459809_300.jpg" style="width: 32px; height: 32px;">
-			</a>
-			<div class="media-body">
-				<h4 class="media-heading">Duzce Depremi</h4>
-			</div>
-		</div>
-		
 	</div><%-- end of latest tasks --%>
 </div>
+
+<input type="hidden" id="communityId" value="${community.id}" />

@@ -88,6 +88,33 @@ $(document).ready(function () {
 		return false;
 	});
 	
+	$(".sort-selection-menu li a").click(function () {
+		var sort = $(this).attr("data-sort");
+		var data = {sortBy: sort};
+		var url = GrouponUtils.siteBase + 'setSorting';
+		$.post(url, data).success(function (data) {
+			window.location.reload();
+		});
+		$(".sort-selection-item span").html("SORT: " + sort);
+		return false;
+	});
+	
+	$(".sort-selection-item").click(function () {
+		if ($(".sort-selection-menu").is(":visible")) {
+			$(".sort-selection-menu").hide();
+		} else {
+			$(".sort-selection-menu").show();
+		}
+		return false;
+	});
+	
+	$(document).on('click', function (e) {
+		var t = $(e.target);
+		if (t.not('.sort-selection-menu') || t.closest('.sort-selection-menu').length == 0) {
+			$(".sort-selection-menu").hide();
+		}
+	});
+	
 	scope.loadCommunitiesOfUser(0, 10);
 	scope.loadSuggestions(0, 10);
 });

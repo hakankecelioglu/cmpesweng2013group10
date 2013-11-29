@@ -205,3 +205,40 @@ body.createTaskType .whenClosed {
 	border-top: 1px solid #e9e9e9;
 	padding-top: 8px;
 }
+
+.sort-selection-line {
+	background: #999;
+	height: 2px;
+	width: 100%;
+	margin: 5px 0 10px;
+	position: relative;
+}
+
+.sort-selection-item {
+	position: absolute;
+	padding: 0 2px;
+	right: 20px;
+	top: -8px;
+	height: 20px;
+	background: #fff;
+	color: gray;
+	font-family: 'lucida grande',tahoma,verdana,arial,sans-serif;
+	font-size: 11px;
+	font-weight: bold;
+}
+
+.sort-selection-item .caret {
+	vertical-align: super;
+}
+
+.sort-selection-menu {
+	display: none;
+	position: absolute;
+	top: 9px;
+	z-index: 1;
+	right: 20px;
+	background: #fff;
+	width: 150px;
+	-webkit-background-clip: padding-box;
+	-webkit-box-shadow: 0 3px 8px rgba(0, 0, 0, .3);
+}

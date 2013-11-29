@@ -3,6 +3,7 @@ package com.groupon.web.dao;
 import java.util.List;
 
 import org.hibernate.Query;
+import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
 
 import com.groupon.web.dao.model.Tag;
@@ -24,6 +25,13 @@ public class TagDao extends BaseDaoImpl {
 
 	public TagUser findTagUserRelation(long tagId, long userId) {
 		Query query = this.getSession().createQuery("from TagUser tu where tu.user.id = :userId and tu.tag.id = :tagId");
+		query.setParameter("userId", userId);
+		query.setParameter("tagId", tagId);
+		return (TagUser) query.uniqueResult();
+	}
+	
+	public TagUser findTagUserRelation(Session session, long tagId, long userId) {
+		Query query = session.createQuery("from TagUser tu where tu.user.id = :userId and tu.tag.id = :tagId");
 		query.setParameter("userId", userId);
 		query.setParameter("tagId", tagId);
 		return (TagUser) query.uniqueResult();

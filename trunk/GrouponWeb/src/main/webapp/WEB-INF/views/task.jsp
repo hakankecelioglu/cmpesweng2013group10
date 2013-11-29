@@ -1,7 +1,7 @@
 	<%@ include file="/WEB-INF/views/common/includes.jsp"%>
 	<div class="well community-task-well">
 		<h3 class="pull-left">${task.title}</h3>
-		<h6 class="pull-right">community: ${task.community.name}</h6>
+		<h6 class="pull-right">community: <a href="<c:url value="/community/${task.community.id}" />">${task.community.name}</a></h6>
 		<div class="clearfix"></div>
 		<div>
 			<p class="pull-left">by <b>${task.owner.name}&nbsp;${task.owner.surname}</b></p>
@@ -45,26 +45,22 @@
 	</div>
 	<div class="well community-task-well">
 		<c:if test="${task.needType eq 'GOODS'}">
-		<form class="form-horizontal">
-		
+			<form class="form-horizontal">
 				<div class="control-group">
 					<label class="control-label" for="goodQuantity">${task.requirementName}</label>
 					<div class="controls">
 						<input class="span2" type="text" id="goodQuantity"> out of ${task.requirementQuantity}
 					</div>
 				</div>
-			
-		
-			
-			<div class="clearfix">
-				<button class="btn btn-success pull-right" id="followTask" data-taskid="${task.id}">Reply</button>
 				
-			</div>
-		
-		</form>
+				<div class="clearfix">
+					<button class="btn btn-success pull-right" id="followTask" data-taskid="${task.id}">Reply</button>
+				</div>
+			</form>
 		</c:if>
 	</div>
+	
 	<div class="clearfix" style="margin-bottom:20px;">
-	<button class="btn btn-success pull-right" id="followTask" data-taskid="${task.id}">Send message to task owner</button>
+		<button class="btn btn-success pull-right" id="followTask" data-taskid="${task.id}">Send message to task owner</button>
 	</div>
 				

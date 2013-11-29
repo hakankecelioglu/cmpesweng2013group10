@@ -14,6 +14,13 @@ $(function() {
 			var url = GrouponUtils.siteBase + 'task/followTask';
 			var data = { taskId: taskId };
 			return $.post(url, data);
+		},
+		
+		communityPicture: function (name) {
+			if (name) {
+				return GrouponUtils.siteBase + 'community/picture/' + name;
+			}
+			return GrouponUtils.siteBase + 'res/img/default_com_picture.jpg'
 		}
 	};
 	

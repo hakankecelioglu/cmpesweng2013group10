@@ -2,7 +2,6 @@ package com.groupon.web.controller;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -79,6 +78,23 @@ public class CommunityController extends AbstractBaseController {
 		return prepareSuccessResponse(response);
 	}
 
+	@RequestMapping(value = "getSimiliarCommunities", method = RequestMethod.POST)
+	public ResponseEntity<Map<String, Object>> getSimiliarCommunities(HttpServletRequest request, @RequestParam(required = true) Long communityId) {
+		Map<String, Object> response = new HashMap<String, Object>();
+
+		Integer page = getIntegerParameter(request, "page");
+		Integer max = getIntegerParameter(request, "max");
+		if (page == null || max == null) {
+			page = 0;
+			max = 0;
+		}
+
+		List<Community> communities = communityService.getSimiliarCommunities(communityId, page, max);
+		response.put("communities", CommunityJson.convert(communities));
+
+		return prepareSuccessResponse(response);
+	}
+
 	@RequestMapping(value = "createCommunity", method = RequestMethod.GET)
 	public Object createCommunity(HttpServletRequest request, Model model) {
 		User user = getUser();
@@ -86,7 +102,7 @@ public class CommunityController extends AbstractBaseController {
 			return "redirect:/login";
 		}
 
-		setGlobalAttributesToModel(model);
+		setGlobalAttributesToModel(model, request);
 		model.addAttribute("page", "createCommunity");
 
 		return "createCommunity.view";
@@ -182,7 +198,7 @@ public class CommunityController extends AbstractBaseController {
 		if (id == null) {
 			return "redirect:/";
 		}
-		setGlobalAttributesToModel(model);
+		setGlobalAttributesToModel(model, request);
 		Community community = communityService.getCommunityById(id);
 
 		if (community == null) {
@@ -298,10 +314,8 @@ public class CommunityController extends AbstractBaseController {
 
 			IOUtils.copy(in, response.getOutputStream());
 			response.flushBuffer();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
+		} catch (Exception e) {
+			logger.error("Exception occured while reaching image file! {0}", e.getMessage());
 		}
 	}
 

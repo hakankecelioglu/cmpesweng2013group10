@@ -149,7 +149,7 @@ public class UserController extends AbstractBaseController {
 
 		model.addAttribute("page", "myprofile");
 		model.addAttribute("profile", user);
-		setGlobalAttributesToModel(model);
+		setGlobalAttributesToModel(model, request);
 		return "profile.view";
 	}
 
@@ -170,7 +170,7 @@ public class UserController extends AbstractBaseController {
 
 		model.addAttribute("page", "myprofile");
 		model.addAttribute("profile", profile);
-		setGlobalAttributesToModel(model);
+		setGlobalAttributesToModel(model, request);
 		return "profile.view";
 	}
 

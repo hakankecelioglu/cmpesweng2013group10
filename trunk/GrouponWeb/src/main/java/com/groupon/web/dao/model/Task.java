@@ -23,7 +23,12 @@ import javax.persistence.UniqueConstraint;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.NamedQueries;
+import org.hibernate.annotations.NamedQuery;
 
+@NamedQueries({
+		@NamedQuery(name = "homeFeedDeadlineSorted", query = "select t from Task t, Community c where c.id = t.community.id and (:uid MEMBER OF c.members or :uid MEMBER OF t.followers) and t.deadline > NOW() order by t.deadline ASC"),
+		@NamedQuery(name = "homeFeedLatestSorted", query = "select t from Task t, Community c where c.id = t.community.id and (:uid MEMBER OF c.members or :uid MEMBER OF t.followers) and t.deadline > NOW() order by t.createDate DESC") })
 @Entity
 @Table(name = "task")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
