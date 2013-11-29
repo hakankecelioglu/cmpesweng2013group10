@@ -27,7 +27,7 @@ public class CommunityService {
 		arrangeTagsOfCommunity(community);
 		communityDao.saveCommunity(community);
 
-		tagService.createTagUserRelations(community.getTags(), community.getOwner(), ControllerConstants.TAG_USER_CREATE_COMMUNITY);
+		tagService.createTagUserRelationsOfCommunity(community.getId(), community.getOwner().getId(), ControllerConstants.TAG_USER_CREATE_COMMUNITY);
 		System.out.println("async!!!");
 	}
 
@@ -51,7 +51,8 @@ public class CommunityService {
 		communityDao.update(community);
 
 		if (!community.getOwner().equals(user)) {
-			tagService.createTagUserRelations(community.getTags(), user, ControllerConstants.TAG_USER_JOIN_COMMUNITY);
+			tagService.createTagUserRelationsOfCommunity(community.getId(), user.getId(), ControllerConstants.TAG_USER_JOIN_COMMUNITY);
+			System.out.println("async!!!");
 		}
 	}
 
@@ -61,6 +62,10 @@ public class CommunityService {
 		}
 		community.getMembers().remove(user);
 		communityDao.update(community);
+	}
+
+	public List<Community> getSimiliarCommunities(Long communityId, int page, int max) {
+		return communityDao.findSimiliarCommunities(communityId, page, max);
 	}
 
 	private void arrangeTagsOfCommunity(Community community) {
@@ -75,4 +80,5 @@ public class CommunityService {
 		}
 		community.setTags(tags2);
 	}
+
 }

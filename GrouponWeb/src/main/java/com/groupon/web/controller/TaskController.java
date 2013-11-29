@@ -47,7 +47,7 @@ public class TaskController extends AbstractBaseController {
 		if (id == null) {
 			return "redirect:/";
 		}
-		setGlobalAttributesToModel(model);
+		setGlobalAttributesToModel(model, request);
 		Task task = taskService.getTaskById(id);
 
 		if (task == null) {
@@ -75,7 +75,7 @@ public class TaskController extends AbstractBaseController {
 		model.addAttribute("community", community);
 		model.addAttribute("page", "createTask");
 
-		setGlobalAttributesToModel(model);
+		setGlobalAttributesToModel(model, request);
 		return "createTask.view";
 	}
 

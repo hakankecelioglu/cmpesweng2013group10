@@ -2,11 +2,13 @@ package com.groupon.web.dao;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 import org.hibernate.Criteria;
 import org.hibernate.ObjectNotFoundException;
 import org.hibernate.ReplicationMode;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
@@ -130,7 +132,7 @@ public class BaseDaoImpl extends HibernateDaoSupport implements BaseDao {
 			throw re;
 		}
 	}
-
+	
 	@Override
 	public <T> T findById(Class<T> entityClass, Serializable id) {
 		try {
@@ -312,6 +314,13 @@ public class BaseDaoImpl extends HibernateDaoSupport implements BaseDao {
 	}
 
 	@Override
+	public Serializable saveWithSession(Session session, BaseModel object) {
+		session.save(object);
+		session.flush();
+		return object.getId();
+	}
+
+	@Override
 	public Serializable save(Object transientInstance) {
 		Serializable id = null;
 		try {
@@ -333,13 +342,14 @@ public class BaseDaoImpl extends HibernateDaoSupport implements BaseDao {
 	}
 
 	@Override
-	public Serializable update(Object transientInstance) {
+	public Serializable update(BaseModel transientInstance) {
 		return this.update(transientInstance, true);
 	}
 
 	@Override
-	public Serializable update(Object transientInstance, boolean flush) {
+	public Serializable update(BaseModel transientInstance, boolean flush) {
 		final Serializable id = null;
+		transientInstance.setUpdateDate(new Date());
 		try {
 			this.getHibernateTemplate().update(transientInstance);
 			if (flush) {
@@ -349,5 +359,13 @@ public class BaseDaoImpl extends HibernateDaoSupport implements BaseDao {
 			throw re;
 		}
 		return id;
+	}
+
+	@Override
+	public Serializable updateWithSession(Session session, BaseModel transientInstance) {
+		transientInstance.setUpdateDate(new Date());
+		session.update(transientInstance);
+		session.flush();
+		return transientInstance.getId();
 	}
 }

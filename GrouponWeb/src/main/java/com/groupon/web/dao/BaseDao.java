@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
 
+import org.hibernate.Session;
+
 import com.groupon.web.dao.model.BaseModel;
 
 /**
@@ -70,7 +72,11 @@ public interface BaseDao {
 
 	public void saveOrUpdate(Object transientInstance);
 
-	public Serializable update(Object transientInstance);
+	public Serializable update(BaseModel transientInstance);
 
-	public Serializable update(Object transientInstance, boolean flushAndEvict);
+	public Serializable update(BaseModel transientInstance, boolean flushAndEvict);
+
+	Serializable saveWithSession(Session session, BaseModel object);
+
+	Serializable updateWithSession(Session session, BaseModel transientInstance);
 }

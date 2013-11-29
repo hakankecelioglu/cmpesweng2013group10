@@ -6,6 +6,7 @@ import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
 
+import com.groupon.web.dao.model.SortBy;
 import com.groupon.web.dao.model.Task;
 
 @Repository
@@ -98,11 +99,14 @@ public class TaskDAO extends BaseDaoImpl {
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<Task> getHomeFeedTasks(long userId) {
-		Query query = this
-				.getSession()
-				.createQuery(
-						"select t from Task t, Community c where c.id = t.community.id and (:uid MEMBER OF c.members or :uid MEMBER OF t.followers) and t.deadline > NOW() order by t.deadline ASC");
+	public List<Task> getHomeFeedTasks(long userId, SortBy sortBy) {
+		Query query;
+		if (sortBy == SortBy.LATEST) {
+			query = this.getSession().getNamedQuery("homeFeedLatestSorted");
+		} else {
+			query = this.getSession().getNamedQuery("homeFeedDeadlineSorted");
+		}
+
 		query.setParameter("uid", userId);
 		return (List<Task>) query.list();
 	}

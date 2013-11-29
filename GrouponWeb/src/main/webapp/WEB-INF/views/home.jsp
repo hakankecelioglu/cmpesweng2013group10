@@ -3,6 +3,7 @@
 <div class="row">
 	<%------------------------------------ LEFT FRAME ----------------------------------------------%>
 	<div class="span2" id="home-left-frame">
+		<h4 class="small-heading">Filter</h4>
 		<ul class="nav nav-tabs nav-stacked">
 			<li><a href="#">Home Feed</a></li>
 			<li><a href="#">Community Feed</a></li>
@@ -10,7 +11,7 @@
 		</ul>
 		
 		<div class="h-user-communities" style="display: none;">
-			<h4>Communities</h4>
+			<h4 class="small-heading">Communities</h4>
 			<ul class="nav nav-tabs nav-stacked"></ul>
 		</div>
 	</div>
@@ -18,6 +19,14 @@
 	
 	<%------------------------------------ MIDDLE FRAME BEGINS ----------------------------------------------%>
 	<div class="span7">
+		<div class="sort-selection-line">
+			<a href="javascript:;" class="sort-selection-item"><span>SORT: ${sortby}</span> <strong class="caret"></strong></a>
+			<ul class="sort-selection-menu nav nav-tabs nav-stacked">
+				<li><a href="#" data-sort="DEADLINE">Deadline</a></li>
+				<li><a href="#" data-sort="LATEST">Latest</a></li>
+			</ul>
+		</div>
+		
 		<c:choose>
 			<c:when test="${not empty homeFeedTasks}">
 				<c:if test="${emptyHomeFeed}">
