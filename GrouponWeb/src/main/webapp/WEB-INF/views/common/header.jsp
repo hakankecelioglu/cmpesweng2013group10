@@ -29,6 +29,7 @@
 
 	<%-- JavaScript Files --%>
 	<script type="text/javascript" src="<c:url value="${jsFolder}/jquery-1.10.2.min.js"/>"></script>
+	<script type="text/javascript" src="<c:url value="${jsFolder}/jquery-template.min.js"/>"></script>
 	<script type="text/javascript" src="<c:url value="${jsFolder}/bootstrap.min.js"/>"></script>
 	<script type="text/javascript" src="<c:url value="${jsFolder}/main.js"/>"></script>
 	
