@@ -45,27 +45,31 @@ $(function () {
 	$("#notifications").click(function () {
 		scope.getNotifications(0, 10).success(function (data) {
 			var parent = $(".popover .notifications-body").html("");
-			$.each(data.notifications, function (i, notif) {
-				var notifContainer = $('<div class="notif-outer"></div>');
-				var str = "";
-				
-				if (notif.type == "TASK_CREATED_IN_FOLLOWED_COMMUNITY") {
-					str += 'A <b>new task</b> is opened ';
-					str += 'in the community <b>' + notif.community.name + '</b>';
-				}
-				
-				if (!notif.isRead) {
-					notifContainer.addClass('new-notif');
-				}
-				
-				notifContainer.append(str);
-				notifContainer.append('<div class="clearfix"><i class="sprite2 sprite2-pin"></i><div class="pull-left">' + scope.timeAgo(new Date(notif.date)) + '</div></div>');
-				parent.append(notifContainer);
-				
-				notifContainer.click(function () {
-					window.location.href = GrouponUtils.taskPage(notif.task.id);
+			if (data.notifications.length == 0) {
+				parent.append('There is no notification for you. Sorry :(');
+			} else {
+				$.each(data.notifications, function (i, notif) {
+					var notifContainer = $('<div class="notif-outer"></div>');
+					var str = "";
+					
+					if (notif.type == "TASK_CREATED_IN_FOLLOWED_COMMUNITY") {
+						str += 'A <b>new task</b> is opened ';
+						str += 'in the community <b>' + notif.community.name + '</b>';
+					}
+					
+					if (!notif.isRead) {
+						notifContainer.addClass('new-notif');
+					}
+					
+					notifContainer.append(str);
+					notifContainer.append('<div class="clearfix"><i class="sprite2 sprite2-pin"></i><div class="pull-left">' + scope.timeAgo(new Date(notif.date)) + '</div></div>');
+					parent.append(notifContainer);
+					
+					notifContainer.click(function () {
+						window.location.href = GrouponUtils.taskPage(notif.task.id);
+					});
 				});
-			});
+			}
 		});
 		
 		return false;
