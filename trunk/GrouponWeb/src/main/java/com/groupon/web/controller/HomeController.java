@@ -1,5 +1,6 @@
 package com.groupon.web.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -42,6 +43,7 @@ public class HomeController extends AbstractBaseController {
 
 		User user = getUser();
 		if (user == null) {
+			// TODO : limit search
 			model.addAttribute("allcommunities", communityService.getAllCommunities());
 			return "homeguest.view";
 		}
@@ -53,7 +55,8 @@ public class HomeController extends AbstractBaseController {
 		}
 
 		model.addAttribute("homeFeedTasks", homeFeedTasks);
-		model.addAttribute("recommendedTasks", taskService.getRecommendedTasks(user));
+		Map<Long, Boolean> followedTaskMap = taskService.findFollowedTasksIdsByUser(user, convertTaskListToLongList(homeFeedTasks));
+		model.addAttribute("followedMap", followedTaskMap);
 
 		return "home.view";
 	}
@@ -91,6 +94,14 @@ public class HomeController extends AbstractBaseController {
 		response.put("sortBy", newSortBy);
 
 		return prepareSuccessResponse(response);
+	}
+	
+	private List<Long> convertTaskListToLongList(List<Task> tasks) {
+		List<Long> longs = new ArrayList<Long>();
+		for (Task task : tasks) {
+			longs.add(task.getId());
+		}
+		return longs;
 	}
 
 }

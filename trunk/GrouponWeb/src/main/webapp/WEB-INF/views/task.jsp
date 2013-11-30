@@ -15,7 +15,7 @@
 		
 		<div class="clearfix">
 			<div class="pull-left">Need: 55 more cadir</div>
-			<div class="pull-right">
+			<div class="pull-right task-follower-count">
 				<c:choose>
 					<c:when test="${task.followerCount == 0}">
 						No follower
@@ -38,8 +38,14 @@
 		<div class="clearfix">
 			<div class="pull-left">${grouponfn:dateDiff(task.deadline)} days left!</div>
 			<div class="pull-right">
-				<button class="btn btn-success" id="followTask" data-taskid="${task.id}">Follow</button>
-				
+				<c:choose>
+					<c:when test="${isFollower}">
+						<button class="btn btn-danger btn-unfollow-task" data-taskid="${task.id}">Unfollow</button>
+					</c:when>
+					<c:otherwise>
+						<button class="btn btn-success btn-follow-task" data-taskid="${task.id}">Follow</button>
+					</c:otherwise>
+				</c:choose>
 			</div>
 		</div>
 	</div>

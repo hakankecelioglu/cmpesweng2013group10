@@ -16,12 +16,54 @@ $(function() {
 			return $.post(url, data);
 		},
 		
+		unfollowTask: function (taskId) {
+			var url = GrouponUtils.siteBase + 'task/unfollowTask';
+			var data = { taskId: taskId };
+			return $.post(url, data);
+		},
+		
 		communityPicture: function (name) {
 			if (name) {
 				return GrouponUtils.siteBase + 'community/picture/' + name;
 			}
 			return GrouponUtils.siteBase + 'res/img/default_com_picture.jpg';
 		},
+		
+		modalError: function (msg) {
+			$("#errorModal .error-body").html(msg);
+			$('#errorModal').modal();
+		},
+		
+		ajaxModalError: function (jqxhr) {
+			var msg;
+			try {
+				var jsonErr = JSON.parse(jqxhr.responseText);
+				if (jsonErr.error) {
+					msg = jsonErr.error;
+				} else {
+					msg = "An error occured! Please try again later.";
+				}
+			} catch (e) {
+				msg = "An error occured! Please try again later.";
+			}
+			
+			GrouponUtils.modalError(msg);
+		},
+		
+		validateEmail: function (email) {
+			var regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+			return String(email).search(regex) != -1;
+		},
+		
+		followerCount: function (i) {
+			if (i <= 0) {
+				return 'No follower';
+			} else if (i == 1) {
+				return '1 follower';
+			} else {
+				return i + ' follower';
+			}
+		}
 	};
 	
 	// Setup drop down menu
@@ -37,12 +79,12 @@ $(function() {
 		var password = $("#loginFormPassword").val();
 		
 		if (!username) {
-			alert("Please enter username!");
+			GrouponUtils.modalError("Please enter username!");
 			return false;
 		}
 		
 		if (!password) {
-			alert("Please enter password!");
+			GrouponUtils.modalError("Please enter password!");
 			return false;
 		}
 		
@@ -53,19 +95,8 @@ $(function() {
 		var url = $(this).attr("action");
 		
 		$.post(url, userData, function (resp) {
-			if (resp.message == "OK") {
-				window.location.reload();
-			} else {
-				alert(resp.message);
-			}
-		}).fail(function (err) {
-			try {
-				var jsonErr = JSON.parse(err.responseText);
-				alert(jsonErr.error);
-			} catch (e) {
-				alert("An error occured!");
-			}
-		});
+			window.location.reload();
+		}).fail(GrouponUtils.ajaxModalError);
 		
 		return false;
 	});
@@ -73,20 +104,25 @@ $(function() {
 	$("#dropdownSignupForm").submit(function () {
 		var username = $("#signupFormUsername").val();
 		if (!username) {
-			alert("Please provide a username!");
-			return;
+			GrouponUtils.modalError("Please provide a username!");
+			return false;
 		}
 		
 		var email = $("#signupFormEmail").val();
 		if (!email) {
-			alert("Please provide an email address!");
-			return;
+			GrouponUtils.modalError("Please provide an email address!");
+			return false;
+		}
+		
+		if (!GrouponUtils.validateEmail(email)) {
+			GrouponUtils.modalError("Please provide a valid email address!");
+			return false;
 		}
 		
 		var password = $("#signupFormPassword").val();
 		if (!password) {
-			alert("Please provide a password!");
-			return;
+			GrouponUtils.modalError("Please provide a password!");
+			return false;
 		}
 		
 		var url = $(this).attr("action");
@@ -96,19 +132,8 @@ $(function() {
 		userData.password = password;
 		
 		$.post(url, userData, function (resp) {
-			if (resp.message == "OK") {
-				window.location.reload();
-			} else {
-				alert(resp.message);
-			}
-		}).fail(function (err) {
-			try {
-				var jsonErr = JSON.parse(err.responseText);
-				alert(jsonErr.error);
-			} catch (e) {
-				alert("An error occured!");
-			}
-		});
+			window.location.reload();
+		}).fail(GrouponUtils.ajaxModalError);
 		
 		return false;
 	});

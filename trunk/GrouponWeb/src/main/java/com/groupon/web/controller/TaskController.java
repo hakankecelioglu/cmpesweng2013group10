@@ -62,8 +62,11 @@ public class TaskController extends AbstractBaseController {
 		if (user != null) {
 			notificationService.markTaskNotificationsRead(user.getId(), id);
 		}
+		
+		boolean isAFollower = task.getFollowers().contains(user);
 
 		model.addAttribute("task", task);
+		model.addAttribute("isFollower", isAFollower);
 		return "task.view";
 
 	}
@@ -127,6 +130,18 @@ public class TaskController extends AbstractBaseController {
 
 		User user = getUser();
 		Long followerCount = taskService.followTask(taskId, user);
+
+		response.put("followerCount", followerCount);
+
+		return prepareSuccessResponse(response);
+	}
+
+	@RequestMapping(value = "/unfollowTask", method = RequestMethod.POST)
+	public ResponseEntity<Map<String, Object>> unfollowTask(HttpServletRequest request, @RequestParam Long taskId) {
+		Map<String, Object> response = new HashMap<String, Object>();
+
+		User user = getUser();
+		Long followerCount = taskService.unfollowTask(taskId, user);
 
 		response.put("followerCount", followerCount);
 

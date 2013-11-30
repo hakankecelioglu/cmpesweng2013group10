@@ -110,4 +110,12 @@ public class TaskDAO extends BaseDaoImpl {
 		query.setParameter("uid", userId);
 		return (List<Task>) query.list();
 	}
+
+	@SuppressWarnings("unchecked")
+	public List<Long> findFollowedTaskIdsByUserId(Long userId, List<Long> inIds) {
+		Query query = getSession().createSQLQuery("select task_follower.task_id from task_follower where task_id in (:ids) and user_id = :userid");
+		query.setParameterList("ids", inIds);
+		query.setParameter("userid", userId);
+		return (List<Long>) query.list();
+	}
 }

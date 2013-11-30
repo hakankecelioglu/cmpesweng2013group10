@@ -2,7 +2,9 @@ package com.groupon.web.service;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -13,6 +15,7 @@ import com.groupon.web.dao.model.Tag;
 import com.groupon.web.dao.model.Task;
 import com.groupon.web.dao.model.TaskStatus;
 import com.groupon.web.dao.model.User;
+import com.groupon.web.exception.GrouponException;
 import com.groupon.web.util.ControllerConstants;
 
 @Component
@@ -69,23 +72,49 @@ public class TaskService {
 
 	public synchronized Long followTask(Long taskId, User user) {
 		Task task = taskDao.getTaskById(taskId);
-		if (!task.getFollowers().contains(user)) {
-			task.getFollowers().add(user);
-			task.setFollowerCount(task.getFollowerCount() + 1);
-			taskDao.updateTask(task);
-			if (!task.getOwner().equals(user)) {
-				tagService.createTagUserRelationsOfTask(task.getId(), user.getId(), ControllerConstants.TAG_USER_FOLLOW_TASK);
-			}
+		if (task.getFollowers().contains(user)) {
+			throw new GrouponException("You are already a follower of this task!");
+		}
+		
+		task.getFollowers().add(user);
+		task.setFollowerCount(task.getFollowerCount() + 1);
+		taskDao.updateTask(task);
+		if (!task.getOwner().equals(user)) {
+			tagService.createTagUserRelationsOfTask(task.getId(), user.getId(), ControllerConstants.TAG_USER_FOLLOW_TASK);
 		}
 		return task.getFollowerCount();
 	}
 
 	public synchronized Long unfollowTask(Long taskId, User user) {
 		Task task = taskDao.getTaskById(taskId);
+		if (!task.getFollowers().contains(user)) {
+			throw new GrouponException("You are not a follower of that task!");
+		}
+		
+		if (task.getOwner().equals(user)) {
+			throw new GrouponException("You cannot unfollow a task that you created!");
+		}
+
 		task.getFollowers().remove(user);
 		task.setFollowerCount(task.getFollowerCount() - 1);
 		taskDao.updateTask(task);
 		return task.getFollowerCount();
+	}
+
+	public Map<Long, Boolean> findFollowedTasksIdsByUser(User user, List<Long> inIds) {
+		List<Long> followedIds = taskDao.findFollowedTaskIdsByUserId(user.getId(), inIds);
+		Map<Long, Boolean> response = new HashMap<Long, Boolean>();
+		for (Long id : inIds) {
+			boolean contains = false;
+			for (Number fid : followedIds) {
+				if (fid.longValue() == id.longValue()) {
+					contains = true;
+					break;
+				}
+			}
+			response.put(id, contains);
+		}
+		return response;
 	}
 
 	public List<Task> getRecommendedTasks(User user) {
