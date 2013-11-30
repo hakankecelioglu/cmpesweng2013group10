@@ -242,3 +242,67 @@ body.createTaskType .whenClosed {
 	-webkit-background-clip: padding-box;
 	-webkit-box-shadow: 0 3px 8px rgba(0, 0, 0, .3);
 }
+
+#topRightButtons {
+	text-align: right;
+}
+
+#topRightButtons .popover {
+	width: 400px;
+	max-width: 400px;
+}
+
+#topRightButtons .popover-content {
+	padding: 0;
+}
+
+.notifications-body {
+	font-family: 'lucida grande',tahoma,verdana,arial,sans-serif;
+	font-size: 11px;
+}
+
+.notification-panel h5 {
+	margin: 0;
+	padding: 5px;
+}
+
+.notifications-body a {
+	font-weight: bold;
+	font-family: 'lucida grande',tahoma,verdana,arial,sans-serif;
+	font-size: 11px;
+}
+
+.notif-outer {
+	padding: 5px 5px;
+	cursor: pointer;
+}
+
+.notif-outer.new-notif {
+	background-color: #eceff5;
+	background: rgba(237,239,245,0.98);
+}
+
+.notif-outer:hover, .notif-outer.new-notif:hover {
+	background-color: #f4f6f9;
+}
+
+.notif-outer + .notif-outer {
+	border-top: 1px solid #e9e9e9;
+}
+
+.notif-outer + .notif-outer.new-notif {
+	border-top: 1px solid #999;
+}
+
+.sprite2 {
+	width: 16px;
+	height: 16px;
+	background: url('../img/sprite02.png') no-repeat top left;
+	display: block;
+	float: left;
+	margin-right: 3px;
+}
+
+.sprite2-pin {
+	background-position: -17px -622px;
+}

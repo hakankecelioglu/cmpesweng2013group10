@@ -20,8 +20,8 @@ $(function() {
 			if (name) {
 				return GrouponUtils.siteBase + 'community/picture/' + name;
 			}
-			return GrouponUtils.siteBase + 'res/img/default_com_picture.jpg'
-		}
+			return GrouponUtils.siteBase + 'res/img/default_com_picture.jpg';
+		},
 	};
 	
 	// Setup drop down menu
@@ -112,5 +112,4 @@ $(function() {
 		
 		return false;
 	});
-	
 });

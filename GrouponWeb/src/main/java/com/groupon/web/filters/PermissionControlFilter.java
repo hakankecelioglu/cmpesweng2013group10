@@ -19,14 +19,11 @@ import org.springframework.stereotype.Component;
 import com.groupon.web.dao.model.User;
 import com.groupon.web.dao.model.UserStatus;
 import com.groupon.web.util.ControllerConstants;
-import com.groupon.web.util.GrouponLogger;
 
 @Component("permissionControlFilter")
 public class PermissionControlFilter implements Filter {
 
 	final Pattern excludePatternUsers = Pattern.compile("((^/res/)|(^/user/deactivated)|(^/user/deleted)|(^/user/banned)|(^/logout)|(^/emailApproval))");
-
-	private GrouponLogger logger = GrouponLogger.getLogger(getClass());
 
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
@@ -59,8 +56,6 @@ public class PermissionControlFilter implements Filter {
 		Matcher matcher = excludePatternUsers.matcher(requestURI);
 
 		if (!matcher.find()) {
-			logger.debug("checkUserStatusAndRedirectOrChain::not matched requestURI::{0}", requestURI);
-
 			if (user.getStatus() == UserStatus.DEACTIVE) {
 				resp.sendRedirect(req.getContextPath() + "/user/deactivated");
 				return;

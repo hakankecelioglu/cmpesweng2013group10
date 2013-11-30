@@ -28,7 +28,6 @@ public class CommunityService {
 		communityDao.saveCommunity(community);
 
 		tagService.createTagUserRelationsOfCommunity(community.getId(), community.getOwner().getId(), ControllerConstants.TAG_USER_CREATE_COMMUNITY);
-		System.out.println("async!!!");
 	}
 
 	public Community getCommunityById(Long id) {

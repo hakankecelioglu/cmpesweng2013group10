@@ -24,6 +24,9 @@ public class TaskService {
 	@Autowired
 	private TagService tagService;
 
+	@Autowired
+	private NotificationService notificationService;
+
 	public Task getTaskById(Long id) {
 		return taskDao.getTaskById(id);
 	}
@@ -55,6 +58,7 @@ public class TaskService {
 		followTask(taskCreated.getId(), owner);
 
 		tagService.createTagUserRelationsOfTask(task.getId(), owner.getId(), ControllerConstants.TAG_USER_CREATE_TASK);
+		notificationService.sendTaskCreatedInFollowedCommunityNotification(task.getCommunity().getId(), taskCreated.getId());
 
 		return taskCreated;
 	}
@@ -65,11 +69,14 @@ public class TaskService {
 
 	public synchronized Long followTask(Long taskId, User user) {
 		Task task = taskDao.getTaskById(taskId);
-		task.getFollowers().add(user);
-		task.setFollowerCount(task.getFollowerCount() + 1);
-		taskDao.updateTask(task);
-
-		tagService.createTagUserRelationsOfTask(task.getId(), user.getId(), ControllerConstants.TAG_USER_FOLLOW_TASK);
+		if (!task.getFollowers().contains(user)) {
+			task.getFollowers().add(user);
+			task.setFollowerCount(task.getFollowerCount() + 1);
+			taskDao.updateTask(task);
+			if (!task.getOwner().equals(user)) {
+				tagService.createTagUserRelationsOfTask(task.getId(), user.getId(), ControllerConstants.TAG_USER_FOLLOW_TASK);
+			}
+		}
 		return task.getFollowerCount();
 	}
 

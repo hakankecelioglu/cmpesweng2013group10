@@ -10,6 +10,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.StringUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -30,6 +31,7 @@ import com.groupon.web.dao.model.Tag;
 import com.groupon.web.dao.model.Task;
 import com.groupon.web.dao.model.User;
 import com.groupon.web.service.CommunityService;
+import com.groupon.web.service.NotificationService;
 import com.groupon.web.service.TaskService;
 
 @Controller
@@ -41,9 +43,11 @@ public class TaskController extends AbstractBaseController {
 	@Autowired
 	private CommunityService communityService;
 
+	@Autowired
+	private NotificationService notificationService;
+
 	@RequestMapping(value = "/show/{id}")
 	public Object taskPage(HttpServletRequest request, Model model, @PathVariable Long id) {
-
 		if (id == null) {
 			return "redirect:/";
 		}
@@ -53,6 +57,12 @@ public class TaskController extends AbstractBaseController {
 		if (task == null) {
 			return "redirect:/";
 		}
+
+		User user = getUser();
+		if (user != null) {
+			notificationService.markTaskNotificationsRead(user.getId(), id);
+		}
+
 		model.addAttribute("task", task);
 		return "task.view";
 
@@ -167,9 +177,11 @@ public class TaskController extends AbstractBaseController {
 		List<Tag> tagList = new ArrayList<Tag>();
 		for (int i = 0; i < tags.length(); i++) {
 			String tagName = tags.getString(i);
-			Tag tag = new Tag();
-			tag.setName(tagName);
-			tagList.add(tag);
+			if (StringUtils.isNotBlank(tagName)) {
+				Tag tag = new Tag();
+				tag.setName(tagName);
+				tagList.add(tag);
+			}
 		}
 		task.setTags(tagList);
 
