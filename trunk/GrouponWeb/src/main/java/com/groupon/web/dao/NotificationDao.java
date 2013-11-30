@@ -36,20 +36,20 @@ public class NotificationDao extends BaseDaoImpl {
 	}
 
 	public Integer markNotificationAsRead(Session session, Long notificationId) {
-		Query query = session.createQuery("update Notification n set n.isRead = true where n.id = :nid");
+		Query query = session.createQuery("update Notification n set n.isRead = true where n.id = :nid and n.isRead = false");
 		query.setParameter("nid", notificationId);
 		return query.executeUpdate();
 	}
 
 	public Integer markNotificationsAsReadByTask(Session session, Long userId, Long taskId) {
-		Query query = session.createQuery("update Notification n set n.isRead = true where n.receiver.id = :rid and n.task.id = :tid");
+		Query query = session.createQuery("update Notification n set n.isRead = true where n.receiver.id = :rid and n.task.id = :tid and n.isRead = false");
 		query.setParameter("rid", userId);
 		query.setParameter("tid", taskId);
 		return query.executeUpdate();
 	}
 	
 	public Integer markNotificationsAsReadByTaskAndNotificationType(Session session, Long userId, Long taskId, NotificationType notificationType) {
-		Query query = session.createQuery("update Notification n set n.isRead = true where n.receiver.id = :rid and n.task.id = tid and n.type = :nt");
+		Query query = session.createQuery("update Notification n set n.isRead = true where n.receiver.id = :rid and n.task.id = tid and n.type = :nt and n.isRead = false");
 		query.setParameter("rid", userId);
 		query.setParameter("tid", taskId);
 		query.setParameter("nt", notificationType);

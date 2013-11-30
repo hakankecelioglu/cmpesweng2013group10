@@ -27,6 +27,8 @@ public class NotificationService {
 	@Qualifier("notificationExecutor")
 	private TaskExecutor taskExecutor;
 
+	private Object lockNotificationCount = new Object();
+
 	private Map<Long, Integer> unreadNotifications = new HashMap<Long, Integer>();
 
 	public List<Notification> getNotifications(Long userId) {
@@ -48,8 +50,10 @@ public class NotificationService {
 			public void runInBackground() {
 				Integer updatedRows = notificationDao.markNotificationsAsReadByTask(getSession(), userId, taskId);
 				if (unreadNotifications.containsKey(userId)) {
-					Integer count = unreadNotifications.get(userId);
-					unreadNotifications.put(userId, count - updatedRows);
+					synchronized (lockNotificationCount) {
+						Integer count = unreadNotifications.get(userId);
+						unreadNotifications.put(userId, count - updatedRows);
+					}
 				}
 			}
 		});
@@ -73,8 +77,10 @@ public class NotificationService {
 						notificationDao.saveNotification(getSession(), notification);
 
 						if (unreadNotifications.containsKey(user.getId())) {
-							Integer count = unreadNotifications.get(user.getId());
-							unreadNotifications.put(user.getId(), count + 1);
+							synchronized (lockNotificationCount) {
+								Integer count = unreadNotifications.get(user.getId());
+								unreadNotifications.put(user.getId(), count + 1);
+							}
 						}
 					}
 				}
