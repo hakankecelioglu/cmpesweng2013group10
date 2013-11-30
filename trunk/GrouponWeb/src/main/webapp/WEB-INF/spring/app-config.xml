@@ -72,6 +72,9 @@
 	
 	<bean id="commonHbSessionInterceptor" class="org.springframework.orm.hibernate3.HibernateInterceptor">
 		<property name="sessionFactory" ref="sessionFactory" />
-	</bean>	
+	</bean>
+	
+	<task:executor id="notificationExecutor" pool-size="0-10" keep-alive="120" rejection-policy="CALLER_RUNS" queue-capacity="100"/>
+	<task:executor id="tagRelationExecutor" pool-size="0-10" keep-alive="120" rejection-policy="CALLER_RUNS" queue-capacity="100"/>
     
 </beans>

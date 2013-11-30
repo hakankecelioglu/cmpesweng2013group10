@@ -25,11 +25,20 @@
 		
 		<div class="span3">
 			<c:if test="${!empty user}">
-				<div style="text-align: right;">
-					<a href="#" class="btn btn-warning">Notifications <span class="badge badge-important">6</span></a>
+				<div id="topRightButtons">
+					<a href="#" class="btn btn-warning" id="notifications">Notifications <span class="badge badge-important" style="display: none;"></span></a>
 					<a href="#" class="btn btn-success">Followed Tasks</a>
 				</div>
 			</c:if>
+			
+			<div id="notificationsPanel" style="display: none;">
+				<div class="notification-panel" style="width: 100%">
+					<h5 style="border-bottom: 1px solid #ccc;">Notifications</h5>
+					<div class="notifications-body">
+						<div class="notifications-loading" style="text-align: center;">Loading...</div>
+					</div>
+				</div>
+			</div>
 			
 			<div style="margin-top: 5px;">
 				<form class="form-search" style="margin-bottom: 0;">

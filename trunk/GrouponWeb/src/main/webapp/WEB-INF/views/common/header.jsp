@@ -32,6 +32,10 @@
 	<script type="text/javascript" src="<c:url value="${jsFolder}/bootstrap.min.js"/>"></script>
 	<script type="text/javascript" src="<c:url value="${jsFolder}/main.js"/>"></script>
 	
+	<c:if test="${not empty user}">
+		<script type="text/javascript" src="<c:url value="${jsFolder}/notifications.js"/>"></script>
+	</c:if>
+	
 	<%-- Javascript Files defined in tiles.xml --%>
 	<tiles:importAttribute name="jsFiles" ignore="true" />
 	<tiles:importAttribute name="externalJsFiles" ignore="true" />
