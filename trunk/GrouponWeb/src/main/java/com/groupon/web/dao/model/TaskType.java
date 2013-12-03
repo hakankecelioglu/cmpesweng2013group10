@@ -1,14 +1,12 @@
 package com.groupon.web.dao.model;
 
-import java.util.Map;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.MapKey;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -27,9 +25,8 @@ public class TaskType extends BaseModel {
 	@Column(name = "description", nullable = false)
 	private String description;
 
-	@OneToMany(mappedBy = "taskType", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	@MapKey(name = "name")
-	private Map<String, TaskTypeField> fields;
+	@OneToMany(mappedBy = "taskType", cascade = CascadeType.ALL)
+	private List<TaskTypeField> fields;
 
 	@ManyToOne
 	@JoinColumn(name = "community_id", nullable = false)
@@ -51,11 +48,11 @@ public class TaskType extends BaseModel {
 		this.description = description;
 	}
 
-	public Map<String, TaskTypeField> getFields() {
+	public List<TaskTypeField> getFields() {
 		return fields;
 	}
 
-	public void setFields(Map<String, TaskTypeField> fields) {
+	public void setFields(List<TaskTypeField> fields) {
 		this.fields = fields;
 	}
 

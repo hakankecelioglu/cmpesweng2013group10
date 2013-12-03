@@ -1,12 +1,18 @@
 package com.groupon.web.util;
 
+import java.awt.Dimension;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
+import org.json.JSONException;
+import org.json.JSONObject;
 
+import com.groupon.web.dao.model.BaseModel;
 import com.groupon.web.dao.model.User;
 import com.groupon.web.exception.GrouponException;
 
@@ -73,5 +79,74 @@ public class GrouponWebUtils {
 				throw new GrouponException(param + " cannot be null or empty!");
 			}
 		}
+	}
+
+	public static List<Long> convertModelListToLongList(List<? extends BaseModel> objects) {
+		List<Long> longs = new ArrayList<Long>();
+		if (objects != null) {
+			for (BaseModel obj : objects) {
+				longs.add(obj.getId());
+			}
+		}
+		return longs;
+	}
+
+	public static boolean isBlank(JSONObject json, String key) throws JSONException {
+		if (json.has(key)) {
+			String value = json.getString(key);
+			if (StringUtils.isNotBlank(value)) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	public static Dimension getDimensionFitBounds(int width, int height, int boundWidth, int boundHeight) {
+		int original_width = width;
+		int original_height = height;
+		int new_width = original_width;
+		int new_height = original_height;
+
+		// first check if we need to scale width
+		if (original_width > boundWidth) {
+			// scale width to fit
+			new_width = boundWidth;
+			// scale height to maintain aspect ratio
+			new_height = (new_width * original_height) / original_width;
+		}
+
+		// then check if we need to scale even with the new height
+		if (new_height > boundHeight) {
+			// scale height to fit instead
+			new_height = boundHeight;
+			// scale width to maintain aspect ratio
+			new_width = (new_height * original_width) / original_height;
+		}
+
+		return new Dimension(new_width, new_height);
+	}
+
+	public static Dimension getDimensionExtendsBounds(int width, int height, int boundWidth, int boundHeight) {
+		int original_width = width;
+		int original_height = height;
+		int new_width = original_width;
+		int new_height = original_height;
+
+		double widthRate = (double) width / boundWidth;
+		double heightRate = (double) height / boundHeight;
+
+		if (widthRate < heightRate) {
+			// scale width to fit
+			new_width = boundWidth;
+			// scale height to maintain aspect ratio
+			new_height = (new_width * original_height) / original_width;
+		} else {
+			// scale height to fit instead
+			new_height = boundHeight;
+			// scale width to maintain aspect ratio
+			new_width = (new_height * original_width) / original_height;
+		}
+
+		return new Dimension(new_width, new_height);
 	}
 }

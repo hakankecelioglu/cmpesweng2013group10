@@ -41,6 +41,8 @@ public abstract class AbstractBaseController {
 	public void setGlobalAttributesToModel(Model model, HttpServletRequest request) {
 		model.addAttribute("user", getUser());
 		model.addAttribute("sortby", getCurrentSortBy(request));
+		String cp = request.getContextPath() + "/";
+		model.addAttribute("contextPath", cp);
 	}
 
 	public Long getLongParameter(HttpServletRequest request, String parameterName) {

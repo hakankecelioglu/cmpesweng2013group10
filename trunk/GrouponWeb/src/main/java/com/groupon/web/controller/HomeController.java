@@ -1,6 +1,5 @@
 package com.groupon.web.controller;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,6 +21,7 @@ import com.groupon.web.dao.model.User;
 import com.groupon.web.service.CommunityService;
 import com.groupon.web.service.TaskService;
 import com.groupon.web.util.ControllerConstants;
+import com.groupon.web.util.GrouponWebUtils;
 
 @Controller
 public class HomeController extends AbstractBaseController {
@@ -55,7 +55,7 @@ public class HomeController extends AbstractBaseController {
 		}
 
 		model.addAttribute("homeFeedTasks", homeFeedTasks);
-		Map<Long, Boolean> followedTaskMap = taskService.findFollowedTasksIdsByUser(user, convertTaskListToLongList(homeFeedTasks));
+		Map<Long, Boolean> followedTaskMap = taskService.findFollowedTasksIdsByUser(user, GrouponWebUtils.convertModelListToLongList(homeFeedTasks));
 		model.addAttribute("followedMap", followedTaskMap);
 
 		return "home.view";
@@ -95,13 +95,4 @@ public class HomeController extends AbstractBaseController {
 
 		return prepareSuccessResponse(response);
 	}
-	
-	private List<Long> convertTaskListToLongList(List<Task> tasks) {
-		List<Long> longs = new ArrayList<Long>();
-		for (Task task : tasks) {
-			longs.add(task.getId());
-		}
-		return longs;
-	}
-
 }
