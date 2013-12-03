@@ -1,13 +1,17 @@
 $(function () {
 	
+	var isOrChild = function (el, str) {
+		return el.is(str) || el.closest(str).length > 0;
+	};
+	
 	var form = {};
 	
 	form.lastId = 1;
 	
 	form.addNewField = function ($list, id, doneClass) {
 		var $group = $('<button class="close removeFormField"><i class="icon-trash"></i></button>');
-		$group = $group.add('<button class="close"><i class="icon-arrow-up"></i></button>');
-		$group = $group.add('<button class="close"><i class="icon-arrow-down"></i></button>');
+		$group = $group.add('<button class="close move-field-up"><i class="icon-arrow-up"></i></button>');
+		$group = $group.add('<button class="close move-field-down"><i class="icon-arrow-down"></i></button>');
 		$group = $group.add($list);
 		$group = $group.add('<p><button class="btn btn-success ' + doneClass + ' whenOpen">Done</button></p>');
 		
@@ -17,7 +21,11 @@ $(function () {
 		$("#noFieldText").addClass('hide');
 	};
 	
-	form.openClosedInput = function () {
+	form.openClosedInput = function (e) {
+		var t = $(e.target);
+		if (isOrChild(t, ".removeFormField") || isOrChild(t, ".move-field-up") || isOrChild(t, ".move-field-down")) {
+			return true;
+		}
 		var parent = $(this);
 		parent.find('.whenClosed').addClass('hide');
 		parent.find('.whenOpen').removeClass('hide');
@@ -29,6 +37,24 @@ $(function () {
 		if ($('.formInputLine').length == 0) {
 			$("#noFieldText").removeClass('hide');
 		}
+	};
+	
+	form.moveFieldUp = function () {
+		var line = $(this).closest('.formInputLine');
+		var prev = line.prev(".formInputLine");
+		if (prev.length > 0) {
+			prev.before(line);
+		}
+		return false;
+	};
+	
+	form.moveFieldDown = function () {
+		var line = $(this).closest('.formInputLine');
+		var next = line.next(".formInputLine");
+		if (next.length > 0) {
+			next.after(line);
+		}
+		return false;
 	};
 	
 	/**
@@ -166,8 +192,7 @@ $(function () {
 		$.each(t.find('.form-inline .multipleChoiceLine'), function (i, e) {
 			var line = $(e);
 			var val = line.find('input.multipleChoiceOptionInput').val();
-			line.find('.multipleChoiceOptionValue').html('<input type="radio" disabled="disabled" />' + val);
-			// TODO
+			field.attributes.push({name: 'option' + i, value: val});
 		});
 		
 		return field;
@@ -232,6 +257,21 @@ $(function () {
 		
 		var $pLine = form.createCheckbox(true);
 		$choiceGroup.append($pLine);
+	};
+	
+	form.readCheckboxData = function (t) {
+		var field = {};
+		field.name = t.find('.checkboxInput').val();
+		field.type = 'CHECKBOX';
+		field.attributes = [];
+		
+		$.each(t.find('.form-inline .checkboxLine'), function (i, e) {
+			var line = $(e);
+			var val = line.find('input.checkboxOptionInput').val();
+			field.attributes.push({name: 'option' + i, value: val});
+		});
+		
+		return field;
 	};
 	
 	/**
@@ -300,6 +340,21 @@ $(function () {
 		$choiceGroup.append($pLine);
 	};
 	
+	form.readDropdownData = function (t) {
+		var field = {};
+		field.name = t.find('.dropdownInput').val();
+		field.type = 'SELECT';
+		field.attributes = [];
+		
+		$.each(t.find('.form-inline .dropdownLine'), function (i, e) {
+			var line = $(e);
+			var val = line.find('input.dropdownOptionInput').val();
+			field.attributes.push({name: 'option' + i, value: val});
+		});
+		
+		return field;
+	};
+	
 	/**
 	 * Date api
 	 */
@@ -324,10 +379,19 @@ $(function () {
 		parent.one('click', form.openClosedInput);
 	};
 	
+	form.readDateDate = function (t) {
+		var field = {};
+		field.name = t.find('.dateInput').val();
+		field.type = 'DATE';
+		return field;
+	};
+	
 	/**
 	 * DOM Listeners for adding form field actions
 	 */
 	$(document).on('click', '.removeFormField', form.removeField);
+	$(document).on('click', '.move-field-up', form.moveFieldUp);
+	$(document).on('click', '.move-field-down', form.moveFieldDown);
 	
 	// Single line text listeners
 	$(document).on('click', '.addSingleText', form.addTextInput);
@@ -395,12 +459,16 @@ $(function () {
 	$("body").tooltip({
 		selector: '.popover .popover-add-item button'
 	});
-	
+
 	$("#createTaskType").click(function () {
+		var that = $(this);
+		that.attr('disabled', 'disabled');
+		
 		var taskType = {};
 		taskType.name = $("#taskTypeName").val();
 		taskType.description = $("#taskTypeDesc").val();
 		taskType.fields = [];
+		taskType.communityId = parseInt(UrlParameters.communityId);
 		
 		$.each($(".formInputLine"), function (i, e) {
 			var line = $(e);
@@ -414,9 +482,39 @@ $(function () {
 				var field = form.readMultipleTextData(line);
 				taskType.fields.push(field);
 				break;
+			case 'MULTIPLE_CHOICE':
+				var field = form.readMultipleChoiceData(line);
+				taskType.fields.push(field);
+				break;
+			case 'CHECKBOX':
+				var field = form.readCheckboxData(line);
+				taskType.fields.push(field);
+				break;
+			case 'DROPDOWN':
+				var field = form.readDropdownData(line);
+				taskType.fields.push(field);
+				break;
+			case 'DATE':
+				var field = form.readDateDate(line);
+				taskType.fields.push(field);
+				break;
 			}
 		});
 		
-		console.log(taskType);
+		var url = GrouponUtils.siteBase + 'community/createTaskType';
+		
+		$.ajax({
+			contentType: 'application/json',
+		    data: JSON.stringify(taskType),
+		    dataType: 'json',
+		    processData: false,
+		    type: 'POST',
+		    url: url
+		}).fail(function (jqxhr) {
+			that.removeAttr('disabled');
+			GrouponUtils.ajaxModalError(jqxhr);
+		}).success(function (data) {
+			window.location.href = GrouponUtils.communityPage(taskType.communityId);
+		});
 	});
 });

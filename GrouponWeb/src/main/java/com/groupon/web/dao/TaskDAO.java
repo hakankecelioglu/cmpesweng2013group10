@@ -36,7 +36,7 @@ public class TaskDAO extends BaseDaoImpl {
 
 	@SuppressWarnings("unchecked")
 	public List<Task> getTasks(long communityId, int page, int numberOfTasksPerPage) {
-		Query query = this.getSession().createQuery("SELECT t from Task t where t.community.id=:communityId");
+		Query query = this.getSession().createQuery("SELECT t from Task t where t.community.id=:communityId and t.deadline > NOW() order by t.deadline ASC");
 		query.setParameter("communityId", communityId);
 		query.setMaxResults(numberOfTasksPerPage);
 		query.setFirstResult(page * numberOfTasksPerPage);

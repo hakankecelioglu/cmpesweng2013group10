@@ -5,7 +5,7 @@
 		<a class="pull-left" href="#">
 			<c:choose>
 				<c:when test="${not empty community.picture}">
-					<img class="media-object community-icon" src="<c:url value="/community/picture/${community.picture}" />">
+					<img class="media-object community-icon" src="<c:url value="/community/thumb/medium/${community.picture}" />">
 				</c:when>
 				<c:otherwise>
 					<img class="media-object community-icon" src="<c:url value="/res/img/default_com_picture.jpg" />">
@@ -64,7 +64,7 @@
 						<h6 class="pull-right">community: ${task.community.name}</h6>
 						<div class="clearfix"></div>
 						<div>
-							<p class="pull-left">by <b>${task.owner.name}&nbsp;${task.owner.surname}</b></p>
+							<p class="pull-left">by <b>${task.owner.username}</b></p>
 							<p class="pull-right">Location: <b>Van/Turkey</b></p>
 							<div class="clearfix"></div>
 						</div>
@@ -75,7 +75,7 @@
 						
 						<div class="clearfix">
 							<div class="pull-left">Need: 55 more cadir</div>
-							<div class="pull-right">
+							<div class="pull-right task-follower-count">
 								<c:choose>
 									<c:when test="${task.followerCount == 0}">
 										No follower
@@ -98,7 +98,14 @@
 						<div class="clearfix">
 							<div class="pull-left">${grouponfn:dateDiff(task.deadline)} days left!</div>
 							<div class="pull-right">
-								<button class="btn btn-success" id="followTask" data-taskid="${task.id}">Follow</button>
+								<c:choose>
+									<c:when test="${followedMap[task.id]}">
+										<button class="btn btn-danger btn-unfollow-task" data-taskid="${task.id}">Unfollow</button>
+									</c:when>
+									<c:otherwise>
+										<button class="btn btn-success btn-follow-task" data-taskid="${task.id}">Follow</button>
+									</c:otherwise>
+								</c:choose>
 								<a class="btn btn-success" href="<c:url value="/task/show/${task.id}" />">Reply</a>
 							</div>
 						</div>

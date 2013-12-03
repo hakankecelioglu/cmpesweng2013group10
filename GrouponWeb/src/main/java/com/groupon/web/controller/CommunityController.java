@@ -1,5 +1,10 @@
 package com.groupon.web.controller;
 
+import java.awt.AlphaComposite;
+import java.awt.Dimension;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -8,9 +13,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 import java.util.Set;
 
+import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -18,12 +23,14 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -32,12 +39,17 @@ import org.springframework.web.multipart.MultipartFile;
 import com.groupon.web.controller.json.CommunityJson;
 import com.groupon.web.controller.json.UserJson;
 import com.groupon.web.dao.model.Community;
+import com.groupon.web.dao.model.FieldAttribute;
+import com.groupon.web.dao.model.FieldType;
 import com.groupon.web.dao.model.Tag;
 import com.groupon.web.dao.model.Task;
+import com.groupon.web.dao.model.TaskType;
+import com.groupon.web.dao.model.TaskTypeField;
 import com.groupon.web.dao.model.User;
 import com.groupon.web.exception.GrouponException;
 import com.groupon.web.service.CommunityService;
 import com.groupon.web.service.TaskService;
+import com.groupon.web.util.GrouponWebUtils;
 
 @Controller
 /**
@@ -58,6 +70,27 @@ public class CommunityController extends AbstractBaseController {
 
 	@Value("${PHOTO_SRC}")
 	private String photoDirectory;
+
+	@Value("${COMMUNITY_IMAGE_MAX_WIDTH}")
+	private int COMMUNITY_IMAGE_MAX_WIDTH;
+
+	@Value("${COMMUNITY_IMAGE_MAX_HEIGHT}")
+	private int COMMUNITY_IMAGE_MAX_HEIGHT;
+
+	@Value("${COMMUNITY_THUMB_MAX_WIDTH}")
+	private int COMMUNITY_THUMB_MAX_WIDTH;
+
+	@Value("${COMMUNITY_THUMB_MAX_HEIGHT}")
+	private int COMMUNITY_THUMB_MAX_HEIGHT;
+
+	@Value("${COMMUNITY_LARGE_THUMB_MAX_WIDTH}")
+	private int COMMUNITY_LARGE_THUMB_MAX_WIDTH;
+
+	@Value("${COMMUNITY_LARGE_THUMB_MAX_HEIGHT}")
+	private int COMMUNITY_LARGE_THUMB_MAX_HEIGHT;
+
+	private static long lastImageTime = System.currentTimeMillis();
+	private static Integer imageNumber = 0;
 
 	@RequestMapping(value = "getCommunitiesOfUser", method = RequestMethod.POST)
 	public ResponseEntity<Map<String, Object>> getCommunitiesAndroid(HttpServletRequest request, @RequestParam(required = false) Integer page,
@@ -209,6 +242,9 @@ public class CommunityController extends AbstractBaseController {
 		List<Task> tasks = taskService.getTasks(community.getId(), 0, numberOfTasksPerPage);
 		model.addAttribute("tasks", tasks);
 
+		Map<Long, Boolean> followedTaskMap = taskService.findFollowedTasksIdsByUser(user, GrouponWebUtils.convertModelListToLongList(tasks));
+		model.addAttribute("followedMap", followedTaskMap);
+
 		Set<User> members = community.getMembers();
 
 		boolean isMember = (user == null) ? false : members.contains(user);
@@ -291,6 +327,7 @@ public class CommunityController extends AbstractBaseController {
 
 	@RequestMapping(value = "community/createTaskType", method = RequestMethod.GET)
 	public Object createTaskType(HttpServletRequest request, Model model, @RequestParam Long communityId) {
+		setGlobalAttributesToModel(model, request);
 		User user = getUser();
 		if (user == null) {
 			return "redirect:/";
@@ -307,10 +344,45 @@ public class CommunityController extends AbstractBaseController {
 		return "createTaskType.view";
 	}
 
+	@RequestMapping(value = "community/createTaskType", method = RequestMethod.POST)
+	public ResponseEntity<Map<String, Object>> createTaskType(@RequestBody String body) throws JSONException {
+		Map<String, Object> response = new HashMap<String, Object>();
+		JSONObject jsonObject = new JSONObject(body);
+
+		TaskType taskType = convertJSONObjectToTaskType(jsonObject);
+		communityService.createTaskType(taskType);
+
+		return prepareSuccessResponse(response);
+	}
+
 	@RequestMapping(value = "community/picture/{pictureName:.+}", method = RequestMethod.GET)
 	public void getCommunityPicture(@PathVariable String pictureName, HttpServletResponse response) {
 		try {
-			InputStream in = new FileInputStream(new File(photoDirectory + pictureName));
+			InputStream in = new FileInputStream(new File(photoDirectory + pictureName + ".png"));
+
+			IOUtils.copy(in, response.getOutputStream());
+			response.flushBuffer();
+		} catch (Exception e) {
+			logger.error("Exception occured while reaching image file! {0}", e.getMessage());
+		}
+	}
+	
+	@RequestMapping(value = "community/thumb/small/{pictureName:.+}", method = RequestMethod.GET)
+	public void getCommunitySmallThumbnail(@PathVariable String pictureName, HttpServletResponse response) {
+		try {
+			InputStream in = new FileInputStream(new File(photoDirectory + pictureName + "_small.png"));
+
+			IOUtils.copy(in, response.getOutputStream());
+			response.flushBuffer();
+		} catch (Exception e) {
+			logger.error("Exception occured while reaching image file! {0}", e.getMessage());
+		}
+	}
+	
+	@RequestMapping(value = "community/thumb/medium/{pictureName:.+}", method = RequestMethod.GET)
+	public void getCommunityMediumThumbnail(@PathVariable String pictureName, HttpServletResponse response) {
+		try {
+			InputStream in = new FileInputStream(new File(photoDirectory + pictureName + "_medium.png"));
 
 			IOUtils.copy(in, response.getOutputStream());
 			response.flushBuffer();
@@ -326,42 +398,169 @@ public class CommunityController extends AbstractBaseController {
 		}
 
 		String fileName = generateUniqueFileName(multipartFile);
-		File file = new File(photoDirectory + fileName);
+		String fullPath = photoDirectory + fileName;
 
 		logger.debug("saveFile::file is transfering to::{0}", fileName);
 
-		multipartFile.transferTo(file);
+		BufferedImage originalImage = ImageIO.read(multipartFile.getInputStream());
+		creataThumbnails(originalImage, fullPath);
+		resizeImage(originalImage, fullPath);
 
 		return fileName;
 	}
 
+	private void resizeImage(BufferedImage originalImage, String fullPath) throws IOException {
+		int type = originalImage.getType() == 0 ? BufferedImage.TYPE_INT_ARGB : originalImage.getType();
+		int width = originalImage.getWidth();
+		int height = originalImage.getHeight();
+
+		Dimension resizeDimension = GrouponWebUtils.getDimensionFitBounds(width, height, COMMUNITY_IMAGE_MAX_WIDTH, COMMUNITY_IMAGE_MAX_HEIGHT);
+		logger.debug("resizeImage::image dimension::[{0}, {1}]::thumbDimension::[{2}, {3}]", width, height, resizeDimension.width, resizeDimension.height);
+
+		BufferedImage resizedImage = new BufferedImage(resizeDimension.width, resizeDimension.height, type);
+		Graphics2D g = resizedImage.createGraphics();
+		g.drawImage(originalImage, 0, 0, resizeDimension.width, resizeDimension.height, 0, 0, width, height, null);
+		g.setComposite(AlphaComposite.Src);
+		g.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+		g.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+		g.dispose();
+
+		ImageIO.write(resizedImage, "png", new File(fullPath + ".png"));
+	}
+
+	private void creataThumbnails(BufferedImage originalImage, String fullPath) throws IOException {
+		BufferedImage smallThumbnail = createSquareImage(originalImage, COMMUNITY_THUMB_MAX_WIDTH, COMMUNITY_THUMB_MAX_HEIGHT);
+		ImageIO.write(smallThumbnail, "png", new File(fullPath + "_small.png"));
+		BufferedImage mediumThumbnail = createSquareImage(originalImage, COMMUNITY_LARGE_THUMB_MAX_WIDTH, COMMUNITY_LARGE_THUMB_MAX_HEIGHT);
+		ImageIO.write(mediumThumbnail, "png", new File(fullPath + "_medium.png"));
+	}
+
+	private BufferedImage createSquareImage(BufferedImage originalImage, int maxWidth, int maxHeight) {
+		int type = originalImage.getType() == 0 ? BufferedImage.TYPE_INT_ARGB : originalImage.getType();
+		int width = originalImage.getWidth();
+		int height = originalImage.getHeight();
+
+		Dimension thumbnailDimension = GrouponWebUtils.getDimensionExtendsBounds(width, height, maxWidth, maxHeight);
+
+		int dx1 = (maxWidth - thumbnailDimension.width) / 2;
+		int dx2 = dx1 + thumbnailDimension.width;
+		int dy1 = (maxHeight - thumbnailDimension.height) / 2;
+		int dy2 = dy1 + thumbnailDimension.height;
+
+		BufferedImage resizedImage = new BufferedImage(maxWidth, maxHeight, type);
+		Graphics2D g = resizedImage.createGraphics();
+		g.drawImage(originalImage, dx1, dy1, dx2, dy2, 0, 0, width, height, null);
+		g.setComposite(AlphaComposite.Src);
+		g.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+		g.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+		g.dispose();
+		return resizedImage;
+	}
+
 	private String generateUniqueFileName(MultipartFile multipartFile) {
-		Random random = new Random();
-		int randomNumber = 1000000 + random.nextInt(1000000);
+		int currentImageNumber;
+		long time = System.currentTimeMillis();
+		synchronized (imageNumber) {
+			if (time != lastImageTime) {
+				lastImageTime = time;
+				imageNumber = 0;
+			}
+			currentImageNumber = ++imageNumber;
+		}
 
 		StringBuilder fileNameBuilder = new StringBuilder();
 		fileNameBuilder.append("com-pic-");
-		fileNameBuilder.append(randomNumber);
+		fileNameBuilder.append(currentImageNumber);
 		fileNameBuilder.append("-");
-		fileNameBuilder.append(System.currentTimeMillis());
-
-		String extension = getFileExtension(multipartFile);
-		if (extension != null) {
-			fileNameBuilder.append(".");
-			fileNameBuilder.append(extension);
-		}
+		fileNameBuilder.append(time);
 
 		return fileNameBuilder.toString();
 	}
 
-	private String getFileExtension(MultipartFile file) {
-		String filename = file.getOriginalFilename();
-		if (filename != null) {
-			int lastIndexOfDot = filename.lastIndexOf('.');
-			if (lastIndexOfDot > 0 && lastIndexOfDot < filename.length() - 1) {
-				return filename.substring(lastIndexOfDot + 1);
+	private TaskType convertJSONObjectToTaskType(JSONObject json) throws JSONException {
+		if (GrouponWebUtils.isBlank(json, "name")) {
+			throw new GrouponException("Task type must have a name!");
+		}
+
+		if (GrouponWebUtils.isBlank(json, "description")) {
+			throw new GrouponException("Task type must have a description!");
+		}
+
+		if (!json.has("communityId")) {
+			throw new GrouponException("Community id cannot be leave as empty!");
+		}
+
+		TaskType taskType = new TaskType();
+
+		String name = json.getString("name");
+		String description = json.getString("description");
+
+		Long communityId = json.getLong("communityId");
+		Community community = communityService.getCommunityById(communityId);
+
+		List<TaskTypeField> taskTypeFields = new ArrayList<TaskTypeField>();
+		if (json.has("fields")) {
+			JSONArray fields = json.getJSONArray("fields");
+			for (int i = 0; i < fields.length(); i++) {
+				JSONObject field = fields.getJSONObject(i);
+				TaskTypeField taskTypeField = convertJSONObjectToTaskTypeField(field);
+				taskTypeField.setTaskType(taskType);
+				taskTypeFields.add(taskTypeField);
 			}
 		}
-		return null;
+
+		taskType.setName(name);
+		taskType.setDescription(description);
+		taskType.setCommunity(community);
+		taskType.setFields(taskTypeFields);
+
+		return taskType;
+	}
+
+	private TaskTypeField convertJSONObjectToTaskTypeField(JSONObject field) throws JSONException {
+		if (GrouponWebUtils.isBlank(field, "name")) {
+			throw new GrouponException("A task type field must have a name!");
+		}
+
+		if (GrouponWebUtils.isBlank(field, "type")) {
+			throw new GrouponException("A task type field must have a type!");
+		}
+
+		TaskTypeField taskTypeField = new TaskTypeField();
+
+		String name = field.getString("name");
+		String type = field.getString("type");
+		FieldType fieldType = FieldType.valueOf(type);
+
+		List<FieldAttribute> attributes = new ArrayList<FieldAttribute>();
+		if (field.has("attributes")) {
+			JSONArray attributesObj = field.getJSONArray("attributes");
+			for (int i = 0; i < attributesObj.length(); i++) {
+				JSONObject attributeJson = attributesObj.getJSONObject(i);
+				if (!attributeJson.has("value")) {
+					throw new GrouponException("Field attributes must have a value!");
+				}
+
+				if (GrouponWebUtils.isBlank(attributeJson, "name")) {
+					throw new GrouponException("Field attributes must have a name");
+				}
+
+				String attrName = attributeJson.getString("name");
+				String attrValue = attributeJson.getString("value");
+				FieldAttribute attribute = new FieldAttribute();
+				attribute.setName(attrName);
+				attribute.setValue(attrValue);
+				attribute.setTaskTypeField(taskTypeField);
+				attributes.add(attribute);
+			}
+		}
+
+		taskTypeField.setName(name);
+		taskTypeField.setFieldType(fieldType);
+		taskTypeField.setAttributes(attributes);
+
+		return taskTypeField;
 	}
 }

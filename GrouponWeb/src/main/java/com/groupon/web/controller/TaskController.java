@@ -147,7 +147,7 @@ public class TaskController extends AbstractBaseController {
 
 		return prepareSuccessResponse(response);
 	}
-
+	
 	private Task generateTaskFromJSON(String body) throws JSONException, ParseException {
 		JSONObject json = new JSONObject(body);
 		String name = json.getString("name");

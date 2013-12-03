@@ -102,7 +102,13 @@ public class TaskService {
 	}
 
 	public Map<Long, Boolean> findFollowedTasksIdsByUser(User user, List<Long> inIds) {
-		List<Long> followedIds = taskDao.findFollowedTaskIdsByUserId(user.getId(), inIds);
+		List<Long> followedIds;
+		if (inIds != null && inIds.size() > 0) {
+			followedIds = taskDao.findFollowedTaskIdsByUserId(user.getId(), inIds);
+		} else {
+			followedIds = new ArrayList<Long>(0);
+		}
+		
 		Map<Long, Boolean> response = new HashMap<Long, Boolean>();
 		for (Long id : inIds) {
 			boolean contains = false;

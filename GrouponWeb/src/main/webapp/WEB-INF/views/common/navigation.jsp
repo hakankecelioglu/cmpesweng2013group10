@@ -1,6 +1,6 @@
 <%@ include file="/WEB-INF/views/common/includes.jsp"%>
 
-<input type="hidden" id="siteBaseUrl" value="<c:url value="/" />" />
+<input type="hidden" id="siteBaseUrl" value="${contextPath}" />
 
 <div class="container">
 	<div class="row" style="padding-top: 10px; padding-bottom: 10px;">

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import com.groupon.web.dao.CommunityDao;
 import com.groupon.web.dao.model.Community;
 import com.groupon.web.dao.model.Tag;
+import com.groupon.web.dao.model.TaskType;
 import com.groupon.web.dao.model.User;
 import com.groupon.web.util.ControllerConstants;
 
@@ -65,6 +66,10 @@ public class CommunityService {
 
 	public List<Community> getSimiliarCommunities(Long communityId, int page, int max) {
 		return communityDao.findSimiliarCommunities(communityId, page, max);
+	}
+	
+	public void createTaskType(TaskType taskType) {
+		communityDao.save(taskType);
 	}
 
 	private void arrangeTagsOfCommunity(Community community) {

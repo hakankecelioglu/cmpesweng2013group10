@@ -5,7 +5,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
-<%@taglib uri="http://groupon.s/groupondateutils" prefix="grouponfn" %>
+<%@ taglib uri="http://groupon.s/groupondateutils" prefix="grouponfn" %>
 <% pageContext.setAttribute("newLineChar", "\n"); %>
 
 <fmt:setLocale value="en_US" scope="session" />

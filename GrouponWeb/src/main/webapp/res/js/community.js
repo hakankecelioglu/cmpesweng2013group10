@@ -16,7 +16,7 @@ $(function () {
 					$.each(res.communities, function (i, community) {
 						var $ctnr = $('<div class="media"></div>');
 						var $imgLink = $('<a class="pull-left" href="' + GrouponUtils.communityPage(community.id) + '"></a>');
-						imgUrl = GrouponUtils.communityPicture(community.picture);
+						imgUrl = GrouponUtils.communityThumb(community.picture, 'small');
 						var $img = $('<img class="media-object nav-user-thumb" src="' + imgUrl + '" style="width: 32px; height: 32px;">');
 						$img.appendTo($imgLink);
 						$imgLink.appendTo($ctnr);
@@ -31,24 +31,36 @@ $(function () {
 		}
 	};
 	
-	$(document).on('click', '#followTask', function () {
+	$(document).on('click', '.btn-follow-task', function () {
 		var that = $(this);
-		that.attr("disabled", "disabled");
 		var taskId = that.attr("data-taskid");
-		
-		$.ajax({
-			type: "POST",
-			url: GrouponUtils.siteBase + 'task/followTask',
-			data: {taskId: taskId},
-		    success: function(response) {
-				if (response.followerCount) {
-					alert(response.followerCount);
-					that.attr("id", "unfollowTask");
-				}
-			}
-		}).always(function () {
-			that.removeAttr("disabled");
-		});
+		if (taskId) {
+			that.attr('disabled', 'disabled');
+			GrouponUtils.followTask(taskId).done(function (resp) {
+				that.removeClass('btn-follow-task btn-success').addClass('btn-unfollow-task btn-danger');
+				that.html("Unfollow");
+				that.closest(".well").find(".task-follower-count").html(GrouponUtils.followerCount(resp.followerCount));
+			}).fail(GrouponUtils.ajaxModalError).always(function () {
+				that.removeAttr('disabled');
+			});
+		}
+		return false;
+	});
+	
+	$(document).on('click', '.btn-unfollow-task', function () {
+		var that = $(this);
+		var taskId = that.attr("data-taskid");
+		if (taskId) {
+			that.attr('disabled', 'disabled');
+			GrouponUtils.unfollowTask(taskId).done(function (resp) {
+				that.removeClass('btn-unfollow-task btn-danger').addClass('btn-follow-task btn-success');
+				that.html("Follow");
+				that.closest(".well").find(".task-follower-count").html(GrouponUtils.followerCount(resp.followerCount));
+			}).fail(GrouponUtils.ajaxModalError).always(function () {
+				that.removeAttr('disabled');
+			});
+		}
+		return false;
 	});
 	
 	scope.getSimiliarCommunities(scope.communityId, 0, 10);
