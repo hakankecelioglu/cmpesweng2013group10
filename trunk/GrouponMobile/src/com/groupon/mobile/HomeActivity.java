@@ -14,6 +14,8 @@ public class HomeActivity extends BaseActivity {
 	private Button createCommunityTaskButton;
 	private Button myCommunitiesButton;
 	private Button logoutButton;
+	
+	
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

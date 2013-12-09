@@ -7,7 +7,7 @@
     <string name="username">Username: </string>
     <string name="password">Password: </string>
     <string name="login">Login</string>
-    <string name="signup">Sign Up</string>
+    <string name="go_sign_up_page">Sign Up</string>
     <string name="forget_password">Forget Password?</string>
     <string name="about">About</string>
     <string name="top_helpful_users">Top Helpful Users</string>
@@ -39,5 +39,8 @@
 	<string name="create_task_type">Create Task Type</string> 
     <string name="title_activity_my_Communities">My Communities</string>
     <string name="logout">Logout</string>
-
+	<string name="title_activity_sign_up">Sign Up</string>
+	<string name="user_name">Username</string>
+	<string name="user_password">Password</string>
+	<string name="sign_up">Sign Up</string>
 </resources>

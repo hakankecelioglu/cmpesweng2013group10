@@ -15,6 +15,7 @@ import com.groupon.mobile.service.UserService;
 public class MainActivity extends BaseActivity {
 
 	private Button loginButton;
+	private Button signUpButton;
 	private EditText loginUsername;
 	private EditText loginPassword;
 
@@ -40,6 +41,9 @@ public class MainActivity extends BaseActivity {
 
 		loginUsername = (EditText) findViewById(R.id.login_username);
 		loginPassword = (EditText) findViewById(R.id.login_password);
+		
+		signUpButton = (Button) findViewById(R.id.button_go_sign_up_page);
+		signUpButton.setOnClickListener(onSignUpButtonClick);
 	}
 
 	private OnClickListener onLoginButtonClick = new OnClickListener() {
@@ -62,6 +66,17 @@ public class MainActivity extends BaseActivity {
 					Toast.makeText(MainActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
 				}
 			});
+		}
+	};
+	
+	private OnClickListener onSignUpButtonClick = new OnClickListener() {
+		
+		@Override
+		public void onClick(View v) 
+		{
+			Intent intent = new Intent(MainActivity.this, SignUpActivity.class);
+			startActivity(intent);
+			finish();
 		}
 	};
 }
