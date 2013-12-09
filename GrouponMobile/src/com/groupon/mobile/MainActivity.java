@@ -52,6 +52,11 @@ public class MainActivity extends BaseActivity {
 			String username = loginUsername.getText().toString();
 			String password = loginPassword.getText().toString();
 
+			if (username.trim().equals("") || password.trim().equals("")) {
+				Toast.makeText(MainActivity.this, "Username and/or password cannot be empty!", Toast.LENGTH_SHORT).show();
+				return;
+			}
+			
 			UserService userService = new UserService(getApp());
 			userService.login(username, password, new GrouponCallback<User>() {
 				public void onSuccess(User response) {
