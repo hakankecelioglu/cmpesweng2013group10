@@ -53,6 +53,10 @@
             android:name="com.groupon.mobile.MyCommunitiesActivity"
             android:label="@string/title_activity_my_Communities" >
         </activity>      
+        <activity
+            android:name="com.groupon.mobile.SignUpActivity"
+            android:label="@string/title_activity_sign_up" >
+        </activity>
     </application>
 
 </manifest>

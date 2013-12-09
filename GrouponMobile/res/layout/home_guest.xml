@@ -81,12 +81,12 @@
             android:text="@string/login" />
 
         <Button
-            android:id="@+id/button_signup"
+            android:id="@+id/button_go_sign_up_page"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBaseline="@id/button_login"
             android:layout_toRightOf="@id/button_login"
-            android:text="@string/signup" />
+            android:text="@string/go_sign_up_page" />
     </RelativeLayout>
 
     <LinearLayout
