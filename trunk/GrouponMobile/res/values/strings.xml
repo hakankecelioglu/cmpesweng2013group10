@@ -41,6 +41,7 @@
     <string name="logout">Logout</string>
 	<string name="title_activity_sign_up">Sign Up</string>
 	<string name="user_name">Username</string>
+	<string name="e_mail">E-mail Address</string>
 	<string name="user_password">Password</string>
 	<string name="sign_up">Sign Up</string>
 </resources>

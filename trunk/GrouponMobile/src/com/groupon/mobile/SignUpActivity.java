@@ -17,6 +17,7 @@ public class SignUpActivity extends BaseActivity{
 	private Button signUpButton;
 	private EditText userNameField;
 	private EditText passwordField;
+	private EditText emailField;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +30,7 @@ public class SignUpActivity extends BaseActivity{
 	private void setupUI() {
 		userNameField = (EditText) findViewById(R.id.user_name);
 		passwordField = (EditText) findViewById(R.id.user_password);
+		emailField = (EditText) findViewById(R.id.e_mail);
 		signUpButton = (Button) findViewById(R.id.button_sign_up);
 		signUpButton.setOnClickListener(signUpListener);	
 	}
@@ -38,20 +40,17 @@ public class SignUpActivity extends BaseActivity{
 		public void onClick(View v) {
 			String username = userNameField.getText().toString();
 			String password = passwordField.getText().toString();
+			String email = emailField.getText().toString();
 
-			if (username.trim().equals("")) {
-				Toast.makeText(SignUpActivity.this, "Username cannot be empty!", Toast.LENGTH_SHORT).show();
-				return;
-			}
-
-			if (password.trim().equals("")) {
-				Toast.makeText(SignUpActivity.this, "Password cannot be empty!", Toast.LENGTH_SHORT).show();
+			if (username.trim().equals("") || password.trim().equals("") || email.trim().equals("")) {
+				Toast.makeText(SignUpActivity.this, "Username, password and e-mail address cannot be empty!", Toast.LENGTH_SHORT).show();
 				return;
 			}
 
 			User user = new User();
 			user.setName(username);
 			user.setPassword(password);
+			user.setEmail(email);
 			Intent intent = new Intent(SignUpActivity.this, HomeActivity.class);
 			startActivity(intent); 
 		}

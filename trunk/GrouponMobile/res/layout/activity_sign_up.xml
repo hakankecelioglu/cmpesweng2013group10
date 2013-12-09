@@ -11,7 +11,6 @@
         android:ems="10"
         android:hint="@string/user_name"
         >
-
         <requestFocus />
     </EditText>
    	<EditText
@@ -22,10 +21,18 @@
         android:hint="@string/user_password"
         android:inputType="textPassword" 
         >
-
         <requestFocus />
     </EditText>
-    
+
+   	<EditText
+   	    android:id="@+id/e_mail"
+   	    android:layout_width="match_parent"
+   	    android:layout_height="wrap_content"
+   	    android:ems="10"
+   	    android:hint="@string/e_mail"
+   	    >
+        <requestFocus />
+    </EditText>
     <Button
         android:id="@+id/button_sign_up"
         android:layout_width="wrap_content"
