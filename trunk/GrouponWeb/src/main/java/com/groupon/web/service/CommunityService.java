@@ -74,15 +74,17 @@ public class CommunityService {
 
 	private void arrangeTagsOfCommunity(Community community) {
 		List<Tag> tags = community.getTags();
-		List<Tag> tags2 = new ArrayList<Tag>(tags.size());
-		for (Tag tag : tags) {
-			Tag tagInDb = tagService.getTagByName(tag.getName());
-			if (tagInDb == null) {
-				tagInDb = tagService.createTag(tag);
+		if(tags!=null){
+			List<Tag> tags2 = new ArrayList<Tag>(tags.size());
+			for (Tag tag : tags) {
+				Tag tagInDb = tagService.getTagByName(tag.getName());
+				if (tagInDb == null) {
+					tagInDb = tagService.createTag(tag);
+				}
+				tags2.add(tagInDb);
 			}
-			tags2.add(tagInDb);
+			community.setTags(tags2);
 		}
-		community.setTags(tags2);
 	}
 
 }
