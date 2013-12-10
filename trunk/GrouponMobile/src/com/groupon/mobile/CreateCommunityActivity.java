@@ -56,9 +56,10 @@ public class CreateCommunityActivity extends BaseActivity {
 
 			CommunityService service = new CommunityService(getApp());
 			service.createCommunity(community, new GrouponCallback<Community>() {
-				public void onSuccess(Community response) {
+				public void onSuccess(Community community) {
 					Intent intent = new Intent(CreateCommunityActivity.this, CommunityActivity.class);
-					intent.putExtra("communityId", response.getId());
+					Long id = community.getId();
+					intent.putExtra("communityId", id);
 					startActivity(intent);
 					finish();
 				}
