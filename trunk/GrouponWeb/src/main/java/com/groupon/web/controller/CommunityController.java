@@ -354,6 +354,19 @@ public class CommunityController extends AbstractBaseController {
 
 		return prepareSuccessResponse(response);
 	}
+	
+	@RequestMapping(value = "community/taskTypes", method = RequestMethod.GET)
+	public ResponseEntity<Map<String, Object>> getTaskTypes(@RequestParam Long communityId) {
+		Map<String, Object> response = new HashMap<String, Object>();
+		
+		if (communityId == null) {
+			throw new GrouponException("communityId cannot be null");
+		}
+		
+		List<Map<String, Object>> taskTypeNames = communityService.getTaskTypeNames(communityId);
+		response.put("taskTypes", taskTypeNames);
+		return prepareSuccessResponse(response);
+	}
 
 	@RequestMapping(value = "community/picture/{pictureName:.+}", method = RequestMethod.GET)
 	public void getCommunityPicture(@PathVariable String pictureName, HttpServletResponse response) {

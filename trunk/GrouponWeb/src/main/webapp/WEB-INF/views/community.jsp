@@ -22,12 +22,12 @@
 
 <ul class="nav nav-tabs">
 	<li class="active">
-		<a href="#">Home</a>
+		<a href="#" class="tab" id="tab-home">Home</a>
 	</li>
 	<li><a href="#">Members</a></li>
 	<li><a href="#">Closed Tasks</a></li>
 	
-	<li class="pull-right"><a href="<c:url value="/task/create?communityId=${community.id}" />"><i class="icon-plus"></i> Create Task</a></li>
+	<li class="pull-right"><a class="createTaskLink" href="<c:url value="/task/create?communityId=${community.id}" />"><i class="icon-plus"></i> Create Task</a></li>
 	
 	<c:if test="${isOwner}">
 		<li class="pull-right"><a href="<c:url value="/community/createTaskType?communityId=${community.id}" />"><i class="icon-plus"></i> Create Task Type</a></li>
@@ -44,7 +44,7 @@
 </ul>
 
 <div class="row">
-	<div class="span8">
+	<div class="span8" class="tab-content tab-home">
 		<div class="clearfix">
 			<h1 class="pull-left">Tasks</h1>
 			<div class="pull-right">
@@ -149,3 +149,22 @@
 </div>
 
 <input type="hidden" id="communityId" value="${community.id}" />
+
+<!-- taskTypeSelectionModal -->
+<div id="taskTypeSelectionModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		<h3 id="myModalLabel">Select Task Type</h3>
+	</div>
+	<div class="modal-body">
+		<p>
+			<select id="taskTypeSelection">
+				<option value="groupon::default">Default</option>
+			</select>
+		</p>
+	</div>
+	<div class="modal-footer">
+		<button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+		<button class="btn btn-primary" id="modalCreateTaskBtn">Create Task</button>
+	</div>
+</div>

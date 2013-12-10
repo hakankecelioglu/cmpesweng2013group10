@@ -2,6 +2,11 @@ $(function () {
 	var scope = {
 		communityId: $("#communityId").val(),
 		
+		taskTypes: {
+			list: [],
+			status: 'NA'
+		},
+		
 		getSimiliarCommunities: function (communityId, page, max) {
 			var data = {};
 			data.page = page;
@@ -27,6 +32,25 @@ $(function () {
 				}
 			}).fail(function () {
 				console.log("error getting similiar communities");
+			});
+		},
+		
+		getTaskTypes: function () {
+			var data = {};
+			data.communityId = scope.communityId;
+			
+			var url = GrouponUtils.siteBase + "community/taskTypes";
+			
+			$.get(url, data).success(function (res) {
+				if (res.taskTypes && res.taskTypes.length) {
+					$.each(res.taskTypes, function (i, e) {
+						$("#taskTypeSelection").append('<option value="' + e.id + '">' + e.name + '</option>');
+					});
+				}
+			}).fail(function () {
+				alert("fail");
+			}).always(function () {
+				$("#taskTypeSelectionModal").modal('show');
 			});
 		}
 	};
@@ -65,5 +89,8 @@ $(function () {
 	
 	scope.getSimiliarCommunities(scope.communityId, 0, 10);
 	
-	
+	$(".createTaskLink").click(function () {
+		scope.getTaskTypes();
+		return false;
+	});
 });

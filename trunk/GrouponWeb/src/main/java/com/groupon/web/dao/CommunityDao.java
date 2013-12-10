@@ -50,4 +50,11 @@ public class CommunityDao extends BaseDaoImpl {
 		}
 		return query.list();
 	}
+
+	@SuppressWarnings("unchecked")
+	public List<Object[]> getTaskTypeNames(Long communityId) {
+		Query query = getSession().createQuery("select tt.id, tt.name from TaskType tt where tt.community.id = :cid");
+		query.setParameter("cid", communityId);
+		return (List<Object[]>) query.list();
+	}
 }
