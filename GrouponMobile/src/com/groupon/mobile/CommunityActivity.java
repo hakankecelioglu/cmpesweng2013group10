@@ -16,14 +16,14 @@ public class CommunityActivity extends BaseActivity {
 	private Button createButton;
 	private TextView communityNameField;
 	private TextView communityDescriptionField;
-	private int communityId;
+	private long communityId;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_community);
 
-		communityId = getIntent().getIntExtra("communityId", -1);
+		communityId = getIntent().getLongExtra("communityId", -1);
 
 		Thread t = new Thread(new Runnable() {
 			@Override
