@@ -2,7 +2,9 @@ package com.groupon.web.service;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -72,6 +74,21 @@ public class CommunityService {
 		communityDao.save(taskType);
 	}
 
+	public List<Map<String, Object>> getTaskTypeNames(Long communityId) {
+		List<Object[]> taskTypesList = communityDao.getTaskTypeNames(communityId);
+		
+		List<Map<String, Object>> taskTypes = new ArrayList<Map<String, Object>>();
+		if (taskTypesList != null && taskTypesList.size() > 0) {
+			for (Object[] arr : taskTypesList) {
+				Map<String, Object> taskType = new HashMap<String, Object>();
+				taskType.put("id", arr[0]);
+				taskType.put("name", arr[1]);
+				taskTypes.add(taskType);
+			}
+		}
+		return taskTypes;
+	}
+	
 	private void arrangeTagsOfCommunity(Community community) {
 		List<Tag> tags = community.getTags();
 		if(tags!=null){
@@ -86,5 +103,4 @@ public class CommunityService {
 			community.setTags(tags2);
 		}
 	}
-
 }
