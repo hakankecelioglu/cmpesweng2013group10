@@ -52,6 +52,25 @@ $(function () {
 			}).always(function () {
 				$("#taskTypeSelectionModal").modal('show');
 			});
+		},
+		
+		getCommunityMembers: function () {
+			var data = {};
+			data.communityId = scope.communityId;
+			
+			var url = GrouponUtils.siteBase + "community/" + data.communityId + "/members";
+			
+			$.get(url, data).success(function (res) {
+				if (res.members && res.members.length > 0) {
+					$.each(res.members, function (i, e) {
+						$("#taskTypeSelection").append('<option value="' + e.id + '">' + e.name + '</option>');
+					});
+				}
+			}).fail(function () {
+				alert("fail");
+			}).always(function () {
+				$("#taskTypeSelectionModal").modal('show');
+			});
 		}
 	};
 	
@@ -83,6 +102,25 @@ $(function () {
 			}).fail(GrouponUtils.ajaxModalError).always(function () {
 				that.removeAttr('disabled');
 			});
+		}
+		return false;
+	});
+	
+	$(document).on('click', '.tab', function () {
+		var that = $(this);
+		var tabId = that.attr('id');
+		if (tabId) {
+			var liTabs = $('.li-tab');
+			liTabs.attr('class', 'li-tab');
+			$('#li-' + that.attr('id')).attr('class', 'li-tab active');
+			$('')
+//			GrouponUtils.unfollowTask(taskId).done(function (resp) {
+//				that.removeClass('btn-unfollow-task btn-danger').addClass('btn-follow-task btn-success');
+//				that.html("Follow");
+//				that.closest(".well").find(".task-follower-count").html(GrouponUtils.followerCount(resp.followerCount));
+//			}).fail(GrouponUtils.ajaxModalError).always(function () {
+//				that.removeAttr('disabled');
+//			});
 		}
 		return false;
 	});
