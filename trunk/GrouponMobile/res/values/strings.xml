@@ -44,4 +44,12 @@
 	<string name="e_mail">E-mail Address</string>
 	<string name="user_password">Password</string>
 	<string name="sign_up">Sign Up</string>
+
+	<string name="form_field_type_prompt">Choose a form type</string>
+    <string-array name="form_field_type_array">
+        <item>Text</item>
+        <item>CheckBox</item>
+        <item>DropDown</item>
+    </string-array>	
+    <string name="add_form_field">Add</string>
 </resources>

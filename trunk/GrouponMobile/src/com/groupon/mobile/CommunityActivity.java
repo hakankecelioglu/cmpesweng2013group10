@@ -14,6 +14,7 @@ import com.groupon.mobile.utils.Constants;
 
 public class CommunityActivity extends BaseActivity {
 	private Button createButton;
+	private Button createTypeButton;
 	private TextView communityNameField;
 	private TextView communityDescriptionField;
 	private long communityId;
@@ -22,6 +23,7 @@ public class CommunityActivity extends BaseActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_community);
+
 
 		communityId = getIntent().getLongExtra("communityId", -1);
 
@@ -52,6 +54,8 @@ public class CommunityActivity extends BaseActivity {
 	}
 
 	private void setupUI(String name, String description) {
+		createTypeButton = (Button) findViewById(R.id.button_create_task_type);
+		createTypeButton.setOnClickListener(createTypeButtonClickListener);
 		createButton = (Button) findViewById(R.id.button_create_task);
 		createButton.setOnClickListener(createButtonClickListener);
 		communityNameField = (TextView) findViewById(R.id.communityName);
@@ -68,6 +72,15 @@ public class CommunityActivity extends BaseActivity {
 			intent.putExtra("communityId", communityId);
 			startActivity(intent);
 
+		}
+	};
+	private OnClickListener createTypeButtonClickListener = new OnClickListener() {
+		@Override
+		public void onClick(View v) {
+
+			Intent intent = new Intent(CommunityActivity.this, CreateTaskTypeActivity.class);
+			intent.putExtra("communityId", communityId);
+			startActivity(intent);
 		}
 	};
 }
