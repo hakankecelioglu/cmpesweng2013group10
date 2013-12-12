@@ -101,6 +101,12 @@
 		<put-attribute name="body" value="/WEB-INF/views/advancedSearch.jsp" />
 	</definition>
 	
+	<definition name="aboutUs.view" extends="grouponTemplate">
+		<put-attribute name="title" cascade="true"
+			value="About Us" />
+		<put-attribute name="body" value="/WEB-INF/views/aboutUs.jsp" />
+	</definition>
+	
 	<definition name="task.view" extends="grouponTemplate">
 		<put-attribute name="title" cascade="true" value="Task" />
 		<put-attribute name="body" value="/WEB-INF/views/task.jsp" />
