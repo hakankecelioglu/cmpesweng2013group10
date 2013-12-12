@@ -1,4 +1,6 @@
 $(function () {
+	var isPopoverOpen = false;
+	var isPopover2Open = false;
 	
 	var isOrChild = function (el, str) {
 		return el.is(str) || el.closest(str).length > 0;
@@ -16,9 +18,14 @@ $(function () {
 		$group = $group.add('<p><button class="btn btn-success ' + doneClass + ' whenOpen">Done</button></p>');
 		
 		var item = $('<div class="top-bottom-border formInputLine"></div>').append($group);
-		$("#taskTypeFields").append(item);
 		
-		$("#noFieldText").addClass('hide');
+		if (isPopoverOpen) {
+			$("#taskTypeFields").append(item);
+			$("#noFieldText").addClass('hide');
+		} else if (isPopover2Open) {
+			$("#popoverExtraReplyInput").before(item);
+			$("#noReplyFieldText").addClass('hide');
+		}
 	};
 	
 	form.openClosedInput = function (e) {
@@ -33,9 +40,18 @@ $(function () {
 	
 	form.removeField = function () {
 		var parent = $(this).closest('.formInputLine');
-		parent.remove();
-		if ($('.formInputLine').length == 0) {
-			$("#noFieldText").removeClass('hide');
+		if (parent.closest("#taskTypeReplyFields").length != 0) {
+			parent.remove();
+			
+			if ($('#taskTypeReplyFields .formInputLine:visible').length == 0) {
+				$("#noReplyFieldText").removeClass('hide');
+			}
+		} else if (parent.closest("#taskTypeFields").length != 0) {
+			parent.remove();
+			
+			if ($('#taskTypeFields .formInputLine').length == 0) {
+				$("#noFieldText").removeClass('hide');
+			}
 		}
 	};
 	
@@ -423,10 +439,31 @@ $(function () {
 	$(document).on('click', '.addDate', form.addDate);
 	$(document).on('click', '.doneDate', form.doneDate);
 	
+	var replyForm = {};
+	
+	replyForm.onNeedTypeChanged = function () {
+		var needType = $(this).val();
+		if (needType == "GOODS") {
+			$(".whenGoodType").show();
+		} else if (needType == "SERVICE") {
+			$(".whenGoodType").hide();
+		} else {
+			$(".whenGoodType").hide();
+		}
+		
+		if ($("#taskTypeReplyFields .formInputLine:visible").length != 0) {
+			$("#noReplyFieldText").addClass("hide");
+		} else {
+			$("#noReplyFieldText").removeClass('hide');
+		}
+	};
+	
+	$(document).on('change', '#taskTypeNeedType', replyForm.onNeedTypeChanged);
+	$('#taskTypeNeedType').change();
+	
 	/**
 	 * Code of the popover which is opening when the user pressed 'add' button
 	 */
-	var isPopoverOpen = false;
 	
 	$('#popoverExtraInput').popover({
 		placement: 'right',
@@ -437,21 +474,45 @@ $(function () {
 		}
 	});
 	
+	$("#popoverExtraReplyInput").popover({
+		placement: 'top',
+		html: true,
+		content: function () {
+			isPopover2Open = true;
+			return $("#inputTypeForm").html();
+		}
+	});
+	
 	$(document).on('click', function (e) {
 		var $target = $(e.target);
-		if ($target.is("#popoverExtraInput") || $target.closest("#popoverExtraInput").length != 0) {
+		var isClickedPopoverBtn = $target.is("#popoverExtraInput") || $target.closest("#popoverExtraInput").length != 0;
+		var isClickedPopover2Btn = $target.is("#popoverExtraReplyInput") || $target.closest("#popoverExtraReplyInput").length != 0;
+		
+		if (isClickedPopoverBtn) {
+			if (isPopover2Open) {
+				$("#popoverExtraReplyInput").popover('hide');
+			}
+			return;
+		} else if (isClickedPopover2Btn) {
+			if (isPopoverOpen) {
+				$('#popoverExtraInput').popover('hide');
+			}
 			return;
 		}
 		
-		if ($target.closest('.popover').length == 0 && isPopoverOpen) {
+		if ($target.closest('.popover').length == 0 && (isPopoverOpen || isPopover2Open)) {
 			$('#popoverExtraInput').popover('hide');
+			$("#popoverExtraReplyInput").popover('hide');
 			isPopoverOpen = false;
+			isPopover2Open = false;
 			return;
 		}
 		
 		if ($target.is('.popover button') || $target.closest('.popover button').length != 0) {
 			$('#popoverExtraInput').popover('hide');
+			$("#popoverExtraReplyInput").popover('hide');
 			isPopoverOpen = false;
+			isPopover2Open = false;
 			return;
 		}
 	});
@@ -467,6 +528,7 @@ $(function () {
 		var taskType = {};
 		taskType.name = $("#taskTypeName").val();
 		taskType.description = $("#taskTypeDesc").val();
+		taskType.needType = $("#taskTypeNeedType").val();
 		taskType.fields = [];
 		taskType.communityId = parseInt(UrlParameters.communityId);
 		

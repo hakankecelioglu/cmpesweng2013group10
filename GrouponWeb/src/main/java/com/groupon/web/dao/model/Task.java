@@ -15,6 +15,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -95,6 +96,9 @@ public class Task extends BaseModel implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "task_type_id", nullable = true)
 	private TaskType taskType;
+
+	@OneToMany(mappedBy = "task", cascade = CascadeType.ALL)
+	private List<TaskAttribute> attributes;
 
 	public String getTitle() {
 		return title;
@@ -230,6 +234,14 @@ public class Task extends BaseModel implements Serializable {
 
 	public void setTaskType(TaskType taskType) {
 		this.taskType = taskType;
+	}
+
+	public List<TaskAttribute> getAttributes() {
+		return attributes;
+	}
+
+	public void setAttributes(List<TaskAttribute> attributes) {
+		this.attributes = attributes;
 	}
 
 }

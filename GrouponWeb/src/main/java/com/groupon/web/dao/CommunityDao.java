@@ -6,6 +6,7 @@ import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
 
 import com.groupon.web.dao.model.Community;
+import com.groupon.web.dao.model.TaskType;
 
 @Repository
 public class CommunityDao extends BaseDaoImpl {
@@ -56,5 +57,11 @@ public class CommunityDao extends BaseDaoImpl {
 		Query query = getSession().createQuery("select tt.id, tt.name from TaskType tt where tt.community.id = :cid");
 		query.setParameter("cid", communityId);
 		return (List<Object[]>) query.list();
+	}
+	
+	public TaskType getTaskType(Long taskTypeId) {
+		Query query = getSession().createQuery("from TaskType t where t.id = :taskTypeId");
+		query.setParameter("taskTypeId", taskTypeId);
+		return (TaskType) query.uniqueResult();
 	}
 }

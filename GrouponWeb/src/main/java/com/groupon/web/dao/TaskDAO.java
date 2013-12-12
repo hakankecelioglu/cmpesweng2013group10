@@ -23,8 +23,14 @@ public class TaskDAO extends BaseDaoImpl {
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<Task> findAll(int page, int max) {
-		Query query = this.getSession().createQuery("from Task t order by t.createDate DESC");
+	public List<Task> findAll(int page, int max, SortBy sortBy) {
+		Query query;
+		if (sortBy == SortBy.DEADLINE) {
+			query = this.getSession().createQuery("from Task t where t.deadline > NOW() order by t.deadline ASC");
+		} else {
+			query = this.getSession().createQuery("from Task t where t.deadline > NOW() order by t.createDate DESC");
+		}
+		
 		if (page >= 0 && max > 0) {
 			query.setFirstResult(page * max);
 			query.setMaxResults(max);

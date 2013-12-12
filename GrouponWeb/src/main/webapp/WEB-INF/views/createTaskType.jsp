@@ -18,6 +18,13 @@
 			<label class="text-error" for="taskTypeDesc">Write a description:</label> 
 			<textarea class="span3" id="taskTypeDesc" placeholder="Task type description"></textarea>
 			
+			<label class="text-error" for="taskTypeNeedType">Select what type of need will be requested?</label>
+			<select class="span3" id="taskTypeNeedType">
+				<option value="GOODS">GOOD</option>
+				<option value="SERVICE">SERVICE</option>
+				<option value="ONLY_FORM">ONLY FORM</option>
+			</select>
+			
 			<h4 class="text-success">Add Extra Form Fields</h4>
 			<p class="text-info">You can add any type of and any number of form fields like text, date, photo, etc... </p>
 			<button type="button" id="popoverExtraInput" class="btn btn-large btn-success span3 no-margin-left"><i class="icon-plus"></i> Add</button>
@@ -32,6 +39,25 @@
 		
 		<div class="well clearfix" id="taskTypeFields">
 			<p class="text-error" id="noFieldText">Currently, there is no field in your task type. Use the add button at the left hand side of this page.</p>
+		</div>
+		
+		<div class="well clearfix">
+			<h3>How are this type of tasks replied?</h3>
+			<p class="text-success">Below, you can see and control how task repliers will behave!</p>
+		</div>
+		
+		<div class="well clearfix" id="taskTypeReplyFields">
+			<p class="text-error" id="noReplyFieldText">
+				Currently, there is no field for repliers to fill in your task type. 
+				Use the add button below. You have to specify at least one field for repliers, otherwise noone can reply tasks of this type!
+			</p>
+			
+			<div class="top-bottom-border formInputLine whenGoodType">
+				<label class="text-success">Quantity of the reply:</label>
+				<input class="span6 multipleChoiceInput" type="text" placeholder="40" disabled="disabled">
+			</div>
+			
+			<button type="button" id="popoverExtraReplyInput" class="btn btn-large btn-success span3 no-margin-left"><i class="icon-plus"></i> Add Reply Form Field</button>
 		</div>
 		
 		<div class="well clearfix">

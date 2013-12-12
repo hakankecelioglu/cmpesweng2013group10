@@ -5,6 +5,8 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -24,6 +26,10 @@ public class TaskType extends BaseModel {
 
 	@Column(name = "description", nullable = false)
 	private String description;
+	
+	@Enumerated(EnumType.STRING)
+	@Column(name = "need_type", nullable = false)
+	private NeedType needType;
 
 	@OneToMany(mappedBy = "taskType", cascade = CascadeType.ALL)
 	private List<TaskTypeField> fields;
@@ -46,6 +52,14 @@ public class TaskType extends BaseModel {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public NeedType getNeedType() {
+		return needType;
+	}
+
+	public void setNeedType(NeedType needType) {
+		this.needType = needType;
 	}
 
 	public List<TaskTypeField> getFields() {

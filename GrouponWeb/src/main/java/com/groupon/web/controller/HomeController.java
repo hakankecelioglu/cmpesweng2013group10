@@ -51,7 +51,7 @@ public class HomeController extends AbstractBaseController {
 		List<Task> homeFeedTasks = taskService.getHomeFeedTasks(user, getCurrentSortBy(request));
 		if (homeFeedTasks == null || homeFeedTasks.size() == 0) {
 			model.addAttribute("emptyHomeFeed", Boolean.TRUE);
-			homeFeedTasks = taskService.getAllTasks(0, 5);
+			homeFeedTasks = taskService.getAllTasks(0, 5, getCurrentSortBy(request));
 		}
 
 		model.addAttribute("homeFeedTasks", homeFeedTasks);

@@ -46,8 +46,8 @@ public class TaskService {
 		return taskDao.getHomeFeedTasks(user.getId(), sortBy);
 	}
 
-	public List<Task> getAllTasks(int page, int max) {
-		return taskDao.findAll(page, max);
+	public List<Task> getAllTasks(int page, int max, SortBy sortBy) {
+		return taskDao.findAll(page, max, sortBy);
 	}
 
 	public Task createTask(Task task, User owner) {

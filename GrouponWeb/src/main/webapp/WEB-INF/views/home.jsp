@@ -44,8 +44,8 @@
 						<h6 class="text-right">community: <a href="<c:url value="/community/${task.community.id}" />">${task.community.name}</a></h6>
 						<div class="clearfix"></div>
 						<div>
-							<p class="pull-left">by <b>${task.owner.username}</b></p>
-							<p class="pull-right">Location: <b>Van/Turkey</b></p>
+							<p class="pull-left">by <a href="<c:url value="/profile/${task.owner.username}" />"><b>${task.owner.username}</b></a></p>
+							<!-- <p class="pull-right">Location: <b>Van/Turkey</b></p> -->
 							<div class="clearfix"></div>
 						</div>
 						<hr class="clearfix">
@@ -54,7 +54,14 @@
 						</p>
 						
 						<div class="clearfix">
-							<div class="pull-left">Need: 55 more cadir</div>
+							<c:choose>
+								<c:when test="${task.needType == 'GOODS'}">
+									<div class="pull-left">Need: ${task.requirementQuantity} more ${task.requirementName}</div>
+								</c:when>
+								<c:when test="${task.needType == 'SERVICE'}">
+									<div class="pull-left">Need: ${task.requirementName}</div>
+								</c:when>
+							</c:choose>
 							<div class="pull-right task-follower-count">
 								<c:choose>
 									<c:when test="${task.followerCount == 0}">
@@ -71,8 +78,8 @@
 						</div>
 						
 						<div class="progress progress-striped">
-							<div class="bar bar-success" style="width: 40%"></div>
-							<div class="bar bar-warning" style="width: 60%;"></div>
+							<div class="bar bar-success" style="width: 1%"></div>
+							<div class="bar bar-warning" style="width: 99%;"></div>
 						</div>
 						
 						<div class="clearfix">

@@ -10,4 +10,10 @@
 		<function-class>com.groupon.web.jstltag.DateUtils</function-class>
 		<function-signature>int calculateDayDifference(java.util.Date)</function-signature>
 	</function>
+	
+	<function>
+		<name>isCollection</name>
+		<function-class>com.groupon.web.jstltag.DateUtils</function-class>
+		<function-signature>boolean isCollection(java.lang.Object)</function-signature>
+	</function>
 </taglib>
