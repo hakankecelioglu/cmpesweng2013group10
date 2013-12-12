@@ -29,6 +29,8 @@ import com.groupon.web.dao.model.Community;
 import com.groupon.web.dao.model.NeedType;
 import com.groupon.web.dao.model.Tag;
 import com.groupon.web.dao.model.Task;
+import com.groupon.web.dao.model.TaskAttribute;
+import com.groupon.web.dao.model.TaskType;
 import com.groupon.web.dao.model.User;
 import com.groupon.web.service.CommunityService;
 import com.groupon.web.service.NotificationService;
@@ -62,11 +64,15 @@ public class TaskController extends AbstractBaseController {
 		if (user != null) {
 			notificationService.markTaskNotificationsRead(user.getId(), id);
 		}
-		
+
 		boolean isAFollower = task.getFollowers().contains(user);
 
 		model.addAttribute("task", task);
 		model.addAttribute("isFollower", isAFollower);
+
+		Map<String, Object> attributes = getTaskAttributeMapForModel(task);
+		model.addAttribute("taskAttributes", attributes);
+
 		return "task.view";
 
 	}
@@ -78,6 +84,12 @@ public class TaskController extends AbstractBaseController {
 			return "redirect:/login";
 		}
 
+		Long taskTypeId = getLongParameter(request, "taskType");
+		TaskType taskType = null;
+		if (taskTypeId != null) {
+			taskType = communityService.getTaskType(taskTypeId);
+		}
+
 		Long communityId = getLongParameter(request, "communityId");
 		Community community = communityService.getCommunityById(communityId);
 
@@ -86,6 +98,7 @@ public class TaskController extends AbstractBaseController {
 		}
 
 		model.addAttribute("community", community);
+		model.addAttribute("taskType", taskType);
 		model.addAttribute("page", "createTask");
 
 		setGlobalAttributesToModel(model, request);
@@ -147,7 +160,7 @@ public class TaskController extends AbstractBaseController {
 
 		return prepareSuccessResponse(response);
 	}
-	
+
 	private Task generateTaskFromJSON(String body) throws JSONException, ParseException {
 		JSONObject json = new JSONObject(body);
 		String name = json.getString("name");
@@ -173,6 +186,25 @@ public class TaskController extends AbstractBaseController {
 			task.setLongitude(longitude);
 		}
 
+		List<TaskAttribute> taskAttributes = new ArrayList<TaskAttribute>();
+
+		if (json.has("attributes")) {
+			JSONArray attributeArray = json.getJSONArray("attributes");
+			for (int i = 0; i < attributeArray.length(); i++) {
+				JSONObject attributeObj = attributeArray.getJSONObject(i);
+				String attrName = attributeObj.getString("name");
+				String attrValue = attributeObj.getString("value");
+
+				TaskAttribute taskAttribute = new TaskAttribute();
+				taskAttribute.setName(attrName);
+				taskAttribute.setValue(attrValue);
+				taskAttribute.setTask(task);
+				taskAttributes.add(taskAttribute);
+			}
+		}
+
+		task.setAttributes(taskAttributes);
+
 		String type = json.getString("type");
 		NeedType needType = NeedType.valueOf(type);
 		task.setNeedType(needType);
@@ -181,9 +213,7 @@ public class TaskController extends AbstractBaseController {
 			int requirementQuantity = json.getInt("requirementQuantity");
 			task.setRequirementName(requirementName);
 			task.setRequirementQuantity(requirementQuantity);
-		}
-
-		else if (needType == NeedType.SERVICE) {
+		} else if (needType == NeedType.SERVICE) {
 			String requirementName = json.getString("requirementName");
 			task.setRequirementName(requirementName);
 		}
@@ -205,5 +235,31 @@ public class TaskController extends AbstractBaseController {
 		task.setCommunity(community);
 
 		return task;
+	}
+	
+	@SuppressWarnings("unchecked")
+	private Map<String, Object> getTaskAttributeMapForModel(Task task) {
+		Map<String, Object> attributes = new HashMap<String, Object>();
+		List<TaskAttribute> taskAttributes = task.getAttributes();
+		if (taskAttributes == null) {
+			return attributes;
+		}
+		
+		for (TaskAttribute attr : taskAttributes) {
+			if (attributes.containsKey(attr.getName())) {
+				Object value = attributes.get(attr.getName());
+				if (value instanceof List<?>) {
+					((List<String>) value).add(attr.getValue());
+				} else {
+					List<String> list = new ArrayList<String>();
+					list.add((String) value);
+					list.add(attr.getValue());
+					attributes.put(attr.getName(), list);
+				}
+			} else {
+				attributes.put(attr.getName(), attr.getValue());
+			}
+		}
+		return attributes;
 	}
 }

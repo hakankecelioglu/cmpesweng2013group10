@@ -29,6 +29,14 @@ $(function() {
 			return GrouponUtils.siteBase + 'community/' + id;
 		},
 		
+		createTaskPage: function (communityId, taskTypeId) {
+			var link = GrouponUtils.siteBase + 'task/create?communityId=' + communityId;
+			if (taskTypeId) {
+				link += "&taskType=" + taskTypeId;
+			}
+			return link;
+		},
+		
 		taskPage: function (id) {
 			return GrouponUtils.siteBase + 'task/show/' + id;
 		},

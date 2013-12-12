@@ -41,6 +41,7 @@ import com.groupon.web.controller.json.UserJson;
 import com.groupon.web.dao.model.Community;
 import com.groupon.web.dao.model.FieldAttribute;
 import com.groupon.web.dao.model.FieldType;
+import com.groupon.web.dao.model.NeedType;
 import com.groupon.web.dao.model.Tag;
 import com.groupon.web.dao.model.Task;
 import com.groupon.web.dao.model.TaskType;
@@ -504,11 +505,19 @@ public class CommunityController extends AbstractBaseController {
 		if (!json.has("communityId")) {
 			throw new GrouponException("Community id cannot be leave as empty!");
 		}
+		
+		if (!json.has("needType")) {
+			throw new GrouponException("Task type must specify a need type!");
+		}
 
 		TaskType taskType = new TaskType();
 
 		String name = json.getString("name");
 		String description = json.getString("description");
+		String needTypeStr = json.getString("needType");
+		
+		NeedType needType = NeedType.valueOf(needTypeStr);
+		taskType.setNeedType(needType);
 
 		Long communityId = json.getLong("communityId");
 		Community community = communityService.getCommunityById(communityId);

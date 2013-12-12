@@ -1,5 +1,6 @@
 package com.groupon.web.jstltag;
 
+import java.util.Collection;
 import java.util.Date;
 
 import org.joda.time.Days;
@@ -11,5 +12,9 @@ public class DateUtils {
 		LocalDate local2 = new LocalDate();
 
 		return Days.daysBetween(local2, local1).getDays();
+	}
+
+	public static boolean isCollection(Object object) {
+		return object instanceof Collection<?>;
 	}
 }

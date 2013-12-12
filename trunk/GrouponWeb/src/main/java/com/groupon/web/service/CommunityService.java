@@ -89,6 +89,10 @@ public class CommunityService {
 		return taskTypes;
 	}
 	
+	public TaskType getTaskType(Long taskTypeId) {
+		return communityDao.getTaskType(taskTypeId);
+	}
+	
 	private void arrangeTagsOfCommunity(Community community) {
 		List<Tag> tags = community.getTags();
 		if(tags!=null){

@@ -9,7 +9,6 @@ $(document).ready(function () {
 		mapTypeId: google.maps.MapTypeId.ROADMAP
 	};
 	
-
 	$("#inputLocation").click(function () {
 		if (!isMapOpen) {
 			if (createTaskMap == null) {
@@ -70,6 +69,7 @@ $(document).ready(function () {
 			break;
 		}
 	});
+	
 	$("#createTaskButton").click(function () {
 		var that = $(this);
 		that.attr("disabled", "disabled");
@@ -77,7 +77,13 @@ $(document).ready(function () {
 		task.name = $("#inputName").val();
 		task.description = $("#inputDescription").val();
 		task.deadline = $("#inputDeadline").val();
-		task.type = $("#inputNeedType").val();
+		
+		if ($("#NEED_TYPE").val() == "USER_DEFINED") {
+			task.type = $("#inputNeedType").val();
+		} else {
+			task.type = $("#NEED_TYPE").val();
+		}
+		
 		task.tags = [];
 		
 		if(task.type!="ONLY_FORM") {
@@ -94,6 +100,43 @@ $(document).ready(function () {
 			task.tags.push(tag);
 		});
 		
+		task.attributes = [];
+		
+		$(".attribute-control-group").each(function () {
+			var type = $(this).attr("data-field-type");
+			var name = $(this).find(".attribute-label").text();
+			var value = "";
+			switch(type) {
+			case 'SHORT_TEXT':
+				value = $(this).find("input.short-text-input").val();
+				break;
+			case 'LONG_TEXT':
+				value = $(this).find("textarea.long-text-input").val();
+				break;
+			case 'DATE':
+				value = $(this).find("input.date-input").val();
+				break;
+			case 'RADIO':
+				value = $(this).find(".radio-input:checked").val();
+				break;
+			case 'CHECKBOX':
+				$(this).find(".checkbox-input:checked").each(function () {
+					var val = $(this).val();
+					task.attributes.push({name: name, value: val});
+				});
+				return true;
+			case 'SELECT':
+				value = $(this).find(".select-input").val();
+				break;
+			default:
+				return true;
+			}
+			
+			task.attributes.push({name: name, value: value});
+		});
+		
+		console.log(task);
+		
 		$.ajax({
 			type: "POST",
 			contentType: 'application/json',
@@ -108,4 +151,6 @@ $(document).ready(function () {
 			that.removeAttr("disabled");
 		});
 	});
+	
+	$(".date-input").datepicker();
 });

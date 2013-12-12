@@ -63,13 +63,13 @@ $(function () {
 			$.get(url, data).success(function (res) {
 				if (res.members && res.members.length > 0) {
 					$.each(res.members, function (i, e) {
-						//$("#taskTypeSelection").append('<option value="' + e.id + '">' + e.name + '</option>');
+						$("#taskTypeSelection").append('<option value="' + e.id + '">' + e.name + '</option>');
 					});
 				}
 			}).fail(function () {
 				alert("fail");
 			}).always(function () {
-				//$("#taskTypeSelectionModal").modal('show');
+				$("#taskTypeSelectionModal").modal('show');
 			});
 		}
 	};
@@ -118,5 +118,14 @@ $(function () {
 	$(".createTaskLink").click(function () {
 		scope.getTaskTypes();
 		return false;
+	});
+	
+	$("#modalCreateTaskBtn").click(function () {
+		var communityId = scope.communityId;
+		var taskTypeId = $("#taskTypeSelection").val();
+		if (taskTypeId == "groupon::default") {
+			taskTypeId = false;
+		}
+		window.location.href = GrouponUtils.createTaskPage(communityId, taskTypeId);
 	});
 });

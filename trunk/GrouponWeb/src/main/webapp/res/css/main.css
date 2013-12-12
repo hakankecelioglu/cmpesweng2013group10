@@ -158,16 +158,19 @@ h2.profile-heading {
 	background-position: 0 -1869px;
 }
 
-body.createTaskType .popover.right .popover-content {
+body.createTaskType .popover.right .popover-content,
+body.createTaskType .popover.top .popover-content {
 	padding: 0;
 }
 
-body.createTaskType .popover.right {
+body.createTaskType .popover.right,
+body.createTaskType .popover.top {
 	max-width: 500px;
 	z-index: 3000;
 }
 
-body.createTaskType .popover.right table {
+body.createTaskType .popover.right table,
+body.createTaskType .popover.top table {
 	margin-bottom: 0;
 }
 
