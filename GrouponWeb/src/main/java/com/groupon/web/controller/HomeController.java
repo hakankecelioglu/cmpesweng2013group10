@@ -66,6 +66,12 @@ public class HomeController extends AbstractBaseController {
 		return "advancedSearch.view";
 	}
 	
+	@RequestMapping(value = "/contactUs" , method = RequestMethod.GET)
+	public Object contactUs(HttpServletRequest request, Model model) {
+		
+		return "contactUs.view";
+	}
+	
 	@RequestMapping(value = "/aboutUs" , method = RequestMethod.GET)
 	public Object aboutUs(HttpServletRequest request, Model model) {
 		
