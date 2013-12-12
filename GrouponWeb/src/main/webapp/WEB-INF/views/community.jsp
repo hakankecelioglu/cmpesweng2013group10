@@ -144,71 +144,38 @@
 		<div class="tab-pane" id="tabMembers">
 			<div class="clearfix">
 				<h1 class="pull-left">Members</h1>
-				<div class="pull-right">
-					Sort by: 
-					<select>
-						<option>Latest</option>
-						<option>Urgency</option>
-					</select>
-				</div>
 			</div>
 			
 			<c:choose>
-				<c:when test="${not empty tasks}">
-					<c:forEach var="task" items="${tasks}">
-						<div class="well community-task-well">
-							<h3 class="pull-left"><a href="<c:url value="/task/show/${task.id}" />">${task.title}</a></h3>
-							<h6 class="pull-right">community: ${task.community.name}</h6>
-							<div class="clearfix"></div>
-							<div>
-								<p class="pull-left">by <b>${task.owner.username}</b></p>
-								<p class="pull-right">Location: <b>Van/Turkey</b></p>
-								<div class="clearfix"></div>
-							</div>
-							<hr class="clearfix">
-							<p>
-								${fn:replace(task.description, newLineChar, "<br />")}
-							</p>
-							
-							<div class="clearfix">
-								<div class="pull-left">Need: 55 more cadir</div>
-								<div class="pull-right task-follower-count">
+				<c:when test="${not empty members}">
+					<div class="row-fluid" id="memberThumbnails">
+						<%-- TODO: put ul for each 4 member --%>
+						<ul class="thumbnails">
+							<c:forEach var="member" items="${members}">
+								<li class="span4">
+								<div class="thumbnail">
 									<c:choose>
-										<c:when test="${task.followerCount == 0}">
-											No follower
-										</c:when>
-										<c:when test="${task.followerCount == 1}">
-											1 follower
+										<c:when test="${not empty member.picture}">
+											<img class="media-object profile-picture" style="width: 200px; height: 200px;" src="<c:url value="/user/picture/${member.picture}" />">
 										</c:when>
 										<c:otherwise>
-											<c:out value="${task.followerCount}" /> followers
+											<img class="media-object profile-picture" style="width: 200px; height: 200px;" src="http://b.vimeocdn.com/ps/445/980/4459809_300.jpg">
 										</c:otherwise>
 									</c:choose>
-								</div>
-							</div>
-							
-							<div class="progress progress-striped">
-								<div class="bar bar-success" style="width: 40%"></div>
-								<div class="bar bar-warning" style="width: 60%;"></div>
-							</div>
-							
-							<div class="clearfix">
-								<div class="pull-left">${grouponfn:dateDiff(task.deadline)} days left!</div>
-								<div class="pull-right">
-									<c:choose>
-										<c:when test="${followedMap[task.id]}">
-											<button class="btn btn-danger btn-unfollow-task" data-taskid="${task.id}">Unfollow</button>
-										</c:when>
-										<c:otherwise>
-											<button class="btn btn-success btn-follow-task" data-taskid="${task.id}">Follow</button>
-										</c:otherwise>
-									</c:choose>
-									<a class="btn btn-success" href="<c:url value="/task/show/${task.id}" />">Reply</a>
-								</div>
-							</div>
-						</div>
-					</c:forEach>
-					
+									<div class="caption">
+										<c:choose>
+											<c:when test="${empty member.name}">
+												<h3 class="profile-heading text-center"><a href="<c:url value="/profile/${member.username}" />">${member.username}</a></h3>
+											</c:when>
+											<c:otherwise>
+												<h3 class="profile-heading text-center"><a href="<c:url value="/profile/${member.username}" />">${member.name}&nbsp;${member.surname}</a></h3>
+											</c:otherwise>
+										</c:choose>
+									</div>
+								</div></li>
+							</c:forEach>
+						</ul>
+					</div>
 					<%-- TODO: Remove later --%>
 					
 					<%-- pagination starts here --%>
@@ -227,10 +194,10 @@
 				</c:when>
 				<c:otherwise>
 					<div class="well community-task-well">
-						<p>There is no task in this community!</p>
-						<p>
+						<p>There is no member of this community!</p>
+						<%-- <p>
 							<a href="<c:url value="/task/create?communityId=${community.id}" />" class="btn btn-success"><i class="icon-plus"></i> Create Task</a>
-						</p>
+						</p> --%>
 					</div>
 				</c:otherwise>
 			</c:choose>
