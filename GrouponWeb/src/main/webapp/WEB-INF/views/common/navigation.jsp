@@ -5,7 +5,7 @@
 <div class="container">
 	<div class="row" style="padding-top: 10px; padding-bottom: 10px;">
 		<div class="span5">
-			<h1>TASK TOGETHER</h1>
+			<a href = "<c:url value="/" />"> <img src="<c:url value="/res/img/logo.png" />"></a>
 		</div>
 		
 		<div class="span4">
@@ -69,7 +69,7 @@
 					<c:when test="${empty user}">
 						<li><a href="<c:url value="/aboutUs" />"><i class="icon-info-sign"></i> About Us</a></li>
 						<li><a href="#"><i class="icon-user"></i> Top Helpful Users</a></li>
-						<li><a href="#"><i class="icon-download"></i> Android Version</a></li>
+						<li><a href="<c:url value="/androidDown" />"><i class="icon-download"></i> Android Version</a></li>
 						<li><a href="<c:url value="/contactUs" />"><i class="icon-question-sign"></i> Contact Us</a></li>
 						<li><a href="<c:url value="/search" />"><i class="icon-search"></i> Advanced Search</a></li>
 					</c:when>

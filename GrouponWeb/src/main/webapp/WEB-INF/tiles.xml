@@ -113,6 +113,12 @@
 		<put-attribute name="body" value="/WEB-INF/views/contactUs.jsp" />
 	</definition>
 	
+		<definition name="androidDown.view" extends="grouponTemplate">
+		<put-attribute name="title" cascade="true"
+			value="Android Application" />
+		<put-attribute name="body" value="/WEB-INF/views/androidDown.jsp" />
+	</definition>
+	
 	
 	<definition name="task.view" extends="grouponTemplate">
 		<put-attribute name="title" cascade="true" value="Task" />
