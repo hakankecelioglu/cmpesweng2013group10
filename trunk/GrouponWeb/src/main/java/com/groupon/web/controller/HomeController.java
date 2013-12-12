@@ -72,6 +72,12 @@ public class HomeController extends AbstractBaseController {
 		return "contactUs.view";
 	}
 	
+	@RequestMapping(value = "/androidDown" , method = RequestMethod.GET)
+	public Object androidDown(HttpServletRequest request, Model model) {
+		
+		return "androidDown.view";
+	}
+	
 	@RequestMapping(value = "/aboutUs" , method = RequestMethod.GET)
 	public Object aboutUs(HttpServletRequest request, Model model) {
 		
