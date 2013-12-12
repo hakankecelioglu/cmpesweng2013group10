@@ -67,7 +67,7 @@
 				
 				<c:choose>
 					<c:when test="${empty user}">
-						<li><a href="#"><i class="icon-info-sign"></i> About Us</a></li>
+						<li><a href="<c:url value="/aboutUs" />"><i class="icon-info-sign"></i> About Us</a></li>
 						<li><a href="#"><i class="icon-user"></i> Top Helpful Users</a></li>
 						<li><a href="#"><i class="icon-download"></i> Android Version</a></li>
 						<li><a href="#"><i class="icon-question-sign"></i> Contact Us</a></li>
