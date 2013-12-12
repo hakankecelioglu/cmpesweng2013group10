@@ -106,24 +106,37 @@ $(function () {
 		return false;
 	});
 	
-	$(document).on('click', '.tab', function () {
-		var that = $(this);
-		var tabId = that.attr('id');
-		if (tabId) {
-			var liTabs = $('.li-tab');
-			liTabs.attr('class', 'li-tab');
-			$('#li-' + that.attr('id')).attr('class', 'li-tab active');
-			$('')
-//			GrouponUtils.unfollowTask(taskId).done(function (resp) {
-//				that.removeClass('btn-unfollow-task btn-danger').addClass('btn-follow-task btn-success');
-//				that.html("Follow");
-//				that.closest(".well").find(".task-follower-count").html(GrouponUtils.followerCount(resp.followerCount));
-//			}).fail(GrouponUtils.ajaxModalError).always(function () {
-//				that.removeAttr('disabled');
-//			});
-		}
-		return false;
-	});
+
+
+    $('#tabList .tabListLink').click(function (e) {
+    	e.preventDefault();
+    	$(this).tab('show');
+    });
+    
+//    $('#tabList a[href=""tabHome]').click(function (e) {
+//    	e.preventDefault();
+//    	$(this).tab('show');
+//    });
+	
+//	$(document).on('click', '.tab', function () {
+//		var that = $(this);
+//		var tabId = that.attr('id');
+//		if (tabId) {
+//			var liTabs = $('.li-tab');
+//			liTabs.attr('class', 'li-tab');
+//			$('#li-' + tabId).attr('class', 'li-tab active');
+//			$('.tab-content').css('visibility', 'hidden');
+//			$('.tab-content .'+tabId).css('visibility', 'visible');
+////			GrouponUtils.unfollowTask(taskId).done(function (resp) {
+////				that.removeClass('btn-unfollow-task btn-danger').addClass('btn-follow-task btn-success');
+////				that.html("Follow");
+////				that.closest(".well").find(".task-follower-count").html(GrouponUtils.followerCount(resp.followerCount));
+////			}).fail(GrouponUtils.ajaxModalError).always(function () {
+////				that.removeAttr('disabled');
+////			});
+//		}
+//		return false;
+//	});
 	
 	scope.getSimiliarCommunities(scope.communityId, 0, 10);
 	
