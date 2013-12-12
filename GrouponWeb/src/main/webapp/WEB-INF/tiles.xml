@@ -94,7 +94,13 @@
 			<add-attribute value="/createTask.js" />
 		</put-list-attribute>
 	</definition>
-
+	
+	<definition name="advancedSearch.view" extends="grouponTemplate">
+		<put-attribute name="title" cascade="true"
+			value="Search" />
+		<put-attribute name="body" value="/WEB-INF/views/advancedSearch.jsp" />
+	</definition>
+	
 	<definition name="task.view" extends="grouponTemplate">
 		<put-attribute name="title" cascade="true" value="Task" />
 		<put-attribute name="body" value="/WEB-INF/views/task.jsp" />
