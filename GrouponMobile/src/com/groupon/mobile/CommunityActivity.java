@@ -67,7 +67,7 @@ public class CommunityActivity extends BaseActivity {
 		communityDescriptionField = (TextView) findViewById(R.id.communityDescription);
 		communityDescriptionField.setText(description);
 		communityPicture=(ImageView) findViewById(R.id.community_picture);
-		ImageUtils.loadBitmap(communityPicture, pictureUrl);
+		//ImageUtils.loadBitmap(communityPicture, pictureUrl);
 	
 
 		

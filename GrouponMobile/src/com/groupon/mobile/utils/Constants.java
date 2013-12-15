@@ -4,7 +4,7 @@ public class Constants {
 	// For development
 	// public static final String SERVER = "http://192.168.1.5:1717/";
 	// For production
-	public static final String SERVER = "http://192.168.1.5:1616";
+	public static final String SERVER = "http://titan.cmpe.boun.edu.tr:8089/groupon/";
 
 	public static final String REQUEST_AUTH_HEADER = "X-auth-token";
 
