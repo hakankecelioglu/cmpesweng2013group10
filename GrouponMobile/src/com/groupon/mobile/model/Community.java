@@ -10,6 +10,8 @@ public class Community implements Serializable {
 	private String name;
 
 	private String description;
+	
+	private String picture;
 
 	public String getName() {
 		return name;
@@ -34,5 +36,14 @@ public class Community implements Serializable {
 	public void setId(Long id) {
 		this.id = id;
 	}
+
+	public String getPicture() {
+		return picture;
+	}
+
+	public void setPicture(String picture) {
+		this.picture = picture;
+	}
+	
 
 }
