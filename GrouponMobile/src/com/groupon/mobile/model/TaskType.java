@@ -3,12 +3,14 @@ package com.groupon.mobile.model;
 import java.util.List;
 
 
+
+
 public class TaskType {
 
 	private String name;
 	private String description;
 	private List<TaskTypeField> fields;
-
+	private NeedType needType;
 	private Community community;
 
 	public String getName() {
@@ -41,6 +43,14 @@ public class TaskType {
 
 	public void setCommunity(Community community) {
 		this.community = community;
+	}
+
+	public NeedType getNeedType() {
+		return needType;
+	}
+
+	public void setNeedType(NeedType needType) {
+		this.needType = needType;
 	}
 
 }
