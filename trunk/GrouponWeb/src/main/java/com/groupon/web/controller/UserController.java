@@ -9,12 +9,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -23,6 +26,7 @@ import com.groupon.web.controller.json.UserJson;
 import com.groupon.web.dao.model.Community;
 import com.groupon.web.dao.model.RoleName;
 import com.groupon.web.dao.model.User;
+import com.groupon.web.dao.model.UserStatus;
 import com.groupon.web.exception.GrouponException;
 import com.groupon.web.service.CommunityService;
 import com.groupon.web.service.UserService;
@@ -134,6 +138,38 @@ public class UserController extends AbstractBaseController {
 		setUserSession(request, servletResponse, user);
 
 		response.put("message", "OK");
+		return prepareSuccessResponse(response);
+	}
+
+	@RequestMapping(value = "mobile/signup", method = RequestMethod.POST)
+	public ResponseEntity<Map<String, Object>> signupMobile(HttpServletRequest request, @RequestBody String body) throws JSONException {
+		Map<String, Object> response = new HashMap<String, Object>();
+		
+		JSONObject json = new JSONObject(body);
+		GrouponWebUtils.rejectIfEmpty(json, "email", "password", "username");
+		
+		String email = json.getString("email");
+		String username = json.getString("username");
+		String password = json.getString("password");
+		String name = json.getString("name");
+		String surname = json.getString("surname");
+
+		String passwordHash = GrouponWebUtils.hashPasswordForDB(password);
+
+		User user = new User();
+		user.setEmail(email);
+		user.setUsername(username);
+		user.setPassword(passwordHash);
+		user.setName(name);
+		user.setSurname(surname);
+		user.setStatus(UserStatus.ACTIVE);
+		
+		userService.registerUser(user, RoleName.USER);
+
+		response.put("user", UserJson.convert(user));
+		response.put("auth", GrouponWebUtils.generateCookieForUser(user));
+		response.put("message", "OK");
+		
 		return prepareSuccessResponse(response);
 	}
 

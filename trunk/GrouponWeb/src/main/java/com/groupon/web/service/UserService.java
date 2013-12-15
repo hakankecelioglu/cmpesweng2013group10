@@ -70,7 +70,9 @@ public class UserService {
 
 		user.setRole(userRole);
 
-		sendEmailConfirmationMail(user);
+		if (user.getStatus() == UserStatus.DEACTIVE) {
+			sendEmailConfirmationMail(user);
+		}
 	}
 
 	/**
