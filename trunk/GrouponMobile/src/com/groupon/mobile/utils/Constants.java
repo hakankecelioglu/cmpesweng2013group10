@@ -10,4 +10,7 @@ public class Constants {
 
 	public static final String PREFS_NAME_SECURITY = "_sec";
 	public static final String PREFS_AUTH_TOKEN_KEY = "_auth_token";
+	
+	public static final String COMMUNITY_ICON = SERVER + "community/thumb/medium/";
+	public static final String COMMUNITY_DEFAULT_ICON = SERVER + "res/img/default_com_picture.jpg";
 }

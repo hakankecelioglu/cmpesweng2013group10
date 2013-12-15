@@ -2,70 +2,66 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent" >
+
     <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <EditText
+            android:id="@+id/task_name"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
-	    <EditText
-	        android:id="@+id/task_name"
-	        android:layout_width="fill_parent"
-	        android:layout_height="wrap_content"
-	        android:layout_marginTop="14dp"
-	       
-	        android:ems="10"
-	        android:hint="@string/task_name" 
-	    />
-	
-	    <EditText
-	        android:id="@+id/task_description"
-	        android:layout_width="fill_parent"
-	        android:layout_height="100dp"
-	
-	        
-	        android:ems="10"
-	        android:hint="@string/task_description"
-	        android:inputType="textMultiLine" />
-		<Spinner
-		    android:id="@+id/need_type"
-		    android:layout_width="wrap_content"
-		    android:layout_height="wrap_content"
-		    android:entries="@array/need_type_array"
-	        android:prompt="@string/need_type_prompt" 
-	       
-		    />	    
+            android:layout_marginTop="14dp"
+            android:ems="10"
+            android:hint="@string/task_name" />
 
-			<LinearLayout
-			    android:orientation="horizontal"
-			    android:layout_width="fill_parent"
-		        android:layout_height="wrap_content" >
-		        
-		    <Spinner
-			    android:id="@+id/form_field_type"
-			    android:layout_width="wrap_content"
-			    android:layout_height="wrap_content"
-			    android:entries="@array/form_field_type_array"
-		        android:prompt="@string/form_field_type_prompt" 
-		       
-		        
-			 />
-			
-		    <Button
-		        android:id="@+id/button_add_form_field"
-		        android:layout_width="wrap_content"
-		        android:layout_height="wrap_content"
-		        
-		        android:text="@string/add_form_field" />
-		    </LinearLayout>	
-	    <LinearLayout 
-	    	android:id="@+id/layout_form_fields"
-	    	android:layout_width="match_parent"
-	    	android:layout_height="wrap_content"
-	    	android:orientation="vertical" >
-	    </LinearLayout>
-	    <Button
-	        android:id="@+id/button_create_task_type"
-	        android:layout_width="fill_parent"
-	        android:layout_height="wrap_content"
-	        android:text="@string/create_task_type" />	
+        <EditText
+            android:id="@+id/task_description"
+            android:layout_width="fill_parent"
+            android:layout_height="100dp"
+            android:ems="10"
+            android:hint="@string/task_description"
+            android:inputType="textMultiLine" />
+
+        <Spinner
+            android:id="@+id/need_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:entries="@array/need_type_array"
+            android:prompt="@string/need_type_prompt" />
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <Spinner
+                android:id="@+id/form_field_type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:entries="@array/form_field_type_array"
+                android:prompt="@string/form_field_type_prompt" />
+
+            <Button
+                android:id="@+id/button_add_form_field"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/add_form_field" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layout_form_fields"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/button_create_task_type"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/create_task_type" />
     </LinearLayout>
+
 </ScrollView>
