@@ -7,10 +7,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.groupon.mobile.conn.ConnectionUtils;
 import com.groupon.mobile.utils.Constants;
+import com.groupon.mobile.utils.ImageUtils;
 
 public class CommunityActivity extends BaseActivity {
 	private Button createButton;
@@ -18,7 +20,7 @@ public class CommunityActivity extends BaseActivity {
 	private TextView communityNameField;
 	private TextView communityDescriptionField;
 	private long communityId;
-
+	private ImageView communityPicture;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -35,12 +37,14 @@ public class CommunityActivity extends BaseActivity {
 					JSONObject obj = ConnectionUtils.makePostRequest(path, null, getAuthToken());
 
 					JSONObject community = obj.getJSONObject("community");
+					
 					final String communityName = community.getString("name");
 					final String communityDescription = community.getString("description");
+					final String communityPicture = community.getString("picture");
 					runOnUiThread(new Runnable() {
 						@Override
 						public void run() {
-							setupUI(communityName, communityDescription);
+							setupUI(communityName, communityDescription,communityPicture);
 						}
 					});
 
@@ -53,7 +57,7 @@ public class CommunityActivity extends BaseActivity {
 
 	}
 
-	private void setupUI(String name, String description) {
+	private void setupUI(String name, String description, String pictureUrl) {
 		createTypeButton = (Button) findViewById(R.id.button_create_task_type);
 		createTypeButton.setOnClickListener(createTypeButtonClickListener);
 		createButton = (Button) findViewById(R.id.button_create_task);
@@ -62,6 +66,11 @@ public class CommunityActivity extends BaseActivity {
 		communityNameField.setText(name);
 		communityDescriptionField = (TextView) findViewById(R.id.communityDescription);
 		communityDescriptionField.setText(description);
+		communityPicture=(ImageView) findViewById(R.id.community_picture);
+		ImageUtils.loadBitmap(communityPicture, pictureUrl);
+	
+
+		
 	}
 
 	private OnClickListener createButtonClickListener = new OnClickListener() {
@@ -83,4 +92,7 @@ public class CommunityActivity extends BaseActivity {
 			startActivity(intent);
 		}
 	};
+	
+	
+	
 }
