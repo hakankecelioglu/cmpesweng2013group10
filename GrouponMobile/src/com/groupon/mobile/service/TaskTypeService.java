@@ -47,6 +47,7 @@ public class TaskTypeService {
 		try {
 			json.put("name",TaskType.getName());
 			json.put("description", TaskType.getDescription());
+			json.put("needType", TaskType.getNeedType().toString());
 			JSONArray array=new JSONArray();
 			
 			List<TaskTypeField> TaskTypeFields = TaskType.getFields();
