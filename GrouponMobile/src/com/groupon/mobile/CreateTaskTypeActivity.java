@@ -3,15 +3,6 @@ package com.groupon.mobile;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.groupon.mobile.conn.GrouponCallback;
-import com.groupon.mobile.model.Community;
-import com.groupon.mobile.model.FieldAttribute;
-import com.groupon.mobile.model.FieldType;
-import com.groupon.mobile.model.NeedType;
-import com.groupon.mobile.model.TaskType;
-import com.groupon.mobile.model.TaskTypeField;
-import com.groupon.mobile.service.TaskTypeService;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -24,6 +15,15 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.groupon.mobile.conn.GrouponCallback;
+import com.groupon.mobile.model.Community;
+import com.groupon.mobile.model.FieldAttribute;
+import com.groupon.mobile.model.FieldType;
+import com.groupon.mobile.model.NeedType;
+import com.groupon.mobile.model.TaskType;
+import com.groupon.mobile.model.TaskTypeField;
+import com.groupon.mobile.service.TaskTypeService;
 
 public class CreateTaskTypeActivity extends BaseActivity {
 	private EditText taskNameField;

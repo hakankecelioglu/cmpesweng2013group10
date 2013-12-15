@@ -2,9 +2,6 @@ package com.groupon.mobile.model;
 
 import java.util.List;
 
-
-
-
 public class TaskType {
 
 	private String name;

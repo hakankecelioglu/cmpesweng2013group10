@@ -6,16 +6,14 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.groupon.mobile.conn.GrouponCallback;
-import com.groupon.mobile.model.Community;
 import com.groupon.mobile.model.User;
 import com.groupon.mobile.service.UserService;
 
-public class SignUpActivity extends BaseActivity{
-	
+public class SignUpActivity extends BaseActivity {
+
 	private Button signUpButton;
 	private EditText userNameField;
 	private EditText passwordField;
@@ -25,7 +23,7 @@ public class SignUpActivity extends BaseActivity{
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_sign_up);
-	
+
 		setupUI();
 	}
 
@@ -34,7 +32,7 @@ public class SignUpActivity extends BaseActivity{
 		passwordField = (EditText) findViewById(R.id.user_password);
 		emailField = (EditText) findViewById(R.id.e_mail);
 		signUpButton = (Button) findViewById(R.id.button_sign_up);
-		signUpButton.setOnClickListener(signUpListener);	
+		signUpButton.setOnClickListener(signUpListener);
 	}
 
 	private OnClickListener signUpListener = new OnClickListener() {

@@ -2,8 +2,6 @@ package com.groupon.mobile.model;
 
 import java.util.List;
 
-
-
 public class TaskTypeField {
 	private String name;
 

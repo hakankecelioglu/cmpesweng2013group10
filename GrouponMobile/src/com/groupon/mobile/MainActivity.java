@@ -42,10 +42,10 @@ public class MainActivity extends BaseActivity {
 
 		loginUsername = (EditText) findViewById(R.id.login_username);
 		loginPassword = (EditText) findViewById(R.id.login_password);
-		
+
 		signUpButton = (Button) findViewById(R.id.button_go_sign_up_page);
 		signUpButton.setOnClickListener(onSignUpButtonClick);
-		
+
 		aboutUs = (Button) findViewById(R.id.button_about);
 		aboutUs.setOnClickListener(onAboutButtonClick);
 	}
@@ -60,7 +60,7 @@ public class MainActivity extends BaseActivity {
 				Toast.makeText(MainActivity.this, "Username and/or password cannot be empty!", Toast.LENGTH_SHORT).show();
 				return;
 			}
-			
+
 			UserService userService = new UserService(getApp());
 			userService.login(username, password, new GrouponCallback<User>() {
 				public void onSuccess(User response) {
@@ -77,20 +77,19 @@ public class MainActivity extends BaseActivity {
 			});
 		}
 	};
-	
+
 	private OnClickListener onSignUpButtonClick = new OnClickListener() {
-		
+
 		@Override
-		public void onClick(View v) 
-		{
+		public void onClick(View v) {
 			Intent intent = new Intent(MainActivity.this, SignUpActivity.class);
 			startActivity(intent);
 			finish();
 		}
 	};
-	
+
 	private OnClickListener onAboutButtonClick = new OnClickListener() {
-		
+
 		@Override
 		public void onClick(View v) {
 			Intent intent = new Intent(MainActivity.this, AboutUs.class);

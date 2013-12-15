@@ -1,6 +1,5 @@
 package com.groupon.mobile.model;
 
-
 public class FieldAttribute {
 
 	private String name;

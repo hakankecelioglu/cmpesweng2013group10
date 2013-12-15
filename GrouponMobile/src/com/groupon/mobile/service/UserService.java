@@ -41,27 +41,27 @@ public class UserService {
 		};
 		GrouponTask.execute(userTask);
 	}
-	
+
 	public void signup(final String username, final String password, final String email, GrouponCallback<User> callback) {
 		GrouponTask<User> userTask = new GrouponTask<User>(callback) {
 			@Override
 			public User run() throws GrouponException {
 				String url = Constants.SERVER + "mobile/signup";
-				
+
 				JSONObject json = new JSONObject();
-				 try {
+				try {
 					json.put("email", email);
 					json.put("username", username);
 					json.put("password", password);
 					json.put("name", "");
 					json.put("surname", "");
-				    } 
-				    catch (JSONException e) { }
-				
-				
-				Map<String, String> map = new HashMap<String, String>();
+				} catch (JSONException e) {
+					throw new GrouponException("An unknown error occured!");
+				}
 
+				Map<String, String> map = new HashMap<String, String>();
 				JSONObject jsonObject = ConnectionUtils.makePostRequest(url, map, json, app.getAuthToken());
+
 				try {
 					return convertJsonToUser(jsonObject);
 				} catch (JSONException e) {
