@@ -3,7 +3,7 @@ package com.groupon.mobile;
 import android.app.Activity;
 import android.os.Bundle;
 
-public class ProfileActivity extends Activity{
+public class ProfileActivity extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -11,7 +11,5 @@ public class ProfileActivity extends Activity{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.profile);
 	}
-	
-	
 
 }

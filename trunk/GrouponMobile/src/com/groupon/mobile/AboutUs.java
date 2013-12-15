@@ -3,7 +3,7 @@ package com.groupon.mobile;
 import android.app.Activity;
 import android.os.Bundle;
 
-public class AboutUs extends Activity{
+public class AboutUs extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -11,7 +11,5 @@ public class AboutUs extends Activity{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.about_us);
 	}
-	
-	
 
 }

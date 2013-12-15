@@ -10,7 +10,7 @@ public class Community implements Serializable {
 	private String name;
 
 	private String description;
-	
+
 	private String picture;
 
 	public String getName() {
@@ -44,6 +44,5 @@ public class Community implements Serializable {
 	public void setPicture(String picture) {
 		this.picture = picture;
 	}
-	
 
 }
