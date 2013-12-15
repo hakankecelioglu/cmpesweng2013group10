@@ -57,6 +57,10 @@
             android:name="com.groupon.mobile.SignUpActivity"
             android:label="@string/title_activity_sign_up" >
         </activity>
+        <activity
+            android:name="com.groupon.mobile.ProfileActivity"
+            android:label="My Profile" >
+        </activity>
     </application>
 
 </manifest>
