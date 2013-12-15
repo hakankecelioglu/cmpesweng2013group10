@@ -41,6 +41,36 @@ public class UserService {
 		};
 		GrouponTask.execute(userTask);
 	}
+	
+	public void signup(final String username, final String password, final String email, GrouponCallback<User> callback) {
+		GrouponTask<User> userTask = new GrouponTask<User>(callback) {
+			@Override
+			public User run() throws GrouponException {
+				String url = Constants.SERVER + "mobile/signup";
+				
+				JSONObject json = new JSONObject();
+				 try {
+					json.put("email", email);
+					json.put("username", username);
+					json.put("password", password);
+					json.put("name", "");
+					json.put("surname", "");
+				    } 
+				    catch (JSONException e) { }
+				
+				
+				Map<String, String> map = new HashMap<String, String>();
+
+				JSONObject jsonObject = ConnectionUtils.makePostRequest(url, map, json, app.getAuthToken());
+				try {
+					return convertJsonToUser(jsonObject);
+				} catch (JSONException e) {
+					throw new GrouponException("JSON returned from server is invalid!");
+				}
+			}
+		};
+		GrouponTask.execute(userTask);
+	}
 
 	private User convertJsonToUser(JSONObject json) throws JSONException {
 		if (json.has("auth")) {
