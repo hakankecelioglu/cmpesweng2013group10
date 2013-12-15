@@ -80,6 +80,15 @@ public class GrouponWebUtils {
 			}
 		}
 	}
+	
+	public static void rejectIfEmpty(JSONObject json, String... params) throws JSONException {
+		for (String param : params) {
+			String value = json.getString(param);
+			if (StringUtils.isBlank(value)) {
+				throw new GrouponException(param + " cannot be null or empty!");
+			}
+		}
+	}
 
 	public static List<Long> convertModelListToLongList(List<? extends BaseModel> objects) {
 		List<Long> longs = new ArrayList<Long>();
