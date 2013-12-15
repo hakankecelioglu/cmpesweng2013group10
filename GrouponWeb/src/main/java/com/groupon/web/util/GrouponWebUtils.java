@@ -80,11 +80,15 @@ public class GrouponWebUtils {
 			}
 		}
 	}
-	
+
 	public static void rejectIfEmpty(JSONObject json, String... params) throws JSONException {
 		for (String param : params) {
-			String value = json.getString(param);
-			if (StringUtils.isBlank(value)) {
+			if (json.has(param)) {
+				String value = json.getString(param);
+				if (StringUtils.isBlank(value)) {
+					throw new GrouponException(param + " cannot be null or empty!");
+				}
+			} else {
 				throw new GrouponException(param + " cannot be null or empty!");
 			}
 		}

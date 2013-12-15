@@ -144,32 +144,37 @@ public class UserController extends AbstractBaseController {
 	@RequestMapping(value = "mobile/signup", method = RequestMethod.POST)
 	public ResponseEntity<Map<String, Object>> signupMobile(HttpServletRequest request, @RequestBody String body) throws JSONException {
 		Map<String, Object> response = new HashMap<String, Object>();
-		
+
 		JSONObject json = new JSONObject(body);
 		GrouponWebUtils.rejectIfEmpty(json, "email", "password", "username");
-		
+
 		String email = json.getString("email");
 		String username = json.getString("username");
 		String password = json.getString("password");
-		String name = json.getString("name");
-		String surname = json.getString("surname");
-
 		String passwordHash = GrouponWebUtils.hashPasswordForDB(password);
 
 		User user = new User();
 		user.setEmail(email);
 		user.setUsername(username);
 		user.setPassword(passwordHash);
-		user.setName(name);
-		user.setSurname(surname);
 		user.setStatus(UserStatus.ACTIVE);
-		
+
+		if (json.has("name")) {
+			String name = json.getString("name");
+			user.setName(name);
+		}
+
+		if (json.has("surname")) {
+			String surname = json.getString("surname");
+			user.setSurname(surname);
+		}
+
 		userService.registerUser(user, RoleName.USER);
 
 		response.put("user", UserJson.convert(user));
 		response.put("auth", GrouponWebUtils.generateCookieForUser(user));
 		response.put("message", "OK");
-		
+
 		return prepareSuccessResponse(response);
 	}
 
