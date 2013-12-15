@@ -64,6 +64,10 @@ public class ConnectionUtils {
 
 			HttpResponse response = client.execute(post);
 			if (response.getStatusLine().getStatusCode() != 200) {
+				JSONObject errorResponse = new JSONObject(getResponseContent(response));
+				if (errorResponse.has("error")) {
+					throw new GrouponException(errorResponse.getString("error"));
+				}
 				throw new GrouponException("Error!!!");
 			}
 

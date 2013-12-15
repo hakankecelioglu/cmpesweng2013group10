@@ -21,11 +21,11 @@ public class CommunityActivity extends BaseActivity {
 	private TextView communityDescriptionField;
 	private long communityId;
 	private ImageView communityPicture;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_community);
-
 
 		communityId = getIntent().getLongExtra("communityId", -1);
 
@@ -37,14 +37,14 @@ public class CommunityActivity extends BaseActivity {
 					JSONObject obj = ConnectionUtils.makePostRequest(path, null, getAuthToken());
 
 					JSONObject community = obj.getJSONObject("community");
-					
+
 					final String communityName = community.getString("name");
 					final String communityDescription = community.getString("description");
 					final String communityPicture = community.getString("picture");
 					runOnUiThread(new Runnable() {
 						@Override
 						public void run() {
-							setupUI(communityName, communityDescription,communityPicture);
+							setupUI(communityName, communityDescription, communityPicture);
 						}
 					});
 
@@ -66,11 +66,8 @@ public class CommunityActivity extends BaseActivity {
 		communityNameField.setText(name);
 		communityDescriptionField = (TextView) findViewById(R.id.communityDescription);
 		communityDescriptionField.setText(description);
-		communityPicture=(ImageView) findViewById(R.id.community_picture);
-		//ImageUtils.loadBitmap(communityPicture, pictureUrl);
-	
-
-		
+		communityPicture = (ImageView) findViewById(R.id.community_picture);
+		ImageUtils.loadBitmap(communityPicture, pictureUrl);
 	}
 
 	private OnClickListener createButtonClickListener = new OnClickListener() {
@@ -92,7 +89,5 @@ public class CommunityActivity extends BaseActivity {
 			startActivity(intent);
 		}
 	};
-	
-	
-	
+
 }
