@@ -9,8 +9,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.groupon.mobile.conn.GrouponCallback;
 import com.groupon.mobile.model.Community;
 import com.groupon.mobile.model.User;
+import com.groupon.mobile.service.UserService;
 
 public class SignUpActivity extends BaseActivity{
 	
@@ -47,12 +49,20 @@ public class SignUpActivity extends BaseActivity{
 				return;
 			}
 
-			User user = new User();
-			user.setName(username);
-			user.setPassword(password);
-			user.setEmail(email);
-			Intent intent = new Intent(SignUpActivity.this, HomeActivity.class);
-			startActivity(intent); 
+			UserService userService = new UserService(getApp());
+			userService.signup(username, password, email, new GrouponCallback<User>() {
+				public void onSuccess(User response) {
+					setLoggedUser(response);
+
+					Intent intent = new Intent(SignUpActivity.this, HomeActivity.class);
+					startActivity(intent);
+					finish();
+				}
+
+				public void onFail(String errorMessage) {
+					Toast.makeText(SignUpActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
+				}
+			});
 		}
 	};
 
