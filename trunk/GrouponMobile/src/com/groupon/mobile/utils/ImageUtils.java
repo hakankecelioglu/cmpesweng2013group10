@@ -14,7 +14,7 @@ import android.widget.ImageView;
 public class ImageUtils {
 
 
-	public static void loadBitmap(ImageView picture,String pictureUrl)  {
+	/*public static void loadBitmap(ImageView picture,String pictureUrl)  {
 		String url;
 		if(!pictureUrl.equals("null")){
 			url = Constants.SERVER+Constants.communityIcon+pictureUrl;
@@ -23,5 +23,5 @@ public class ImageUtils {
 			url = Constants.SERVER+Constants.communityIconDefault;
 		new DownloadImageTask(picture)
         .execute(url);
-	}
+	}*/
 }
