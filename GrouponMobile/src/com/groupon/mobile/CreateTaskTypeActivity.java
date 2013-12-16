@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -31,16 +32,19 @@ public class CreateTaskTypeActivity extends BaseActivity {
 	private Button taskTypeCreateButton;
 	private Button addFormButton;
 	private Spinner fieldTypeSpinner;
+	private ArrayAdapter<String> fieldTypeAdapter;
 	private Spinner needTypeSpinner;
-	private LinearLayout formFieldsLayout;
 	private NeedType needType;
 	private long communityId;
-	private List<String> items;
+	private List<FieldType> fieldTypes;
+
+	// All form fields will lay out in this layout
+	private LinearLayout formFieldsLayout;
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_create_task_type);
-		items = new ArrayList<String>();
+		fieldTypes = new ArrayList<FieldType>();
 		communityId = getIntent().getLongExtra("communityId", -1);
 		setupUI();
 	}
@@ -49,20 +53,23 @@ public class CreateTaskTypeActivity extends BaseActivity {
 		taskNameField = (EditText) findViewById(R.id.task_name);
 		taskDescriptionField = (EditText) findViewById(R.id.task_description);
 		taskTypeCreateButton = (Button) findViewById(R.id.button_create_task_type);
-		taskTypeCreateButton.setOnClickListener(createButtonClickListener);
 		addFormButton = (Button) findViewById(R.id.button_add_form_field);
-		addFormButton.setOnClickListener(addFormButtonClickListener);
 		fieldTypeSpinner = (Spinner) findViewById(R.id.form_field_type);
 		needTypeSpinner = (Spinner) findViewById(R.id.need_type);
-		needTypeSpinner.setOnItemSelectedListener(needTypeSpinnerListener);
 		formFieldsLayout = (LinearLayout) findViewById(R.id.layout_form_fields);
+
+		taskTypeCreateButton.setOnClickListener(createButtonClickListener);
+		addFormButton.setOnClickListener(addFormButtonClickListener);
+		needTypeSpinner.setOnItemSelectedListener(needTypeSpinnerListener);
 		formFieldsLayout.setOrientation(LinearLayout.VERTICAL);
+
+		fieldTypeAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, FieldType.getFieldTypes());
+		fieldTypeSpinner.setAdapter(fieldTypeAdapter);
 	}
 
 	private OnClickListener addFormButtonClickListener = new OnClickListener() {
 		@Override
 		public void onClick(View v) {
-
 			EditText questionTitle = new EditText(getApplicationContext());
 			questionTitle.setHint("Question Title");
 
@@ -74,38 +81,32 @@ public class CreateTaskTypeActivity extends BaseActivity {
 			layout.addView(questionTitleLabel);
 			layout.addView(questionTitle);
 
-			TextView hidden = new TextView(getApplicationContext());
-			hidden.setVisibility(View.GONE);
-
 			String selected = fieldTypeSpinner.getSelectedItem().toString();
-			hidden.setText(selected);
-			items.add(selected);
-			if (selected.equals(getResources().getString(R.string.text))) {
+			FieldType fieldType = FieldType.getFromUIName(selected);
+			
+			switch (fieldType) {
+			case SHORT_TEXT:
 				// no op currently
-			} else if (selected.equals(getResources().getString(R.string.check_box))) {
-
-				layout.addView(optionLayout(0));
+				break;
+			case CHECKBOX:
+				layout.addView(optionLayout(fieldType));
 				layout.addView(optionCheckBoxButton());
-			} else if (selected.equals(getResources().getString(R.string.dropdown))) {
-
-				layout.addView(optionLayout(1));
+				break;
+			case SELECT:
+				layout.addView(optionLayout(fieldType));
 				layout.addView(optionDropDownButton());
+				break;
+			default:
+				return;
 			}
-
+			
+			fieldTypes.add(fieldType);
 			formFieldsLayout.addView(layout);
 		}
 	};
 
-	private LinearLayout optionLayout(int n) {
-		String optionStr = "";
-		switch (n) {
-		case 0:
-			optionStr = "Checkbox";
-			break;
-		case 1:
-			optionStr = "Dropdown";
-			break;
-		}
+	private LinearLayout optionLayout(FieldType fieldType) {
+		String optionStr = fieldType.getUIName();
 
 		EditText option = new EditText(getApplicationContext());
 		option.setHint(optionStr + " " + "option");
@@ -113,7 +114,8 @@ public class CreateTaskTypeActivity extends BaseActivity {
 		LinearLayout optionsLayout = new LinearLayout(getApplicationContext());
 		optionsLayout.setOrientation(LinearLayout.VERTICAL);
 		optionsLayout.addView(option);
-		if (n == 1) {
+		
+		if (fieldType == FieldType.SELECT) {
 			option = new EditText(getApplicationContext());
 			option.setHint(optionStr + " " + "option");
 			optionsLayout.addView(option);
@@ -137,56 +139,45 @@ public class CreateTaskTypeActivity extends BaseActivity {
 	}
 
 	private OnClickListener newCheckBoxOptionButtonClickListener = new OnClickListener() {
-
-		@Override
 		public void onClick(View v) {
 			LinearLayout parent = (LinearLayout) v.getParent();
 			LinearLayout optionsLayout = (LinearLayout) parent.getChildAt(2);
 			EditText option = new EditText(getApplicationContext());
 			option.setHint("Checkbox Option");
 			optionsLayout.addView(option);
-
 		}
-
 	};
-	private OnClickListener newDropDownOptionButtonClickListener = new OnClickListener() {
 
-		@Override
+	private OnClickListener newDropDownOptionButtonClickListener = new OnClickListener() {
 		public void onClick(View v) {
 			LinearLayout parent = (LinearLayout) v.getParent();
 			LinearLayout optionsLayout = (LinearLayout) parent.getChildAt(2);
 			EditText option = new EditText(getApplicationContext());
 			option.setHint("Dropdown Option");
 			optionsLayout.addView(option);
-
 		}
-
 	};
+
 	private OnItemSelectedListener needTypeSpinnerListener = new OnItemSelectedListener() {
-
-		@Override
 		public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-
 			if (pos == 0)
 				needType = NeedType.GOODS;
 			else if (pos == 1)
 				needType = NeedType.SERVICE;
 			else
 				needType = NeedType.ONLY_FORM;
-
 		}
 
-		@Override
 		public void onNothingSelected(AdapterView<?> arg0) {
-			// TODO Auto-generated method stub
-
 		}
 	};
+
 	private OnClickListener createButtonClickListener = new OnClickListener() {
 		@Override
 		public void onClick(View v) {
 			String name = taskNameField.getText().toString();
 			String description = taskDescriptionField.getText().toString();
+
 			if (name.trim().equals("")) {
 				Toast.makeText(CreateTaskTypeActivity.this, "Task type name cannot be empty!", Toast.LENGTH_SHORT).show();
 				return;
@@ -196,20 +187,21 @@ public class CreateTaskTypeActivity extends BaseActivity {
 				Toast.makeText(CreateTaskTypeActivity.this, "Task type description cannot be empty!", Toast.LENGTH_SHORT).show();
 				return;
 			}
+
 			TaskTypeService service = new TaskTypeService(getApp());
-			TaskType TaskType = new TaskType();
-			TaskType.setName(name);
-			TaskType.setDescription(description);
-			TaskType.setNeedType(needType);
-			Community c = new Community();
-			c.setId(communityId);
-			TaskType.setCommunity(c);
+			TaskType taskType = new TaskType();
+			taskType.setName(name);
+			taskType.setDescription(description);
+			taskType.setNeedType(needType);
 
-			List<TaskTypeField> TaskTypeFields = getTaskTypeFields(TaskType);
+			Community community = new Community();
+			community.setId(communityId);
+			taskType.setCommunity(community);
 
-			TaskType.setFields(TaskTypeFields);
+			List<TaskTypeField> taskTypeFields = getTaskTypeFields(taskType);
+			taskType.setFields(taskTypeFields);
 
-			service.createTaskType(TaskType, new GrouponCallback<TaskType>() {
+			service.createTaskType(taskType, new GrouponCallback<TaskType>() {
 				public void onSuccess(TaskType TaskType) {
 					Intent intent = new Intent(CreateTaskTypeActivity.this, CommunityActivity.class);
 					intent.putExtra("communityId", communityId);
@@ -225,59 +217,56 @@ public class CreateTaskTypeActivity extends BaseActivity {
 		}
 	};
 
-	private List<TaskTypeField> getTaskTypeFields(TaskType TaskType) {
-		List<TaskTypeField> TaskTypeFields = new ArrayList<TaskTypeField>();
+	private List<TaskTypeField> getTaskTypeFields(TaskType taskType) {
+		List<TaskTypeField> taskTypeFields = new ArrayList<TaskTypeField>();
+
 		for (int i = 0; i < formFieldsLayout.getChildCount(); i++) {
+			LinearLayout layout = (LinearLayout) formFieldsLayout.getChildAt(i);
 
-			LinearLayout Layout = (LinearLayout) formFieldsLayout.getChildAt(i);
+			TaskTypeField taskTypeField = new TaskTypeField();
+			taskTypeField.setTaskType(taskType);
 
-			TaskTypeField TaskTypeField = new TaskTypeField();
-			TaskTypeField.setTaskType(TaskType);
-
-			EditText questionTitle = (EditText) Layout.getChildAt(1);
+			EditText questionTitle = (EditText) layout.getChildAt(1);
 			String fieldName = questionTitle.getText().toString();
-			TaskTypeField.setName(fieldName);
+			taskTypeField.setName(fieldName);
 
-			String selected = items.get(i);
+			FieldType fieldType = fieldTypes.get(i);
+			taskTypeField.setFieldType(fieldType);
 
-			if (selected.equals(getResources().getString(R.string.text))) {
-
-				TaskTypeField.setFieldType(FieldType.SHORT_TEXT);
-
-			} else if (selected.equals(getResources().getString(R.string.dropdown))) {
-
-				TaskTypeField.setFieldType(FieldType.SELECT);
-				LinearLayout optionsLayout = (LinearLayout) Layout.getChildAt(2);
-				List<FieldAttribute> FieldAttributes = FieldAttributes(optionsLayout, TaskTypeField);
-				TaskTypeField.setAttributes(FieldAttributes);
-			} else if (selected.equals(getResources().getString(R.string.check_box))) {
-
-				TaskTypeField.setFieldType(FieldType.CHECKBOX);
-				LinearLayout optionsLayout = (LinearLayout) Layout.getChildAt(2);
-				List<FieldAttribute> FieldAttributes = FieldAttributes(optionsLayout, TaskTypeField);
-				TaskTypeField.setAttributes(FieldAttributes);
-
+			if (fieldType == FieldType.SHORT_TEXT) {
+				// Nothing to do for now
+			} else if (fieldType == FieldType.SELECT) {
+				LinearLayout optionsLayout = (LinearLayout) layout.getChildAt(2);
+				List<FieldAttribute> FieldAttributes = fieldAttributes(optionsLayout, taskTypeField);
+				taskTypeField.setAttributes(FieldAttributes);
+			} else if (fieldType == FieldType.CHECKBOX) {
+				LinearLayout optionsLayout = (LinearLayout) layout.getChildAt(2);
+				List<FieldAttribute> FieldAttributes = fieldAttributes(optionsLayout, taskTypeField);
+				taskTypeField.setAttributes(FieldAttributes);
 			}
 
-			TaskTypeFields.add(TaskTypeField);
+			taskTypeFields.add(taskTypeField);
 
 		}
 
-		return TaskTypeFields;
+		return taskTypeFields;
 	}
 
-	private List<FieldAttribute> FieldAttributes(LinearLayout optionsLayout, TaskTypeField TaskTypeField) {
-		List<FieldAttribute> FieldAttributes = new ArrayList<FieldAttribute>();
+	private List<FieldAttribute> fieldAttributes(LinearLayout optionsLayout, TaskTypeField taskTypeField) {
+		List<FieldAttribute> fieldAttributes = new ArrayList<FieldAttribute>();
+
 		for (int j = 0; j < optionsLayout.getChildCount(); j++) {
 			EditText option = (EditText) optionsLayout.getChildAt(j);
 			String value = option.getText().toString();
-			FieldAttribute FieldAttribute = new FieldAttribute();
-			FieldAttribute.setName("option" + j);
-			FieldAttribute.setValue(value);
-			FieldAttribute.setTaskTypeField(TaskTypeField);
-			FieldAttributes.add(FieldAttribute);
+
+			FieldAttribute fieldAttribute = new FieldAttribute();
+			fieldAttribute.setName("option" + j);
+			fieldAttribute.setValue(value);
+			fieldAttribute.setTaskTypeField(taskTypeField);
+			fieldAttributes.add(fieldAttribute);
 		}
-		return FieldAttributes;
+
+		return fieldAttributes;
 	}
 
 }
