@@ -7,8 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 public class TaskFormFragment extends Fragment {
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {           
-    	 	return inflater.inflate(R.layout.fragment_task, container, false);
-    }
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		return inflater.inflate(R.layout.fragment_task, container, false);
+	}
 }

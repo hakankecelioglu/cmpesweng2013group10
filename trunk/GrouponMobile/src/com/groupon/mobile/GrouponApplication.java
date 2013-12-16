@@ -6,6 +6,9 @@ import android.content.SharedPreferences;
 
 import com.groupon.mobile.model.User;
 import com.groupon.mobile.utils.Constants;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 public class GrouponApplication extends Application {
 	private User user;
@@ -16,6 +19,10 @@ public class GrouponApplication extends Application {
 		super.onCreate();
 		user = readLoggedUser();
 		DummyController.init();
+
+		DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder().cacheInMemory(true).cacheOnDisc(true).build();
+		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(getApplicationContext()).defaultDisplayImageOptions(defaultOptions).build();
+		ImageLoader.getInstance().init(config);
 	}
 
 	public User getLoggedUser() {

@@ -1,10 +1,10 @@
 package com.groupon.mobile.service;
 
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -21,29 +21,30 @@ import com.groupon.mobile.model.TaskTypeField;
 import com.groupon.mobile.utils.Constants;
 
 public class TaskTypeService {
-	
+
 	private GrouponApplication app;
-	
+
 	public TaskTypeService(GrouponApplication app) {
 		this.app = app;
 	}
+
 	public void getTaskTypes(final long id, final GrouponCallback<ArrayList<TaskType>> callback) {
 		GrouponTask<ArrayList<TaskType>> TaskTypeTask = new GrouponTask<ArrayList<TaskType>>(callback) {
 			public ArrayList<TaskType> run() throws GrouponException {
 				String url = Constants.SERVER + "community/taskTypes";
-				Map<String,String> idMap= new HashMap<String, String>();
-				idMap.put("communityId", ""+id);
+				Map<String, String> idMap = new HashMap<String, String>();
+				idMap.put("communityId", "" + id);
 				JSONObject json = ConnectionUtils.makeGetRequest(url, idMap, app.getAuthToken());
-				
+
 				ArrayList<TaskType> TaskTypes = new ArrayList<TaskType>();
-					try {
-						JSONArray taskTypesJson = json.getJSONArray("taskTypes");
-						for (int i = 0; i < taskTypesJson.length(); i++) {
-							TaskTypes.add(convertJsonToTaskType(taskTypesJson.getJSONObject(i)));
-						}
-					} catch (JSONException e) {
-						throw new GrouponException("An error occured while parsing json returned from the server!");
+				try {
+					JSONArray taskTypesJson = json.getJSONArray("taskTypes");
+					for (int i = 0; i < taskTypesJson.length(); i++) {
+						TaskTypes.add(convertJsonToTaskType(taskTypesJson.getJSONObject(i)));
 					}
+				} catch (JSONException e) {
+					throw new GrouponException("An error occured while parsing json returned from the server!");
+				}
 				return TaskTypes;
 			}
 		};
@@ -51,6 +52,7 @@ public class TaskTypeService {
 		GrouponTask.execute(TaskTypeTask);
 
 	}
+
 	protected TaskType convertJsonToTaskType(JSONObject json) throws JSONException {
 		if (json.has("auth")) {
 			String auth = json.getString("auth");
@@ -58,84 +60,85 @@ public class TaskTypeService {
 		}
 		TaskType tasktype = new TaskType();
 
-
 		if (json.has("name")) {
 			tasktype.setName(json.getString("name"));
 		}
-
 
 		if (json.has("id")) {
 			tasktype.setId(json.getLong("id"));
 		}
 		return tasktype;
 	}
+
 	public void createTaskType(final TaskType TaskType, final GrouponCallback<TaskType> callback) {
 		GrouponTask<TaskType> TaskTypeTask = new GrouponTask<TaskType>(callback) {
 			public TaskType run() throws GrouponException {
 				String url = Constants.SERVER + "community/createTaskType";
-				JSONObject json =  convertTaskTypeToJson(TaskType);
-			    ConnectionUtils.makePostRequest(url, null,json, app.getAuthToken());
-				
+				JSONObject json = convertTaskTypeToJson(TaskType);
+				ConnectionUtils.makePostRequest(url, null, json, app.getAuthToken());
+
 				return TaskType;
 			}
 		};
 
 		GrouponTask.execute(TaskTypeTask);
 	}
-	
-	private JSONObject convertTaskTypeToJson(TaskType TaskType){
+
+	private JSONObject convertTaskTypeToJson(TaskType TaskType) {
 		JSONObject json = new JSONObject();
 		try {
-			json.put("name",TaskType.getName());
+			json.put("name", TaskType.getName());
 			json.put("description", TaskType.getDescription());
 			json.put("needType", TaskType.getNeedType().toString());
-			JSONArray array=new JSONArray();
-			
+			JSONArray array = new JSONArray();
+
 			List<TaskTypeField> TaskTypeFields = TaskType.getFields();
-			for (TaskTypeField TaskTypeField: TaskTypeFields){
-				JSONObject j=convertTaskTypeFieldToJson(TaskTypeField);
+			for (TaskTypeField TaskTypeField : TaskTypeFields) {
+				JSONObject j = convertTaskTypeFieldToJson(TaskTypeField);
 				array.put(j);
 			}
-			json.put("fields",array);
-			
+			json.put("fields", array);
+
 			json.put("communityId", TaskType.getCommunity().getId());
-			
+
 		} catch (JSONException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
-		}		
-		
+		}
+
 		return json;
-		
+
 	}
-	private JSONObject convertTaskTypeFieldToJson(TaskTypeField TaskTypeField){
+
+	private JSONObject convertTaskTypeFieldToJson(TaskTypeField TaskTypeField) {
 		JSONObject json = new JSONObject();
 		try {
 			json.put("name", TaskTypeField.getName());
 			FieldType ft = TaskTypeField.getFieldType();
-			json.put("type",ft.toString());
-			
-			JSONArray array=new JSONArray();
-			
+			json.put("type", ft.toString());
+
+			JSONArray array = new JSONArray();
+
 			List<FieldAttribute> FieldAttributes = TaskTypeField.getAttributes();
-			if(FieldAttributes!=null){
-				for(FieldAttribute FieldAttribute: FieldAttributes)
+			if (FieldAttributes != null) {
+				for (FieldAttribute FieldAttribute : FieldAttributes)
 					array.put(convertFieldAttributeToJson(FieldAttribute));
 				json.put("attributes", array);
 			}
-		} catch (JSONException e){
-			
+		} catch (JSONException e) {
+
 		}
 		return json;
 	}
-	private JSONObject convertFieldAttributeToJson(FieldAttribute FieldAttribute){
+
+	private JSONObject convertFieldAttributeToJson(FieldAttribute FieldAttribute) {
 		JSONObject json = new JSONObject();
 		try {
 			json.put("name", FieldAttribute.getName());
 			json.put("value", FieldAttribute.getValue());
-			
-		} catch (JSONException e){
-			
+
+		} catch (JSONException e) {
+
 		}
 		return json;
 	}

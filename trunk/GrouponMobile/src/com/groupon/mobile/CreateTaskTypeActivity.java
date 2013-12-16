@@ -83,7 +83,7 @@ public class CreateTaskTypeActivity extends BaseActivity {
 
 			String selected = fieldTypeSpinner.getSelectedItem().toString();
 			FieldType fieldType = FieldType.getFromUIName(selected);
-			
+
 			switch (fieldType) {
 			case SHORT_TEXT:
 				// no op currently
@@ -99,7 +99,7 @@ public class CreateTaskTypeActivity extends BaseActivity {
 			default:
 				return;
 			}
-			
+
 			fieldTypes.add(fieldType);
 			formFieldsLayout.addView(layout);
 		}
@@ -114,7 +114,7 @@ public class CreateTaskTypeActivity extends BaseActivity {
 		LinearLayout optionsLayout = new LinearLayout(getApplicationContext());
 		optionsLayout.setOrientation(LinearLayout.VERTICAL);
 		optionsLayout.addView(option);
-		
+
 		if (fieldType == FieldType.SELECT) {
 			option = new EditText(getApplicationContext());
 			option.setHint(optionStr + " " + "option");

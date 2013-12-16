@@ -3,7 +3,7 @@ package com.groupon.mobile.model;
 import java.util.List;
 
 public class TaskType {
-	
+
 	private long id;
 	private String name;
 	private String description;
