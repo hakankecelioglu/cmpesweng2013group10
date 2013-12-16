@@ -94,6 +94,8 @@
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:layout_below="@id/layout_email"
+	        android:layout_marginTop="10dp"
+	        style="@style/btnStyleBeige"
 	        android:text="@string/sign_up" />
    
    	
