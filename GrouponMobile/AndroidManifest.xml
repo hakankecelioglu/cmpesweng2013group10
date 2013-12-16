@@ -37,22 +37,22 @@
             android:name="com.groupon.mobile.CommunityActivity"
             android:label="@string/title_activity_community" >
         </activity>
-        <activity
+         <activity
             android:name="com.groupon.mobile.CreateTaskActivity"
             android:label="@string/title_activity_create_task" >
-        </activity>
+        </activity>       
         <activity
             android:name="com.groupon.mobile.TaskActivity"
             android:label="@string/title_activity_task" >
         </activity>
-         <activity
+        <activity
             android:name="com.groupon.mobile.CreateTaskTypeActivity"
             android:label="@string/title_activity_create_task_type" >
-        </activity>       
-           <activity
+        </activity>
+        <activity
             android:name="com.groupon.mobile.MyCommunitiesActivity"
             android:label="@string/title_activity_my_Communities" >
-        </activity>      
+        </activity>
         <activity
             android:name="com.groupon.mobile.SignUpActivity"
             android:label="@string/title_activity_sign_up" >
