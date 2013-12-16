@@ -1,7 +1,5 @@
 package com.groupon.mobile;
 
-import org.json.JSONObject;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -9,9 +7,11 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.groupon.mobile.conn.ConnectionUtils;
-import com.groupon.mobile.utils.Constants;
+import com.groupon.mobile.conn.GrouponCallback;
+import com.groupon.mobile.model.Community;
+import com.groupon.mobile.service.CommunityService;
 import com.groupon.mobile.utils.ImageUtils;
 
 public class CommunityActivity extends BaseActivity {
@@ -29,32 +29,16 @@ public class CommunityActivity extends BaseActivity {
 
 		communityId = getIntent().getLongExtra("communityId", -1);
 
-		Thread t = new Thread(new Runnable() {
-			@Override
-			public void run() {
-				try {
-					String path = Constants.SERVER + "communityMobile/" + communityId;
-					JSONObject obj = ConnectionUtils.makePostRequest(path, null, getAuthToken());
+		CommunityService service = new CommunityService(getApp());
+		service.getCommunity(communityId, new GrouponCallback<Community>() {
+			public void onSuccess(Community community) {
+				setupUI(community.getName(), community.getDescription(), community.getPicture());
+			}
 
-					JSONObject community = obj.getJSONObject("community");
-
-					final String communityName = community.getString("name");
-					final String communityDescription = community.getString("description");
-					final String communityPicture = community.getString("picture");
-					runOnUiThread(new Runnable() {
-						@Override
-						public void run() {
-							setupUI(communityName, communityDescription, communityPicture);
-						}
-					});
-
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
+			public void onFail(String errorMessage) {
+				Toast.makeText(CommunityActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
 			}
 		});
-		t.start();
-
 	}
 
 	private void setupUI(String name, String description, String pictureUrl) {

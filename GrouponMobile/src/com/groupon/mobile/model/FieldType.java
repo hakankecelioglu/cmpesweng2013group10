@@ -29,15 +29,12 @@ public enum FieldType {
 		rv[1] = CHECKBOX.uiName;
 		rv[2] = SELECT.uiName;
 		return rv;
-		
-		/** TODO will be replaced soon
-		FieldType[] values = FieldType.values();
-		String[] rv = new String[values.length];
-		for (int i = 0; i < rv.length; i++) {
-			rv[i] = values[i].uiName;
-		}
-		return rv;
-		**/
+
+		/**
+		 * TODO will be replaced soon FieldType[] values = FieldType.values();
+		 * String[] rv = new String[values.length]; for (int i = 0; i <
+		 * rv.length; i++) { rv[i] = values[i].uiName; } return rv;
+		 **/
 	}
 
 	public static FieldType getFromUIName(String uiName) {

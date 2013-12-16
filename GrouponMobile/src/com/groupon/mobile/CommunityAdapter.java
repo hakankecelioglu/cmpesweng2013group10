@@ -7,10 +7,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.groupon.mobile.model.Community;
+import com.groupon.mobile.utils.ImageUtils;
 
 public class CommunityAdapter extends ArrayAdapter<Community> {
 
@@ -40,9 +42,11 @@ public class CommunityAdapter extends ArrayAdapter<Community> {
 
 		TextView communityName = (TextView) alertView.findViewById(R.id.community_name);
 		TextView communityDescription = (TextView) alertView.findViewById(R.id.community_description);
+		ImageView imageView = (ImageView) alertView.findViewById(R.id.community_picture);
 
 		communityName.setText(community.getName());
 		communityDescription.setText(community.getDescription());
+		ImageUtils.loadBitmap(imageView, community.getPicture());
 
 		return alertView;
 	}

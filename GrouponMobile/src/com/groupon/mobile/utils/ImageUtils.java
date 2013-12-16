@@ -2,7 +2,7 @@ package com.groupon.mobile.utils;
 
 import android.widget.ImageView;
 
-import com.groupon.mobile.conn.DownloadImageTask;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 public class ImageUtils {
 
@@ -12,6 +12,7 @@ public class ImageUtils {
 			url = Constants.COMMUNITY_ICON + pictureUrl;
 		} else
 			url = Constants.COMMUNITY_DEFAULT_ICON;
-		new DownloadImageTask(picture).execute(url);
+
+		ImageLoader.getInstance().displayImage(url, picture);
 	}
 }

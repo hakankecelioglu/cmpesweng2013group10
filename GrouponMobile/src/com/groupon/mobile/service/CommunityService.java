@@ -78,19 +78,27 @@ public class CommunityService {
 		};
 
 		GrouponTask.execute(communityTask);
+	}
 
+	public void getCommunity(final Long communityId, final GrouponCallback<Community> callback) {
+		GrouponTask<Community> communityTask = new GrouponTask<Community>(callback) {
+			public Community run() throws GrouponException {
+				String url = Constants.SERVER + "communityMobile/" + communityId;
+				JSONObject obj = ConnectionUtils.makePostRequest(url, null, app.getAuthToken());
+				try {
+					JSONObject community = obj.getJSONObject("community");
+					Community c = convertJsonToCommunity(community);
+					return c;
+				} catch (JSONException e) {
+					throw new GrouponException("An error occured while parsing json returned from the server!");
+				}
+			}
+		};
+		GrouponTask.execute(communityTask);
 	}
 
 	private Community convertJsonToCommunity(JSONObject json) throws JSONException {
-
-		if (json.has("auth")) {
-			String auth = json.getString("auth");
-			app.setAuthToken(auth);
-		}
 		Community community = new Community();
-		if (json.has("user")) {
-			json = json.getJSONObject("user");
-		}
 
 		if (json.has("name")) {
 			community.setName(json.getString("name"));
@@ -99,8 +107,13 @@ public class CommunityService {
 		if (json.has("description")) {
 			community.setDescription(json.getString("description"));
 		}
+
 		if (json.has("id")) {
 			community.setId(json.getLong("id"));
+		}
+
+		if (json.has("picture")) {
+			community.setPicture(json.getString("picture"));
 		}
 
 		return community;
