@@ -26,7 +26,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/username"
                 android:textColor="#444444"
-                android:textSize="16sp" />
+                android:textSize="17sp" />
 
             <EditText
                 android:id="@+id/login_username"
@@ -51,7 +51,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/password"
                 android:textColor="#444444"
-                android:textSize="16sp" />
+                android:textSize="17sp" />
 
             <EditText
                 android:id="@+id/login_password"
@@ -78,6 +78,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/textView_forgetPassword"
+            style="@style/btnStyleBeige"
+            android:layout_margin="10dp"
             android:text="@string/login" />
 
         <Button
@@ -86,6 +88,8 @@
             android:layout_height="wrap_content"
             android:layout_alignBaseline="@id/button_login"
             android:layout_toRightOf="@id/button_login"
+            style="@style/btnStyleBeige"
+            android:layout_margin="10dp"
             android:text="@string/go_sign_up_page" />
     </RelativeLayout>
 
@@ -100,18 +104,24 @@
             android:id="@+id/button_about"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            style="@style/btnStyleBeige"
+            android:layout_margin="5dp"
             android:text="@string/about" />
         
         <Button
             android:id="@+id/button_top_helpful_users"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            style="@style/btnStyleBeige"
+            android:layout_margin="5dp"
             android:text="@string/top_helpful_users" />
         
         <Button
             android:id="@+id/button_advanced_search"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            style="@style/btnStyleBeige"
+            android:layout_margin="5dp"
             android:text="@string/advanced_search" />
     </LinearLayout>
 
