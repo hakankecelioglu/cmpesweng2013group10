@@ -30,30 +30,34 @@
     <string name="task_deadline">Deadline</string>
     <string name="task_type_of_need">Type of need</string>
     <string name="need_type_prompt">Choose a type</string>
+
     <string-array name="need_type_array">
         <item>Good</item>
         <item>Service</item>
         <item>Only Form</item>
     </string-array>
+
     <string name="title_activity_create_task_type">Create Task Type</string>
-	<string name="create_task_type">Create Task Type</string> 
+    <string name="create_task_type">Create Task Type</string>
     <string name="title_activity_my_Communities">My Communities</string>
     <string name="logout">Logout</string>
-	<string name="title_activity_sign_up">Sign Up</string>
-	<string name="user_name">Username</string>
-	<string name="e_mail">E-mail Address</string>
-	<string name="user_password">Password</string>
-	<string name="sign_up">Sign Up</string>
+    <string name="title_activity_sign_up">Sign Up</string>
+    <string name="user_name">Username</string>
+    <string name="e_mail">E-mail Address</string>
+    <string name="user_password">Password</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="form_field_type_prompt">Choose a form type</string>
+    <string name="text">Text</string>
+    <string name="check_box">CheckBox</string>
+    <string name="dropdown">DropDown</string>
 
-	<string name="form_field_type_prompt">Choose a form type</string>
-	<string name="text">Text</string>
-	<string name="check_box">CheckBox</string>
-	<string name="dropdown">DropDown</string>
     <string-array name="form_field_type_array">
         <item>@string/text</item>
         <item>@string/check_box</item>
         <item>@string/dropdown</item>
-        
-    </string-array>	
+    </string-array>
+
     <string name="add_form_field">Add</string>
+    <string name="task_type_select">Select</string>
+
 </resources>
