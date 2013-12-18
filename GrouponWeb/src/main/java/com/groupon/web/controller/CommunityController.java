@@ -67,7 +67,7 @@ public class CommunityController extends AbstractBaseController {
 
 	@Autowired
 	private TaskService taskService;
-	
+
 	@Autowired
 	private TaskTypeService taskTypeService;
 
@@ -111,7 +111,7 @@ public class CommunityController extends AbstractBaseController {
 			maxPrimitive = max;
 		}
 
-		List<Community> communities = communityService.getAllCommunities();
+		List<Community> communities = communityService.getCommunitiesByFollowerId(user.getId(), pagePrimitive, maxPrimitive);
 		response.put("communities", CommunityJson.convert(communities));
 
 		return prepareSuccessResponse(response);
@@ -289,6 +289,7 @@ public class CommunityController extends AbstractBaseController {
 		return prepareSuccessResponse(response);
 
 	}
+
 	@RequestMapping(value = "community/mobilejoin")
 	public ResponseEntity<Map<String, Object>> joinCommunityMobile(HttpServletRequest request, @RequestParam Long communityId) {
 		if (communityId == null) {
@@ -297,14 +298,14 @@ public class CommunityController extends AbstractBaseController {
 
 		Community community = communityService.getCommunityById(communityId);
 
-
 		User user = getUser();
 
 		communityService.addMemberToCommunity(community, user);
 		Map<String, Object> response = new HashMap<String, Object>();
-	
+
 		return prepareSuccessResponse(response);
 	}
+
 	@RequestMapping(value = "community/join")
 	public Object joinCommunity(HttpServletRequest request, @RequestParam Long communityId) {
 		if (communityId == null) {
@@ -323,6 +324,7 @@ public class CommunityController extends AbstractBaseController {
 
 		return "redirect:/community/" + communityId;
 	}
+
 	@RequestMapping(value = "community/mobileleave")
 	public ResponseEntity<Map<String, Object>> leaveCommunityMobile(HttpServletRequest request, @RequestParam Long communityId) {
 		User user = getUser();
@@ -331,12 +333,12 @@ public class CommunityController extends AbstractBaseController {
 		}
 
 		Community community = communityService.getCommunityById(communityId);
-	
+
 		Map<String, Object> response = new HashMap<String, Object>();
-		
+
 		if (community.getOwner().equals(user)) {
-			response.put("err","err");
-			
+			response.put("err", "err");
+
 			prepareErrorResponse(response);
 		}
 
@@ -344,6 +346,7 @@ public class CommunityController extends AbstractBaseController {
 
 		return prepareSuccessResponse(response);
 	}
+
 	@RequestMapping(value = "community/leave")
 	public Object leaveCommunity(HttpServletRequest request, @RequestParam Long communityId) {
 		User user = getUser();
@@ -379,6 +382,11 @@ public class CommunityController extends AbstractBaseController {
 		}
 
 		Community community = communityService.getCommunityById(communityId);
+
+		if (!community.getOwner().equals(user)) {
+			return "redirect:/";
+		}
+
 		model.addAttribute("community", community);
 		model.addAttribute("bodyClass", "createTaskType");
 
@@ -387,40 +395,46 @@ public class CommunityController extends AbstractBaseController {
 
 	@RequestMapping(value = "community/createTaskType", method = RequestMethod.POST)
 	public ResponseEntity<Map<String, Object>> createTaskType(@RequestBody String body) throws JSONException {
-		Map<String, Object> response = new HashMap<String, Object>();
-		JSONObject jsonObject = new JSONObject(body);
+		User user = getUser();
 
+		JSONObject jsonObject = new JSONObject(body);
 		TaskType taskType = convertJSONObjectToTaskType(jsonObject);
+
+		if (!taskType.getCommunity().getOwner().equals(user)) {
+			throw new GrouponException("You cannot create a task type in a community that you don't manage!");
+		}
+
 		communityService.createTaskType(taskType);
 
+		Map<String, Object> response = new HashMap<String, Object>();
 		return prepareSuccessResponse(response);
 	}
-	
+
 	@RequestMapping(value = "community/taskTypes", method = RequestMethod.GET)
-	public ResponseEntity<Map<String, Object>> getTaskTypes(@RequestParam  Long communityId) {
+	public ResponseEntity<Map<String, Object>> getTaskTypes(@RequestParam Long communityId) {
 		Map<String, Object> response = new HashMap<String, Object>();
-	
+
 		if (communityId == null) {
 			throw new GrouponException("communityId cannot be null");
 		}
-		
+
 		List<Map<String, Object>> taskTypeNames = communityService.getTaskTypeNames(communityId);
 		response.put("taskTypes", taskTypeNames);
 		return prepareSuccessResponse(response);
 	}
-	
+
 	@RequestMapping(value = "taskType", method = RequestMethod.POST)
-	public ResponseEntity<Map<String, Object>> getTaskType(@RequestParam  Long taskTypeId) {
+	public ResponseEntity<Map<String, Object>> getTaskType(@RequestParam Long taskTypeId) {
 		Map<String, Object> response = new HashMap<String, Object>();
-	
+
 		if (taskTypeId == null) {
 			throw new GrouponException("communityId cannot be null");
 		}
 		TaskType taskType = taskTypeService.getTaskTypeById(taskTypeId);
-		response.put("taskType", TaskTypeJson.convert(taskType));	
+		response.put("taskType", TaskTypeJson.convert(taskType));
 		return prepareSuccessResponse(response);
 	}
-	
+
 	@RequestMapping(value = "community/picture/{pictureName:.+}", method = RequestMethod.GET)
 	public void getCommunityPicture(@PathVariable String pictureName, HttpServletResponse response) {
 		try {
@@ -432,7 +446,7 @@ public class CommunityController extends AbstractBaseController {
 			logger.error("Exception occured while reaching image file! {0}", e.getMessage());
 		}
 	}
-	
+
 	@RequestMapping(value = "community/thumb/small/{pictureName:.+}", method = RequestMethod.GET)
 	public void getCommunitySmallThumbnail(@PathVariable String pictureName, HttpServletResponse response) {
 		try {
@@ -444,7 +458,7 @@ public class CommunityController extends AbstractBaseController {
 			logger.error("Exception occured while reaching image file! {0}", e.getMessage());
 		}
 	}
-	
+
 	@RequestMapping(value = "community/thumb/medium/{pictureName:.+}", method = RequestMethod.GET)
 	public void getCommunityMediumThumbnail(@PathVariable String pictureName, HttpServletResponse response) {
 		try {
@@ -557,7 +571,7 @@ public class CommunityController extends AbstractBaseController {
 		if (!json.has("communityId")) {
 			throw new GrouponException("Community id cannot be leave as empty!");
 		}
-		
+
 		if (!json.has("needType")) {
 			throw new GrouponException("Task type must specify a need type!");
 		}
@@ -567,7 +581,7 @@ public class CommunityController extends AbstractBaseController {
 		String name = json.getString("name");
 		String description = json.getString("description");
 		String needTypeStr = json.getString("needType");
-		
+
 		NeedType needType = NeedType.valueOf(needTypeStr);
 		taskType.setNeedType(needType);
 

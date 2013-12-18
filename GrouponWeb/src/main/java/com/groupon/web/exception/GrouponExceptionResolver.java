@@ -26,13 +26,13 @@ public class GrouponExceptionResolver implements HandlerExceptionResolver {
 
 		if (ex instanceof GrouponException) {
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+			logger.info("resolveException::Exception::{0}", ex.getMessage());
 		} else {
 			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+			logger.error(ex, "Resolved Exception::{0}", ex.getMessage());
 		}
 
-		logger.info("resolveException::Exception::{0}", ex.getMessage());
 		responseBody.put("error", ex.getMessage());
-
 		return new ModelAndView(jsonView, responseBody);
 	}
 }
