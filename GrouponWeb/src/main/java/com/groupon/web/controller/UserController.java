@@ -31,6 +31,7 @@ import com.groupon.web.exception.GrouponException;
 import com.groupon.web.service.CommunityService;
 import com.groupon.web.service.UserService;
 import com.groupon.web.util.ControllerConstants;
+import com.groupon.web.util.EmailValidator;
 import com.groupon.web.util.GrouponWebUtils;
 
 @Controller
@@ -126,6 +127,11 @@ public class UserController extends AbstractBaseController {
 		String surname = request.getParameter("surname");
 
 		String passwordHash = GrouponWebUtils.hashPasswordForDB(password);
+		
+		EmailValidator validator = new EmailValidator();
+		if (!validator.validate(email)) {
+			throw new GrouponException("Please enter a valid email address!");
+		}
 
 		User user = new User();
 		user.setEmail(email);
@@ -152,6 +158,11 @@ public class UserController extends AbstractBaseController {
 		String username = json.getString("username");
 		String password = json.getString("password");
 		String passwordHash = GrouponWebUtils.hashPasswordForDB(password);
+		
+		EmailValidator validator = new EmailValidator();
+		if (!validator.validate(email)) {
+			throw new GrouponException("Please enter a valid email address!");
+		}
 
 		User user = new User();
 		user.setEmail(email);
