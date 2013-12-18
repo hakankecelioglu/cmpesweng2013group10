@@ -135,6 +135,13 @@ $(document).ready(function () {
 			task.attributes.push({name: name, value: value});
 		});
 		
+		if (UrlParameters.taskType) {
+			var taskTypeId = parseInt(UrlParameters.taskType);
+			if (!isNaN(taskTypeId)) {
+				task.taskType = parseInt(taskTypeId);
+			}
+		}
+		
 		console.log(task);
 		
 		$.ajax({

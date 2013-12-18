@@ -26,13 +26,16 @@ public class TaskType extends BaseModel {
 
 	@Column(name = "description", nullable = false)
 	private String description;
-	
+
 	@Enumerated(EnumType.STRING)
 	@Column(name = "need_type", nullable = false)
 	private NeedType needType;
 
 	@OneToMany(mappedBy = "taskType", cascade = CascadeType.ALL)
 	private List<TaskTypeField> fields;
+
+	@OneToMany(mappedBy = "taskType", cascade = CascadeType.ALL)
+	private List<ReplyField> replyFields;
 
 	@ManyToOne
 	@JoinColumn(name = "community_id", nullable = false)
@@ -76,6 +79,14 @@ public class TaskType extends BaseModel {
 
 	public void setCommunity(Community community) {
 		this.community = community;
+	}
+
+	public List<ReplyField> getReplyFields() {
+		return replyFields;
+	}
+
+	public void setReplyFields(List<ReplyField> replyFields) {
+		this.replyFields = replyFields;
 	}
 
 }

@@ -520,6 +520,43 @@ $(function () {
 	$("body").tooltip({
 		selector: '.popover .popover-add-item button'
 	});
+	
+	form.readAllFields = function (parent) {
+		var fields = [];
+		
+		$.each($(parent).find(".formInputLine"), function (i, e) {
+			var line = $(e);
+			var type = line.find("#inputLineType").val();
+			switch (type) {
+			case 'SINGLE_TEXT':
+				var field = form.readSingleTextData(line);
+				fields.push(field);
+				break;
+			case 'MULTIPLE_TEXT':
+				var field = form.readMultipleTextData(line);
+				fields.push(field);
+				break;
+			case 'MULTIPLE_CHOICE':
+				var field = form.readMultipleChoiceData(line);
+				fields.push(field);
+				break;
+			case 'CHECKBOX':
+				var field = form.readCheckboxData(line);
+				fields.push(field);
+				break;
+			case 'DROPDOWN':
+				var field = form.readDropdownData(line);
+				fields.push(field);
+				break;
+			case 'DATE':
+				var field = form.readDateDate(line);
+				fields.push(field);
+				break;
+			}
+		});
+		
+		return fields;
+	};
 
 	$("#createTaskType").click(function () {
 		var that = $(this);
@@ -529,39 +566,9 @@ $(function () {
 		taskType.name = $("#taskTypeName").val();
 		taskType.description = $("#taskTypeDesc").val();
 		taskType.needType = $("#taskTypeNeedType").val();
-		taskType.fields = [];
 		taskType.communityId = parseInt(UrlParameters.communityId);
-		
-		$.each($(".formInputLine"), function (i, e) {
-			var line = $(e);
-			var type = line.find("#inputLineType").val();
-			switch (type) {
-			case 'SINGLE_TEXT':
-				var field = form.readSingleTextData(line);
-				taskType.fields.push(field);
-				break;
-			case 'MULTIPLE_TEXT':
-				var field = form.readMultipleTextData(line);
-				taskType.fields.push(field);
-				break;
-			case 'MULTIPLE_CHOICE':
-				var field = form.readMultipleChoiceData(line);
-				taskType.fields.push(field);
-				break;
-			case 'CHECKBOX':
-				var field = form.readCheckboxData(line);
-				taskType.fields.push(field);
-				break;
-			case 'DROPDOWN':
-				var field = form.readDropdownData(line);
-				taskType.fields.push(field);
-				break;
-			case 'DATE':
-				var field = form.readDateDate(line);
-				taskType.fields.push(field);
-				break;
-			}
-		});
+		taskType.fields = form.readAllFields("#taskTypeFields");
+		taskType.replyFields = form.readAllFields("#taskTypeReplyFields");
 		
 		var url = GrouponUtils.siteBase + 'community/createTaskType';
 		

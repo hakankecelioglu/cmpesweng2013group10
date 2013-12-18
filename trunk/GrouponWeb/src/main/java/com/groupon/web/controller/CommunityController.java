@@ -43,6 +43,8 @@ import com.groupon.web.dao.model.Community;
 import com.groupon.web.dao.model.FieldAttribute;
 import com.groupon.web.dao.model.FieldType;
 import com.groupon.web.dao.model.NeedType;
+import com.groupon.web.dao.model.ReplyField;
+import com.groupon.web.dao.model.ReplyFieldAttribute;
 import com.groupon.web.dao.model.Tag;
 import com.groupon.web.dao.model.Task;
 import com.groupon.web.dao.model.TaskType;
@@ -599,10 +601,22 @@ public class CommunityController extends AbstractBaseController {
 			}
 		}
 
+		List<ReplyField> replyFields = new ArrayList<ReplyField>();
+		if (json.has("replyFields")) {
+			JSONArray replyFieldsJson = json.getJSONArray("replyFields");
+			for (int i = 0; i < replyFieldsJson.length(); i++) {
+				JSONObject field = replyFieldsJson.getJSONObject(i);
+				ReplyField replyTypeField = convertJSONObjectToReplyField(field);
+				replyTypeField.setTaskType(taskType);
+				replyFields.add(replyTypeField);
+			}
+		}
+
 		taskType.setName(name);
 		taskType.setDescription(description);
 		taskType.setCommunity(community);
 		taskType.setFields(taskTypeFields);
+		taskType.setReplyFields(replyFields);
 
 		return taskType;
 	}
@@ -650,5 +664,51 @@ public class CommunityController extends AbstractBaseController {
 		taskTypeField.setAttributes(attributes);
 
 		return taskTypeField;
+	}
+
+	private ReplyField convertJSONObjectToReplyField(JSONObject field) throws JSONException {
+		if (GrouponWebUtils.isBlank(field, "name")) {
+			throw new GrouponException("A task type field must have a name!");
+		}
+
+		if (GrouponWebUtils.isBlank(field, "type")) {
+			throw new GrouponException("A task type field must have a type!");
+		}
+
+		ReplyField replyField = new ReplyField();
+
+		String name = field.getString("name");
+		String type = field.getString("type");
+		FieldType fieldType = FieldType.valueOf(type);
+
+		List<ReplyFieldAttribute> attributes = new ArrayList<ReplyFieldAttribute>();
+		if (field.has("attributes")) {
+			JSONArray attributesObj = field.getJSONArray("attributes");
+			for (int i = 0; i < attributesObj.length(); i++) {
+				JSONObject attributeJson = attributesObj.getJSONObject(i);
+				if (!attributeJson.has("value")) {
+					throw new GrouponException("Field attributes must have a value!");
+				}
+
+				if (GrouponWebUtils.isBlank(attributeJson, "name")) {
+					throw new GrouponException("Field attributes must have a name");
+				}
+
+				String attrName = attributeJson.getString("name");
+				String attrValue = attributeJson.getString("value");
+
+				ReplyFieldAttribute attribute = new ReplyFieldAttribute();
+				attribute.setName(attrName);
+				attribute.setValue(attrValue);
+				attribute.setReplyField(replyField);
+				attributes.add(attribute);
+			}
+		}
+
+		replyField.setName(name);
+		replyField.setFieldType(fieldType);
+		replyField.setAttributes(attributes);
+
+		return replyField;
 	}
 }

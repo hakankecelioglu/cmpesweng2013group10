@@ -53,6 +53,12 @@ $(function() {
 			return $.post(url, data);
 		},
 		
+		getReplyForm: function (taskId) {
+			var url = GrouponUtils.siteBase + 'task/getReplyForm';
+			var data = {taskId: taskId};
+			return $.get(url, data);
+		},
+		
 		communityPicture: function (name) {
 			if (name) {
 				return GrouponUtils.siteBase + 'community/picture/' + name;

@@ -1,4 +1,6 @@
 $(function () {
+	var taskId = $("#hiddenTaskId").val();
+	
 	$(document).on('click', '.btn-follow-task', function () {
 		var that = $(this);
 		var taskId = that.attr("data-taskid");
@@ -29,5 +31,9 @@ $(function () {
 			});
 		}
 		return false;
+	});
+	
+	GrouponUtils.getReplyForm(taskId).success(function (resp) {
+		alert(JSON.stringify(resp));
 	});
 });
