@@ -193,10 +193,7 @@ public class CreateTaskTypeActivity extends BaseActivity {
 			taskType.setName(name);
 			taskType.setDescription(description);
 			taskType.setNeedType(needType);
-
-			Community community = new Community();
-			community.setId(communityId);
-			taskType.setCommunity(community);
+			taskType.setCommunityId(communityId);
 
 			List<TaskTypeField> taskTypeFields = getTaskTypeFields(taskType);
 			taskType.setFields(taskTypeFields);

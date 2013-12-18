@@ -60,5 +60,6 @@
 
     <string name="add_form_field">Add</string>
     <string name="task_type_select">Select</string>
-
+	<string name="task_description_info">Description</string>
+	<string name="task_follow_button">Follow</string>
 </resources>

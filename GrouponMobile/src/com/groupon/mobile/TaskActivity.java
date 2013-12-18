@@ -1,36 +1,70 @@
 package com.groupon.mobile;
 
+import java.util.ArrayList;
 import java.util.Map;
+
+import com.groupon.mobile.conn.GrouponCallback;
+import com.groupon.mobile.model.Task;
+import com.groupon.mobile.model.TaskType;
+import com.groupon.mobile.service.TaskService;
 
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.TextView;
 
 public class TaskActivity extends BaseActivity {
 	private TextView taskNameField;
 	private TextView taskDescriptionField;
 	private TextView taskDeadlineField;
+	private TextView taskOwner;
 
+	private TextView taskfollowercount;
+	private Button followTaskButton;
+	private long taskId;
+	private Task task;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		taskId = getIntent().getLongExtra("taskId", -1);
+		
 		setContentView(R.layout.activity_task);
-		int id = getIntent().getIntExtra("taskId", -1);
-		Map<String, Object> m = DummyController.getTask(id);
-		String name = (String) m.get("name");
-		String description = (String) m.get("description");
-		String deadline = (String) m.get("deadline");
-		setupUI(name, description, deadline);
+		setTask();
+
 	}
 
-	private void setupUI(String name, String description, String deadline) {
+	private void setupUI() {
 
-		taskNameField = (TextView) findViewById(R.id.taskName);
-		taskNameField.setText(name);
-		taskDescriptionField = (TextView) findViewById(R.id.taskDescription);
-		taskDescriptionField.setText(description);
-		taskDeadlineField = (TextView) findViewById(R.id.taskDeadline);
-		taskDeadlineField.setText(deadline);
+		taskNameField = (TextView) findViewById(R.id.task_name);
+		taskNameField.setText(task.getName()+" in "+task.getCommunityName() );
+		taskDescriptionField = (TextView) findViewById(R.id.task_description);
+		taskDescriptionField.setText(task.getDescription());
+		taskDeadlineField = (TextView) findViewById(R.id.task_deadline);
+		taskDeadlineField.setText(task.getDeadlineCount().toString()+" days left");
+		taskOwner = (TextView)	findViewById(R.id.task_owner);
+		taskOwner.setText("by "+task.getOwnerUsername());
+
+		String needType = task.getNeedType();
+		TextView requirement = (TextView) findViewById(R.id.task_requirement);
+		if(needType.equals("GOODS")){
+			
+			requirement.setText(task.getRequirementQuantity()+" more "+task.getRequirementName()+" needed");
+		}
+		else if(needType.equals("SERVICE")){
+			requirement.setText(task.getRequirementName()+" needed");
+		}
+		taskfollowercount = (TextView) findViewById(R.id.task_follower_count);
+		taskfollowercount.setText(task.getFollowerCount()+" followers");
+		followTaskButton = (Button) findViewById(R.id.task_follow_button);
+		if(!task.isFollower()){
+		followTaskButton.setOnClickListener(followTaskListener);
+		}
+		else{
+		followTaskButton.setText("Unfollow");
+		followTaskButton.setOnClickListener(unFollowTaskListener);
+		}
 	}
 
 	@Override
@@ -39,5 +73,70 @@ public class TaskActivity extends BaseActivity {
 		getMenuInflater().inflate(R.menu.task, menu);
 		return true;
 	}
+	
+	private OnClickListener followTaskListener = new OnClickListener() {
+		
+		@Override
+		public void onClick(View v) {
+			TaskService taskService = new TaskService(getApp());
+			taskService.followTask(taskId, new GrouponCallback<Task>() {
 
+				@Override
+				public void onSuccess(Task response) {
+					
+					followTaskButton.setText("unfollow");
+					followTaskButton.setOnClickListener(unFollowTaskListener);
+					taskfollowercount.setText(response.getFollowerCount()+" followers");
+				}
+
+				@Override
+				public void onFail(String errorMessage) {
+					
+					
+				}
+			});
+		}
+	};
+	private OnClickListener unFollowTaskListener = new OnClickListener() {
+		
+		@Override
+		public void onClick(View v) {
+			TaskService taskService = new TaskService(getApp());
+			taskService.unFollowTask(taskId, new GrouponCallback<Task>() {
+
+				@Override
+				public void onSuccess(Task response) {
+					
+					followTaskButton.setText("follow");
+					followTaskButton.setOnClickListener(followTaskListener);
+					taskfollowercount.setText(response.getFollowerCount()+" followers");
+				}
+
+				@Override
+				public void onFail(String errorMessage) {
+					
+					
+				}
+			});
+		}
+	};
+	private void setTask(){
+		TaskService taskService = new TaskService(getApp());
+		taskService.getTask(taskId, new GrouponCallback<Task>() {
+
+			@Override
+			public void onSuccess(Task task) {
+				TaskActivity.this.task = task;
+				setupUI();
+			
+			}
+
+			@Override
+			public void onFail(String errorMessage) {
+				
+				
+			}
+		});
+	
+	}
 }
