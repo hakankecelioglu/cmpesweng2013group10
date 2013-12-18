@@ -74,7 +74,8 @@
         android:layout_marginTop="10dp"
         android:textSize="15sp"
         android:background="@drawable/green_button"
-        style="@style/ButtonText"
+        style="@style/ButtonText"  
+        android:visibility="invisible"
         android:text="@string/task_follow_button"
      />
        

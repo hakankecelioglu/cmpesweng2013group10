@@ -64,6 +64,7 @@ public class TaskActivity extends BaseActivity {
 		taskfollowercount = (TextView) findViewById(R.id.task_follower_count);
 		taskfollowercount.setText(task.getFollowerCount() + " followers");
 		followTaskButton = (Button) findViewById(R.id.task_follow_button);
+		followTaskButton.setVisibility(View.INVISIBLE);
 		if (!task.isFollower()) {
 			followTaskButton.setOnClickListener(followTaskListener);
 		} else {
