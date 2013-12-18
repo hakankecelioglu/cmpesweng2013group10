@@ -245,8 +245,8 @@ public class TaskFormFragment extends Fragment {
 		});   	   	
     }
     public void showDatePickerDialog(View v) {
-        DialogFragment newFragment = new DatePickerFragment();
-        newFragment.show(getChildFragmentManager(), "datePicker");
+//        DialogFragment newFragment = new DatePickerFragment();
+//        newFragment.show(getChildFragmentManager(), "datePicker");
     }
  
     
