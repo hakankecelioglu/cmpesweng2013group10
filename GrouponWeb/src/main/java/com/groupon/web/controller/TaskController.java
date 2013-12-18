@@ -50,7 +50,8 @@ public class TaskController extends AbstractBaseController {
 	private NotificationService notificationService;
 
 	@RequestMapping(value = "/show/{id}")
-	public Object taskPage(HttpServletRequest request, Model model, @PathVariable Long id) {
+	public Object taskPage(HttpServletRequest request, Model model,
+			@PathVariable Long id) {
 		if (id == null) {
 			return "redirect:/";
 		}
@@ -77,17 +78,23 @@ public class TaskController extends AbstractBaseController {
 		return "task.view";
 
 	}
+
 	@RequestMapping(value = "/mobileShow/{id}")
-	public ResponseEntity<Map<String, Object>> taskMobile(HttpServletRequest request, Model model, @PathVariable Long id) {
+	public ResponseEntity<Map<String, Object>> taskMobile(
+			HttpServletRequest request, Model model, @PathVariable Long id) {
 		User user = getUser();
 		Task task = taskService.getTaskById(id);
 		boolean isAFollower = task.getFollowers().contains(user);
 		Map<String, Object> response = new HashMap<String, Object>();
+		task.getAttributes();
+
 		response.put("task", TaskJson.convert(task));
-		response.put("isFollower",isAFollower);
+		response.put("isFollower", isAFollower);
+		response.put("taskAttributes", getTaskAttributeMapForModel(task));
 		return prepareSuccessResponse(response);
 
 	}
+
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
 	public Object createTask(HttpServletRequest request, Model model) {
 		User user = getUser();
@@ -117,7 +124,8 @@ public class TaskController extends AbstractBaseController {
 	}
 
 	@RequestMapping(value = "/create", method = RequestMethod.POST)
-	public ResponseEntity<Map<String, Object>> createTask(HttpServletRequest request, @RequestBody String body) {
+	public ResponseEntity<Map<String, Object>> createTask(
+			HttpServletRequest request, @RequestBody String body) {
 		Map<String, Object> response = new HashMap<String, Object>();
 		User user = getUser();
 
@@ -138,7 +146,9 @@ public class TaskController extends AbstractBaseController {
 	}
 
 	@RequestMapping(value = "/suggest", method = RequestMethod.GET)
-	public ResponseEntity<Map<String, Object>> getSuggestedTasks(@RequestParam(required = false) Integer page, @RequestParam(required = false) Integer max) {
+	public ResponseEntity<Map<String, Object>> getSuggestedTasks(
+			@RequestParam(required = false) Integer page,
+			@RequestParam(required = false) Integer max) {
 		Map<String, Object> response = new HashMap<String, Object>();
 
 		User user = getUser();
@@ -149,7 +159,8 @@ public class TaskController extends AbstractBaseController {
 	}
 
 	@RequestMapping(value = "/followTask", method = RequestMethod.POST)
-	public ResponseEntity<Map<String, Object>> followTask(HttpServletRequest request, @RequestParam Long taskId) {
+	public ResponseEntity<Map<String, Object>> followTask(
+			HttpServletRequest request, @RequestParam Long taskId) {
 		Map<String, Object> response = new HashMap<String, Object>();
 
 		User user = getUser();
@@ -161,7 +172,8 @@ public class TaskController extends AbstractBaseController {
 	}
 
 	@RequestMapping(value = "/unfollowTask", method = RequestMethod.POST)
-	public ResponseEntity<Map<String, Object>> unfollowTask(HttpServletRequest request, @RequestParam Long taskId) {
+	public ResponseEntity<Map<String, Object>> unfollowTask(
+			HttpServletRequest request, @RequestParam Long taskId) {
 		Map<String, Object> response = new HashMap<String, Object>();
 
 		User user = getUser();
@@ -172,7 +184,8 @@ public class TaskController extends AbstractBaseController {
 		return prepareSuccessResponse(response);
 	}
 
-	private Task generateTaskFromJSON(String body) throws JSONException, ParseException {
+	private Task generateTaskFromJSON(String body) throws JSONException,
+			ParseException {
 		JSONObject json = new JSONObject(body);
 		String name = json.getString("name");
 		String description = json.getString("description");
@@ -228,7 +241,7 @@ public class TaskController extends AbstractBaseController {
 			String requirementName = json.getString("requirementName");
 			task.setRequirementName(requirementName);
 		}
-		if(json.has("tags")){
+		if (json.has("tags")) {
 			JSONArray tags = json.getJSONArray("tags");
 			List<Tag> tagList = new ArrayList<Tag>();
 			for (int i = 0; i < tags.length(); i++) {
@@ -242,14 +255,13 @@ public class TaskController extends AbstractBaseController {
 			task.setTags(tagList);
 		}
 
-
 		Long communityId = json.getLong("communityId");
 		Community community = communityService.getCommunityById(communityId);
 		task.setCommunity(community);
 
 		return task;
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	private Map<String, Object> getTaskAttributeMapForModel(Task task) {
 		Map<String, Object> attributes = new HashMap<String, Object>();
@@ -257,7 +269,7 @@ public class TaskController extends AbstractBaseController {
 		if (taskAttributes == null) {
 			return attributes;
 		}
-		
+
 		for (TaskAttribute attr : taskAttributes) {
 			if (attributes.containsKey(attr.getName())) {
 				Object value = attributes.get(attr.getName());
