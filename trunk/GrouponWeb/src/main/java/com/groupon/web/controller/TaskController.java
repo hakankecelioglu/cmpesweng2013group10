@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.groupon.web.controller.json.CommunityJson;
 import com.groupon.web.controller.json.TaskJson;
 import com.groupon.web.dao.model.Community;
 import com.groupon.web.dao.model.NeedType;
@@ -76,7 +77,17 @@ public class TaskController extends AbstractBaseController {
 		return "task.view";
 
 	}
+	@RequestMapping(value = "/mobileShow/{id}")
+	public ResponseEntity<Map<String, Object>> taskMobile(HttpServletRequest request, Model model, @PathVariable Long id) {
+		User user = getUser();
+		Task task = taskService.getTaskById(id);
+		boolean isAFollower = task.getFollowers().contains(user);
+		Map<String, Object> response = new HashMap<String, Object>();
+		response.put("task", TaskJson.convert(task));
+		response.put("isFollower",isAFollower);
+		return prepareSuccessResponse(response);
 
+	}
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
 	public Object createTask(HttpServletRequest request, Model model) {
 		User user = getUser();
@@ -217,18 +228,20 @@ public class TaskController extends AbstractBaseController {
 			String requirementName = json.getString("requirementName");
 			task.setRequirementName(requirementName);
 		}
-
-		JSONArray tags = json.getJSONArray("tags");
-		List<Tag> tagList = new ArrayList<Tag>();
-		for (int i = 0; i < tags.length(); i++) {
-			String tagName = tags.getString(i);
-			if (StringUtils.isNotBlank(tagName)) {
-				Tag tag = new Tag();
-				tag.setName(tagName);
-				tagList.add(tag);
+		if(json.has("tags")){
+			JSONArray tags = json.getJSONArray("tags");
+			List<Tag> tagList = new ArrayList<Tag>();
+			for (int i = 0; i < tags.length(); i++) {
+				String tagName = tags.getString(i);
+				if (StringUtils.isNotBlank(tagName)) {
+					Tag tag = new Tag();
+					tag.setName(tagName);
+					tagList.add(tag);
+				}
 			}
+			task.setTags(tagList);
 		}
-		task.setTags(tagList);
+
 
 		Long communityId = json.getLong("communityId");
 		Community community = communityService.getCommunityById(communityId);

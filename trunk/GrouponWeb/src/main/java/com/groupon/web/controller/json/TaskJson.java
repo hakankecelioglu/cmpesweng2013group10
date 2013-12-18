@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import com.groupon.web.dao.model.NeedType;
 import com.groupon.web.dao.model.Task;
 
 public class TaskJson implements Serializable {
@@ -13,8 +14,11 @@ public class TaskJson implements Serializable {
 	private Long id;
 	private String title;
 	private String description;
+	private String needType;
 	private String ownerUsername;
 	private Long ownerId;
+	private String requirementName;
+	private int requirementQuantity;
 	private String communityName;
 	private Long communityId;
 	private String status;
@@ -117,7 +121,16 @@ public class TaskJson implements Serializable {
 
 		taskJson.setDescription(task.getDescription());
 		taskJson.setFollowerCount(task.getFollowerCount());
-
+		NeedType needType = task.getNeedType();
+		taskJson.setNeedType(needType.toString());
+		if(needType==NeedType.GOODS){
+			taskJson.setRequirementName(task.getRequirementName());
+			taskJson.setRequirementQuantity(task.getRequirementQuantity());
+		}
+		else if(needType == NeedType.SERVICE){
+			taskJson.setRequirementName(task.getRequirementName());
+			
+		}
 		if (task.getOwner() != null) {
 			taskJson.setOwnerId(task.getOwner().getId());
 			taskJson.setOwnerUsername(task.getOwner().getUsername());
@@ -139,5 +152,29 @@ public class TaskJson implements Serializable {
 			}
 		}
 		return jsons;
+	}
+
+	public String getNeedType() {
+		return needType;
+	}
+
+	public void setNeedType(String needType) {
+		this.needType = needType;
+	}
+
+	public String getRequirementName() {
+		return requirementName;
+	}
+
+	public void setRequirementName(String requirementName) {
+		this.requirementName = requirementName;
+	}
+
+	public int getRequirementQuantity() {
+		return requirementQuantity;
+	}
+
+	public void setRequirementQuantity(int requirementQuantity) {
+		this.requirementQuantity = requirementQuantity;
 	}
 }
