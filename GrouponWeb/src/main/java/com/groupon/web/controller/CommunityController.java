@@ -37,6 +37,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.groupon.web.controller.json.CommunityJson;
+import com.groupon.web.controller.json.TaskTypeJson;
 import com.groupon.web.controller.json.UserJson;
 import com.groupon.web.dao.model.Community;
 import com.groupon.web.dao.model.FieldAttribute;
@@ -50,6 +51,7 @@ import com.groupon.web.dao.model.User;
 import com.groupon.web.exception.GrouponException;
 import com.groupon.web.service.CommunityService;
 import com.groupon.web.service.TaskService;
+import com.groupon.web.service.TaskTypeService;
 import com.groupon.web.util.GrouponWebUtils;
 
 @Controller
@@ -65,6 +67,9 @@ public class CommunityController extends AbstractBaseController {
 
 	@Autowired
 	private TaskService taskService;
+	
+	@Autowired
+	private TaskTypeService taskTypeService;
 
 	@Value("${tasks.per.community.page}")
 	private int numberOfTasksPerPage;
@@ -106,7 +111,7 @@ public class CommunityController extends AbstractBaseController {
 			maxPrimitive = max;
 		}
 
-		List<Community> communities = communityService.getCommunitiesByFollowerId(user.getId(), pagePrimitive, maxPrimitive);
+		List<Community> communities = communityService.getAllCommunities();
 		response.put("communities", CommunityJson.convert(communities));
 
 		return prepareSuccessResponse(response);
@@ -284,7 +289,22 @@ public class CommunityController extends AbstractBaseController {
 		return prepareSuccessResponse(response);
 
 	}
+	@RequestMapping(value = "community/mobilejoin")
+	public ResponseEntity<Map<String, Object>> joinCommunityMobile(HttpServletRequest request, @RequestParam Long communityId) {
+		if (communityId == null) {
+			return null;
+		}
 
+		Community community = communityService.getCommunityById(communityId);
+
+
+		User user = getUser();
+
+		communityService.addMemberToCommunity(community, user);
+		Map<String, Object> response = new HashMap<String, Object>();
+	
+		return prepareSuccessResponse(response);
+	}
 	@RequestMapping(value = "community/join")
 	public Object joinCommunity(HttpServletRequest request, @RequestParam Long communityId) {
 		if (communityId == null) {
@@ -303,7 +323,27 @@ public class CommunityController extends AbstractBaseController {
 
 		return "redirect:/community/" + communityId;
 	}
+	@RequestMapping(value = "community/mobileleave")
+	public ResponseEntity<Map<String, Object>> leaveCommunityMobile(HttpServletRequest request, @RequestParam Long communityId) {
+		User user = getUser();
+		if (communityId == null) {
+			return null;
+		}
 
+		Community community = communityService.getCommunityById(communityId);
+	
+		Map<String, Object> response = new HashMap<String, Object>();
+		
+		if (community.getOwner().equals(user)) {
+			response.put("err","err");
+			
+			prepareErrorResponse(response);
+		}
+
+		communityService.removeMemberFromCommunity(community, user);
+
+		return prepareSuccessResponse(response);
+	}
 	@RequestMapping(value = "community/leave")
 	public Object leaveCommunity(HttpServletRequest request, @RequestParam Long communityId) {
 		User user = getUser();
@@ -357,9 +397,9 @@ public class CommunityController extends AbstractBaseController {
 	}
 	
 	@RequestMapping(value = "community/taskTypes", method = RequestMethod.GET)
-	public ResponseEntity<Map<String, Object>> getTaskTypes(@RequestParam Long communityId) {
+	public ResponseEntity<Map<String, Object>> getTaskTypes(@RequestParam  Long communityId) {
 		Map<String, Object> response = new HashMap<String, Object>();
-		
+	
 		if (communityId == null) {
 			throw new GrouponException("communityId cannot be null");
 		}
@@ -368,7 +408,19 @@ public class CommunityController extends AbstractBaseController {
 		response.put("taskTypes", taskTypeNames);
 		return prepareSuccessResponse(response);
 	}
-
+	
+	@RequestMapping(value = "taskType", method = RequestMethod.POST)
+	public ResponseEntity<Map<String, Object>> getTaskType(@RequestParam  Long taskTypeId) {
+		Map<String, Object> response = new HashMap<String, Object>();
+	
+		if (taskTypeId == null) {
+			throw new GrouponException("communityId cannot be null");
+		}
+		TaskType taskType = taskTypeService.getTaskTypeById(taskTypeId);
+		response.put("taskType", TaskTypeJson.convert(taskType));	
+		return prepareSuccessResponse(response);
+	}
+	
 	@RequestMapping(value = "community/picture/{pictureName:.+}", method = RequestMethod.GET)
 	public void getCommunityPicture(@PathVariable String pictureName, HttpServletResponse response) {
 		try {
