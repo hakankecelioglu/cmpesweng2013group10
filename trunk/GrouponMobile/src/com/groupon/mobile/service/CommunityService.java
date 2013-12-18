@@ -118,4 +118,41 @@ public class CommunityService {
 
 		return community;
 	}
+
+	public void leaveCommunity(final long communityId, GrouponCallback<Community> callback) {
+		GrouponTask<Community> taskCommunity = new GrouponTask<Community>(callback) {
+
+			@Override
+			public Community run() throws GrouponException {
+				String url = Constants.SERVER+"community/mobileleave";
+				Map<String,String> idMap= new HashMap<String, String>();
+				idMap.put("communityId", ""+communityId);
+			    ConnectionUtils.makePostRequest(url, idMap, app.getAuthToken());
+				Community community = new Community();
+
+				return community;
+			}
+			
+		};
+		GrouponTask.execute(taskCommunity);
+	}
+
+	public void joinCommunity(final long communityId, GrouponCallback<Community> callback) {
+		GrouponTask<Community> taskCommunity = new GrouponTask<Community>(callback) {
+
+			@Override
+			public Community run() throws GrouponException {
+				String url = Constants.SERVER+"community/mobilejoin";
+				Map<String,String> idMap= new HashMap<String, String>();
+				idMap.put("communityId", ""+communityId);
+			    ConnectionUtils.makePostRequest(url, idMap, app.getAuthToken());
+				Community community = new Community();
+
+				return community;
+			}
+			
+		};
+		GrouponTask.execute(taskCommunity);
+		
+	}
 }

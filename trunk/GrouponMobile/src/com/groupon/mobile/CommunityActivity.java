@@ -11,12 +11,15 @@ import android.widget.Toast;
 
 import com.groupon.mobile.conn.GrouponCallback;
 import com.groupon.mobile.model.Community;
+import com.groupon.mobile.model.Task;
 import com.groupon.mobile.service.CommunityService;
+import com.groupon.mobile.service.TaskService;
 import com.groupon.mobile.utils.ImageUtils;
 
 public class CommunityActivity extends BaseActivity {
 	private Button createButton;
 	private Button createTypeButton;
+	private Button joinCommunityButton;
 	private TextView communityNameField;
 	private TextView communityDescriptionField;
 	private long communityId;
@@ -44,6 +47,8 @@ public class CommunityActivity extends BaseActivity {
 	private void setupUI(String name, String description, String pictureUrl) {
 		createTypeButton = (Button) findViewById(R.id.button_create_task_type);
 		createTypeButton.setOnClickListener(createTypeButtonClickListener);
+		joinCommunityButton = (Button)findViewById(R.id.button_join_community);
+		joinCommunityButton.setOnClickListener(joinCommunityListener);
 		createButton = (Button) findViewById(R.id.button_create_task);
 		createButton.setOnClickListener(createButtonClickListener);
 		communityNameField = (TextView) findViewById(R.id.communityName);
@@ -73,5 +78,51 @@ public class CommunityActivity extends BaseActivity {
 			startActivity(intent);
 		}
 	};
+private OnClickListener joinCommunityListener = new OnClickListener() {
+		
+		@Override
+		public void onClick(View v) {
+			CommunityService communityService = new CommunityService(getApp());
+			communityService.joinCommunity(communityId, new GrouponCallback<Community>() {
+
+				@Override
+				public void onSuccess(Community response) {
+					
+					joinCommunityButton.setText("Leave");
+					joinCommunityButton.setOnClickListener(leaveCommunityListener);
+					
+				}
+
+				@Override
+				public void onFail(String errorMessage) {
+					
+					
+				}
+			});
+		}
+	};
+	private OnClickListener leaveCommunityListener = new OnClickListener() {
+		
+		@Override
+		public void onClick(View v) {
+			CommunityService communityService = new CommunityService(getApp());
+			communityService.leaveCommunity(communityId, new GrouponCallback<Community>() {
+
+				@Override
+				public void onSuccess(Community response) {
+					
+					joinCommunityButton.setText("Join");
+					joinCommunityButton.setOnClickListener(joinCommunityListener);
+					
+				}
+
+				@Override
+				public void onFail(String errorMessage) {
+					
+					
+				}
+			});
+		}
+	};	
 
 }
