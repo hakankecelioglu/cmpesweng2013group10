@@ -1,12 +1,15 @@
 package com.groupon.mobile.model;
 
 import java.util.Date;
+import java.util.List;
+
+
 
 public class Task {
 
 	private Long id;
 
-	private String title;
+	private String name;
 
 	private String description;
 
@@ -14,19 +17,30 @@ public class Task {
 
 	private Community community;
 
-	private Date deadline;
+	private String deadline;
 
 	private String location;
-
-	public String getTitle() {
-		return title;
+	
+	private String requirementName;
+	private boolean isFollower;
+	private int requirementQuantity;
+	private String ownerUsername;
+	private Long ownerId;
+	private String communityName;
+	private String needType;
+	private String status;
+	private Long deadlineCount;
+	private Long followerCount = 0L;
+	private List<TaskAttribute> attributes;
+	public String getName() {
+		return name;
 	}
 
-	public Date getDeadline() {
+	public String getDeadline() {
 		return deadline;
 	}
 
-	public void setDeadline(Date deadline) {
+	public void setDeadline(String deadline) {
 		this.deadline = deadline;
 	}
 
@@ -42,8 +56,8 @@ public class Task {
 		return id;
 	}
 
-	public void setTitle(String title) {
-		this.title = title;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public String getDescription() {
@@ -73,5 +87,95 @@ public class Task {
 	public void setId(Long id) {
 		this.id = id;
 	}
+
+	public List<TaskAttribute> getAttributes() {
+		return attributes;
+	}
+
+	public void setAttributes(List<TaskAttribute> attributes) {
+		this.attributes = attributes;
+	}
+
+	public String getRequirementName() {
+		return requirementName;
+	}
+
+	public void setRequirementName(String requirementName) {
+		this.requirementName = requirementName;
+	}
+
+	public int getRequirementQuantity() {
+		return requirementQuantity;
+	}
+
+	public void setRequirementQuantity(int requirementQuantity) {
+		this.requirementQuantity = requirementQuantity;
+	}
+
+	public String getNeedType() {
+		return needType;
+	}
+
+	public void setNeedType(String needType) {
+		this.needType = needType;
+	}
+
+	public String getOwnerUsername() {
+		return ownerUsername;
+	}
+
+	public void setOwnerUsername(String ownerUsername) {
+		this.ownerUsername = ownerUsername;
+	}
+
+	public Long getOwnerId() {
+		return ownerId;
+	}
+
+	public void setOwnerId(Long ownerId) {
+		this.ownerId = ownerId;
+	}
+
+	public String getCommunityName() {
+		return communityName;
+	}
+
+	public void setCommunityName(String communityName) {
+		this.communityName = communityName;
+	}
+
+	public Long getDeadlineCount() {
+		return deadlineCount;
+	}
+
+	public void setDeadlineCount(Long deadlineCount) {
+		this.deadlineCount = deadlineCount;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public Long getFollowerCount() {
+		return followerCount;
+	}
+
+	public void setFollowerCount(Long followerCount) {
+		this.followerCount = followerCount;
+	}
+
+	public boolean isFollower() {
+		return isFollower;
+	}
+
+	public void setFollower(boolean isFollower) {
+		this.isFollower = isFollower;
+	}
+
+
 
 }
