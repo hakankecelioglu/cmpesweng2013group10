@@ -75,5 +75,11 @@
         style="@style/ButtonText"
         android:layout_below="@id/button_my_communities"
         android:text="@string/logout" />
+    <Button
+        android:id="@+id/button_followed_tasks"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/button_logout"
+        android:text="@string/followed_tasks" />
 
 </RelativeLayout>

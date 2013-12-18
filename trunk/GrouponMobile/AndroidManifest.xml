@@ -26,6 +26,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+    
         <activity
             android:name="com.groupon.mobile.HomeActivity"
             android:label="@string/title_activity_home" >
@@ -54,6 +55,10 @@
             android:name="com.groupon.mobile.MyCommunitiesActivity"
             android:label="@string/title_activity_my_Communities" >
         </activity>
+         <activity
+            android:name="com.groupon.mobile.FollowedTasksActivity"
+            android:label="@string/title_activity_followed_tasks" >
+        </activity>       
         <activity
             android:name="com.groupon.mobile.SignUpActivity"
             android:label="@string/title_activity_sign_up" >

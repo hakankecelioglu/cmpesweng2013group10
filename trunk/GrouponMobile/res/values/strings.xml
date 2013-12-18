@@ -24,6 +24,7 @@
     <string name="create">Create</string>
     <string name="title_activity_community">Community</string>
     <string name="title_activity_create_task">CreateTaskActivity</string>
+    <string name="title_activity_followed_tasks">Followed Tasks</string>
     <string name="task_name">Task Name</string>
     <string name="task_description">Description</string>
     <string name="create_task">Create Task</string>
@@ -63,4 +64,5 @@
 	<string name="task_description_info">Description</string>
 	<string name="task_follow_button">Follow</string>
 	<string name="join_community">Join</string>
+	<string name="followed_tasks">Followed Tasks</string>
 </resources>
