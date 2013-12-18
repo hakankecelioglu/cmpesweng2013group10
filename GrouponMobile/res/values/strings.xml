@@ -62,4 +62,5 @@
     <string name="task_type_select">Select</string>
 	<string name="task_description_info">Description</string>
 	<string name="task_follow_button">Follow</string>
+	<string name="join_community">Join</string>
 </resources>
