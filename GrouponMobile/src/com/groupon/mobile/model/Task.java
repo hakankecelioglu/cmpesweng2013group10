@@ -2,6 +2,7 @@ package com.groupon.mobile.model;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 
 
@@ -20,7 +21,7 @@ public class Task {
 	private String deadline;
 
 	private String location;
-	
+	private Map<String,List<String>> AttributeMap;
 	private String requirementName;
 	private boolean isFollower;
 	private int requirementQuantity;
@@ -174,6 +175,14 @@ public class Task {
 
 	public void setFollower(boolean isFollower) {
 		this.isFollower = isFollower;
+	}
+
+	public Map<String,List<String>> getAttributeMap() {
+		return AttributeMap;
+	}
+
+	public void setAttributeMap (Map<String,List<String>> AttributeMap ) {
+		this.AttributeMap = AttributeMap;
 	}
 
 

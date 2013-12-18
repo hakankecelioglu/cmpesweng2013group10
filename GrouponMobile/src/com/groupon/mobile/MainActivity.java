@@ -16,9 +16,9 @@ public class MainActivity extends BaseActivity {
 
 	private Button loginButton;
 	private Button signUpButton;
+	private Button aboutUs;
 	private EditText loginUsername;
 	private EditText loginPassword;
-	private Button aboutUs;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +45,6 @@ public class MainActivity extends BaseActivity {
 
 		signUpButton = (Button) findViewById(R.id.button_go_sign_up_page);
 		signUpButton.setOnClickListener(onSignUpButtonClick);
-
 		aboutUs = (Button) findViewById(R.id.button_about);
 		aboutUs.setOnClickListener(onAboutButtonClick);
 	}
@@ -87,7 +86,6 @@ public class MainActivity extends BaseActivity {
 			finish();
 		}
 	};
-
 	private OnClickListener onAboutButtonClick = new OnClickListener() {
 
 		@Override

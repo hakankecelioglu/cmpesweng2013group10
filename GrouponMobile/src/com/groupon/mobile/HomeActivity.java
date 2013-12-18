@@ -14,6 +14,7 @@ public class HomeActivity extends BaseActivity {
 	private Button profileButton;
 	private Button createCommunityTaskButton;
 	private Button myCommunitiesButton;
+	private Button followedTaskButton;
 	private Button logoutButton;
 
 	@Override
@@ -41,8 +42,17 @@ public class HomeActivity extends BaseActivity {
 		profileButton = (Button) findViewById(R.id.button_home_my_profile);
 
 		profileButton.setOnClickListener(profileClickListener);
+		followedTaskButton = (Button) findViewById(R.id.button_followed_tasks);
+		followedTaskButton.setOnClickListener(followedTasksListener);
 	}
 
+	private OnClickListener followedTasksListener = new OnClickListener() {
+		@Override
+		public void onClick(View v) {
+			Intent intent = new Intent(HomeActivity.this, FollowedTasksActivity.class);
+			startActivity(intent);
+		}
+	};
 	private OnClickListener createNewCommunityListener = new OnClickListener() {
 		@Override
 		public void onClick(View v) {
@@ -58,7 +68,6 @@ public class HomeActivity extends BaseActivity {
 			startActivity(intent);
 		}
 	};
-
 	private OnClickListener profileClickListener = new OnClickListener() {
 		@Override
 		public void onClick(View v) {
@@ -78,4 +87,5 @@ public class HomeActivity extends BaseActivity {
 			finish();
 		}
 	};
+
 }
