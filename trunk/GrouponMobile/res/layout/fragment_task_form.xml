@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    <EditText
+        android:id="@+id/task_name"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="14dp"
+        android:background="@android:drawable/editbox_background"
+        android:ems="10"
+        android:hint="@string/task_name" >
+    </EditText>
+
+    <EditText
+        android:id="@+id/task_description"
+        android:layout_width="fill_parent"
+        android:layout_height="100dp"
+        android:background="@android:drawable/editbox_background"
+        android:ems="10"
+        android:hint="@string/task_description"
+        android:inputType="textMultiLine" />
+
+    <EditText
+        android:id="@+id/task_deadline"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:drawable/editbox_background"
+        android:ems="10"
+        android:hint="@string/task_deadline" />
+    
+        <LinearLayout
+            android:id="@+id/layout_form_fields"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+        </LinearLayout>
+     <Button
+        android:id="@+id/button_task_create"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:text="@string/create" />       
+</LinearLayout>
