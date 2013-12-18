@@ -16,10 +16,10 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 @Entity
-@Table(name = "task_type_field")
+@Table(name = "task_reply_field")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-public class TaskTypeField extends BaseModel {
-	private static final long serialVersionUID = 5935373269930933875L;
+public class ReplyField extends BaseModel {
+	private static final long serialVersionUID = 4963667324696625134L;
 
 	@Column(name = "name", nullable = false)
 	private String name;
@@ -32,9 +32,9 @@ public class TaskTypeField extends BaseModel {
 	@JoinColumn(name = "task_type_id", nullable = false)
 	private TaskType taskType;
 
-	@OneToMany(mappedBy = "taskTypeField", cascade = CascadeType.ALL)
-	private List<FieldAttribute> attributes;
-	
+	@OneToMany(mappedBy = "replyField", cascade = CascadeType.ALL)
+	private List<ReplyFieldAttribute> attributes;
+
 	public String getName() {
 		return name;
 	}
@@ -59,11 +59,11 @@ public class TaskTypeField extends BaseModel {
 		this.taskType = taskType;
 	}
 
-	public List<FieldAttribute> getAttributes() {
+	public List<ReplyFieldAttribute> getAttributes() {
 		return attributes;
 	}
 
-	public void setAttributes(List<FieldAttribute> attributes) {
+	public void setAttributes(List<ReplyFieldAttribute> attributes) {
 		this.attributes = attributes;
 	}
 }
