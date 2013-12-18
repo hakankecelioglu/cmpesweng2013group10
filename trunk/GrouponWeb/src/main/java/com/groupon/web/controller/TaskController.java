@@ -24,18 +24,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.groupon.web.controller.json.CommunityJson;
+import com.groupon.web.controller.json.ReplyFieldJson;
 import com.groupon.web.controller.json.TaskJson;
 import com.groupon.web.dao.model.Community;
 import com.groupon.web.dao.model.NeedType;
+import com.groupon.web.dao.model.ReplyField;
 import com.groupon.web.dao.model.Tag;
 import com.groupon.web.dao.model.Task;
 import com.groupon.web.dao.model.TaskAttribute;
 import com.groupon.web.dao.model.TaskType;
 import com.groupon.web.dao.model.User;
+import com.groupon.web.exception.GrouponException;
 import com.groupon.web.service.CommunityService;
 import com.groupon.web.service.NotificationService;
 import com.groupon.web.service.TaskService;
+import com.groupon.web.service.TaskTypeService;
 
 @Controller
 @RequestMapping("/task")
@@ -49,9 +52,11 @@ public class TaskController extends AbstractBaseController {
 	@Autowired
 	private NotificationService notificationService;
 
+	@Autowired
+	private TaskTypeService taskTypeService;
+
 	@RequestMapping(value = "/show/{id}")
-	public Object taskPage(HttpServletRequest request, Model model,
-			@PathVariable Long id) {
+	public Object taskPage(HttpServletRequest request, Model model, @PathVariable Long id) {
 		if (id == null) {
 			return "redirect:/";
 		}
@@ -80,8 +85,7 @@ public class TaskController extends AbstractBaseController {
 	}
 
 	@RequestMapping(value = "/mobileShow/{id}")
-	public ResponseEntity<Map<String, Object>> taskMobile(
-			HttpServletRequest request, Model model, @PathVariable Long id) {
+	public ResponseEntity<Map<String, Object>> taskMobile(HttpServletRequest request, Model model, @PathVariable Long id) {
 		User user = getUser();
 		Task task = taskService.getTaskById(id);
 		boolean isAFollower = task.getFollowers().contains(user);
@@ -124,8 +128,7 @@ public class TaskController extends AbstractBaseController {
 	}
 
 	@RequestMapping(value = "/create", method = RequestMethod.POST)
-	public ResponseEntity<Map<String, Object>> createTask(
-			HttpServletRequest request, @RequestBody String body) {
+	public ResponseEntity<Map<String, Object>> createTask(HttpServletRequest request, @RequestBody String body) {
 		Map<String, Object> response = new HashMap<String, Object>();
 		User user = getUser();
 
@@ -146,9 +149,7 @@ public class TaskController extends AbstractBaseController {
 	}
 
 	@RequestMapping(value = "/suggest", method = RequestMethod.GET)
-	public ResponseEntity<Map<String, Object>> getSuggestedTasks(
-			@RequestParam(required = false) Integer page,
-			@RequestParam(required = false) Integer max) {
+	public ResponseEntity<Map<String, Object>> getSuggestedTasks(@RequestParam(required = false) Integer page, @RequestParam(required = false) Integer max) {
 		Map<String, Object> response = new HashMap<String, Object>();
 
 		User user = getUser();
@@ -159,8 +160,7 @@ public class TaskController extends AbstractBaseController {
 	}
 
 	@RequestMapping(value = "/followTask", method = RequestMethod.POST)
-	public ResponseEntity<Map<String, Object>> followTask(
-			HttpServletRequest request, @RequestParam Long taskId) {
+	public ResponseEntity<Map<String, Object>> followTask(HttpServletRequest request, @RequestParam Long taskId) {
 		Map<String, Object> response = new HashMap<String, Object>();
 
 		User user = getUser();
@@ -172,8 +172,7 @@ public class TaskController extends AbstractBaseController {
 	}
 
 	@RequestMapping(value = "/unfollowTask", method = RequestMethod.POST)
-	public ResponseEntity<Map<String, Object>> unfollowTask(
-			HttpServletRequest request, @RequestParam Long taskId) {
+	public ResponseEntity<Map<String, Object>> unfollowTask(HttpServletRequest request, @RequestParam Long taskId) {
 		Map<String, Object> response = new HashMap<String, Object>();
 
 		User user = getUser();
@@ -184,8 +183,53 @@ public class TaskController extends AbstractBaseController {
 		return prepareSuccessResponse(response);
 	}
 
-	private Task generateTaskFromJSON(String body) throws JSONException,
-			ParseException {
+	@RequestMapping(value = "/getReplyForm", method = RequestMethod.GET)
+	public ResponseEntity<Map<String, Object>> getReplyForm(HttpServletRequest request, @RequestParam Long taskId) {
+		Map<String, Object> response = new HashMap<String, Object>();
+
+		User user = getUser();
+		if (user == null) {
+			logger.info("Try to access reply form without login!");
+			throw new GrouponException("You cannot reply a task without login!");
+		}
+
+		if (taskId == null) {
+			logger.info("taskId cannot be null!");
+			throw new GrouponException("taskId cannot be null!");
+		}
+
+		Task task = taskService.getTaskById(taskId);
+
+		if (task == null) {
+			logger.info("Task with this id cannot be found::{0}", taskId);
+			throw new GrouponException("Task with this id cannot be found!");
+		}
+
+		List<ReplyField> replyFields = null;
+		if (task.getTaskType() != null && task.getTaskType().getReplyFields() != null) {
+			replyFields = task.getTaskType().getReplyFields();
+		}
+
+		response.put("fields", ReplyFieldJson.convert(replyFields));
+		return prepareSuccessResponse(response);
+	}
+
+	@RequestMapping(value = "/getFollowedTasks", method = RequestMethod.GET)
+	public ResponseEntity<Map<String, Object>> getFollowedTasks(HttpServletRequest request) {
+		Map<String, Object> response = new HashMap<String, Object>();
+
+		User user = getUser();
+		if (user == null) {
+			throw new GrouponException("Login before doing this action!");
+		}
+
+		List<Task> followedTasks = taskService.getFollowedTasks(user);
+		response.put("tasks", followedTasks);
+
+		return prepareSuccessResponse(response);
+	}
+
+	private Task generateTaskFromJSON(String body) throws JSONException, ParseException {
 		JSONObject json = new JSONObject(body);
 		String name = json.getString("name");
 		String description = json.getString("description");
@@ -258,6 +302,12 @@ public class TaskController extends AbstractBaseController {
 		Long communityId = json.getLong("communityId");
 		Community community = communityService.getCommunityById(communityId);
 		task.setCommunity(community);
+
+		if (json.has("taskType")) {
+			long taskTypeId = json.getLong("taskType");
+			TaskType taskType = taskTypeService.getTaskTypeById(taskTypeId);
+			task.setTaskType(taskType);
+		}
 
 		return task;
 	}
