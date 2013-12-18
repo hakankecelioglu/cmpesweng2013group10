@@ -224,7 +224,7 @@ public class TaskController extends AbstractBaseController {
 		}
 
 		List<Task> followedTasks = taskService.getFollowedTasks(user);
-		response.put("tasks", followedTasks);
+		response.put("tasks", TaskJson.convert(followedTasks));
 
 		return prepareSuccessResponse(response);
 	}
