@@ -231,7 +231,15 @@ public class TaskController extends AbstractBaseController {
 
 		return prepareSuccessResponse(response);
 	}
+	@RequestMapping(value = "/getCommunityTasks", method = RequestMethod.GET)
+	public ResponseEntity<Map<String, Object>> getCommunityTasks(HttpServletRequest request,@RequestParam Long communityId) {
+		Map<String, Object> response = new HashMap<String, Object>();
 
+		List<Task> followedTasks = taskService.getTasks(communityId, 0, 5);
+		response.put("tasks", TaskJson.convert(followedTasks));
+
+		return prepareSuccessResponse(response);
+	}
 	@RequestMapping(value = "/reply", method = RequestMethod.POST)
 	public ResponseEntity<Map<String, Object>> replyTask(HttpServletRequest request, @RequestBody String body) throws JSONException {
 		Map<String, Object> response = new HashMap<String, Object>();
