@@ -309,3 +309,10 @@ body.createTaskType .whenClosed {
 .sprite2-pin {
 	background-position: -17px -622px;
 }
+
+.loading-anim {
+	display: block;
+	background: url('../img/ajax-loader.gif') center center;
+	background-repeat: no-repeat;
+	height: 30px;
+}

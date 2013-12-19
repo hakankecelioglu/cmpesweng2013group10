@@ -76,25 +76,65 @@
 		</div>
 	</div>
 </div>
-<div class="well community-task-well">
-	<c:if test="${task.needType eq 'GOODS'}">
-		<form class="form-horizontal">
-			<div class="control-group">
-				<label class="control-label" for="goodQuantity">${task.requirementName}</label>
-				<div class="controls">
-					<input class="span2" type="text" id="goodQuantity"> out of ${task.requirementQuantity}
+
+<div class="well task-replies-well">
+	<h2>Task Replies</h2>
+	<div class="loading-anim"></div>
+	
+	<div class="replies-container">
+		<div class="media">
+			<a class="pull-left" href="#">
+				<img class="media-object" style="width: 70px; height: 70px;" src="http://b.vimeocdn.com/ps/445/980/4459809_300.jpg" />
+			</a>
+			<div class="media-body">
+				<h4 class="media-heading">Media heading</h4>
+				<p></p>
+			</div>
+		</div>
+		
+		<div class="media">
+			<a class="pull-left" href="#">
+				<img class="media-object" style="width: 70px; height: 70px;" src="http://b.vimeocdn.com/ps/445/980/4459809_300.jpg" />
+			</a>
+			<div class="media-body">
+				<h4 class="media-heading">Media heading</h4>
+			</div>
+		</div>
+		
+		<div class="media">
+			<a class="pull-left" href="#">
+				<img class="media-object" style="width: 70px; height: 70px;" src="http://b.vimeocdn.com/ps/445/980/4459809_300.jpg" />
+			</a>
+			<div class="media-body">
+				<h4 class="media-heading">Media heading</h4>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="well reply-form-well">
+	<div class="loading-anim"></div>
+	
+	<div class="replyFormContainer" style="display: none;">
+		<form id="replyForm" class="form-horizontal">
+			<c:if test="${task.needType eq 'GOODS'}">
+				<div class="control-group">
+					<label class="control-label" for="goodQuantity">${task.requirementName}</label>
+					<div class="controls">
+						<input class="span2" type="text" id="goodQuantity"> out of ${task.requirementQuantity}
+					</div>
 				</div>
-			</div>
-			
-			<div class="clearfix">
-				<button class="btn btn-success pull-right" id="followTask" data-taskid="${task.id}">Reply</button>
-			</div>
+			</c:if>
 		</form>
-	</c:if>
+		
+		<div class="clearfix">
+			<button style="margin-left: 463px;" class="btn btn-warning btn-large" id="replyTaskBtn" data-taskid="${task.id}" data-loading-text="Sending...">Reply</button>
+		</div>
+	</div>
 </div>
 
 <div class="clearfix" style="margin-bottom:20px;">
-	<button class="btn btn-success pull-right" id="followTask" data-taskid="${task.id}">Send message to task owner</button>
+	<button class="btn btn-success pull-right" id="followTask" data-taskid="${task.id}" data-loading-text="Sending...">Send message to task owner</button>
 </div>
 
 <input type="hidden" value="${task.id}" id="hiddenTaskId" />

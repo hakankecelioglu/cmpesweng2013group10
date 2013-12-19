@@ -26,12 +26,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.groupon.web.controller.json.ReplyFieldJson;
 import com.groupon.web.controller.json.TaskJson;
+import com.groupon.web.controller.json.TaskReplyJson;
 import com.groupon.web.dao.model.Community;
 import com.groupon.web.dao.model.NeedType;
+import com.groupon.web.dao.model.ReplyAttribute;
 import com.groupon.web.dao.model.ReplyField;
 import com.groupon.web.dao.model.Tag;
 import com.groupon.web.dao.model.Task;
 import com.groupon.web.dao.model.TaskAttribute;
+import com.groupon.web.dao.model.TaskReply;
 import com.groupon.web.dao.model.TaskType;
 import com.groupon.web.dao.model.User;
 import com.groupon.web.exception.GrouponException;
@@ -227,6 +230,81 @@ public class TaskController extends AbstractBaseController {
 		response.put("tasks", TaskJson.convert(followedTasks));
 
 		return prepareSuccessResponse(response);
+	}
+
+	@RequestMapping(value = "/reply", method = RequestMethod.POST)
+	public ResponseEntity<Map<String, Object>> replyTask(HttpServletRequest request, @RequestBody String body) throws JSONException {
+		Map<String, Object> response = new HashMap<String, Object>();
+
+		User user = getUser();
+		if (user == null) {
+			throw new GrouponException("Login before replying a task!");
+		}
+
+		JSONObject json = new JSONObject(body);
+		TaskReply taskReply = generateTaskReplyFromJson(json);
+		taskReply.setReplier(user);
+		
+		taskService.saveTaskReply(taskReply);
+
+		return prepareSuccessResponse(response);
+	}
+	
+	@RequestMapping(value = "/replies", method = RequestMethod.GET)
+	public ResponseEntity<Map<String, Object>> getTaskReplies(@RequestParam Long taskId) {
+		Map<String, Object> response = new HashMap<String, Object>();
+		
+		if (taskId == null) {
+			throw new GrouponException("What task are you looking for???");
+		}
+		
+		Task task = taskService.getTaskById(taskId);
+		if (task == null) {
+			throw new GrouponException("What task are you looking for???");
+		}
+		
+		List<TaskReply> taskReplies = task.getTaskReplies();
+		response.put("replies", TaskReplyJson.convert(taskReplies));
+		
+		return prepareSuccessResponse(response);
+	}
+
+	private TaskReply generateTaskReplyFromJson(JSONObject json) throws JSONException {
+		TaskReply taskReply = new TaskReply();
+
+		if (!json.has("taskId")) {
+			throw new GrouponException("Task reply without a task cannot be allowed!");
+		}
+
+		if (!json.has("fields")) {
+			throw new GrouponException("A reply must contain at least one field!");
+		}
+
+		Long taskId = json.getLong("taskId");
+		Task task = taskService.getTaskById(taskId);
+		if (task == null) {
+			throw new GrouponException("Task reply without a task cannot be allowed!");
+		}
+
+		taskReply.setTask(task);
+
+		JSONArray fields = json.getJSONArray("fields");
+		List<ReplyAttribute> replyAttributes = new ArrayList<ReplyAttribute>();
+		for (int i = 0; i < fields.length(); i++) {
+			JSONObject field = fields.getJSONObject(i);
+			String name = field.getString("name");
+			String value = field.getString("value");
+
+			ReplyAttribute attr = new ReplyAttribute();
+			attr.setName(name);
+			attr.setValue(value);
+			attr.setTaskReply(taskReply);
+
+			replyAttributes.add(attr);
+		}
+		taskReply.setAttributes(replyAttributes);
+
+		return taskReply;
 	}
 
 	private Task generateTaskFromJSON(String body) throws JSONException, ParseException {
