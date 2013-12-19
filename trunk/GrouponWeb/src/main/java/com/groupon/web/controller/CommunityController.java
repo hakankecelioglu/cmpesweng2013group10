@@ -118,7 +118,16 @@ public class CommunityController extends AbstractBaseController {
 
 		return prepareSuccessResponse(response);
 	}
+	@RequestMapping(value = "getAllCommunities", method = RequestMethod.POST)
+	public ResponseEntity<Map<String, Object>> getAllCommunitiesAndroid(HttpServletRequest request, @RequestParam(required = false) Integer page,
+			@RequestParam(required = false) Integer max) {
+		Map<String, Object> response = new HashMap<String, Object>();
 
+		List<Community> communities = communityService.getAllCommunities();
+		response.put("communities", CommunityJson.convert(communities));
+
+		return prepareSuccessResponse(response);
+	}
 	@RequestMapping(value = "getSimiliarCommunities", method = RequestMethod.POST)
 	public ResponseEntity<Map<String, Object>> getSimiliarCommunities(HttpServletRequest request, @RequestParam(required = true) Long communityId) {
 		Map<String, Object> response = new HashMap<String, Object>();
