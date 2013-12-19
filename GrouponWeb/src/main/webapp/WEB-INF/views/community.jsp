@@ -62,7 +62,17 @@
 					<c:forEach var="task" items="${tasks}">
 						<div class="well community-task-well">
 							<h3 class="pull-left"><a href="<c:url value="/task/show/${task.id}" />">${task.title}</a></h3>
-							<h6 class="pull-right">community: ${task.community.name}</h6>
+							<h6 class="pull-right">&nbsp;Community: <a href="<c:url value="/community/${task.community.id}" />">${task.community.name}</a></h6>
+							<a class="pull-right" href="<c:url value="/community/${task.community.id}" />">
+								<c:choose>
+									<c:when test="${not empty task.community.picture}">
+										<img class="media-object" height="60" width="60" src="<c:url value="/community/thumb/medium/${task.community.picture}" />">
+									</c:when>
+									<c:otherwise>
+										<img class="media-object" height="60" width="60" src="<c:url value="/res/img/default_com_picture.jpg" />">
+									</c:otherwise>
+								</c:choose>
+							</a>
 							<div class="clearfix"></div>
 							<div>
 								<p class="pull-left">by <a href="<c:url value="/profile/${task.owner.username}" />"><b>${task.owner.username}</b></a></p>
@@ -229,11 +239,21 @@
 					<c:forEach var="task" items="${tasks}">
 						<div class="well community-task-well">
 							<h3 class="pull-left"><a href="<c:url value="/task/show/${task.id}" />">${task.title}</a></h3>
-							<h6 class="pull-right">community: ${task.community.name}</h6>
+							<h6 class="pull-right">&nbsp;Community: <a href="<c:url value="/community/${task.community.id}" />">${task.community.name}</a></h6>
+							<a class="pull-right" href="<c:url value="/community/${task.community.id}" />">
+								<c:choose>
+									<c:when test="${not empty task.community.picture}">
+										<img class="media-object" height="60" width="60" src="<c:url value="/community/thumb/medium/${task.community.picture}" />">
+									</c:when>
+									<c:otherwise>
+										<img class="media-object" height="60" width="60" src="<c:url value="/res/img/default_com_picture.jpg" />">
+									</c:otherwise>
+								</c:choose>
+							</a>
 							<div class="clearfix"></div>
 							<div>
 								<p class="pull-left">by <b>${task.owner.username}</b></p>
-								<p class="pull-right">Location: <b>Van/Turkey</b></p>
+								<!--<p class="pull-right">Location: <b>Van/Turkey</b></p>-->
 								<div class="clearfix"></div>
 							</div>
 							<hr class="clearfix">
