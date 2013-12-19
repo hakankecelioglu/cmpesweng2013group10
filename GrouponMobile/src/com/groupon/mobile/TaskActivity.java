@@ -10,6 +10,7 @@ import com.groupon.mobile.model.Task;
 import com.groupon.mobile.model.TaskType;
 import com.groupon.mobile.service.TaskService;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
@@ -25,6 +26,7 @@ public class TaskActivity extends BaseActivity {
 	private TextView taskOwner;
 	private TextView taskDescriptionLabel;
 	private TextView taskfollowercount;
+	private TextView taskCommunityName;
 	private Button followTaskButton;
 	private long taskId;
 	private Task task;
@@ -42,8 +44,9 @@ public class TaskActivity extends BaseActivity {
 	private void setupUI() {
 
 		taskNameField = (TextView) findViewById(R.id.task_name);
-		taskNameField.setText(task.getName() + " in " + task.getCommunityName());
-
+		taskNameField.setText(task.getName() );
+		taskCommunityName = (TextView) findViewById(R.id.task_community_name);
+		taskCommunityName.setText("Community: " + task.getCommunityName());
 		taskDescriptionField = (TextView) findViewById(R.id.task_description);
 		taskDescriptionField.setText(task.getDescription());
 		taskDescriptionLabel = (TextView) findViewById(R.id.task_description_info);
@@ -64,7 +67,7 @@ public class TaskActivity extends BaseActivity {
 		taskfollowercount = (TextView) findViewById(R.id.task_follower_count);
 		taskfollowercount.setText(task.getFollowerCount() + " followers");
 		followTaskButton = (Button) findViewById(R.id.task_follow_button);
-		followTaskButton.setVisibility(View.INVISIBLE);
+		followTaskButton.setVisibility(View.VISIBLE);
 		if (!task.isFollower()) {
 			followTaskButton.setOnClickListener(followTaskListener);
 		} else {
@@ -81,10 +84,13 @@ public class TaskActivity extends BaseActivity {
 			taskAttributeLayout.setOrientation(LinearLayout.VERTICAL);
 			TextView attributeTextView = new TextView(this.getApplicationContext());
 			attributeTextView.setText(attributeName);
+			attributeTextView.setTextColor(Color.BLACK);
 			taskAttributeLayout.addView(attributeTextView);
 			for (String attributeValue : AttributeValues) {
 				TextView attributeNameView = new TextView(this.getApplicationContext());
-				attributeNameView.setText(attributeValue);
+				attributeNameView.setText("\t" + attributeValue);
+				
+				attributeNameView.setTextColor(Color.BLACK);
 				taskAttributeLayout.addView(attributeNameView);
 			}
 			mainLayout.addView(taskAttributeLayout);
