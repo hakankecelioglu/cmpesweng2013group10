@@ -16,6 +16,7 @@ public class HomeActivity extends BaseActivity {
 	private Button myCommunitiesButton;
 	private Button followedTaskButton;
 	private Button logoutButton;
+	private Button allCommunitiesButton;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +36,8 @@ public class HomeActivity extends BaseActivity {
 		createCommunityTaskButton = (Button) findViewById(R.id.button_home_create_new_community);
 		createCommunityTaskButton.setOnClickListener(createNewCommunityListener);
 		myCommunitiesButton = (Button) findViewById(R.id.button_my_communities);
+		allCommunitiesButton= (Button)findViewById(R.id.button_all_communities);
+		allCommunitiesButton.setOnClickListener(allCommunitiesListener);
 		myCommunitiesButton.setOnClickListener(myCommunitiesListener);
 		logoutButton = (Button) findViewById(R.id.button_logout);
 		logoutButton.setOnClickListener(logoutClickListener);
@@ -65,6 +68,14 @@ public class HomeActivity extends BaseActivity {
 		@Override
 		public void onClick(View v) {
 			Intent intent = new Intent(HomeActivity.this, MyCommunitiesActivity.class);
+			startActivity(intent);
+		}
+	};
+	private OnClickListener allCommunitiesListener = new OnClickListener() {
+		@Override
+		public void onClick(View v) {
+			Intent intent = new Intent(HomeActivity.this, MyCommunitiesActivity.class);
+			intent.putExtra("all", true);
 			startActivity(intent);
 		}
 	};

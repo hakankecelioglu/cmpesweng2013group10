@@ -18,11 +18,14 @@ public class MyCommunitiesActivity extends BaseActivity {
 	CommunityAdapter arrayAdapter;
 	ArrayList<Community> communities = new ArrayList<Community>();
 	ListView listview;
+	private boolean isAll;
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_my_communities);
-
+		isAll = getIntent().getBooleanExtra("all", false);
+		if(isAll)
+			setTitle("All communities");
 		setupUI();
 	}
 
@@ -36,7 +39,7 @@ public class MyCommunitiesActivity extends BaseActivity {
 		CommunityService communityService = new CommunityService(getApp());
 		arrayAdapter = new CommunityAdapter(MyCommunitiesActivity.this, R.layout.listview_community, communities);
 		listview.setAdapter(arrayAdapter);
-		communityService.getCommunities(new GrouponCallback<ArrayList<Community>>() {
+		communityService.getCommunities(isAll,new GrouponCallback<ArrayList<Community>>() {
 			public void onSuccess(ArrayList<Community> response) {
 				for (Community c : response) {
 					communities.add(c);
