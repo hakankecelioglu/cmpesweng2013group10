@@ -11,7 +11,7 @@
 		<div class="span4">
 			<c:if test="${!empty user}">
 				<div class="media pull-right">
-					<a class="pull-left" href="#">
+					<a class="pull-left" href="<c:url value="/profile/${user.username}" />">
 						<img class="media-object nav-user-thumb" src="http://b.vimeocdn.com/ps/445/980/4459809_300.jpg">
 					</a>
 				
