@@ -17,6 +17,8 @@ import com.groupon.mobile.conn.GrouponCallback;
 import com.groupon.mobile.conn.GrouponTask;
 import com.groupon.mobile.exception.GrouponException;
 import com.groupon.mobile.model.Community;
+import com.groupon.mobile.model.ReplyField;
+import com.groupon.mobile.model.ReplyFieldAttribute;
 import com.groupon.mobile.model.Task;
 import com.groupon.mobile.model.TaskAttribute;
 import com.groupon.mobile.utils.Constants;
@@ -27,6 +29,95 @@ public class TaskService {
 
 	public TaskService(GrouponApplication app) {
 		this.app = app;
+	}
+	
+	public void getReplyFields(final long taskId,GrouponCallback<List<ReplyField>> callback){
+		GrouponTask<List<ReplyField>> taskTask = new GrouponTask<List<ReplyField>>(callback) {
+
+			@Override
+			public List<ReplyField> run() throws GrouponException {
+				String url = Constants.SERVER + "task/getReplyForm";
+				Map<String, String> idMap = new HashMap<String, String>();
+				idMap.put("taskId", "" + taskId);
+				List<ReplyField> replyFields = new ArrayList<ReplyField>();
+				JSONObject json = ConnectionUtils.makeGetRequest(url, idMap, app.getAuthToken());
+				try {
+					JSONArray replyFieldsJson = json.getJSONArray("fields");
+
+					for (int i = 0; i < replyFieldsJson.length(); i++) {
+						replyFields.add(ConvertJSONObjectToReplyField(replyFieldsJson.getJSONObject(i)));
+					}
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+				
+				return replyFields;
+			}
+
+		};
+		GrouponTask.execute(taskTask);		
+	}
+
+	private ReplyField ConvertJSONObjectToReplyField(JSONObject json) throws JSONException{
+		ReplyField replyField = new ReplyField();
+		if(json.has("name")){
+			replyField.setName(json.getString("name"));
+		}
+		if(json.has("fieldType")){
+			replyField.setFieldType("fieldType");
+		}
+		if(json.has("attributes")){
+			JSONArray attributesJsonArray = json.getJSONArray("attributes");
+			List<ReplyFieldAttribute> replyFieldAttributes = new ArrayList<ReplyFieldAttribute>();
+			for(int i=0; i<attributesJsonArray.length(); i++){
+				ReplyFieldAttribute replyFieldAttribute = ConvertJsonToReplyFieldAttribute(attributesJsonArray.getJSONObject(i));
+				replyFieldAttributes.add(replyFieldAttribute);
+			}
+		}
+		
+		return replyField;
+		
+	}
+	private ReplyFieldAttribute ConvertJsonToReplyFieldAttribute(JSONObject json) throws JSONException {
+		ReplyFieldAttribute replyFieldAttribute = new ReplyFieldAttribute();
+		if(json.has("name")){
+			replyFieldAttribute.setName(json.getString("name"));
+		}
+		if(json.has("value")){
+			replyFieldAttribute.setValue(json.getString("value"));
+		}
+		return replyFieldAttribute;
+	}
+	public void getCommunityTasks(final long communityId, GrouponCallback<ArrayList<Task>> callback) {
+		GrouponTask<ArrayList<Task>> taskTask = new GrouponTask<ArrayList<Task>>(callback) {
+			public ArrayList<Task> run() throws GrouponException {
+				String url = Constants.SERVER + "task/getCommunityTasks";
+				Map<String,String> idMap = new HashMap<String, String>();
+				idMap.put("communityId", ""+communityId);
+				JSONObject json = ConnectionUtils.makeGetRequest(url, idMap, app.getAuthToken());
+				ArrayList<Task> tasks = new ArrayList<Task>();
+				if (json.has("tasks")) {
+					try {
+						JSONArray tasksJson = json.getJSONArray("tasks");
+
+						for (int i = 0; i < tasksJson.length(); i++) {
+							tasks.add(convertJSONObjectToTask(tasksJson.getJSONObject(i)));
+						}
+					} catch (JSONException e) {
+						throw new GrouponException("An error occured while parsing json returned from the server!");
+					}
+				} else {
+					throw new GrouponException("An unknown error occured while creating the community :(");
+				}
+
+				return tasks;
+			}
+		};
+
+		GrouponTask.execute(taskTask);
+		
 	}
 	public void getFollowedTasks(GrouponCallback<ArrayList<Task>> callback) {
 		GrouponTask<ArrayList<Task>> taskTask = new GrouponTask<ArrayList<Task>>(callback) {
@@ -269,6 +360,8 @@ public class TaskService {
 		}
 		return array;
 	}
+
+
 
 
 }
