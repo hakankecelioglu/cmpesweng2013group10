@@ -18,7 +18,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.groupon.mobile.conn.GrouponCallback;
-import com.groupon.mobile.model.Community;
 import com.groupon.mobile.model.FieldAttribute;
 import com.groupon.mobile.model.FieldType;
 import com.groupon.mobile.model.NeedType;
