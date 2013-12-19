@@ -7,7 +7,6 @@ import com.groupon.web.dao.model.ReplyAttribute;
 
 public class ReplyAttributeJson {
 	private String name;
-
 	private String value;
 
 	public String getName() {

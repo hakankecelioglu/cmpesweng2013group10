@@ -88,41 +88,26 @@
 </div>
 
 <div class="well task-replies-well">
-	<h2>Task Replies</h2>
+	<h3>Task Replies</h3>
 	<div class="loading-anim"></div>
 	
-	<div class="replies-container">
-		<div class="media">
-			<a class="pull-left" href="#">
-				<img class="media-object" style="width: 70px; height: 70px;" src="http://b.vimeocdn.com/ps/445/980/4459809_300.jpg" />
-			</a>
-			<div class="media-body">
-				<h4 class="media-heading">Media heading</h4>
-				<p></p>
-			</div>
-		</div>
-		
-		<div class="media">
-			<a class="pull-left" href="#">
-				<img class="media-object" style="width: 70px; height: 70px;" src="http://b.vimeocdn.com/ps/445/980/4459809_300.jpg" />
-			</a>
-			<div class="media-body">
-				<h4 class="media-heading">Media heading</h4>
-			</div>
-		</div>
-		
-		<div class="media">
-			<a class="pull-left" href="#">
-				<img class="media-object" style="width: 70px; height: 70px;" src="http://b.vimeocdn.com/ps/445/980/4459809_300.jpg" />
-			</a>
-			<div class="media-body">
-				<h4 class="media-heading">Media heading</h4>
-			</div>
-		</div>
-	</div>
+	<div class="replies-container" style="display: none;">No Replies</div>
 </div>
 
+<!-- Hidden, only to copy with Javascript -->
+<div class="media reply-item-hidden" style="display: none;">
+	<a class="pull-left replier-profile" href="#">
+		<img class="media-object replier-pic" style="width: 70px; height: 70px;" src="http://b.vimeocdn.com/ps/445/980/4459809_300.jpg" />
+	</a>
+	<div class="media-body">
+		<h4 class="media-heading replier-name"><a class="replier-profile"></a></h4>
+		<p class="reply-body"></p>
+	</div>
+</div>
+<!-- END OF : Hidden, only to copy with Javascript -->
+
 <div class="well reply-form-well">
+	<h3>Reply This Task</h3>
 	<div class="loading-anim"></div>
 	
 	<div class="replyFormContainer" style="display: none;">

@@ -33,8 +33,33 @@ $(function () {
 		return false;
 	});
 	
+	function getReplyBody(reply) {
+		var replyStr = "";
+		
+		if (reply.attributes) {
+			$.each(reply.attributes, function (i, attr) {
+				replyStr += '<p>' + attr.name + ": " + attr.value + '</p>';
+			});
+		}
+		
+		return replyStr;
+	}
+	
 	GrouponUtils.getTaskReplies(taskId).success(function (resp) {
-		alert(JSON.stringify(resp));
+		$(".replies-container").html("");
+		
+		$.each(resp.replies, function (i, reply) {
+			var clone = $(".reply-item-hidden").clone().removeClass("reply-item-hidden");
+			clone.find(".replier-pic").attr("src", GrouponUtils.getUserPicture(reply.replier.picture));
+			clone.find(".replier-name .replier-profile").text(reply.replier.username);
+			clone.find(".reply-body").html(getReplyBody(reply));
+			clone.find(".replier-profile").attr("href", GrouponUtils.userProfilePage(reply.replier.username));
+			$(".replies-container").append(clone);
+			clone.show();
+		});
+		
+		$(".task-replies-well .loading-anim").hide();
+		$(".replies-container").show();
 	});
 	
 	GrouponUtils.getReplyForm(taskId).success(function (resp) {
@@ -110,7 +135,7 @@ $(function () {
 		
 		$.each($("#replyForm .control-group"), function (i) {
 			var type = $(this).attr("data-field-type");
-			var name = $(this).find(".attribute-label").text();
+			var name = $(this).find(".control-label").text();
 			var value = "";
 			switch(type) {
 			case 'SHORT_TEXT':

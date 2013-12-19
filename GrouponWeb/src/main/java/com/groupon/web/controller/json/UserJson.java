@@ -18,6 +18,7 @@ public class UserJson implements Serializable {
 	private String name;
 	private String surname;
 	private String email;
+	private String picture;
 
 	public Long getId() {
 		return id;
@@ -59,6 +60,14 @@ public class UserJson implements Serializable {
 		this.email = email;
 	}
 
+	public String getPicture() {
+		return picture;
+	}
+
+	public void setPicture(String picture) {
+		this.picture = picture;
+	}
+
 	public static UserJson convert(User user) {
 		UserJson userJson = new UserJson();
 
@@ -67,6 +76,7 @@ public class UserJson implements Serializable {
 		userJson.setSurname(user.getSurname());
 		userJson.setId(user.getId());
 		userJson.setUsername(user.getUsername());
+		userJson.setPicture(user.getPicture());
 
 		return userJson;
 	}
