@@ -100,6 +100,9 @@ public class Task extends BaseModel implements Serializable {
 	@OneToMany(mappedBy = "task", cascade = CascadeType.ALL)
 	private List<TaskAttribute> attributes;
 
+	@OneToMany(mappedBy = "task", cascade = CascadeType.ALL)
+	private List<TaskReply> taskReplies;
+
 	public String getTitle() {
 		return title;
 	}
@@ -242,6 +245,14 @@ public class Task extends BaseModel implements Serializable {
 
 	public void setAttributes(List<TaskAttribute> attributes) {
 		this.attributes = attributes;
+	}
+
+	public List<TaskReply> getTaskReplies() {
+		return taskReplies;
+	}
+
+	public void setTaskReplies(List<TaskReply> taskReplies) {
+		this.taskReplies = taskReplies;
 	}
 
 }

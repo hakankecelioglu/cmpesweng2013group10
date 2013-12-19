@@ -59,6 +59,11 @@ $(function() {
 			return $.get(url, data);
 		},
 		
+		getTaskReplies: function (taskId) {
+			var url = GrouponUtils.siteBase + 'task/replies?taskId=' + taskId;
+			return $.get(url);
+		},
+		
 		communityPicture: function (name) {
 			if (name) {
 				return GrouponUtils.siteBase + 'community/picture/' + name;

@@ -128,6 +128,7 @@ public class CommunityController extends AbstractBaseController {
 
 		return prepareSuccessResponse(response);
 	}
+
 	@RequestMapping(value = "getSimiliarCommunities", method = RequestMethod.POST)
 	public ResponseEntity<Map<String, Object>> getSimiliarCommunities(HttpServletRequest request, @RequestParam(required = true) Long communityId) {
 		Map<String, Object> response = new HashMap<String, Object>();

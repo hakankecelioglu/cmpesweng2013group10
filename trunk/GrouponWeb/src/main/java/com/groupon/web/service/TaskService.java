@@ -13,6 +13,7 @@ import com.groupon.web.dao.TaskDAO;
 import com.groupon.web.dao.model.SortBy;
 import com.groupon.web.dao.model.Tag;
 import com.groupon.web.dao.model.Task;
+import com.groupon.web.dao.model.TaskReply;
 import com.groupon.web.dao.model.TaskStatus;
 import com.groupon.web.dao.model.User;
 import com.groupon.web.exception.GrouponException;
@@ -125,6 +126,10 @@ public class TaskService {
 
 	public List<Task> getRecommendedTasks(User user) {
 		return taskDao.getRecommendedTasks(user.getId());
+	}
+	
+	public void saveTaskReply(TaskReply taskReply) {
+		taskDao.save(taskReply);
 	}
 
 	private void arrangeTagsOfTask(Task task) {
