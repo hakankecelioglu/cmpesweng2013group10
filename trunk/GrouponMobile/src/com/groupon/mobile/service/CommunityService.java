@@ -52,11 +52,13 @@ public class CommunityService {
 		GrouponTask.execute(communityTask);
 	}
 
-	public void getCommunities(final GrouponCallback<ArrayList<Community>> callback) {
+	public void getCommunities(final boolean isAll,final GrouponCallback<ArrayList<Community>> callback) {
 		GrouponTask<ArrayList<Community>> communityTask = new GrouponTask<ArrayList<Community>>(callback) {
 			public ArrayList<Community> run() throws GrouponException {
 				String url = Constants.SERVER + "getCommunitiesOfUser";
-
+				
+				if(isAll)
+					url = Constants.SERVER + "getAllCommunities";
 				JSONObject json = ConnectionUtils.makePostRequest(url, null, app.getAuthToken());
 				ArrayList<Community> communities = new ArrayList<Community>();
 				if (json.has("communities")) {
