@@ -22,6 +22,7 @@ public class CommunityActivity extends BaseActivity {
 	private Button joinCommunityButton;
 	private TextView communityNameField;
 	private TextView communityDescriptionField;
+	private Button taskButton;
 	private long communityId;
 	private ImageView communityPicture;
 
@@ -47,6 +48,9 @@ public class CommunityActivity extends BaseActivity {
 	private void setupUI(String name, String description, String pictureUrl) {
 		createTypeButton = (Button) findViewById(R.id.button_create_task_type);
 		createTypeButton.setOnClickListener(createTypeButtonClickListener);
+		taskButton = (Button)findViewById(R.id.button_tasks_community);
+		
+		taskButton.setOnClickListener(tasksListener);
 		joinCommunityButton = (Button)findViewById(R.id.button_join_community);
 		joinCommunityButton.setOnClickListener(joinCommunityListener);
 		createButton = (Button) findViewById(R.id.button_create_task);
@@ -58,7 +62,16 @@ public class CommunityActivity extends BaseActivity {
 		communityPicture = (ImageView) findViewById(R.id.community_picture);
 		ImageUtils.loadBitmap(communityPicture, pictureUrl);
 	}
-
+	private OnClickListener tasksListener = new OnClickListener() {
+		
+		@Override
+		public void onClick(View v) {
+			Intent intent = new Intent(CommunityActivity.this, CommunityTasksActivity.class);
+			intent.putExtra("communityId", communityId);
+			startActivity(intent);
+			
+		}
+	};
 	private OnClickListener createButtonClickListener = new OnClickListener() {
 		@Override
 		public void onClick(View v) {
