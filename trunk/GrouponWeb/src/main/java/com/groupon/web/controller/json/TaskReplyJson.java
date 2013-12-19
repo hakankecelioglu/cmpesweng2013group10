@@ -8,7 +8,6 @@ import com.groupon.web.dao.model.TaskReply;
 public class TaskReplyJson {
 	private UserJson replier;
 	private long date;
-
 	private List<ReplyAttributeJson> attributes;
 
 	public UserJson getReplier() {

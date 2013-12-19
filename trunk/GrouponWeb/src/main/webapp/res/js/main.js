@@ -64,6 +64,17 @@ $(function() {
 			return $.get(url);
 		},
 		
+		getUserPicture: function (pic) {
+			if (pic) {
+				return GrouponUtils.siteBase + 'user/picture/' + pic;
+			}
+			return 'http://b.vimeocdn.com/ps/445/980/4459809_300.jpg';
+		},
+		
+		userProfilePage: function (username) {
+			return GrouponUtils.siteBase + 'profile/' + username;
+		},
+		
 		communityPicture: function (name) {
 			if (name) {
 				return GrouponUtils.siteBase + 'community/picture/' + name;
