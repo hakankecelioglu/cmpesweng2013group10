@@ -3,6 +3,7 @@ package com.groupon.web.controller;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -78,6 +79,16 @@ public class TaskController extends AbstractBaseController {
 		boolean isAFollower = task.getFollowers().contains(user);
 
 		model.addAttribute("task", task);
+		if (task.getNeedType() == NeedType.GOODS) {
+			Map<Long, Integer> quantityCounts = taskService.getTaskHelpCounts(Arrays.asList(id));
+			if (quantityCounts.size() == 1) {
+				Integer count = quantityCounts.get(id);
+				Integer requirementQuantity = task.getRequirementQuantity();
+				Integer percent = (count * 100) / requirementQuantity;
+				model.addAttribute("needPercent", percent);
+			}
+		}
+
 		model.addAttribute("isFollower", isAFollower);
 
 		Map<String, Object> attributes = getTaskAttributeMapForModel(task);
@@ -231,8 +242,9 @@ public class TaskController extends AbstractBaseController {
 
 		return prepareSuccessResponse(response);
 	}
+
 	@RequestMapping(value = "/getCommunityTasks", method = RequestMethod.GET)
-	public ResponseEntity<Map<String, Object>> getCommunityTasks(HttpServletRequest request,@RequestParam Long communityId) {
+	public ResponseEntity<Map<String, Object>> getCommunityTasks(HttpServletRequest request, @RequestParam Long communityId) {
 		Map<String, Object> response = new HashMap<String, Object>();
 
 		List<Task> followedTasks = taskService.getTasks(communityId, 0, 5);
@@ -240,6 +252,7 @@ public class TaskController extends AbstractBaseController {
 
 		return prepareSuccessResponse(response);
 	}
+
 	@RequestMapping(value = "/reply", method = RequestMethod.POST)
 	public ResponseEntity<Map<String, Object>> replyTask(HttpServletRequest request, @RequestBody String body) throws JSONException {
 		Map<String, Object> response = new HashMap<String, Object>();
@@ -252,28 +265,28 @@ public class TaskController extends AbstractBaseController {
 		JSONObject json = new JSONObject(body);
 		TaskReply taskReply = generateTaskReplyFromJson(json);
 		taskReply.setReplier(user);
-		
+
 		taskService.saveTaskReply(taskReply);
 
 		return prepareSuccessResponse(response);
 	}
-	
+
 	@RequestMapping(value = "/replies", method = RequestMethod.GET)
 	public ResponseEntity<Map<String, Object>> getTaskReplies(@RequestParam Long taskId) {
 		Map<String, Object> response = new HashMap<String, Object>();
-		
+
 		if (taskId == null) {
 			throw new GrouponException("What task are you looking for???");
 		}
-		
+
 		Task task = taskService.getTaskById(taskId);
 		if (task == null) {
 			throw new GrouponException("What task are you looking for???");
 		}
-		
+
 		List<TaskReply> taskReplies = task.getTaskReplies();
 		response.put("replies", TaskReplyJson.convert(taskReplies));
-		
+
 		return prepareSuccessResponse(response);
 	}
 

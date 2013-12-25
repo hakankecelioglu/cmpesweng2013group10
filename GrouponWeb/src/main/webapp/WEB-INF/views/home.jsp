@@ -88,8 +88,18 @@
 						</div>
 						
 						<div class="progress progress-striped">
-							<div class="bar bar-success" style="width: 1%"></div>
-							<div class="bar bar-warning" style="width: 99%;"></div>
+							<c:choose>
+								<c:when test="${not empty percentCompleted[task.id]}">
+									<c:set var="percent" value="${percentCompleted[task.id]}" />
+									<c:set var="remainingPercent" value="${100 - percent}"/>
+									<div class="bar bar-success" style="width: ${percent}%"></div>
+									<div class="bar bar-warning" style="width: ${remainingPercent}%;"></div>
+								</c:when>
+								<c:otherwise>
+									<div class="bar bar-success" style="width: 1%"></div>
+									<div class="bar bar-warning" style="width: 99%;"></div>
+								</c:otherwise>
+							</c:choose>
 						</div>
 						
 						<div class="clearfix">

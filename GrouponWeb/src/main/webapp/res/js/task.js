@@ -38,6 +38,9 @@ $(function () {
 		
 		if (reply.attributes) {
 			$.each(reply.attributes, function (i, attr) {
+				if (attr.name == "TT_RES_QUANTITY") {
+					attr.name = "Amount";
+				}
 				replyStr += '<p>' + attr.name + ": " + attr.value + '</p>';
 			});
 		}
@@ -126,7 +129,6 @@ $(function () {
 	
 	$("#replyTaskBtn").click(function () {
 		var btn = $(this);
-		btn.attr('disabled', 'disabled');
 		
 		var reply = {
 			taskId: taskId,
@@ -166,6 +168,17 @@ $(function () {
 			reply.fields.push({name: name, value: value});
 		});
 		
+		var quantityForm = $(".tt-quantity-field");
+		if (quantityForm.length == 1) {
+			var value = parseFloat(quantityForm.find("#goodQuantity").val());
+			if (isNaN(value)) {
+				GrouponUtils.modalError("Please enter a valid quantity!");
+				return false;
+			}
+			reply.fields.push({name: 'TT_RES_QUANTITY', value: value});
+		}
+		
+		btn.attr('disabled', 'disabled');
 		$.ajax({
 			type: "POST",
 			contentType: 'application/json',
@@ -180,6 +193,5 @@ $(function () {
 			btn.removeAttr("disabled");
 		});
 	});
-	
 	
 });

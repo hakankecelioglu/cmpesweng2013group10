@@ -14,4 +14,6 @@ public class ControllerConstants {
 	public static final int TAG_USER_JOIN_COMMUNITY = 5;
 	public static final int TAG_USER_CREATE_TASK = 8;
 	public static final int TAG_USER_CREATE_COMMUNITY = 10;
+	
+	public static final String ATTR_NAME_REPLY_QUANTITY = "TT_RES_QUANTITY";
 }

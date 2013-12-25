@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import com.groupon.web.dao.model.SortBy;
 import com.groupon.web.dao.model.Task;
+import com.groupon.web.util.ControllerConstants;
 
 @Repository
 public class TaskDAO extends BaseDaoImpl {
@@ -123,5 +124,14 @@ public class TaskDAO extends BaseDaoImpl {
 		query.setParameterList("ids", inIds);
 		query.setParameter("userid", userId);
 		return (List<Long>) query.list();
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Object[]> findHelpAmount(List<Long> taskIds) {
+		Query query = getSession().createQuery("select t.id, sum(ra.value) from Task t, ReplyAttribute ra where ra.taskReply.task.id in (:taskids) and ra.name = :qName and ra.taskReply.task.id = t.id group by t.id");
+		query.setParameterList("taskids", taskIds);
+		query.setParameter("qName", ControllerConstants.ATTR_NAME_REPLY_QUANTITY);
+		Object list = query.list();
+		return (List<Object[]>) list;
 	}
 }
