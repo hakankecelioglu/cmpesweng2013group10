@@ -76,7 +76,7 @@ public class TaskService {
 		if (task.getFollowers().contains(user)) {
 			throw new GrouponException("You are already a follower of this task!");
 		}
-		
+
 		task.getFollowers().add(user);
 		task.setFollowerCount(task.getFollowerCount() + 1);
 		taskDao.updateTask(task);
@@ -91,7 +91,7 @@ public class TaskService {
 		if (!task.getFollowers().contains(user)) {
 			throw new GrouponException("You are not a follower of that task!");
 		}
-		
+
 		if (task.getOwner().equals(user)) {
 			throw new GrouponException("You cannot unfollow a task that you created!");
 		}
@@ -109,7 +109,7 @@ public class TaskService {
 		} else {
 			followedIds = new ArrayList<Long>(0);
 		}
-		
+
 		Map<Long, Boolean> response = new HashMap<Long, Boolean>();
 		for (Long id : inIds) {
 			boolean contains = false;
@@ -127,9 +127,18 @@ public class TaskService {
 	public List<Task> getRecommendedTasks(User user) {
 		return taskDao.getRecommendedTasks(user.getId());
 	}
-	
+
 	public void saveTaskReply(TaskReply taskReply) {
 		taskDao.save(taskReply);
+	}
+
+	public Map<Long, Integer> getTaskHelpCounts(List<Long> taskIds) {
+		List<Object[]> taskHelpCounts = taskDao.findHelpAmount(taskIds);
+		Map<Long, Integer> helpMap = new HashMap<Long, Integer>();
+		for (Object[] result : taskHelpCounts) {
+			helpMap.put((Long) result[0], Integer.parseInt((String) result[1]));
+		}
+		return helpMap;
 	}
 
 	private void arrangeTagsOfTask(Task task) {

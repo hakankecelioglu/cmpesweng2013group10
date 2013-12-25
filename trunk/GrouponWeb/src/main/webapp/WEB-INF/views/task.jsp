@@ -68,8 +68,17 @@
 	</div>
 	
 	<div class="progress progress-striped">
-		<div class="bar bar-success" style="width: 1%"></div>
-		<div class="bar bar-warning" style="width: 99%;"></div>
+		<c:choose>
+			<c:when test="${not empty needPercent}">
+				<c:set var="moreNeeded" value="${100 - needPercent}" />
+				<div class="bar bar-success" style="width: ${needPercent}%"></div>
+				<div class="bar bar-warning" style="width: ${moreNeeded}%;"></div>
+			</c:when>
+			<c:otherwise>
+				<div class="bar bar-success" style="width: 1%"></div>
+				<div class="bar bar-warning" style="width: 99%;"></div>
+			</c:otherwise>
+		</c:choose>
 	</div>
 	
 	<div class="clearfix">
@@ -113,7 +122,7 @@
 	<div class="replyFormContainer" style="display: none;">
 		<form id="replyForm" class="form-horizontal">
 			<c:if test="${task.needType eq 'GOODS'}">
-				<div class="control-group">
+				<div class="control-group tt-quantity-field">
 					<label class="control-label" for="goodQuantity">${task.requirementName}</label>
 					<div class="controls">
 						<input class="span2" type="text" id="goodQuantity"> out of ${task.requirementQuantity}

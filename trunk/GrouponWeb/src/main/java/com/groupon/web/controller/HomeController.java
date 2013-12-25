@@ -55,35 +55,49 @@ public class HomeController extends AbstractBaseController {
 		}
 
 		model.addAttribute("homeFeedTasks", homeFeedTasks);
-		Map<Long, Boolean> followedTaskMap = taskService.findFollowedTasksIdsByUser(user, GrouponWebUtils.convertModelListToLongList(homeFeedTasks));
+		List<Long> taskIds = GrouponWebUtils.convertModelListToLongList(homeFeedTasks);
+
+		Map<Long, Boolean> followedTaskMap = taskService.findFollowedTasksIdsByUser(user, taskIds);
 		model.addAttribute("followedMap", followedTaskMap);
+		
+		Map<Long, Integer> replyCounts = taskService.getTaskHelpCounts(taskIds);
+		for (Task task : homeFeedTasks) {
+			Integer taskNeed = task.getRequirementQuantity();
+			if (replyCounts.containsKey(task.getId()) && taskNeed != null && taskNeed > 0) {
+				Integer completed = replyCounts.get(task.getId());
+				Integer percent = (completed * 100) / taskNeed;
+				replyCounts.put(task.getId(), percent);
+			}
+		}
+		model.addAttribute("percentCompleted", replyCounts);
 
 		return "home.view";
 	}
-	
-	@RequestMapping(value = "/search" , method = RequestMethod.GET)
+
+	@RequestMapping(value = "/search", method = RequestMethod.GET)
 	public Object search(HttpServletRequest request, Model model) {
-		
+
 		return "advancedSearch.view";
 	}
-	
-	@RequestMapping(value = "/contactUs" , method = RequestMethod.GET)
+
+	@RequestMapping(value = "/contactUs", method = RequestMethod.GET)
 	public Object contactUs(HttpServletRequest request, Model model) {
-		
+
 		return "contactUs.view";
 	}
-	
-	@RequestMapping(value = "/androidDown" , method = RequestMethod.GET)
+
+	@RequestMapping(value = "/androidDown", method = RequestMethod.GET)
 	public Object androidDown(HttpServletRequest request, Model model) {
-		
+
 		return "androidDown.view";
 	}
-	
-	@RequestMapping(value = "/aboutUs" , method = RequestMethod.GET)
+
+	@RequestMapping(value = "/aboutUs", method = RequestMethod.GET)
 	public Object aboutUs(HttpServletRequest request, Model model) {
-		
+
 		return "aboutUs.view";
 	}
+
 	/**
 	 * Opens community feed
 	 * 
