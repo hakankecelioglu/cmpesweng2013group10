@@ -61,15 +61,7 @@ public class HomeController extends AbstractBaseController {
 		model.addAttribute("followedMap", followedTaskMap);
 		
 		Map<Long, Integer> replyCounts = taskService.getTaskHelpCounts(taskIds);
-		for (Task task : homeFeedTasks) {
-			Integer taskNeed = task.getRequirementQuantity();
-			if (replyCounts.containsKey(task.getId()) && taskNeed != null && taskNeed > 0) {
-				Integer completed = replyCounts.get(task.getId());
-				Integer percent = (completed * 100) / taskNeed;
-				replyCounts.put(task.getId(), percent);
-			}
-		}
-		model.addAttribute("percentCompleted", replyCounts);
+		putReplyPercentagesToModel(homeFeedTasks, replyCounts, model);
 
 		return "home.view";
 	}

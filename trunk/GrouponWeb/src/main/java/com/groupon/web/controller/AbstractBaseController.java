@@ -1,5 +1,7 @@
 package com.groupon.web.controller;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -9,8 +11,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 
+import com.groupon.web.dao.model.NeedType;
 import com.groupon.web.dao.model.RoleName;
 import com.groupon.web.dao.model.SortBy;
+import com.groupon.web.dao.model.Task;
 import com.groupon.web.dao.model.User;
 import com.groupon.web.dao.model.UserStatus;
 import com.groupon.web.util.ControllerConstants;
@@ -31,7 +35,7 @@ public abstract class AbstractBaseController {
 	public ResponseEntity<Map<String, Object>> prepareErrorResponse(Map<String, Object> response) {
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.BAD_REQUEST);
 	}
-	
+
 	public SortBy getCurrentSortBy(HttpServletRequest request) {
 		HttpSession session = request.getSession(true);
 		SortBy sortby = (SortBy) session.getAttribute(ControllerConstants.SESSION_ATTR_SORTBY);
@@ -93,6 +97,22 @@ public abstract class AbstractBaseController {
 			}
 		}
 		return false;
+	}
+
+	public void putReplyPercentagesToModel(List<Task> tasks, Map<Long, Integer> replyCounts, Model model) {
+		Map<Long, Integer> percentCompleted = new HashMap<Long, Integer>();
+		for (Task task : tasks) {
+			if (task.getNeedType() == NeedType.GOODS) {
+				Integer taskNeed = task.getRequirementQuantity();
+				if (replyCounts.containsKey(task.getId()) && taskNeed != null && taskNeed > 0) {
+					Integer completed = replyCounts.get(task.getId());
+					Integer percent = (completed * 100) / taskNeed;
+					percentCompleted.put(task.getId(), percent);
+				}
+			}
+		}
+		model.addAttribute("percentCompleted", percentCompleted);
+		model.addAttribute("quantityCompleted", replyCounts);
 	}
 
 }
