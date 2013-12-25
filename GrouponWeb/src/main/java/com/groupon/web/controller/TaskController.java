@@ -86,6 +86,7 @@ public class TaskController extends AbstractBaseController {
 				Integer requirementQuantity = task.getRequirementQuantity();
 				Integer percent = (count * 100) / requirementQuantity;
 				model.addAttribute("needPercent", percent);
+				model.addAttribute("completedQuantity", count);
 			}
 		}
 

@@ -118,6 +118,7 @@ public class CommunityController extends AbstractBaseController {
 
 		return prepareSuccessResponse(response);
 	}
+
 	@RequestMapping(value = "getAllCommunities", method = RequestMethod.POST)
 	public ResponseEntity<Map<String, Object>> getAllCommunitiesAndroid(HttpServletRequest request, @RequestParam(required = false) Integer page,
 			@RequestParam(required = false) Integer max) {
@@ -260,8 +261,13 @@ public class CommunityController extends AbstractBaseController {
 		List<Task> tasks = taskService.getTasks(community.getId(), 0, numberOfTasksPerPage);
 		model.addAttribute("tasks", tasks);
 
-		Map<Long, Boolean> followedTaskMap = taskService.findFollowedTasksIdsByUser(user, GrouponWebUtils.convertModelListToLongList(tasks));
+		List<Long> taskIds = GrouponWebUtils.convertModelListToLongList(tasks);
+
+		Map<Long, Boolean> followedTaskMap = taskService.findFollowedTasksIdsByUser(user, taskIds);
 		model.addAttribute("followedMap", followedTaskMap);
+
+		Map<Long, Integer> replyCounts = taskService.getTaskHelpCounts(taskIds);
+		putReplyPercentagesToModel(tasks, replyCounts, model);
 
 		Set<User> members = community.getMembers();
 

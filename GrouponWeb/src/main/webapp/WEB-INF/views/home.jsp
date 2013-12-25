@@ -66,7 +66,15 @@
 						<div class="clearfix">
 							<c:choose>
 								<c:when test="${task.needType == 'GOODS'}">
-									<div class="pull-left">Need: ${task.requirementQuantity} more ${task.requirementName}</div>
+									<c:set var="completedQuantity" value="${quantityCompleted[task.id]}" />
+									<c:choose>
+										<c:when test="${not empty completedQuantity}">
+											<div class="pull-left">Need: ${task.requirementQuantity - completedQuantity} more ${task.requirementName}</div>
+										</c:when>
+										<c:otherwise>
+											<div class="pull-left">Need: ${task.requirementQuantity} more ${task.requirementName}</div>
+										</c:otherwise>
+									</c:choose>
 								</c:when>
 								<c:when test="${task.needType == 'SERVICE'}">
 									<div class="pull-left">Need: ${task.requirementName}</div>
@@ -87,20 +95,22 @@
 							</div>
 						</div>
 						
-						<div class="progress progress-striped">
-							<c:choose>
-								<c:when test="${not empty percentCompleted[task.id]}">
-									<c:set var="percent" value="${percentCompleted[task.id]}" />
-									<c:set var="remainingPercent" value="${100 - percent}"/>
-									<div class="bar bar-success" style="width: ${percent}%"></div>
-									<div class="bar bar-warning" style="width: ${remainingPercent}%;"></div>
-								</c:when>
-								<c:otherwise>
-									<div class="bar bar-success" style="width: 1%"></div>
-									<div class="bar bar-warning" style="width: 99%;"></div>
-								</c:otherwise>
-							</c:choose>
-						</div>
+						<c:if test="${task.needType == 'GOODS'}">
+							<div class="progress progress-striped">
+								<c:choose>
+									<c:when test="${not empty percentCompleted[task.id]}">
+										<c:set var="percent" value="${percentCompleted[task.id]}" />
+										<c:set var="remainingPercent" value="${100 - percent}"/>
+										<div class="bar bar-success" style="width: ${percent}%"></div>
+										<div class="bar bar-warning" style="width: ${remainingPercent}%;"></div>
+									</c:when>
+									<c:otherwise>
+										<div class="bar bar-success" style="width: 1%"></div>
+										<div class="bar bar-warning" style="width: 99%;"></div>
+									</c:otherwise>
+								</c:choose>
+							</div>
+						</c:if>
 						
 						<div class="clearfix">
 							<div class="pull-left">${grouponfn:dateDiff(task.deadline)} days left!</div>

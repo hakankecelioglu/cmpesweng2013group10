@@ -45,7 +45,7 @@
 	<div class="clearfix">
 		<c:choose>
 			<c:when test="${task.needType == 'GOODS'}">
-				<div class="pull-left">Need: ${task.requirementQuantity} more ${task.requirementName}</div>
+				<div class="pull-left">Need: ${task.requirementQuantity - completedQuantity} more ${task.requirementName}</div>
 			</c:when>
 			<c:when test="${task.needType == 'SERVICE'}">
 				<div class="pull-left">Need: ${task.requirementName}</div>
@@ -67,19 +67,21 @@
 		</div>
 	</div>
 	
-	<div class="progress progress-striped">
-		<c:choose>
-			<c:when test="${not empty needPercent}">
-				<c:set var="moreNeeded" value="${100 - needPercent}" />
-				<div class="bar bar-success" style="width: ${needPercent}%"></div>
-				<div class="bar bar-warning" style="width: ${moreNeeded}%;"></div>
-			</c:when>
-			<c:otherwise>
-				<div class="bar bar-success" style="width: 1%"></div>
-				<div class="bar bar-warning" style="width: 99%;"></div>
-			</c:otherwise>
-		</c:choose>
-	</div>
+	<c:if test="${task.needType == 'GOODS'}">
+		<div class="progress progress-striped">
+			<c:choose>
+				<c:when test="${not empty needPercent}">
+					<c:set var="moreNeeded" value="${100 - needPercent}" />
+					<div class="bar bar-success" style="width: ${needPercent}%"></div>
+					<div class="bar bar-warning" style="width: ${moreNeeded}%;"></div>
+				</c:when>
+				<c:otherwise>
+					<div class="bar bar-success" style="width: 1%"></div>
+					<div class="bar bar-warning" style="width: 99%;"></div>
+				</c:otherwise>
+			</c:choose>
+		</div>
+	</c:if>
 	
 	<div class="clearfix">
 		<div class="pull-left">${grouponfn:dateDiff(task.deadline)} days left!</div>
@@ -125,7 +127,7 @@
 				<div class="control-group tt-quantity-field">
 					<label class="control-label" for="goodQuantity">${task.requirementName}</label>
 					<div class="controls">
-						<input class="span2" type="text" id="goodQuantity"> out of ${task.requirementQuantity}
+						<input class="span2" type="text" id="goodQuantity"> out of ${task.requirementQuantity - completedQuantity}
 					</div>
 				</div>
 			</c:if>
