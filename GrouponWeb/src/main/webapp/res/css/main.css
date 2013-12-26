@@ -262,6 +262,8 @@ body.createTaskType .whenClosed {
 .notifications-body {
 	font-family: 'lucida grande',tahoma,verdana,arial,sans-serif;
 	font-size: 11px;
+	max-height: 500px;
+	overflow-y: scroll;
 }
 
 .notification-panel h5 {

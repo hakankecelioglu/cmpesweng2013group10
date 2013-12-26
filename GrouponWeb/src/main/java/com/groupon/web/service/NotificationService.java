@@ -87,4 +87,32 @@ public class NotificationService {
 			}
 		});
 	}
+
+	public void sendTaskRepliedNotification(final Long taskId, final Long replier) {
+		taskExecutor.execute(new AsyncWebTask(notificationDao.getSessionFactory()) {
+			public void runInBackground() {
+				Task task = (Task) getSession().get(Task.class, taskId);
+				User source = (User) getSession().get(User.class, replier);
+
+				List<User> followers = task.getFollowers();
+				for (User follower : followers) {
+					if (!follower.equals(source)) {
+						Notification notification = new Notification();
+						notification.setTask(task);
+						notification.setReceiver(follower);
+						notification.setSource(source);
+						notification.setType(NotificationType.TASK_REPLY);
+						notificationDao.saveNotification(getSession(), notification);
+
+						if (unreadNotifications.containsKey(follower.getId())) {
+							synchronized (lockNotificationCount) {
+								Integer count = unreadNotifications.get(follower.getId());
+								unreadNotifications.put(follower.getId(), count + 1);
+							}
+						}
+					}
+				}
+			}
+		});
+	}
 }

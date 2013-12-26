@@ -130,6 +130,7 @@ public class TaskService {
 
 	public void saveTaskReply(TaskReply taskReply) {
 		taskDao.save(taskReply);
+		notificationService.sendTaskRepliedNotification(taskReply.getTask().getId(), taskReply.getReplier().getId());
 	}
 
 	public Map<Long, Integer> getTaskHelpCounts(List<Long> taskIds) {

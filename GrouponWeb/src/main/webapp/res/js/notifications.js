@@ -55,6 +55,8 @@ $(function () {
 					if (notif.type == "TASK_CREATED_IN_FOLLOWED_COMMUNITY") {
 						str += 'A <b>new task</b> is opened ';
 						str += 'in the community <b>' + notif.community.name + '</b>';
+					} else if(notif.type == "TASK_REPLY") {
+						str += notif.source.uname + ' has post <b>a reply</b> to <b>' + notif.task.name + '</b>.';
 					}
 					
 					if (!notif.isRead) {

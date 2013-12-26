@@ -54,9 +54,9 @@ public class NotificationController extends AbstractBaseController {
 
 		return prepareSuccessResponse(response);
 	}
-	
+
 	private List<Map<String, Object>> convertNotificationsToList(List<Notification> notifs) {
-		List<Map<String, Object>> list = new ArrayList<Map<String,Object>>();
+		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
 		for (Notification notif : notifs) {
 			list.add(convertNotificationToMap(notif));
 		}
@@ -65,39 +65,47 @@ public class NotificationController extends AbstractBaseController {
 
 	private Map<String, Object> convertNotificationToMap(Notification notif) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		
+
 		switch (notif.getType()) {
 		case TASK_CREATED_IN_FOLLOWED_COMMUNITY:
 			convertTaskInCommunityNotificationToMap(notif, map);
+		case TASK_REPLY:
+			convertTaskReplyNotificationToMap(notif, map);
 		}
-		
+
 		map.put("date", notif.getCreateDate().getTime());
 		map.put("isRead", notif.getIsRead());
 		map.put("type", notif.getType());
 		return map;
 	}
-	
+
+	private Map<String, Object> convertTaskReplyNotificationToMap(Notification notif, Map<String, Object> map) {
+		map.put("source", convertSourceToMap(notif.getSource()));
+		map.put("task", convertTaskToMap(notif.getTask()));
+		return map;
+	}
+
 	private Map<String, Object> convertTaskInCommunityNotificationToMap(Notification notif, Map<String, Object> map) {
 		map.put("source", convertSourceToMap(notif.getSource()));
 		map.put("task", convertTaskToMap(notif.getTask()));
 		map.put("community", convertCommunityToMap(notif.getCommunity()));
 		return map;
 	}
-	
+
 	private Map<String, Object> convertSourceToMap(User user) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("id", user.getId());
 		map.put("uname", user.getUsername());
 		return map;
 	}
-	
+
 	private Map<String, Object> convertTaskToMap(Task task) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("id", task.getId());
 		map.put("name", task.getTitle());
 		return map;
 	}
-	
+
 	private Map<String, Object> convertCommunityToMap(Community community) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("id", community.getId());

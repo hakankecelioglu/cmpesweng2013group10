@@ -261,13 +261,15 @@ public class CommunityController extends AbstractBaseController {
 		List<Task> tasks = taskService.getTasks(community.getId(), 0, numberOfTasksPerPage);
 		model.addAttribute("tasks", tasks);
 
-		List<Long> taskIds = GrouponWebUtils.convertModelListToLongList(tasks);
+		if (tasks.size() > 0) {
+			List<Long> taskIds = GrouponWebUtils.convertModelListToLongList(tasks);
 
-		Map<Long, Boolean> followedTaskMap = taskService.findFollowedTasksIdsByUser(user, taskIds);
-		model.addAttribute("followedMap", followedTaskMap);
+			Map<Long, Boolean> followedTaskMap = taskService.findFollowedTasksIdsByUser(user, taskIds);
+			model.addAttribute("followedMap", followedTaskMap);
 
-		Map<Long, Integer> replyCounts = taskService.getTaskHelpCounts(taskIds);
-		putReplyPercentagesToModel(tasks, replyCounts, model);
+			Map<Long, Integer> replyCounts = taskService.getTaskHelpCounts(taskIds);
+			putReplyPercentagesToModel(tasks, replyCounts, model);
+		}
 
 		Set<User> members = community.getMembers();
 
