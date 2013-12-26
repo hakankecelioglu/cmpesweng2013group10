@@ -1,34 +1,38 @@
 package com.groupon.mobile;
 
+import java.util.ArrayList;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.Window;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
-import android.widget.TextView;
+import android.widget.ImageButton;
+import android.widget.ListView;
+import android.widget.Toast;
 
-import com.groupon.mobile.model.User;
+import com.groupon.mobile.conn.GrouponCallback;
+import com.groupon.mobile.model.Task;
+import com.groupon.mobile.service.TaskService;
 
 public class HomeActivity extends BaseActivity {
-	private User user;
-	private Button profileButton;
+	private ImageButton profileButton;
 	private Button createCommunityTaskButton;
 	private Button myCommunitiesButton;
-	private Button followedTaskButton;
-	private Button logoutButton;
+	private ImageButton logoutButton;
 	private Button allCommunitiesButton;
+	TaskAdapter arrayAdapter;
+	ArrayList<Task> tasks = new ArrayList<Task>();
+	ListView listview;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_home);
-		user = getLoggedUser();
-
-		TextView view = (TextView) findViewById(R.id.home_hello_username);
-		view.setText("Hello, " + user.getUsername() + "!");
-		final TextView view2 = (TextView) findViewById(R.id.conn);
-		view2.setText(" ");
-
 		setupUI();
 	}
 
@@ -36,26 +40,19 @@ public class HomeActivity extends BaseActivity {
 		createCommunityTaskButton = (Button) findViewById(R.id.button_home_create_new_community);
 		createCommunityTaskButton.setOnClickListener(createNewCommunityListener);
 		myCommunitiesButton = (Button) findViewById(R.id.button_my_communities);
-		allCommunitiesButton= (Button)findViewById(R.id.button_all_communities);
+		allCommunitiesButton = (Button) findViewById(R.id.button_all_communities);
 		allCommunitiesButton.setOnClickListener(allCommunitiesListener);
 		myCommunitiesButton.setOnClickListener(myCommunitiesListener);
-		logoutButton = (Button) findViewById(R.id.button_logout);
+		logoutButton = (ImageButton) findViewById(R.id.button_logout);
 		logoutButton.setOnClickListener(logoutClickListener);
 
-		profileButton = (Button) findViewById(R.id.button_home_my_profile);
+		profileButton = (ImageButton) findViewById(R.id.button_home_my_profile);
 
 		profileButton.setOnClickListener(profileClickListener);
-		followedTaskButton = (Button) findViewById(R.id.button_followed_tasks);
-		followedTaskButton.setOnClickListener(followedTasksListener);
+		setupListView();
+		listview.setOnItemClickListener(listViewListener);
 	}
 
-	private OnClickListener followedTasksListener = new OnClickListener() {
-		@Override
-		public void onClick(View v) {
-			Intent intent = new Intent(HomeActivity.this, FollowedTasksActivity.class);
-			startActivity(intent);
-		}
-	};
 	private OnClickListener createNewCommunityListener = new OnClickListener() {
 		@Override
 		public void onClick(View v) {
@@ -97,6 +94,41 @@ public class HomeActivity extends BaseActivity {
 			startActivity(intent);
 			finish();
 		}
+	};
+
+	private void setupListView() {
+		listview = (ListView) findViewById(R.id.listview);
+		TaskService taskService = new TaskService(getApp());
+		arrayAdapter = new TaskAdapter(HomeActivity.this, R.layout.listview_task, tasks);
+		listview.setAdapter(arrayAdapter);
+		taskService.getFollowedTasks(new GrouponCallback<ArrayList<Task>>() {
+			public void onSuccess(ArrayList<Task> response) {
+				for (Task t : response) {
+					tasks.add(t);
+				}
+
+				arrayAdapter.notifyDataSetChanged();
+			}
+
+			public void onFail(String errorMessage) {
+				Toast.makeText(HomeActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
+			}
+		});
+
+	}
+
+	private OnItemClickListener listViewListener = new OnItemClickListener() {
+
+		@Override
+		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+			if (position >= 0 && position < tasks.size()) {
+				Task task = tasks.get(position);
+				Intent intent = new Intent(HomeActivity.this, TaskActivity.class);
+				intent.putExtra("taskId", task.getId());
+				startActivity(intent);
+			}
+		}
+
 	};
 
 }

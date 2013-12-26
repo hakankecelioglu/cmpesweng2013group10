@@ -78,10 +78,10 @@
         android:id="@+id/button_tasks_community"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/blue_button"
+        android:background="@drawable/black_button"
         style="@style/ButtonText"
         android:layout_below="@id/button_join_community"
         android:layout_centerHorizontal="true"
-        android:text="community tasks" />         
+        android:text="Community tasks" />         
 
 </RelativeLayout>
