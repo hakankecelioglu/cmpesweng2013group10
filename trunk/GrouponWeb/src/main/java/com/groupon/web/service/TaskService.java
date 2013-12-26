@@ -141,6 +141,10 @@ public class TaskService {
 		return helpMap;
 	}
 
+	public List<Task> searchTasks(String queryText) {
+		return taskDao.searchTasks(queryText);
+	}
+
 	private void arrangeTagsOfTask(Task task) {
 		List<Tag> tags = task.getTags();
 		List<Tag> tags2 = new ArrayList<Tag>(tags.size());

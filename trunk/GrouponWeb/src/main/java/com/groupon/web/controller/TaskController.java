@@ -43,6 +43,7 @@ import com.groupon.web.service.CommunityService;
 import com.groupon.web.service.NotificationService;
 import com.groupon.web.service.TaskService;
 import com.groupon.web.service.TaskTypeService;
+import com.groupon.web.util.GrouponWebUtils;
 
 @Controller
 @RequestMapping("/task")
@@ -289,6 +290,36 @@ public class TaskController extends AbstractBaseController {
 		response.put("replies", TaskReplyJson.convert(taskReplies));
 
 		return prepareSuccessResponse(response);
+	}
+
+	@RequestMapping(value = "/search", method = RequestMethod.GET)
+	public Object searchTasks(@RequestParam String q, Model model, HttpServletRequest request) {
+		User user = getUser();
+		if (user == null) {
+			return "redirect:/";
+		}
+
+		if (StringUtils.isBlank(q)) {
+			return "redirect:/search";
+		}
+		
+		setGlobalAttributesToModel(model, request);
+
+		List<Task> tasks = taskService.searchTasks(q);
+		model.addAttribute("tasks", tasks);
+		model.addAttribute("keywords", q);
+
+		if (tasks.size() > 0) {
+			List<Long> taskIds = GrouponWebUtils.convertModelListToLongList(tasks);
+
+			Map<Long, Boolean> followedTaskMap = taskService.findFollowedTasksIdsByUser(user, taskIds);
+			model.addAttribute("followedMap", followedTaskMap);
+
+			Map<Long, Integer> replyCounts = taskService.getTaskHelpCounts(taskIds);
+			putReplyPercentagesToModel(tasks, replyCounts, model);
+		}
+
+		return "searchResult.view";
 	}
 
 	private TaskReply generateTaskReplyFromJson(JSONObject json) throws JSONException {

@@ -3,7 +3,7 @@
 <div class="row">
 	<%------------------------------------ LEFT FRAME ----------------------------------------------%>
 	<div class="span2" id="home-left-frame">
-		<h4 class="small-heading">Filter</h4>
+		<h4 class="small-heading">Navigate</h4>
 		<ul class="nav nav-tabs nav-stacked">
 			<li><a href="#">Home Feed</a></li>
 			<li><a href="#">Community Feed</a></li>
@@ -22,6 +22,8 @@
 	
 	<%------------------------------------ MIDDLE FRAME BEGINS ----------------------------------------------%>
 	<div class="span7">
+		<h2>Search Results for <span style="text-decoration: underline;">${keywords}</span></h2>
+		
 		<div class="sort-selection-line">
 			<a href="javascript:;" class="sort-selection-item"><span>SORT: ${sortby}</span> <strong class="caret"></strong></a>
 			<ul class="sort-selection-menu nav nav-tabs nav-stacked">
@@ -31,13 +33,8 @@
 		</div>
 		
 		<c:choose>
-			<c:when test="${not empty homeFeedTasks}">
-				<c:if test="${emptyHomeFeed}">
-					<div class="well text-info">
-						<p>You are neither following a task nor a member of a community. Therefore, here we the list of recent tasks below.</p>
-					</div>
-				</c:if>
-				<c:forEach var="task" items="${homeFeedTasks}">
+			<c:when test="${not empty tasks}">
+				<c:forEach var="task" items="${tasks}">
 					<div class="well community-task-well">
 					
 						<h5 class="pull-left"><a href="<c:url value="/task/show/${task.id}" />">${task.title}</a></h5>
@@ -125,7 +122,6 @@
 									<div class="pull-left">${remainingDays} days left!</div>
 								</c:otherwise>
 							</c:choose>
-							
 							<div class="pull-right">
 								<c:choose>
 									<c:when test="${followedMap[task.id]}">
@@ -141,12 +137,34 @@
 					</div>
 				</c:forEach>
 			</c:when>
+			<c:when test="${not empty communities}">
+				<c:forEach var="community" items="${communities}">
+					<div class="well community-task-well">
+						<a class="pull-left" href="<c:url value="/community/${community.id}" />">
+							<c:choose>
+								<c:when test="${not empty community.picture}">
+									<img class="media-object" height="60" width="60" src="<c:url value="/community/thumb/medium/${community.picture}" />">
+								</c:when>
+								<c:otherwise>
+									<img class="media-object" height="60" width="60" src="<c:url value="/res/img/default_com_picture.jpg" />">
+								</c:otherwise>
+							</c:choose>
+						</a>
+						<h5 class="pull-left"><a href="<c:url value="/community/${community.id}" />">${community.name}</a></h5>
+						<div class="clearfix"></div>
+						<hr class="clearfix">
+						<p>
+							${fn:replace(community.description, newLineChar, "<br />")}
+						</p>
+					</div>
+				</c:forEach>
+			</c:when>
 			<c:otherwise>
 				<div class="well community-task-well">
 					<h5>Nothing to display here</h5>
 					<hr class="clearfix">
 					<p>
-						You don't follow any task.
+						Your search returned no result!
 					</p>
 				</div>
 			</c:otherwise>

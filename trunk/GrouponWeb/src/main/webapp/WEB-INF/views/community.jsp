@@ -135,7 +135,19 @@
 							</c:if>
 							
 							<div class="clearfix">
-								<div class="pull-left">${grouponfn:dateDiff(task.deadline)} days left!</div>
+								<c:set var="remainingDays" value="${grouponfn:dateDiff(task.deadline)}" />
+								<c:choose>
+									<c:when test="${remainingDays == 1}">
+										<div class="pull-left">1 day left!</div>
+									</c:when>
+									<c:when test="${remainingDays <= 0}">
+										Task deadline is over!
+									</c:when>
+									<c:otherwise>
+										<div class="pull-left">${remainingDays} days left!</div>
+									</c:otherwise>
+								</c:choose>
+							
 								<div class="pull-right">
 									<c:choose>
 										<c:when test="${followedMap[task.id]}">
