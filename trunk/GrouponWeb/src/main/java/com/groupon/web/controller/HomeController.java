@@ -55,13 +55,16 @@ public class HomeController extends AbstractBaseController {
 		}
 
 		model.addAttribute("homeFeedTasks", homeFeedTasks);
-		List<Long> taskIds = GrouponWebUtils.convertModelListToLongList(homeFeedTasks);
 
-		Map<Long, Boolean> followedTaskMap = taskService.findFollowedTasksIdsByUser(user, taskIds);
-		model.addAttribute("followedMap", followedTaskMap);
-		
-		Map<Long, Integer> replyCounts = taskService.getTaskHelpCounts(taskIds);
-		putReplyPercentagesToModel(homeFeedTasks, replyCounts, model);
+		if (homeFeedTasks.size() > 0) {
+			List<Long> taskIds = GrouponWebUtils.convertModelListToLongList(homeFeedTasks);
+
+			Map<Long, Boolean> followedTaskMap = taskService.findFollowedTasksIdsByUser(user, taskIds);
+			model.addAttribute("followedMap", followedTaskMap);
+
+			Map<Long, Integer> replyCounts = taskService.getTaskHelpCounts(taskIds);
+			putReplyPercentagesToModel(homeFeedTasks, replyCounts, model);
+		}
 
 		return "home.view";
 	}
@@ -71,7 +74,7 @@ public class HomeController extends AbstractBaseController {
 
 		return "advancedSearch.view";
 	}
-	
+
 	@RequestMapping(value = "/contactUs", method = RequestMethod.GET)
 	public Object contactUs(HttpServletRequest request, Model model) {
 

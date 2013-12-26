@@ -185,7 +185,7 @@ $(function () {
 			url: GrouponUtils.siteBase + 'task/reply',
 			data: JSON.stringify(reply),
 		    success: function(response) {
-		    	
+		    	window.location.reload();
 			}
 		}).always(function () {
 			$("#replyForm .control-group input[type=text], #replyForm .control-group textarea, #replyForm .control-group select").val("");
