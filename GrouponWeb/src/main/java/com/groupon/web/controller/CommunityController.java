@@ -106,6 +106,10 @@ public class CommunityController extends AbstractBaseController {
 		Map<String, Object> response = new HashMap<String, Object>();
 		User user = getUser();
 
+		if (user == null) {
+			throw new GrouponException("Login before getting the list of your communities!");
+		}
+
 		int pagePrimitive = 0;
 		int maxPrimitive = 0;
 		if (page != null && max != null) {
