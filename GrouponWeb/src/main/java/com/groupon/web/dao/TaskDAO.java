@@ -31,7 +31,7 @@ public class TaskDAO extends BaseDaoImpl {
 		} else {
 			query = this.getSession().createQuery("from Task t where t.deadline > NOW() order by t.createDate DESC");
 		}
-		
+
 		if (page >= 0 && max > 0) {
 			query.setFirstResult(page * max);
 			query.setMaxResults(max);
@@ -125,13 +125,23 @@ public class TaskDAO extends BaseDaoImpl {
 		query.setParameter("userid", userId);
 		return (List<Long>) query.list();
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public List<Object[]> findHelpAmount(List<Long> taskIds) {
-		Query query = getSession().createQuery("select t.id, sum(ra.value) from Task t, ReplyAttribute ra where ra.taskReply.task.id in (:taskids) and ra.name = :qName and ra.taskReply.task.id = t.id group by t.id");
+		Query query = getSession()
+				.createQuery(
+						"select t.id, sum(ra.value) from Task t, ReplyAttribute ra where ra.taskReply.task.id in (:taskids) and ra.name = :qName and ra.taskReply.task.id = t.id group by t.id");
 		query.setParameterList("taskids", taskIds);
 		query.setParameter("qName", ControllerConstants.ATTR_NAME_REPLY_QUANTITY);
 		Object list = query.list();
 		return (List<Object[]>) list;
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<Task> searchTasks(String queryText) {
+		Query query = getSession().createQuery("from Task t where t.title like :queryText or t.description like :queryText");
+		String likeText = "%" + queryText + "%";
+		query.setParameter("queryText", likeText);
+		return query.list();
 	}
 }

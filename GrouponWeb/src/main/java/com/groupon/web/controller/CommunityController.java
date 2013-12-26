@@ -489,6 +489,26 @@ public class CommunityController extends AbstractBaseController {
 		}
 	}
 
+	@RequestMapping(value = "community/search", method = RequestMethod.GET)
+	public Object searchCommunities(@RequestParam String q, Model model, HttpServletRequest request) {
+		User user = getUser();
+		if (user == null) {
+			return "redirect:/";
+		}
+
+		if (StringUtils.isBlank(q)) {
+			return "redirect:/search";
+		}
+
+		setGlobalAttributesToModel(model, request);
+		model.addAttribute("keywords", q);
+
+		List<Community> results = communityService.searchCommunities(q);
+		model.addAttribute("communities", results);
+
+		return "searchResult.view";
+	}
+
 	private String saveFile(MultipartFile multipartFile) throws IllegalStateException, IOException {
 		File destinationDir = new File(photoDirectory);
 		if (!destinationDir.exists()) {

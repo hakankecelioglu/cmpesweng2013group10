@@ -69,14 +69,14 @@ public class CommunityService {
 	public List<Community> getSimiliarCommunities(Long communityId, int page, int max) {
 		return communityDao.findSimiliarCommunities(communityId, page, max);
 	}
-	
+
 	public void createTaskType(TaskType taskType) {
 		communityDao.save(taskType);
 	}
 
 	public List<Map<String, Object>> getTaskTypeNames(Long communityId) {
 		List<Object[]> taskTypesList = communityDao.getTaskTypeNames(communityId);
-		
+
 		List<Map<String, Object>> taskTypes = new ArrayList<Map<String, Object>>();
 		if (taskTypesList != null && taskTypesList.size() > 0) {
 			for (Object[] arr : taskTypesList) {
@@ -88,14 +88,18 @@ public class CommunityService {
 		}
 		return taskTypes;
 	}
-	
+
 	public TaskType getTaskType(Long taskTypeId) {
 		return communityDao.getTaskType(taskTypeId);
 	}
-	
+
+	public List<Community> searchCommunities(String queryText) {
+		return communityDao.searchCommunities(queryText);
+	}
+
 	private void arrangeTagsOfCommunity(Community community) {
 		List<Tag> tags = community.getTags();
-		if(tags!=null){
+		if (tags != null) {
 			List<Tag> tags2 = new ArrayList<Tag>(tags.size());
 			for (Tag tag : tags) {
 				Tag tagInDb = tagService.getTagByName(tag.getName());

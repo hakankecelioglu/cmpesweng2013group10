@@ -58,10 +58,18 @@ public class CommunityDao extends BaseDaoImpl {
 		query.setParameter("cid", communityId);
 		return (List<Object[]>) query.list();
 	}
-	
+
 	public TaskType getTaskType(Long taskTypeId) {
 		Query query = getSession().createQuery("from TaskType t where t.id = :taskTypeId");
 		query.setParameter("taskTypeId", taskTypeId);
 		return (TaskType) query.uniqueResult();
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<Community> searchCommunities(String queryText) {
+		Query query = getSession().createQuery("from Community c where c.name like :query or c.description like :query");
+		String like = "%" + queryText + "%";
+		query.setParameter("query", like);
+		return query.list();
 	}
 }

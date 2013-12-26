@@ -94,32 +94,39 @@
 			<add-attribute value="/createTask.js" />
 		</put-list-attribute>
 	</definition>
-	
+
 	<definition name="advancedSearch.view" extends="grouponTemplate">
-		<put-attribute name="title" cascade="true"
-			value="Search" />
+		<put-attribute name="title" cascade="true" value="Search" />
 		<put-attribute name="body" value="/WEB-INF/views/advancedSearch.jsp" />
 	</definition>
-	
+
+	<definition name="searchResult.view" extends="grouponTemplate">
+		<put-attribute name="title" cascade="true" value="Search Results" />
+		<put-attribute name="body" value="/WEB-INF/views/searchResult.jsp" />
+		<put-list-attribute name="cssFiles" cascade="true">
+		</put-list-attribute>
+		<put-list-attribute name="jsFiles" cascade="true">
+		    <add-attribute value="/searchResult.js" />
+		</put-list-attribute>
+	</definition>
+
 	<definition name="aboutUs.view" extends="grouponTemplate">
-		<put-attribute name="title" cascade="true"
-			value="About Us" />
+		<put-attribute name="title" cascade="true" value="About Us" />
 		<put-attribute name="body" value="/WEB-INF/views/aboutUs.jsp" />
 	</definition>
-	
+
 	<definition name="contactUs.view" extends="grouponTemplate">
-		<put-attribute name="title" cascade="true"
-			value="Contact Us" />
+		<put-attribute name="title" cascade="true" value="Contact Us" />
 		<put-attribute name="body" value="/WEB-INF/views/contactUs.jsp" />
 	</definition>
-	
-		<definition name="androidDown.view" extends="grouponTemplate">
+
+	<definition name="androidDown.view" extends="grouponTemplate">
 		<put-attribute name="title" cascade="true"
 			value="Android Application" />
 		<put-attribute name="body" value="/WEB-INF/views/androidDown.jsp" />
 	</definition>
-	
-	
+
+
 	<definition name="task.view" extends="grouponTemplate">
 		<put-attribute name="title" cascade="true" value="Task" />
 		<put-attribute name="body" value="/WEB-INF/views/task.jsp" />
@@ -142,14 +149,14 @@
 		<put-list-attribute name="jsFiles" cascade="true">
 		</put-list-attribute>
 	</definition>
-	
+
 	<definition name="createTaskType.view" extends="grouponTemplate">
 		<put-attribute name="title" cascade="true" value="Create Task Type" />
 		<put-attribute name="body" value="/WEB-INF/views/createTaskType.jsp" />
 		<put-list-attribute name="cssFiles" cascade="true">
 		</put-list-attribute>
 		<put-list-attribute name="jsFiles" cascade="true">
-		    <add-attribute value="/createTaskType.js" />
+			<add-attribute value="/createTaskType.js" />
 		</put-list-attribute>
 	</definition>
 </tiles-definitions>
