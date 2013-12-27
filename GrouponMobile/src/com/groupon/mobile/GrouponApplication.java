@@ -18,10 +18,11 @@ public class GrouponApplication extends Application {
 	public void onCreate() {
 		super.onCreate();
 		user = readLoggedUser();
-		DummyController.init();
 
-		DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder().cacheInMemory(true).cacheOnDisc(true).build();
-		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(getApplicationContext()).defaultDisplayImageOptions(defaultOptions).build();
+		DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder().cacheInMemory(true).cacheOnDisc(true).showImageOnFail(R.drawable.logonew).build();
+		ImageLoaderConfiguration.Builder builder = new ImageLoaderConfiguration.Builder(getApplicationContext());
+		builder.defaultDisplayImageOptions(defaultOptions);
+		ImageLoaderConfiguration config = builder.build();
 		ImageLoader.getInstance().init(config);
 	}
 

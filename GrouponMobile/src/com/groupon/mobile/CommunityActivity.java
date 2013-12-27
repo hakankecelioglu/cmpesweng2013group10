@@ -11,9 +11,7 @@ import android.widget.Toast;
 
 import com.groupon.mobile.conn.GrouponCallback;
 import com.groupon.mobile.model.Community;
-import com.groupon.mobile.model.Task;
 import com.groupon.mobile.service.CommunityService;
-import com.groupon.mobile.service.TaskService;
 import com.groupon.mobile.utils.ImageUtils;
 
 public class CommunityActivity extends BaseActivity {

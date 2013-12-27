@@ -68,5 +68,32 @@
     <string name="task_follow_button">Follow</string>
     <string name="join_community">Join</string>
     <string name="followed_tasks">Followed Tasks</string>
+    <string name="title_activity_home_activity2">Task Together</string>
+    <string name="drawer_open">Task Together</string>
+    <string name="drawer_close_home">Followed Tasks</string>
+
+    <!-- Nav Drawer Menu Items -->
+    <string-array name="nav_drawer_items">
+        <item>Home</item>
+        <item>Create Community</item>
+        <item>My Profile</item>
+        <item>Communities</item>
+        <item>Search</item>
+        <item>Logout</item>
+    </string-array>
+
+    <!-- Nav Drawer List Item Icons -->
+    <!-- Keep them in order as the titles are in -->
+    <array name="nav_drawer_icons">
+        <item>@drawable/home_icon</item>
+        <item>@drawable/create_community_icon</item>
+        <item>@drawable/profile_icon</item>
+        <item>@drawable/communities_icon</item>
+        <item>@drawable/search_icon</item>
+        <item>@drawable/logout_icon</item>
+    </array>
+
+    <!-- Content Description -->
+    <string name="desc_list_item_icon">Item Icon</string>
 
 </resources>
