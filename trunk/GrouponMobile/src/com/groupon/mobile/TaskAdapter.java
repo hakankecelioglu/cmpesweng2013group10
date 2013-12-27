@@ -38,8 +38,10 @@ public class TaskAdapter extends ArrayAdapter<Task> {
 
 		TextView taskName = (TextView) alertView.findViewById(R.id.task_name);
 		TextView taskDescription = (TextView) alertView.findViewById(R.id.task_description);
+		TextView taskBy = (TextView) alertView.findViewById(R.id.task_by);
 		taskName.setText(task.getName());
 		taskDescription.setText(task.getDescription());
+		taskBy.setText("by: " + task.getOwnerUsername());
 
 		return alertView;
 	}

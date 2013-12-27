@@ -1,14 +1,7 @@
 package com.groupon.mobile;
 
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-
-import com.groupon.mobile.conn.GrouponCallback;
-import com.groupon.mobile.model.Task;
-import com.groupon.mobile.model.TaskType;
-import com.groupon.mobile.service.TaskService;
 
 import android.graphics.Color;
 import android.os.Bundle;
@@ -18,6 +11,10 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.groupon.mobile.conn.GrouponCallback;
+import com.groupon.mobile.model.Task;
+import com.groupon.mobile.service.TaskService;
 
 public class TaskActivity extends BaseActivity {
 	private TextView taskNameField;

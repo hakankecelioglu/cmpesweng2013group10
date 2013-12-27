@@ -5,20 +5,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import com.groupon.mobile.conn.GrouponCallback;
-import com.groupon.mobile.model.FieldAttribute;
-import com.groupon.mobile.model.FieldType;
-import com.groupon.mobile.model.NeedType;
-import com.groupon.mobile.model.Task;
-import com.groupon.mobile.model.TaskAttribute;
-import com.groupon.mobile.model.TaskType;
-import com.groupon.mobile.model.TaskTypeField;
-import com.groupon.mobile.service.TaskService;
-import com.groupon.mobile.service.TaskTypeService;
-
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.text.InputType;
 import android.view.LayoutInflater;
@@ -32,7 +20,17 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import com.groupon.mobile.conn.GrouponCallback;
+import com.groupon.mobile.model.FieldAttribute;
+import com.groupon.mobile.model.FieldType;
+import com.groupon.mobile.model.NeedType;
+import com.groupon.mobile.model.Task;
+import com.groupon.mobile.model.TaskAttribute;
+import com.groupon.mobile.model.TaskType;
+import com.groupon.mobile.model.TaskTypeField;
+import com.groupon.mobile.service.TaskService;
+import com.groupon.mobile.service.TaskTypeService;
 
 public class TaskFormFragment extends Fragment {
 	private long taskTypeId;

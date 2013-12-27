@@ -6,14 +6,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.Toast;
-import android.widget.AdapterView.OnItemClickListener;
 
 import com.groupon.mobile.conn.GrouponCallback;
-import com.groupon.mobile.model.Community;
 import com.groupon.mobile.model.Task;
-import com.groupon.mobile.service.CommunityService;
 import com.groupon.mobile.service.TaskService;
 
 public class FollowedTasksActivity  extends BaseActivity {

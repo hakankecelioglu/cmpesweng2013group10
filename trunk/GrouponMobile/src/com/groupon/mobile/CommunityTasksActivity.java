@@ -19,6 +19,7 @@ public class CommunityTasksActivity extends BaseActivity {
 	ArrayList<Task> tasks = new ArrayList<Task>();
 	ListView listview;
 	private long communityId;
+
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_community_tasks);
@@ -36,7 +37,7 @@ public class CommunityTasksActivity extends BaseActivity {
 		TaskService taskService = new TaskService(getApp());
 		arrayAdapter = new TaskAdapter(CommunityTasksActivity.this, R.layout.listview_task, tasks);
 		listview.setAdapter(arrayAdapter);
-		taskService.getCommunityTasks(communityId,new GrouponCallback<ArrayList<Task>>() {
+		taskService.getCommunityTasks(communityId, new GrouponCallback<ArrayList<Task>>() {
 			public void onSuccess(ArrayList<Task> response) {
 				for (Task t : response) {
 					tasks.add(t);

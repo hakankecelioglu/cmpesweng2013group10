@@ -5,7 +5,7 @@
     android:versionName="1.0" >
 
     <uses-sdk
-        android:minSdkVersion="10"
+        android:minSdkVersion="11"
         android:targetSdkVersion="18" />
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -19,61 +19,69 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name="com.groupon.mobile.MainActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.Light.NoTitleBar" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-    
         <activity
             android:name="com.groupon.mobile.HomeActivity"
-            android:label="@string/title_activity_home" >
+            android:label="@string/title_activity_home_activity2" >
         </activity>
         <activity
             android:name="com.groupon.mobile.CreateCommunityActivity"
-            android:label="@string/title_activity_create_community" >
+            android:label="@string/title_activity_create_community"
+            android:theme="@android:style/Theme.Light.NoTitleBar" >
         </activity>
         <activity
             android:name="com.groupon.mobile.CommunityActivity"
-            android:label="@string/title_activity_community" >
+            android:label="@string/title_activity_community"
+            android:theme="@android:style/Theme.Light.NoTitleBar" >
         </activity>
         <activity
             android:name="com.groupon.mobile.CreateTaskActivity"
-            android:label="@string/title_activity_create_task" >
+            android:label="@string/title_activity_create_task"
+            android:theme="@android:style/Theme.Light.NoTitleBar" >
         </activity>
         <activity
             android:name="com.groupon.mobile.TaskActivity"
-            android:label="@string/title_activity_task" >
+            android:label="@string/title_activity_task"
+            android:theme="@android:style/Theme.Light.NoTitleBar" >
         </activity>
         <activity
             android:name="com.groupon.mobile.CreateTaskTypeActivity"
-            android:label="@string/title_activity_create_task_type" >
+            android:label="@string/title_activity_create_task_type"
+            android:theme="@android:style/Theme.Light.NoTitleBar" >
         </activity>
         <activity
             android:name="com.groupon.mobile.MyCommunitiesActivity"
-            android:label="@string/title_activity_my_Communities" >
+            android:label="@string/title_activity_my_Communities"
+            android:theme="@android:style/Theme.Light.NoTitleBar" >
         </activity>
-         <activity
+        <activity
             android:name="com.groupon.mobile.FollowedTasksActivity"
-            android:label="@string/title_activity_followed_tasks" >
-        </activity> 
-         <activity
-            android:name="com.groupon.mobile.CommunityTasksActivity"
-             >
-        </activity>               
+            android:label="@string/title_activity_followed_tasks"
+            android:theme="@android:style/Theme.Light.NoTitleBar" >
+        </activity>
+        <activity android:name="com.groupon.mobile.CommunityTasksActivity" >
+        </activity>
         <activity
             android:name="com.groupon.mobile.SignUpActivity"
-            android:label="@string/title_activity_sign_up" >
+            android:label="@string/title_activity_sign_up"
+            android:theme="@android:style/Theme.Light.NoTitleBar" >
         </activity>
         <activity
             android:name="com.groupon.mobile.ProfileActivity"
-            android:label="My Profile" >
+            android:label="My Profile"
+            android:theme="@android:style/Theme.Light.NoTitleBar" >
         </activity>
         <activity
             android:name="com.groupon.mobile.AboutUs"
-            android:label="About Us" >
+            android:label="About Us"
+            android:theme="@android:style/Theme.Light.NoTitleBar" >
         </activity>
     </application>
 
