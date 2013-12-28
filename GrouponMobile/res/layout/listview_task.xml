@@ -11,21 +11,40 @@
 
     <ImageView
         android:id="@+id/left_image_view"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:contentDescription="@string/app_name"
         android:src="@drawable/task_icon" />
 
     <TextView
         android:id="@+id/task_name"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_marginLeft="5dp"
         android:layout_toRightOf="@id/left_image_view"
+        android:background="@drawable/clickable_textview_bg"
+        android:clickable="true"
         android:maxLines="1"
         android:text="@string/app_name"
-        android:textSize="19sp" />
+        android:textColor="#000066"
+        android:textSize="19sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/task_community_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/left_image_view"
+        android:layout_marginLeft="5dp"
+        android:layout_toRightOf="@id/left_image_view"
+        android:background="@drawable/clickable_textview_bg"
+        android:clickable="true"
+        android:maxLines="1"
+        android:text="@string/app_name"
+        android:textColor="#333333"
+        android:textSize="17sp"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/task_description"
@@ -37,27 +56,54 @@
         android:text="@string/app_name"
         android:textSize="15sp" />
 
+    <View
+        android:id="@+id/horizontal_line"
+        android:layout_width="fill_parent"
+        android:layout_height="2dip"
+        android:layout_below="@id/task_description"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="-5dp"
+        android:layout_marginRight="-5dp"
+        android:layout_marginTop="3dp"
+        android:background="#CCCCCC" />
+
     <Button
         android:id="@+id/follow_button"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="25dp"
         android:layout_alignParentLeft="true"
-        android:layout_below="@id/task_description"
-        android:background="@drawable/blue_button"
-        android:padding="3dp"
+        android:layout_below="@id/horizontal_line"
+        android:background="@drawable/green_button"
+        android:drawableLeft="@drawable/follow_icon"
+        android:gravity="left|center_vertical"
+        android:paddingBottom="3dp"
+        android:paddingLeft="3dp"
+        android:paddingRight="3dp"
+        android:paddingTop="3dp"
         android:text="@string/task_follow_button"
         android:textColor="#FFFFFF"
         android:textSize="12sp" />
 
     <TextView
         android:id="@+id/task_by"
-        android:layout_width="100dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/follow_button"
         android:layout_alignParentRight="true"
-        android:layout_below="@id/task_description"
+        android:background="@drawable/clickable_textview_bg"
         android:gravity="right"
         android:maxLines="1"
-        android:text="by: sedran"
-        android:textSize="12sp" />
+        android:text="@string/app_name"
+        android:textSize="14sp"
+        android:textStyle="bold" />
+
+    <ImageView
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_alignBottom="@id/follow_button"
+        android:layout_marginRight="3dp"
+        android:layout_toLeftOf="@id/task_by"
+        android:contentDescription="@string/app_name"
+        android:src="@drawable/profile_icon" />
 
 </RelativeLayout>

@@ -16,7 +16,6 @@ import com.groupon.mobile.conn.ConnectionUtils;
 import com.groupon.mobile.conn.GrouponCallback;
 import com.groupon.mobile.conn.GrouponTask;
 import com.groupon.mobile.exception.GrouponException;
-import com.groupon.mobile.model.Community;
 import com.groupon.mobile.model.ReplyField;
 import com.groupon.mobile.model.ReplyFieldAttribute;
 import com.groupon.mobile.model.Task;
@@ -30,8 +29,8 @@ public class TaskService {
 	public TaskService(GrouponApplication app) {
 		this.app = app;
 	}
-	
-	public void getReplyFields(final long taskId,GrouponCallback<List<ReplyField>> callback){
+
+	public void getReplyFields(final long taskId, GrouponCallback<List<ReplyField>> callback) {
 		GrouponTask<List<ReplyField>> taskTask = new GrouponTask<List<ReplyField>>(callback) {
 
 			@Override
@@ -51,51 +50,52 @@ public class TaskService {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				
-				
+
 				return replyFields;
 			}
 
 		};
-		GrouponTask.execute(taskTask);		
+		GrouponTask.execute(taskTask);
 	}
 
-	private ReplyField ConvertJSONObjectToReplyField(JSONObject json) throws JSONException{
+	private ReplyField ConvertJSONObjectToReplyField(JSONObject json) throws JSONException {
 		ReplyField replyField = new ReplyField();
-		if(json.has("name")){
+		if (json.has("name")) {
 			replyField.setName(json.getString("name"));
 		}
-		if(json.has("fieldType")){
+		if (json.has("fieldType")) {
 			replyField.setFieldType("fieldType");
 		}
-		if(json.has("attributes")){
+		if (json.has("attributes")) {
 			JSONArray attributesJsonArray = json.getJSONArray("attributes");
 			List<ReplyFieldAttribute> replyFieldAttributes = new ArrayList<ReplyFieldAttribute>();
-			for(int i=0; i<attributesJsonArray.length(); i++){
+			for (int i = 0; i < attributesJsonArray.length(); i++) {
 				ReplyFieldAttribute replyFieldAttribute = ConvertJsonToReplyFieldAttribute(attributesJsonArray.getJSONObject(i));
 				replyFieldAttributes.add(replyFieldAttribute);
 			}
 		}
-		
+
 		return replyField;
-		
+
 	}
+
 	private ReplyFieldAttribute ConvertJsonToReplyFieldAttribute(JSONObject json) throws JSONException {
 		ReplyFieldAttribute replyFieldAttribute = new ReplyFieldAttribute();
-		if(json.has("name")){
+		if (json.has("name")) {
 			replyFieldAttribute.setName(json.getString("name"));
 		}
-		if(json.has("value")){
+		if (json.has("value")) {
 			replyFieldAttribute.setValue(json.getString("value"));
 		}
 		return replyFieldAttribute;
 	}
+
 	public void getCommunityTasks(final long communityId, GrouponCallback<ArrayList<Task>> callback) {
 		GrouponTask<ArrayList<Task>> taskTask = new GrouponTask<ArrayList<Task>>(callback) {
 			public ArrayList<Task> run() throws GrouponException {
 				String url = Constants.SERVER + "task/getCommunityTasks";
-				Map<String,String> idMap = new HashMap<String, String>();
-				idMap.put("communityId", ""+communityId);
+				Map<String, String> idMap = new HashMap<String, String>();
+				idMap.put("communityId", "" + communityId);
 				JSONObject json = ConnectionUtils.makeGetRequest(url, idMap, app.getAuthToken());
 				ArrayList<Task> tasks = new ArrayList<Task>();
 				if (json.has("tasks")) {
@@ -117,8 +117,9 @@ public class TaskService {
 		};
 
 		GrouponTask.execute(taskTask);
-		
+
 	}
+
 	public void getFollowedTasks(GrouponCallback<ArrayList<Task>> callback) {
 		GrouponTask<ArrayList<Task>> taskTask = new GrouponTask<ArrayList<Task>>(callback) {
 			public ArrayList<Task> run() throws GrouponException {
@@ -145,8 +146,9 @@ public class TaskService {
 		};
 
 		GrouponTask.execute(taskTask);
-		
+
 	}
+
 	public void unFollowTask(final long taskId, final GrouponCallback<Task> callback) {
 		GrouponTask<Task> taskTask = new GrouponTask<Task>(callback) {
 
@@ -247,15 +249,15 @@ public class TaskService {
 				try {
 
 					task = convertJSONObjectToTask(json.getJSONObject("task"));
-					
+
 					if (json.has("taskAttributes")) {
-						JSONObject j  = json.getJSONObject("taskAttributes");
-						Map<String, List<String>> m =convertJSONObjectToTaskAttribute(j);
+						JSONObject j = json.getJSONObject("taskAttributes");
+						Map<String, List<String>> m = convertJSONObjectToTaskAttribute(j);
 						task.setAttributeMap(m);
 					}
 					if (json.has("isFollower"))
 						task.setFollower(json.getBoolean("isFollower"));
-					
+
 				} catch (JSONException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -267,31 +269,32 @@ public class TaskService {
 		GrouponTask.execute(taskTask);
 
 	}
-	private Map<String,List<String>> convertJSONObjectToTaskAttribute(JSONObject json) throws JSONException {
-	
+
+	private Map<String, List<String>> convertJSONObjectToTaskAttribute(JSONObject json) throws JSONException {
+
 		Map<String, List<String>> m = new HashMap<String, List<String>>();
-		Iterator iter=json.keys();
-		while(iter.hasNext()){
+		Iterator<?> iter = json.keys();
+		while (iter.hasNext()) {
 			String key = (String) iter.next();
 			Object o = json.get(key);
-			List<String> l= new ArrayList<String>();
-			
-			if(o instanceof String){
-				l.add((String)o);
+			List<String> l = new ArrayList<String>();
+
+			if (o instanceof String) {
+				l.add((String) o);
 				m.put(key, l);
-			}
-			else if(o instanceof JSONArray){
+			} else if (o instanceof JSONArray) {
 				JSONArray values = (JSONArray) o;
-				for(int i=0; i<values.length(); i++){
+				for (int i = 0; i < values.length(); i++) {
 					String value = values.getString(i);
-				
+
 					l.add(value);
 				}
-				m.put(key,l);
+				m.put(key, l);
 			}
 		}
 		return m;
 	}
+
 	protected Task convertJSONObjectToTask(JSONObject json) throws JSONException {
 
 		Task task = new Task();
@@ -299,7 +302,7 @@ public class TaskService {
 			String auth = json.getString("auth");
 			app.setAuthToken(auth);
 		}
-		Community community = new Community();
+
 		if (json.has("user")) {
 			json = json.getJSONObject("user");
 		}
@@ -311,6 +314,7 @@ public class TaskService {
 		if (json.has("description")) {
 			task.setDescription(json.getString("description"));
 		}
+
 		if (json.has("id")) {
 			task.setId(json.getLong("id"));
 		}
@@ -318,28 +322,47 @@ public class TaskService {
 		if (json.has("ownerUsername")) {
 			task.setOwnerUsername(json.getString("ownerUsername"));
 		}
-		if (json.has("ownerId"))
+
+		if (json.has("ownerId")) {
 			task.setOwnerId(json.getLong("ownerId"));
-		if (json.has("communityName"))
+		}
+
+		if (json.has("communityName")) {
 			task.setCommunityName(json.getString("communityName"));
-		if (json.has("needType"))
+		}
+
+		if (json.has("needType")) {
 			task.setNeedType(json.getString("needType"));
-		if (json.has("status"))
+		}
+
+		if (json.has("status")) {
 			task.setStatus(json.getString("status"));
-		if (json.has("deadline")){
-			Long l =json.getLong("deadline");
-			Date d = new Date(l);	
+		}
+
+		if (json.has("deadline")) {
+			Long l = json.getLong("deadline");
+			Date d = new Date(l);
 			DateUtils.calculateDayDifference(d);
 			task.setDeadlineCount((long) DateUtils.calculateDayDifference(d));
-			
 		}
+
 		if (json.has("requirementName"))
 			task.setRequirementName(json.getString("requirementName"));
+
 		if (json.has("requirementQuantity"))
 			task.setRequirementQuantity(json.getInt("requirementQuantity"));
 
-		if (json.has("followerCount"))
+		if (json.has("followerCount")) {
 			task.setFollowerCount(json.getLong("followerCount"));
+		}
+
+		if (json.has("communityId")) {
+			task.setCommunityId(json.getLong("communityId"));
+		}
+
+		if (json.has("createDate")) {
+			task.setCreateDate(json.getLong("createDate"));
+		}
 
 		return task;
 	}
@@ -360,8 +383,5 @@ public class TaskService {
 		}
 		return array;
 	}
-
-
-
 
 }

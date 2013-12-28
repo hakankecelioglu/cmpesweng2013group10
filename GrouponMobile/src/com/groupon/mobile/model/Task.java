@@ -1,10 +1,7 @@
 package com.groupon.mobile.model;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
-
-
 
 public class Task {
 
@@ -21,18 +18,22 @@ public class Task {
 	private String deadline;
 
 	private String location;
-	private Map<String,List<String>> AttributeMap;
+	private Map<String, List<String>> AttributeMap;
 	private String requirementName;
 	private boolean isFollower;
 	private int requirementQuantity;
 	private String ownerUsername;
 	private Long ownerId;
 	private String communityName;
+	private Long communityId;
 	private String needType;
 	private String status;
 	private Long deadlineCount;
+	private Long createDate = System.currentTimeMillis();
+	private String communityPicture;
 	private Long followerCount = 0L;
 	private List<TaskAttribute> attributes;
+
 	public String getName() {
 		return name;
 	}
@@ -177,14 +178,36 @@ public class Task {
 		this.isFollower = isFollower;
 	}
 
-	public Map<String,List<String>> getAttributeMap() {
+	public Long getCreateDate() {
+		return createDate;
+	}
+
+	public void setCreateDate(Long createDate) {
+		this.createDate = createDate;
+	}
+
+	public String getCommunityPicture() {
+		return communityPicture;
+	}
+
+	public void setCommunityPicture(String communityPicture) {
+		this.communityPicture = communityPicture;
+	}
+
+	public Long getCommunityId() {
+		return communityId;
+	}
+
+	public void setCommunityId(Long communityId) {
+		this.communityId = communityId;
+	}
+
+	public Map<String, List<String>> getAttributeMap() {
 		return AttributeMap;
 	}
 
-	public void setAttributeMap (Map<String,List<String>> AttributeMap ) {
+	public void setAttributeMap(Map<String, List<String>> AttributeMap) {
 		this.AttributeMap = AttributeMap;
 	}
-
-
 
 }
