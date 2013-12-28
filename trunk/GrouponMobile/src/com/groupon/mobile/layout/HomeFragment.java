@@ -3,19 +3,15 @@ package com.groupon.mobile.layout;
 import java.util.ArrayList;
 
 import android.app.Fragment;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import com.groupon.mobile.GrouponApplication;
 import com.groupon.mobile.R;
-import com.groupon.mobile.TaskActivity;
 import com.groupon.mobile.TaskAdapter;
 import com.groupon.mobile.conn.GrouponCallback;
 import com.groupon.mobile.model.Task;
@@ -54,19 +50,5 @@ public class HomeFragment extends Fragment {
 				Toast.makeText(getActivity(), errorMessage, Toast.LENGTH_SHORT).show();
 			}
 		});
-
-		listview.setOnItemClickListener(listViewListener);
 	}
-
-	private OnItemClickListener listViewListener = new OnItemClickListener() {
-		@Override
-		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-			if (position >= 0 && position < tasks.size()) {
-				Task task = tasks.get(position);
-				Intent intent = new Intent(getActivity(), TaskActivity.class);
-				intent.putExtra("taskId", task.getId());
-				startActivity(intent);
-			}
-		}
-	};
 }
