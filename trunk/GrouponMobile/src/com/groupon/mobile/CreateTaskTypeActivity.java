@@ -3,7 +3,6 @@ package com.groupon.mobile;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -199,9 +198,6 @@ public class CreateTaskTypeActivity extends BaseActivity {
 
 			service.createTaskType(taskType, new GrouponCallback<TaskType>() {
 				public void onSuccess(TaskType TaskType) {
-					Intent intent = new Intent(CreateTaskTypeActivity.this, CommunityActivity.class);
-					intent.putExtra("communityId", communityId);
-					startActivity(intent);
 					finish();
 				}
 

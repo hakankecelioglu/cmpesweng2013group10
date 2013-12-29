@@ -1,4 +1,4 @@
-package com.groupon.mobile;
+package com.groupon.mobile.frag;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +14,10 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 
+import com.groupon.mobile.GrouponApplication;
+import com.groupon.mobile.R;
+import com.groupon.mobile.R.id;
+import com.groupon.mobile.R.layout;
 import com.groupon.mobile.conn.GrouponCallback;
 import com.groupon.mobile.model.TaskType;
 import com.groupon.mobile.service.TaskTypeService;

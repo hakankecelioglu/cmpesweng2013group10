@@ -1,9 +1,12 @@
-package com.groupon.mobile;
+package com.groupon.mobile.layout;
 
 import java.util.List;
 
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Context;
-import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,16 +14,23 @@ import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.groupon.mobile.R;
+import com.groupon.mobile.frag.CommunityFragment;
+import com.groupon.mobile.frag.ProfileFragment;
+import com.groupon.mobile.frag.TaskFragment;
 import com.groupon.mobile.model.Task;
 
 public class TaskAdapter extends ArrayAdapter<Task> {
 	private int resource;
-	private Context context;
+	private FragmentManager fragmentManager;
 
 	public TaskAdapter(Context context, int resource, List<Task> items) {
 		super(context, resource, items);
 		this.resource = resource;
-		this.context = context;
+	}
+
+	public void setFragmentManager(FragmentManager fm) {
+		this.fragmentManager = fm;
 	}
 
 	public View getView(int position, View convertView, ViewGroup parent) {
@@ -63,27 +73,63 @@ public class TaskAdapter extends ArrayAdapter<Task> {
 	private View.OnClickListener taskNameClickListener = new View.OnClickListener() {
 		public void onClick(View v) {
 			Long taskId = (Long) v.getTag();
-			Intent intent = new Intent(context, TaskActivity.class);
-			intent.putExtra("taskId", taskId);
-			context.startActivity(intent);
+
+			// Allow no NullPointerException!
+			if (fragmentManager == null)
+				return;
+
+			Bundle bundle = new Bundle();
+			bundle.putLong("taskId", taskId);
+
+			Fragment fragment = new TaskFragment();
+			fragment.setArguments(bundle);
+
+			FragmentTransaction transaction = fragmentManager.beginTransaction();
+			transaction.addToBackStack(null);
+			transaction.replace(R.id.frame_container, fragment);
+			transaction.commit();
 		}
 	};
 
 	private View.OnClickListener communityNameClickListener = new View.OnClickListener() {
 		public void onClick(View v) {
+			// Allow no NullPointerException!
+			if (fragmentManager == null)
+				return;
+
 			Long communityId = (Long) v.getTag();
-			Intent intent = new Intent(context, CommunityActivity.class);
-			intent.putExtra("communityId", communityId);
-			context.startActivity(intent);
+
+			Bundle bundle = new Bundle();
+			bundle.putLong("communityId", communityId);
+
+			Fragment fragment = new CommunityFragment();
+			fragment.setArguments(bundle);
+
+			FragmentTransaction transaction = fragmentManager.beginTransaction();
+			transaction.addToBackStack(null);
+			transaction.replace(R.id.frame_container, fragment);
+			transaction.commit();
 		}
 	};
 
 	private View.OnClickListener userNameClickListener = new View.OnClickListener() {
 		public void onClick(View v) {
+			// Allow no NullPointerException!
+			if (fragmentManager == null)
+				return;
+
 			Long userId = (Long) v.getTag();
-			Intent intent = new Intent(context, ProfileActivity.class);
-			intent.putExtra("userId", userId);
-			context.startActivity(intent);
+
+			Bundle bundle = new Bundle();
+			bundle.putLong("userId", userId);
+
+			Fragment fragment = new ProfileFragment();
+			fragment.setArguments(bundle);
+
+			FragmentTransaction transaction = fragmentManager.beginTransaction();
+			transaction.addToBackStack(null);
+			transaction.replace(R.id.frame_container, fragment);
+			transaction.commit();
 		}
 	};
 }

@@ -1,6 +1,8 @@
 package com.groupon.mobile;
 
-import com.groupon.mobile.TaskTypeFragment.OnTaskTypeSelectedListener;
+import com.groupon.mobile.frag.TaskFormFragment;
+import com.groupon.mobile.frag.TaskTypeFragment;
+import com.groupon.mobile.frag.TaskTypeFragment.OnTaskTypeSelectedListener;
 
 
 import android.os.Bundle;

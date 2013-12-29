@@ -1,4 +1,4 @@
-package com.groupon.mobile.layout;
+package com.groupon.mobile.frag;
 
 import java.util.ArrayList;
 
@@ -12,14 +12,14 @@ import android.widget.Toast;
 
 import com.groupon.mobile.GrouponApplication;
 import com.groupon.mobile.R;
-import com.groupon.mobile.TaskAdapter;
 import com.groupon.mobile.conn.GrouponCallback;
+import com.groupon.mobile.layout.TaskAdapter;
 import com.groupon.mobile.model.Task;
 import com.groupon.mobile.service.TaskService;
 
 public class HomeFragment extends Fragment {
 	private TaskAdapter arrayAdapter;
-	private ArrayList<Task> tasks = new ArrayList<Task>();
+	private ArrayList<Task> tasks;
 	private ListView listview;
 
 	public HomeFragment() {
@@ -28,6 +28,7 @@ public class HomeFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View rootView = inflater.inflate(R.layout.activity_home, container, false);
+		tasks = new ArrayList<Task>();
 		setupListView(rootView);
 		return rootView;
 	}
@@ -35,7 +36,10 @@ public class HomeFragment extends Fragment {
 	private void setupListView(View view) {
 		listview = (ListView) view.findViewById(R.id.listview);
 		TaskService taskService = new TaskService((GrouponApplication) getActivity().getApplication());
+
 		arrayAdapter = new TaskAdapter(getActivity(), R.layout.listview_task, tasks);
+		arrayAdapter.setFragmentManager(getFragmentManager());
+
 		listview.setAdapter(arrayAdapter);
 		taskService.getFollowedTasks(new GrouponCallback<ArrayList<Task>>() {
 			public void onSuccess(ArrayList<Task> response) {

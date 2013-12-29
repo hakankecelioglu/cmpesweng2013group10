@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="5dp"
+    android:clickable="false"
+    android:padding="5dp" >
+
+    <ImageView
+        android:id="@+id/leftbar_prof_pic"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginRight="5dp"
+        android:contentDescription="@string/app_name"
+        android:src="@drawable/profile_icon" />
+
+    <TextView
+        android:id="@+id/leftbar_hello"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@id/leftbar_prof_pic"
+        android:text="@string/hello"
+        android:textColor="@color/list_item_title"
+        android:textSize="15sp" />
+
+    <TextView
+        android:id="@+id/leftbar_username"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/leftbar_hello"
+        android:layout_toRightOf="@id/leftbar_prof_pic"
+        android:text="@string/app_name"
+        android:textColor="@color/list_item_title"
+        android:textSize="20sp" />
+
+</RelativeLayout>

@@ -1,11 +1,10 @@
-package com.groupon.mobile;
+package com.groupon.mobile.frag;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.InputType;
@@ -21,6 +20,8 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.groupon.mobile.GrouponApplication;
+import com.groupon.mobile.R;
 import com.groupon.mobile.conn.GrouponCallback;
 import com.groupon.mobile.model.FieldAttribute;
 import com.groupon.mobile.model.FieldType;
@@ -168,12 +169,12 @@ public class TaskFormFragment extends Fragment {
 			
 			@Override
 			public void onSuccess(Task task) {
-				Intent intent = new Intent(getActivity(), TaskActivity.class);
-				Long id = task.getId();
-				intent.putExtra("taskId", id);
-				getActivity().startActivity(intent);
+				// TODO FIXME
+				//Intent intent = new Intent(getActivity(), TaskActivity.class);
+				//Long id = task.getId();
+				//intent.putExtra("taskId", id);
+				//getActivity().startActivity(intent);
 				getActivity().finish();
-				
 			}
 			
 			@Override
