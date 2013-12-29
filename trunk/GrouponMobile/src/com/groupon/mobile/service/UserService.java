@@ -72,6 +72,21 @@ public class UserService {
 		GrouponTask.execute(userTask);
 	}
 
+	public void getUserInfo(final Long userId, GrouponCallback<User> callback) {
+		GrouponTask<User> userTask = new GrouponTask<User>(callback) {
+			public User run() throws GrouponException {
+				String url = Constants.SERVER + "mobile/profile/" + userId;
+				JSONObject jsonObject = ConnectionUtils.makeGetRequest(url, null, app.getAuthToken());
+				try {
+					return convertJsonToUser(jsonObject);
+				} catch (JSONException e) {
+					throw new GrouponException("JSON returned from server is invalid!");
+				}
+			}
+		};
+		GrouponTask.execute(userTask);
+	}
+
 	private User convertJsonToUser(JSONObject json) throws JSONException {
 		if (json.has("auth")) {
 			String auth = json.getString("auth");
@@ -92,11 +107,11 @@ public class UserService {
 			user.setId(json.getLong("id"));
 		}
 
-		if (json.has("name")) {
+		if (json.has("name") && !json.isNull("name")) {
 			user.setName(json.getString("name"));
 		}
 
-		if (json.has("surname")) {
+		if (json.has("surname") && !json.isNull("surname")) {
 			user.setSurname(json.getString("surname"));
 		}
 
