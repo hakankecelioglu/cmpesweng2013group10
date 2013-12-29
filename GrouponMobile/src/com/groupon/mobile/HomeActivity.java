@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.app.FragmentManager.OnBackStackChangedListener;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
@@ -15,14 +17,19 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
-import com.groupon.mobile.layout.HomeFragment;
+import com.groupon.mobile.frag.CreateCommunityFragment;
+import com.groupon.mobile.frag.HomeFragment;
+import com.groupon.mobile.frag.MyCommunitiesFragment;
+import com.groupon.mobile.frag.ProfileFragment;
 import com.groupon.mobile.layout.NavDrawerItem;
 import com.groupon.mobile.layout.NavDrawerListAdapter;
+import com.groupon.mobile.model.User;
 
 public class HomeActivity extends BaseActivity {
 	private DrawerLayout mDrawerLayout;
-	private ListView mDrawerList;
+	private ListView leftBarListView;
 	private ActionBarDrawerToggle mDrawerToggle;
 
 	// nav drawer title
@@ -42,6 +49,7 @@ public class HomeActivity extends BaseActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_home_activity2);
+		User user = getLoggedUser();
 
 		mTitle = mDrawerTitle = getTitle();
 
@@ -50,22 +58,16 @@ public class HomeActivity extends BaseActivity {
 		navMenuIcons = getResources().obtainTypedArray(R.array.nav_drawer_icons);
 
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-		mDrawerList = (ListView) findViewById(R.id.list_slidermenu);
+		leftBarListView = (ListView) findViewById(R.id.list_slidermenu);
 
 		navDrawerItems = new ArrayList<NavDrawerItem>();
 
 		// adding nav drawer items to array
-		// Home
 		navDrawerItems.add(new NavDrawerItem(navMenuTitles[0], navMenuIcons.getResourceId(0, -1)));
-		// Find People
 		navDrawerItems.add(new NavDrawerItem(navMenuTitles[1], navMenuIcons.getResourceId(1, -1)));
-		// Photos
 		navDrawerItems.add(new NavDrawerItem(navMenuTitles[2], navMenuIcons.getResourceId(2, -1)));
-		// Communities, Will add a counter here
 		navDrawerItems.add(new NavDrawerItem(navMenuTitles[3], navMenuIcons.getResourceId(3, -1), true, "22"));
-		// Pages
 		navDrawerItems.add(new NavDrawerItem(navMenuTitles[4], navMenuIcons.getResourceId(4, -1)));
-		// What's hot, We will add a counter here
 		navDrawerItems.add(new NavDrawerItem(navMenuTitles[5], navMenuIcons.getResourceId(5, -1), true, "50+"));
 
 		// Recycle the typed array
@@ -73,7 +75,12 @@ public class HomeActivity extends BaseActivity {
 
 		// setting the nav drawer list adapter
 		adapter = new NavDrawerListAdapter(getApplicationContext(), navDrawerItems);
-		mDrawerList.setAdapter(adapter);
+
+		View header = View.inflate(HomeActivity.this, R.layout.left_bar_user_layout, null);
+		TextView leftBarUsername = (TextView) header.findViewById(R.id.leftbar_username);
+		leftBarUsername.setText(user.getUsername());
+		leftBarListView.addHeaderView(header);
+		leftBarListView.setAdapter(adapter);
 
 		// enabling action bar app icon and behaving it as toggle button
 		getActionBar().setDisplayHomeAsUpEnabled(true);
@@ -98,14 +105,12 @@ public class HomeActivity extends BaseActivity {
 			displayView(0);
 		}
 
-		mDrawerList.setOnItemClickListener(new SlideMenuClickListener());
+		leftBarListView.setOnItemClickListener(new SlideMenuClickListener());
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.home_activity2, menu);
-		return true;
+		return false;
 	}
 
 	@Override
@@ -114,19 +119,13 @@ public class HomeActivity extends BaseActivity {
 		if (mDrawerToggle.onOptionsItemSelected(item)) {
 			return true;
 		}
-		// Handle action bar actions click
-		switch (item.getItemId()) {
-		case R.id.action_settings:
-			return true;
-		default:
-			return super.onOptionsItemSelected(item);
-		}
+		return false;
 	}
 
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
 		// if nav drawer is opened, hide the action items
-		boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerList);
+		boolean drawerOpen = mDrawerLayout.isDrawerOpen(leftBarListView);
 		menu.findItem(R.id.action_settings).setVisible(!drawerOpen);
 		return super.onPrepareOptionsMenu(menu);
 	}
@@ -157,8 +156,12 @@ public class HomeActivity extends BaseActivity {
 	private class SlideMenuClickListener implements ListView.OnItemClickListener {
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+			if (position == 0) {
+				// listview header is clicked!
+				return;
+			}
 			// display view for selected nav drawer item
-			displayView(position);
+			displayView(position - 1);
 		}
 	}
 
@@ -168,18 +171,21 @@ public class HomeActivity extends BaseActivity {
 	private void displayView(int position) {
 		// update the main content by replacing fragments
 		Fragment fragment = null;
+		boolean addBackState = true;
+
 		switch (position) {
 		case 0:
 			fragment = new HomeFragment();
+			addBackState = false;
 			break;
 		case 1:
-			doCreateCommunity();
+			fragment = new CreateCommunityFragment();
 			break;
 		case 2:
-			doMyProfile();
+			fragment = new ProfileFragment();
 			break;
 		case 3:
-			doAllCommunities();
+			fragment = new MyCommunitiesFragment();
 			break;
 		case 4:
 			doSearch();
@@ -188,38 +194,32 @@ public class HomeActivity extends BaseActivity {
 			doLogout();
 			break;
 		default:
-			break;
+			return;
 		}
 
 		if (fragment != null) {
 			FragmentManager fragmentManager = getFragmentManager();
-			fragmentManager.beginTransaction().replace(R.id.frame_container, fragment).commit();
+			FragmentTransaction tr = fragmentManager.beginTransaction();
+			if (!addBackState) {
+				int bs = fragmentManager.getBackStackEntryCount();
+				for (int i = 0; i < bs; i++) {
+					fragmentManager.popBackStack();
+				}
+			} else {
+				tr.addToBackStack(null);
+			}
+
+			tr.replace(R.id.frame_container, fragment).commit();
 
 			// update selected item and title, then close the drawer
-			mDrawerList.setItemChecked(position, true);
-			mDrawerList.setSelection(position);
+			leftBarListView.setItemChecked(position + 1, true);
+			leftBarListView.setSelection(position + 1);
 			setTitle(navMenuTitles[position]);
 		}
 
-		mDrawerLayout.closeDrawer(mDrawerList);
+		mDrawerLayout.closeDrawer(leftBarListView);
 	}
 
-	private void doCreateCommunity() {
-		Intent intent = new Intent(HomeActivity.this, CreateCommunityActivity.class);
-		startActivity(intent);
-	}
-
-	private void doMyProfile() {
-		Intent intent = new Intent(HomeActivity.this, ProfileActivity.class);
-		startActivity(intent);
-	}
-
-	private void doAllCommunities() {
-		Intent intent = new Intent(HomeActivity.this, MyCommunitiesActivity.class);
-		intent.putExtra("all", true);
-		startActivity(intent);
-	}
-	
 	private void doSearch() {
 		// TODO not implemented yet!
 	}

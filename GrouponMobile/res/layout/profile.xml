@@ -1,102 +1,166 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:background="@drawable/backgroundtt4"
-    android:layout_height="match_parent"
-    android:orientation="vertical" >
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+
+    <LinearLayout
+        android:id="@+id/profile_top_bar"
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:background="#4c66a4"
+        android:gravity="right|center_vertical"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/profile_edit_button"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/green_button"
+            android:gravity="center_horizontal|center_vertical"
+            android:paddingBottom="3dp"
+            android:paddingLeft="3dp"
+            android:paddingRight="3dp"
+            android:paddingTop="3dp"
+            android:text="Edit Profile"
+            android:textColor="#FFFFFF"
+            android:textSize="12sp" />
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/profile_picture"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/profile_picture_layer_list"
+        android:contentDescription="@string/app_name"
+        android:paddingBottom="4dp"
+        android:paddingLeft="2dp"
+        android:paddingRight="4dp"
+        android:paddingTop="2dp"
+        android:src="@drawable/default_prof_pic" />
 
     <TextView
-        android:id="@+id/textView1"
+        android:id="@+id/profile_username"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Personal Information"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+        android:layout_alignBottom="@id/profile_picture"
+        android:layout_marginLeft="0dp"
+        android:layout_marginTop="10dp"
+        android:layout_toRightOf="@id/profile_picture"
+        android:maxLines="1"
+        android:text="@string/app_name"
+        android:textSize="25sp" />
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+    <TextView
+        android:id="@+id/profile_text_view_name"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/profile_username"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:text="Name: "
+        android:textSize="12sp" />
 
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginTop="27dp"
-            android:editable="false"
-            android:text="Name" />
+    <TextView
+        android:id="@+id/profile_edit_text_name"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/profile_text_view_name"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:text="Serdar"
+        android:textSize="25sp" />
 
-        <TextView
-            android:id="@+id/textView3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_below="@+id/textView2"
-            android:layout_marginTop="42dp"
-            android:editable="false"
-            android:text="Surname" />
+    <EditText
+        android:id="@+id/profile_edit_text_name_edit"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/profile_edit_text_name"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:text="Serdar"
+        android:textSize="25sp"
+        android:visibility="gone" />
 
-        <TextView
-            android:id="@+id/textView4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_below="@+id/textView3"
-            android:layout_marginTop="42dp"
-            android:editable="false"
-            android:text="Email" />
+    <TextView
+        android:id="@+id/profile_text_view_surname"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/profile_edit_text_name_edit"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:text="Surname: "
+        android:textSize="12sp" />
 
-        <TextView
-            android:id="@+id/textView5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_below="@+id/textView4"
-            android:layout_marginTop="36dp"
-            android:editable="false"
-            android:text="Reputation" />
+    <TextView
+        android:id="@+id/profile_edit_text_surname"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/profile_text_view_surname"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:text="Kuzucu"
+        android:textSize="25sp" />
 
-        <EditText
-            android:id="@+id/editText2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/textView4"
-            android:layout_toRightOf="@+id/textView5"
-            android:editable="false"
-            android:ems="10" >
+    <EditText
+        android:id="@+id/profile_edit_text_surname_edit"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/profile_edit_text_surname"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:text="Kuzucu"
+        android:textSize="25sp"
+        android:visibility="gone" />
 
-            <requestFocus />
-        </EditText>
+    <TextView
+        android:id="@+id/profile_text_view_email"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/profile_edit_text_surname_edit"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:text="Email: "
+        android:textSize="12sp" />
 
-        <EditText
-            android:id="@+id/editText3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/textView4"
-            android:layout_alignBottom="@+id/textView4"
-            android:layout_alignLeft="@+id/editText2"
-            android:editable="false"
-            android:ems="10" />
+    <TextView
+        android:id="@+id/profile_edit_text_email"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/profile_text_view_email"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:text="serdarkuzucu13@gmail.com"
+        android:textSize="20sp"
+        android:textStyle="bold" />
 
-        <EditText
-            android:id="@+id/editText4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/textView5"
-            android:layout_alignBottom="@+id/textView5"
-            android:layout_alignLeft="@+id/editText3"
-            android:editable="false"
-            android:ems="10" />
+    <TextView
+        android:id="@+id/profile_text_view_reput"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/profile_edit_text_email"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:text="Reputation: "
+        android:textSize="12sp" />
 
-        <EditText
-            android:id="@+id/editText1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/textView3"
-            android:layout_alignLeft="@+id/editText2"
-            android:editable="false"
-            android:ems="10" />
+    <TextView
+        android:id="@+id/profile_edit_text_reput"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/profile_text_view_reput"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:text="0"
+        android:textSize="25sp"
+        android:textStyle="bold" />
 
-    </RelativeLayout>
-
-</LinearLayout>
+</RelativeLayout>
