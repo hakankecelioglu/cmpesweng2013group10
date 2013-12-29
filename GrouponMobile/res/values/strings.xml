@@ -97,4 +97,12 @@
     <!-- Content Description -->
     <string name="desc_list_item_icon">Item Icon</string>
 
+    <!-- Profile Fragment Labels -->
+    <string name="profile_label_name">Name:</string>
+    <string name="profile_label_surname">Surname:</string>
+    <string name="profile_label_email">Email:</string>
+    <string name="profile_label_reputation">Reputation:</string>
+    <string name="profile_label_edit_profile">Edit Profile</string>
+    <string name="profile_label_save_profile">Save</string>
+
 </resources>

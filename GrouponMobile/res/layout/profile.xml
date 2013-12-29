@@ -22,7 +22,7 @@
             android:paddingLeft="3dp"
             android:paddingRight="3dp"
             android:paddingTop="3dp"
-            android:text="Edit Profile"
+            android:text="@string/profile_label_edit_profile"
             android:textColor="#FFFFFF"
             android:textSize="12sp" />
     </LinearLayout>
@@ -63,7 +63,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
-        android:text="Name: "
+        android:text="@string/profile_label_name"
         android:textSize="12sp" />
 
     <TextView
@@ -73,7 +73,6 @@
         android:layout_below="@id/profile_text_view_name"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:text="Serdar"
         android:textSize="25sp" />
 
     <EditText
@@ -83,7 +82,7 @@
         android:layout_below="@id/profile_edit_text_name"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:text="Serdar"
+        android:inputType="textPersonName"
         android:textSize="25sp"
         android:visibility="gone" />
 
@@ -95,7 +94,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
-        android:text="Surname: "
+        android:text="@string/profile_label_surname"
         android:textSize="12sp" />
 
     <TextView
@@ -105,7 +104,6 @@
         android:layout_below="@id/profile_text_view_surname"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:text="Kuzucu"
         android:textSize="25sp" />
 
     <EditText
@@ -115,7 +113,7 @@
         android:layout_below="@id/profile_edit_text_surname"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:text="Kuzucu"
+        android:inputType="textPersonName"
         android:textSize="25sp"
         android:visibility="gone" />
 
@@ -127,7 +125,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
-        android:text="Email: "
+        android:text="@string/profile_label_email"
         android:textSize="12sp" />
 
     <TextView
@@ -137,7 +135,6 @@
         android:layout_below="@id/profile_text_view_email"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:text="serdarkuzucu13@gmail.com"
         android:textSize="20sp"
         android:textStyle="bold" />
 
@@ -149,7 +146,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
-        android:text="Reputation: "
+        android:text="@string/profile_label_reputation"
         android:textSize="12sp" />
 
     <TextView
@@ -159,7 +156,6 @@
         android:layout_below="@id/profile_text_view_reput"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:text="0"
         android:textSize="25sp"
         android:textStyle="bold" />
 
