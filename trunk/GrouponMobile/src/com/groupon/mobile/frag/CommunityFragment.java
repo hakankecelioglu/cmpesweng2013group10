@@ -10,7 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -37,9 +37,9 @@ public class CommunityFragment extends Fragment {
 	private TextView communityNameField;
 	private TextView communityDescriptionField;
 
-	private ImageButton createTaskButton;
-	private ImageButton createTaskTypeButton;
-	private ImageButton joinCommunityButton;
+	private Button createTaskButton;
+	private Button createTaskTypeButton;
+	private Button joinCommunityButton;
 	private ImageView communityPicture;
 
 	private GrouponApplication app;
@@ -88,9 +88,9 @@ public class CommunityFragment extends Fragment {
 		communityDescriptionField = (TextView) listHeader.findViewById(R.id.communityDescription);
 		communityPicture = (ImageView) listHeader.findViewById(R.id.community_picture);
 
-		createTaskTypeButton = (ImageButton) listHeader.findViewById(R.id.button_create_task_type);
-		joinCommunityButton = (ImageButton) listHeader.findViewById(R.id.button_join_community);
-		createTaskButton = (ImageButton) listHeader.findViewById(R.id.button_create_task);
+		createTaskTypeButton = (Button) listHeader.findViewById(R.id.button_create_task_type);
+		joinCommunityButton = (Button) listHeader.findViewById(R.id.button_join_community);
+		createTaskButton = (Button) listHeader.findViewById(R.id.button_create_task);
 
 		arrayAdapter = new TaskAdapter(getActivity(), R.layout.listview_task, tasks);
 		arrayAdapter.setCommunityNameClickable(false);
@@ -141,9 +141,9 @@ public class CommunityFragment extends Fragment {
 
 				@Override
 				public void onSuccess(Community response) {
-					joinCommunityButton.setBackgroundResource(R.drawable.leave_icon);
+					joinCommunityButton.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.leave_icon, 0, 0);
+					joinCommunityButton.setText(getString(R.string.leave_community));
 					joinCommunityButton.setOnClickListener(leaveCommunityListener);
-
 				}
 
 				@Override
@@ -162,7 +162,8 @@ public class CommunityFragment extends Fragment {
 
 				@Override
 				public void onSuccess(Community response) {
-					joinCommunityButton.setBackgroundResource(R.drawable.join_community_icon);
+					joinCommunityButton.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.join_community_icon, 0, 0);
+					joinCommunityButton.setText(getString(R.string.join_community));
 					joinCommunityButton.setOnClickListener(joinCommunityListener);
 				}
 

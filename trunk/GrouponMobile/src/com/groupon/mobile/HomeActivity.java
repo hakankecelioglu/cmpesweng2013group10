@@ -2,10 +2,12 @@ package com.groupon.mobile;
 
 import java.util.ArrayList;
 
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
-import android.app.FragmentManager.OnBackStackChangedListener;
 import android.app.FragmentTransaction;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
@@ -18,9 +20,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.app.AlertDialog;
-import android.content.Context;
-import android.content.DialogInterface;
 
 import com.groupon.mobile.frag.CreateCommunityFragment;
 import com.groupon.mobile.frag.HomeFragment;
@@ -47,7 +46,7 @@ public class HomeActivity extends BaseActivity {
 
 	private ArrayList<NavDrawerItem> navDrawerItems;
 	private NavDrawerListAdapter adapter;
-	
+
 	final Context context = this;
 
 	@Override
@@ -230,34 +229,30 @@ public class HomeActivity extends BaseActivity {
 	}
 
 	private void doLogout() {
-		
-			AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
- 
-			alertDialogBuilder.setTitle("Logout");
 
-			alertDialogBuilder
-				.setMessage("Are you sure to logout?")
-				.setCancelable(false)
-				.setPositiveButton("Yes",new DialogInterface.OnClickListener() {
-					
-					public void onClick(DialogInterface dialog,int id) {
-						getApp().setAuthToken(null);
-						getApp().setLoggedUser(null);
+		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
 
-						Intent intent = new Intent(HomeActivity.this, MainActivity.class);
-						startActivity(intent);
-						finish();
-					}
-				  })
-				.setNegativeButton("No",new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog,int id) {
-						dialog.cancel();
-					}
-				});
+		alertDialogBuilder.setTitle("Logout");
 
-				AlertDialog alertDialog = alertDialogBuilder.create();
-				alertDialog.show();
-		
+		alertDialogBuilder.setMessage("Are you sure to logout?").setCancelable(false).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+
+			public void onClick(DialogInterface dialog, int id) {
+				getApp().setAuthToken(null);
+				getApp().setLoggedUser(null);
+
+				Intent intent = new Intent(HomeActivity.this, MainActivity.class);
+				startActivity(intent);
+				finish();
+			}
+		}).setNegativeButton("No", new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int id) {
+				dialog.cancel();
+			}
+		});
+
+		AlertDialog alertDialog = alertDialogBuilder.create();
+		alertDialog.show();
+
 	}
 
 }
