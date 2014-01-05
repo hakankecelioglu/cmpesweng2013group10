@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:background="#ffffff"
+    android:background="@drawable/gradient_bg"
     android:layout_height="wrap_content"
     android:padding="5dp" >
 
     <ImageView
         android:id="@+id/community_picture"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:background="@drawable/image_back"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:layout_marginRight="5dp"
