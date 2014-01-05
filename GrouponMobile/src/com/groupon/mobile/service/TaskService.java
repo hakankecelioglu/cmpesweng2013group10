@@ -149,6 +149,34 @@ public class TaskService {
 
 	}
 
+	public void getHomeFeedTasks(GrouponCallback<ArrayList<Task>> callback) {
+		GrouponTask<ArrayList<Task>> taskTask = new GrouponTask<ArrayList<Task>>(callback) {
+			public ArrayList<Task> run() throws GrouponException {
+				String url = Constants.SERVER + "task/getHomeFeedTasks";
+
+				JSONObject json = ConnectionUtils.makeGetRequest(url, null, app.getAuthToken());
+				ArrayList<Task> tasks = new ArrayList<Task>();
+				if (json.has("tasks")) {
+					try {
+						JSONArray tasksJson = json.getJSONArray("tasks");
+
+						for (int i = 0; i < tasksJson.length(); i++) {
+							tasks.add(convertJSONObjectToTask(tasksJson.getJSONObject(i)));
+						}
+					} catch (JSONException e) {
+						throw new GrouponException("An error occured while parsing json returned from the server!");
+					}
+				} else {
+					throw new GrouponException("An unknown error occured while creating the community :(");
+				}
+
+				return tasks;
+			}
+		};
+
+		GrouponTask.execute(taskTask);
+
+	}
 	public void unFollowTask(final long taskId, final GrouponCallback<Task> callback) {
 		GrouponTask<Task> taskTask = new GrouponTask<Task>(callback) {
 
