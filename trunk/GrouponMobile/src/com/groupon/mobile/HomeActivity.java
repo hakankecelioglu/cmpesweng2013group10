@@ -19,6 +19,15 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.os.Bundle;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+
 import com.groupon.mobile.frag.CreateCommunityFragment;
 import com.groupon.mobile.frag.HomeFragment;
 import com.groupon.mobile.frag.MyCommunitiesFragment;
@@ -44,6 +53,8 @@ public class HomeActivity extends BaseActivity {
 
 	private ArrayList<NavDrawerItem> navDrawerItems;
 	private NavDrawerListAdapter adapter;
+	
+	final Context context = this;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -225,12 +236,34 @@ public class HomeActivity extends BaseActivity {
 	}
 
 	private void doLogout() {
-		getApp().setAuthToken(null);
-		getApp().setLoggedUser(null);
+		
+			AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
+ 
+			alertDialogBuilder.setTitle("Logout");
 
-		Intent intent = new Intent(HomeActivity.this, MainActivity.class);
-		startActivity(intent);
-		finish();
+			alertDialogBuilder
+				.setMessage("Are you sure to logout?")
+				.setCancelable(false)
+				.setPositiveButton("Yes",new DialogInterface.OnClickListener() {
+					
+					public void onClick(DialogInterface dialog,int id) {
+						getApp().setAuthToken(null);
+						getApp().setLoggedUser(null);
+
+						Intent intent = new Intent(HomeActivity.this, MainActivity.class);
+						startActivity(intent);
+						finish();
+					}
+				  })
+				.setNegativeButton("No",new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog,int id) {
+						dialog.cancel();
+					}
+				});
+
+				AlertDialog alertDialog = alertDialogBuilder.create();
+				alertDialog.show();
+		
 	}
 
 }
