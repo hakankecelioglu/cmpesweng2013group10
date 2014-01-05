@@ -245,6 +245,27 @@ public class TaskController extends AbstractBaseController {
 		return prepareSuccessResponse(response);
 	}
 
+	@RequestMapping(value = "/getHomeFeedTasks", method = RequestMethod.GET)
+	public ResponseEntity<Map<String, Object>> getHomeFeedTasks(HttpServletRequest request) {
+		Map<String, Object> response = new HashMap<String, Object>();
+
+		User user = getUser();
+		if (user == null) {
+			throw new GrouponException("Login before doing this action!");
+		}
+
+		List<Task> homeFeedTasks = taskService.getHomeFeedTasks(user, getCurrentSortBy(request));
+
+		if (homeFeedTasks == null || homeFeedTasks.size() == 0) {
+			response.put("emptyHomeFeed", Boolean.TRUE);
+			homeFeedTasks = taskService.getAllTasks(0, 10, getCurrentSortBy(request));
+		}
+
+		response.put("tasks", TaskJson.convert(homeFeedTasks));
+
+		return prepareSuccessResponse(response);
+	}
+
 	@RequestMapping(value = "/getCommunityTasks", method = RequestMethod.GET)
 	public ResponseEntity<Map<String, Object>> getCommunityTasks(HttpServletRequest request, @RequestParam Long communityId) {
 		Map<String, Object> response = new HashMap<String, Object>();
@@ -302,7 +323,7 @@ public class TaskController extends AbstractBaseController {
 		if (StringUtils.isBlank(q)) {
 			return "redirect:/search";
 		}
-		
+
 		setGlobalAttributesToModel(model, request);
 
 		List<Task> tasks = taskService.searchTasks(q);
