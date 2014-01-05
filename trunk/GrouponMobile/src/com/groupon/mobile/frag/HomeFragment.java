@@ -2,6 +2,7 @@ package com.groupon.mobile.frag;
 
 import java.util.ArrayList;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -21,38 +22,57 @@ public class HomeFragment extends Fragment {
 	private TaskAdapter arrayAdapter;
 	private ArrayList<Task> tasks;
 	private ListView listview;
+	private Activity activity;
 
 	public HomeFragment() {
 	}
 
 	@Override
+	public void onAttach(android.app.Activity activity) {
+		super.onAttach(activity);
+		this.activity = activity;
+	}
+
+	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View rootView = inflater.inflate(R.layout.activity_home, container, false);
-		tasks = new ArrayList<Task>();
-		setupListView(rootView);
+		if (tasks == null) {
+			tasks = new ArrayList<Task>();
+			setupUI(rootView);
+			fillListView(rootView);
+		} else {
+			setupUI(rootView);
+			arrayAdapter.notifyDataSetChanged();
+		}
 		return rootView;
 	}
 
-	private void setupListView(View view) {
-		listview = (ListView) view.findViewById(R.id.listview);
-		TaskService taskService = new TaskService((GrouponApplication) getActivity().getApplication());
-
+	private void setupUI(View view) {
 		arrayAdapter = new TaskAdapter(getActivity(), R.layout.listview_task, tasks);
 		arrayAdapter.setFragmentManager(getFragmentManager());
 
+		listview = (ListView) view.findViewById(R.id.listview);
 		listview.setAdapter(arrayAdapter);
-		taskService.getFollowedTasks(new GrouponCallback<ArrayList<Task>>() {
-			public void onSuccess(ArrayList<Task> response) {
-				for (Task t : response) {
-					tasks.add(t);
-				}
-
-				arrayAdapter.notifyDataSetChanged();
-			}
-
-			public void onFail(String errorMessage) {
-				Toast.makeText(getActivity(), errorMessage, Toast.LENGTH_SHORT).show();
-			}
-		});
 	}
+
+	private void fillListView(View view) {
+		TaskService taskService = new TaskService((GrouponApplication) getActivity().getApplication());
+		taskService.getFollowedTasks(onHomeFeedResponse);
+	}
+
+	private GrouponCallback<ArrayList<Task>> onHomeFeedResponse = new GrouponCallback<ArrayList<Task>>() {
+		public void onSuccess(ArrayList<Task> response) {
+			for (Task t : response) {
+				tasks.add(t);
+			}
+
+			arrayAdapter.notifyDataSetChanged();
+		}
+
+		public void onFail(String errorMessage) {
+			if (activity != null) {
+				Toast.makeText(activity, errorMessage, Toast.LENGTH_SHORT).show();
+			}
+		}
+	};
 }

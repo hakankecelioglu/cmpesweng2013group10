@@ -1,0 +1,79 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <LinearLayout
+        android:id="@+id/community_top_bar"
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:background="#4c66a4"
+        android:gravity="right|center_vertical"
+        android:orientation="horizontal" >
+
+        <ImageButton
+            android:id="@+id/button_create_task"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/create_task_icon"
+            android:contentDescription="@string/app_name" />
+
+        <ImageButton
+            android:id="@+id/button_create_task_type"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/create_task_type_icon"
+            android:contentDescription="@string/app_name" />
+
+        <ImageButton
+            android:id="@+id/button_join_community"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/join_community_icon"
+            android:contentDescription="@string/app_name" />
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/community_picture"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/profile_picture_layer_list"
+        android:contentDescription="@string/app_name"
+        android:paddingBottom="4dp"
+        android:paddingLeft="2dp"
+        android:paddingRight="4dp"
+        android:paddingTop="2dp"
+        android:src="@drawable/logonew" />
+
+    <TextView
+        android:id="@+id/communityName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/community_picture"
+        android:layout_marginLeft="5dp"
+        android:layout_toRightOf="@id/community_picture"
+        android:maxLines="2"
+        android:text="@string/app_name"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/communityDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/community_picture"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="5dp"
+        android:text="@string/app_name"
+        android:textSize="16sp" />
+
+</RelativeLayout>
