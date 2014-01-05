@@ -23,10 +23,15 @@ import com.groupon.mobile.model.Task;
 public class TaskAdapter extends ArrayAdapter<Task> {
 	private int resource;
 	private FragmentManager fragmentManager;
+	private boolean communityNameClickable = true;
 
 	public TaskAdapter(Context context, int resource, List<Task> items) {
 		super(context, resource, items);
 		this.resource = resource;
+	}
+
+	public void setCommunityNameClickable(boolean c) {
+		this.communityNameClickable = c;
 	}
 
 	public void setFragmentManager(FragmentManager fm) {
@@ -65,7 +70,9 @@ public class TaskAdapter extends ArrayAdapter<Task> {
 
 		taskCommunity.setText(task.getCommunityName());
 		taskCommunity.setTag(task.getCommunityId());
-		taskCommunity.setOnClickListener(communityNameClickListener);
+		if (communityNameClickable) {
+			taskCommunity.setOnClickListener(communityNameClickListener);
+		}
 
 		return alertView;
 	}

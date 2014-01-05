@@ -2,13 +2,12 @@ package com.groupon.mobile;
 
 import java.util.ArrayList;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.Toast;
-import android.widget.AdapterView.OnItemClickListener;
 
 import com.groupon.mobile.conn.GrouponCallback;
 import com.groupon.mobile.layout.TaskAdapter;
@@ -58,12 +57,12 @@ public class CommunityTasksActivity extends BaseActivity {
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 			if (position >= 0 && position < tasks.size()) {
-				/** TODO FIXME
-				Task task = tasks.get(position);
-				Intent intent = new Intent(CommunityTasksActivity.this, TaskActivity.class);
-				intent.putExtra("taskId", task.getId());
-				startActivity(intent);
-				*/
+				/**
+				 * TODO FIXME Task task = tasks.get(position); Intent intent =
+				 * new Intent(CommunityTasksActivity.this, TaskActivity.class);
+				 * intent.putExtra("taskId", task.getId());
+				 * startActivity(intent);
+				 */
 			}
 		}
 
