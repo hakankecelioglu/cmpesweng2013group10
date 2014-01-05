@@ -57,7 +57,7 @@ public class HomeFragment extends Fragment {
 
 	private void fillListView(View view) {
 		TaskService taskService = new TaskService((GrouponApplication) getActivity().getApplication());
-		taskService.getFollowedTasks(onHomeFeedResponse);
+		taskService.getHomeFeedTasks(onHomeFeedResponse);
 	}
 
 	private GrouponCallback<ArrayList<Task>> onHomeFeedResponse = new GrouponCallback<ArrayList<Task>>() {
