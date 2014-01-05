@@ -127,7 +127,7 @@ public class UserController extends AbstractBaseController {
 		String surname = request.getParameter("surname");
 
 		String passwordHash = GrouponWebUtils.hashPasswordForDB(password);
-		
+
 		EmailValidator validator = new EmailValidator();
 		if (!validator.validate(email)) {
 			throw new GrouponException("Please enter a valid email address!");
@@ -158,7 +158,7 @@ public class UserController extends AbstractBaseController {
 		String username = json.getString("username");
 		String password = json.getString("password");
 		String passwordHash = GrouponWebUtils.hashPasswordForDB(password);
-		
+
 		EmailValidator validator = new EmailValidator();
 		if (!validator.validate(email)) {
 			throw new GrouponException("Please enter a valid email address!");
@@ -224,6 +224,23 @@ public class UserController extends AbstractBaseController {
 		model.addAttribute("profile", profile);
 		setGlobalAttributesToModel(model, request);
 		return "profile.view";
+	}
+
+	@RequestMapping(value = "mobile/profile/{userid}", method = RequestMethod.GET)
+	public ResponseEntity<Map<String, Object>> getUserProfile(HttpServletRequest request, @PathVariable("userid") Long userId) {
+		Map<String, Object> response = new HashMap<String, Object>();
+		User user = getUser();
+		if (user == null) {
+			throw new GrouponException("Login before doing this action!");
+		}
+
+		User profile = userService.getUserById(userId);
+		if (profile == null) {
+			throw new GrouponException("Username cannot be found!");
+		}
+
+		response.put("user", UserJson.convert(profile));
+		return prepareSuccessResponse(response);
 	}
 
 	@RequestMapping(value = "emailApproval", method = RequestMethod.GET)
