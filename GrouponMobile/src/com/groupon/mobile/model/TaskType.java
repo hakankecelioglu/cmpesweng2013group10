@@ -3,7 +3,7 @@ package com.groupon.mobile.model;
 import java.util.List;
 
 public class TaskType {
-	
+
 	private long id;
 	private String name;
 	private String description;
@@ -34,7 +34,6 @@ public class TaskType {
 	public void setFields(List<TaskTypeField> fields) {
 		this.fields = fields;
 	}
-
 
 	public NeedType getNeedType() {
 		return needType;

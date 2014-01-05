@@ -2,12 +2,12 @@ package com.groupon.mobile.model;
 
 import java.util.List;
 
-
 public class ReplyField {
 	private String name;
 	private String fieldType;
 	private List<ReplyFieldAttribute> attributes;
 	private TaskType taskType;
+
 	public String getFieldType() {
 		return fieldType;
 	}

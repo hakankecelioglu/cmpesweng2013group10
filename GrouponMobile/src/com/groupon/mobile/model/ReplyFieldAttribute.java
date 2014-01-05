@@ -1,10 +1,10 @@
 package com.groupon.mobile.model;
 
-
 public class ReplyFieldAttribute {
 	private String name;
 	private String value;
 	private ReplyField replyField;
+
 	public String getName() {
 		return name;
 	}
@@ -28,8 +28,5 @@ public class ReplyFieldAttribute {
 	public void setReplyField(ReplyField replyField) {
 		this.replyField = replyField;
 	}
-
-
-
 
 }
