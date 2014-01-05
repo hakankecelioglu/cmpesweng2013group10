@@ -232,9 +232,9 @@ public class HomeActivity extends BaseActivity {
 
 		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
 
-		alertDialogBuilder.setTitle("Logout");
+		alertDialogBuilder.setTitle("Are you sure?");
 
-		alertDialogBuilder.setMessage("Are you sure to logout?").setCancelable(false).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+		alertDialogBuilder.setMessage("Do you really want to logout?").setCancelable(false).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
 
 			public void onClick(DialogInterface dialog, int id) {
 				getApp().setAuthToken(null);
