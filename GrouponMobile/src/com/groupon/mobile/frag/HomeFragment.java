@@ -24,6 +24,8 @@ public class HomeFragment extends Fragment {
 	private ListView listview;
 	private Activity activity;
 
+	private GrouponApplication app;
+
 	public HomeFragment() {
 	}
 
@@ -36,6 +38,8 @@ public class HomeFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View rootView = inflater.inflate(R.layout.activity_home, container, false);
+		app = (GrouponApplication) getActivity().getApplication();
+
 		if (tasks == null) {
 			tasks = new ArrayList<Task>();
 			setupUI(rootView);
@@ -48,7 +52,7 @@ public class HomeFragment extends Fragment {
 	}
 
 	private void setupUI(View view) {
-		arrayAdapter = new TaskAdapter(getActivity(), R.layout.listview_task, tasks);
+		arrayAdapter = new TaskAdapter(app, getActivity(), R.layout.listview_task, tasks);
 		arrayAdapter.setFragmentManager(getFragmentManager());
 
 		listview = (ListView) view.findViewById(R.id.listview);

@@ -35,7 +35,7 @@ public class CommunityTasksActivity extends BaseActivity {
 	private void setupListView() {
 		listview = (ListView) findViewById(R.id.listview);
 		TaskService taskService = new TaskService(getApp());
-		arrayAdapter = new TaskAdapter(CommunityTasksActivity.this, R.layout.listview_task, tasks);
+		arrayAdapter = new TaskAdapter(getApp(), CommunityTasksActivity.this, R.layout.listview_task, tasks);
 		listview.setAdapter(arrayAdapter);
 		taskService.getCommunityTasks(communityId, new GrouponCallback<ArrayList<Task>>() {
 			public void onSuccess(ArrayList<Task> response) {

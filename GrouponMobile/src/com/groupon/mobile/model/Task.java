@@ -6,17 +6,11 @@ import java.util.Map;
 public class Task {
 
 	private Long id;
-
 	private String name;
-
 	private String description;
-
 	private User owner;
-
 	private Community community;
-
 	private String deadline;
-
 	private String location;
 	private Map<String, List<String>> AttributeMap;
 	private String requirementName;
