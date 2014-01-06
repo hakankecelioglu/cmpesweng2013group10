@@ -92,7 +92,7 @@ public class CommunityFragment extends Fragment {
 		joinCommunityButton = (Button) listHeader.findViewById(R.id.button_join_community);
 		createTaskButton = (Button) listHeader.findViewById(R.id.button_create_task);
 
-		arrayAdapter = new TaskAdapter(getActivity(), R.layout.listview_task, tasks);
+		arrayAdapter = new TaskAdapter(app, getActivity(), R.layout.listview_task, tasks);
 		arrayAdapter.setCommunityNameClickable(false);
 		arrayAdapter.setFragmentManager(getFragmentManager());
 

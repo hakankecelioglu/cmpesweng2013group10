@@ -44,7 +44,7 @@ public class TaskService {
 					JSONArray replyFieldsJson = json.getJSONArray("fields");
 
 					for (int i = 0; i < replyFieldsJson.length(); i++) {
-						replyFields.add(ConvertJSONObjectToReplyField(replyFieldsJson.getJSONObject(i)));
+						replyFields.add(convertJSONObjectToReplyField(replyFieldsJson.getJSONObject(i)));
 					}
 				} catch (JSONException e) {
 					// TODO Auto-generated catch block
@@ -56,38 +56,6 @@ public class TaskService {
 
 		};
 		GrouponTask.execute(taskTask);
-	}
-
-	private ReplyField ConvertJSONObjectToReplyField(JSONObject json) throws JSONException {
-		ReplyField replyField = new ReplyField();
-		if (json.has("name")) {
-			replyField.setName(json.getString("name"));
-		}
-		if (json.has("fieldType")) {
-			replyField.setFieldType("fieldType");
-		}
-		if (json.has("attributes")) {
-			JSONArray attributesJsonArray = json.getJSONArray("attributes");
-			List<ReplyFieldAttribute> replyFieldAttributes = new ArrayList<ReplyFieldAttribute>();
-			for (int i = 0; i < attributesJsonArray.length(); i++) {
-				ReplyFieldAttribute replyFieldAttribute = ConvertJsonToReplyFieldAttribute(attributesJsonArray.getJSONObject(i));
-				replyFieldAttributes.add(replyFieldAttribute);
-			}
-		}
-
-		return replyField;
-
-	}
-
-	private ReplyFieldAttribute ConvertJsonToReplyFieldAttribute(JSONObject json) throws JSONException {
-		ReplyFieldAttribute replyFieldAttribute = new ReplyFieldAttribute();
-		if (json.has("name")) {
-			replyFieldAttribute.setName(json.getString("name"));
-		}
-		if (json.has("value")) {
-			replyFieldAttribute.setValue(json.getString("value"));
-		}
-		return replyFieldAttribute;
 	}
 
 	public void getCommunityTasks(final long communityId, GrouponCallback<ArrayList<Task>> callback) {
@@ -177,6 +145,7 @@ public class TaskService {
 		GrouponTask.execute(taskTask);
 
 	}
+
 	public void unFollowTask(final long taskId, final GrouponCallback<Task> callback) {
 		GrouponTask<Task> taskTask = new GrouponTask<Task>(callback) {
 
@@ -295,7 +264,6 @@ public class TaskService {
 		};
 
 		GrouponTask.execute(taskTask);
-
 	}
 
 	private Map<String, List<String>> convertJSONObjectToTaskAttribute(JSONObject json) throws JSONException {
@@ -323,7 +291,7 @@ public class TaskService {
 		return m;
 	}
 
-	protected Task convertJSONObjectToTask(JSONObject json) throws JSONException {
+	private Task convertJSONObjectToTask(JSONObject json) throws JSONException {
 
 		Task task = new Task();
 		if (json.has("auth")) {
@@ -391,6 +359,10 @@ public class TaskService {
 		if (json.has("createDate")) {
 			task.setCreateDate(json.getLong("createDate"));
 		}
+		
+		if (json.has("follower")) {
+			task.setFollower(json.getBoolean("follower"));
+		}
 
 		return task;
 	}
@@ -410,6 +382,37 @@ public class TaskService {
 			array.put(json);
 		}
 		return array;
+	}
+
+	private ReplyField convertJSONObjectToReplyField(JSONObject json) throws JSONException {
+		ReplyField replyField = new ReplyField();
+		if (json.has("name")) {
+			replyField.setName(json.getString("name"));
+		}
+		if (json.has("fieldType")) {
+			replyField.setFieldType("fieldType");
+		}
+		if (json.has("attributes")) {
+			JSONArray attributesJsonArray = json.getJSONArray("attributes");
+			List<ReplyFieldAttribute> replyFieldAttributes = new ArrayList<ReplyFieldAttribute>();
+			for (int i = 0; i < attributesJsonArray.length(); i++) {
+				ReplyFieldAttribute replyFieldAttribute = convertJsonToReplyFieldAttribute(attributesJsonArray.getJSONObject(i));
+				replyFieldAttributes.add(replyFieldAttribute);
+			}
+		}
+
+		return replyField;
+	}
+
+	private ReplyFieldAttribute convertJsonToReplyFieldAttribute(JSONObject json) throws JSONException {
+		ReplyFieldAttribute replyFieldAttribute = new ReplyFieldAttribute();
+		if (json.has("name")) {
+			replyFieldAttribute.setName(json.getString("name"));
+		}
+		if (json.has("value")) {
+			replyFieldAttribute.setValue(json.getString("value"));
+		}
+		return replyFieldAttribute;
 	}
 
 }

@@ -11,23 +11,29 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.groupon.mobile.GrouponApplication;
 import com.groupon.mobile.R;
+import com.groupon.mobile.conn.GrouponCallback;
 import com.groupon.mobile.frag.CommunityFragment;
 import com.groupon.mobile.frag.ProfileFragment;
 import com.groupon.mobile.frag.TaskFragment;
 import com.groupon.mobile.model.Task;
+import com.groupon.mobile.service.TaskService;
 
 public class TaskAdapter extends ArrayAdapter<Task> {
 	private int resource;
 	private FragmentManager fragmentManager;
 	private boolean communityNameClickable = true;
+	private GrouponApplication app;
 
-	public TaskAdapter(Context context, int resource, List<Task> items) {
+	public TaskAdapter(GrouponApplication app, Context context, int resource, List<Task> items) {
 		super(context, resource, items);
 		this.resource = resource;
+		this.app = app;
 	}
 
 	public void setCommunityNameClickable(boolean c) {
@@ -57,6 +63,7 @@ public class TaskAdapter extends ArrayAdapter<Task> {
 		TextView taskDescription = (TextView) alertView.findViewById(R.id.task_description);
 		TextView taskBy = (TextView) alertView.findViewById(R.id.task_by);
 		TextView taskCommunity = (TextView) alertView.findViewById(R.id.task_community_name);
+		Button followUnfollowButton = (Button) alertView.findViewById(R.id.follow_button);
 
 		taskName.setText(task.getName());
 		taskName.setTag(task.getId());
@@ -74,7 +81,27 @@ public class TaskAdapter extends ArrayAdapter<Task> {
 			taskCommunity.setOnClickListener(communityNameClickListener);
 		}
 
+		followUnfollowButton.setTag(task.getId());
+
+		if (task.isFollower()) {
+			convertFollowButtonToUnfollow(followUnfollowButton);
+		} else {
+			convertUnfollowButtonToFollow(followUnfollowButton);
+		}
+
 		return alertView;
+	}
+
+	private void convertFollowButtonToUnfollow(Button followButton) {
+		followButton.setOnClickListener(unfollowClickListener);
+		followButton.setText(app.getString(R.string.task_unfollow_button));
+		followButton.setCompoundDrawablesWithIntrinsicBounds(R.drawable.unfollow_icon, 0, 0, 0);
+	}
+
+	private void convertUnfollowButtonToFollow(Button followButton) {
+		followButton.setOnClickListener(followClickListener);
+		followButton.setText(app.getString(R.string.task_follow_button));
+		followButton.setCompoundDrawablesWithIntrinsicBounds(R.drawable.follow_icon, 0, 0, 0);
 	}
 
 	private View.OnClickListener taskNameClickListener = new View.OnClickListener() {
@@ -137,6 +164,42 @@ public class TaskAdapter extends ArrayAdapter<Task> {
 			transaction.addToBackStack(null);
 			transaction.replace(R.id.frame_container, fragment);
 			transaction.commit();
+		}
+	};
+
+	private View.OnClickListener followClickListener = new View.OnClickListener() {
+		public void onClick(final View v) {
+			Long taskId = (Long) v.getTag();
+
+			TaskService taskService = new TaskService(app);
+			taskService.followTask(taskId, new GrouponCallback<Task>() {
+				public void onSuccess(Task response) {
+					Button followButton = (Button) v;
+					convertFollowButtonToUnfollow(followButton);
+				}
+
+				public void onFail(String errorMessage) {
+
+				}
+			});
+		}
+	};
+
+	private View.OnClickListener unfollowClickListener = new View.OnClickListener() {
+		public void onClick(final View v) {
+			Long taskId = (Long) v.getTag();
+
+			TaskService taskService = new TaskService(app);
+			taskService.unFollowTask(taskId, new GrouponCallback<Task>() {
+				public void onSuccess(Task response) {
+					Button followButton = (Button) v;
+					convertUnfollowButtonToFollow(followButton);
+				}
+
+				public void onFail(String errorMessage) {
+
+				}
+			});
 		}
 	};
 }
