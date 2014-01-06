@@ -63,7 +63,8 @@ public class TaskAdapter extends ArrayAdapter<Task> {
 		TextView taskDescription = (TextView) alertView.findViewById(R.id.task_description);
 		TextView taskBy = (TextView) alertView.findViewById(R.id.task_by);
 		TextView taskCommunity = (TextView) alertView.findViewById(R.id.task_community_name);
-		Button followUnfollowButton = (Button) alertView.findViewById(R.id.follow_button);
+		Button followButton = (Button) alertView.findViewById(R.id.follow_button);
+		Button unfollowButton = (Button) alertView.findViewById(R.id.unfollow_button);
 
 		taskName.setText(task.getName());
 		taskName.setTag(task.getId());
@@ -81,27 +82,35 @@ public class TaskAdapter extends ArrayAdapter<Task> {
 			taskCommunity.setOnClickListener(communityNameClickListener);
 		}
 
-		followUnfollowButton.setTag(task.getId());
+		followButton.setTag(task.getId());
+		followButton.setOnClickListener(followClickListener);
+
+		unfollowButton.setTag(task.getId());
+		unfollowButton.setOnClickListener(unfollowClickListener);
 
 		if (task.isFollower()) {
-			convertFollowButtonToUnfollow(followUnfollowButton);
+			convertFollowButtonToUnfollow(alertView);
 		} else {
-			convertUnfollowButtonToFollow(followUnfollowButton);
+			convertUnfollowButtonToFollow(alertView);
 		}
 
 		return alertView;
 	}
 
-	private void convertFollowButtonToUnfollow(Button followButton) {
-		followButton.setOnClickListener(unfollowClickListener);
-		followButton.setText(app.getString(R.string.task_unfollow_button));
-		followButton.setCompoundDrawablesWithIntrinsicBounds(R.drawable.unfollow_icon, 0, 0, 0);
+	private void convertFollowButtonToUnfollow(View view) {
+		Button followButton = (Button) view.findViewById(R.id.follow_button);
+		Button unfollowButton = (Button) view.findViewById(R.id.unfollow_button);
+
+		followButton.setVisibility(View.GONE);
+		unfollowButton.setVisibility(View.VISIBLE);
 	}
 
-	private void convertUnfollowButtonToFollow(Button followButton) {
-		followButton.setOnClickListener(followClickListener);
-		followButton.setText(app.getString(R.string.task_follow_button));
-		followButton.setCompoundDrawablesWithIntrinsicBounds(R.drawable.follow_icon, 0, 0, 0);
+	private void convertUnfollowButtonToFollow(View view) {
+		Button followButton = (Button) view.findViewById(R.id.follow_button);
+		Button unfollowButton = (Button) view.findViewById(R.id.unfollow_button);
+
+		followButton.setVisibility(View.VISIBLE);
+		unfollowButton.setVisibility(View.GONE);
 	}
 
 	private View.OnClickListener taskNameClickListener = new View.OnClickListener() {
@@ -174,8 +183,7 @@ public class TaskAdapter extends ArrayAdapter<Task> {
 			TaskService taskService = new TaskService(app);
 			taskService.followTask(taskId, new GrouponCallback<Task>() {
 				public void onSuccess(Task response) {
-					Button followButton = (Button) v;
-					convertFollowButtonToUnfollow(followButton);
+					convertFollowButtonToUnfollow((View) v.getParent());
 				}
 
 				public void onFail(String errorMessage) {
@@ -192,8 +200,7 @@ public class TaskAdapter extends ArrayAdapter<Task> {
 			TaskService taskService = new TaskService(app);
 			taskService.unFollowTask(taskId, new GrouponCallback<Task>() {
 				public void onSuccess(Task response) {
-					Button followButton = (Button) v;
-					convertUnfollowButtonToFollow(followButton);
+					convertUnfollowButtonToFollow((View) v.getParent());
 				}
 
 				public void onFail(String errorMessage) {
