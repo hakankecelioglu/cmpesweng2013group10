@@ -23,6 +23,7 @@ public class TaskJson implements Serializable {
 	private String communityPicture;
 	private Long communityId;
 	private String status;
+	private boolean isFollower;
 	private Long deadline;
 	private Long followerCount = 0L;
 	private Long createDate = System.currentTimeMillis();
@@ -145,6 +146,14 @@ public class TaskJson implements Serializable {
 
 	public void setCommunityPicture(String communityPicture) {
 		this.communityPicture = communityPicture;
+	}
+
+	public boolean isFollower() {
+		return isFollower;
+	}
+
+	public void setFollower(boolean isFollower) {
+		this.isFollower = isFollower;
 	}
 
 	public static TaskJson convert(Task task) {

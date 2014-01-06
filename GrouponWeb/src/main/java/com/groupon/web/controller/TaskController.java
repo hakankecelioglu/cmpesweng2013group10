@@ -240,7 +240,7 @@ public class TaskController extends AbstractBaseController {
 		}
 
 		List<Task> followedTasks = taskService.getFollowedTasks(user);
-		response.put("tasks", TaskJson.convert(followedTasks));
+		putTaskListToMobileResponseModel(followedTasks, response);
 
 		return prepareSuccessResponse(response);
 	}
@@ -261,7 +261,7 @@ public class TaskController extends AbstractBaseController {
 			homeFeedTasks = taskService.getAllTasks(0, 10, getCurrentSortBy(request));
 		}
 
-		response.put("tasks", TaskJson.convert(homeFeedTasks));
+		putTaskListToMobileResponseModel(homeFeedTasks, response);
 
 		return prepareSuccessResponse(response);
 	}
@@ -271,7 +271,7 @@ public class TaskController extends AbstractBaseController {
 		Map<String, Object> response = new HashMap<String, Object>();
 
 		List<Task> followedTasks = taskService.getTasks(communityId, 0, 5);
-		response.put("tasks", TaskJson.convert(followedTasks));
+		putTaskListToMobileResponseModel(followedTasks, response);
 
 		return prepareSuccessResponse(response);
 	}
@@ -488,5 +488,20 @@ public class TaskController extends AbstractBaseController {
 			}
 		}
 		return attributes;
+	}
+
+	private void putTaskListToMobileResponseModel(List<Task> tasks, Map<String, Object> response) {
+		List<TaskJson> taskJsons = TaskJson.convert(tasks);
+
+		if (tasks.size() > 0) {
+			List<Long> taskIds = GrouponWebUtils.convertModelListToLongList(tasks);
+
+			Map<Long, Boolean> followedTaskMap = taskService.findFollowedTasksIdsByUser(getUser(), taskIds);
+
+			for (TaskJson taskJson : taskJsons) {
+				taskJson.setFollower(followedTaskMap.get(taskJson.getId()));
+			}
+		}
+		response.put("tasks", taskJsons);
 	}
 }
