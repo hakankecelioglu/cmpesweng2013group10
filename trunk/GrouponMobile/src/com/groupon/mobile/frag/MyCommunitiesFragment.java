@@ -26,6 +26,7 @@ public class MyCommunitiesFragment extends Fragment {
 	private ArrayList<Community> communities = new ArrayList<Community>();
 	private ListView listview;
 	private boolean isAll;
+	private boolean isOpen = false;
 
 	private GrouponApplication app;
 
@@ -38,6 +39,7 @@ public class MyCommunitiesFragment extends Fragment {
 		isAll = bundle == null ? false : bundle.getBoolean("all", false);
 
 		setupUI(rootView);
+		isOpen = true;
 
 		return rootView;
 	}
@@ -49,22 +51,27 @@ public class MyCommunitiesFragment extends Fragment {
 
 	private void setupListView(View rootView) {
 		listview = (ListView) rootView.findViewById(R.id.listview);
-		CommunityService communityService = new CommunityService(app);
 		arrayAdapter = new CommunityAdapter(getActivity(), R.layout.listview_community, communities);
 		listview.setAdapter(arrayAdapter);
-		communityService.getCommunities(isAll, new GrouponCallback<ArrayList<Community>>() {
-			public void onSuccess(ArrayList<Community> response) {
-				for (Community c : response) {
-					communities.add(c);
+
+		if (isOpen) {
+			arrayAdapter.notifyDataSetChanged();
+		} else {
+			CommunityService communityService = new CommunityService(app);
+			communityService.getCommunities(isAll, new GrouponCallback<ArrayList<Community>>() {
+				public void onSuccess(ArrayList<Community> response) {
+					for (Community c : response) {
+						communities.add(c);
+					}
+
+					arrayAdapter.notifyDataSetChanged();
 				}
 
-				arrayAdapter.notifyDataSetChanged();
-			}
-
-			public void onFail(String errorMessage) {
-				Toast.makeText(getActivity(), errorMessage, Toast.LENGTH_SHORT).show();
-			}
-		});
+				public void onFail(String errorMessage) {
+					Toast.makeText(getActivity(), errorMessage, Toast.LENGTH_SHORT).show();
+				}
+			});
+		}
 	}
 
 	private OnItemClickListener listViewListener = new OnItemClickListener() {
@@ -81,6 +88,7 @@ public class MyCommunitiesFragment extends Fragment {
 				fragment.setArguments(bundle);
 
 				FragmentTransaction transaction = getFragmentManager().beginTransaction();
+				transaction.addToBackStack(null);
 				transaction.replace(R.id.frame_container, fragment);
 				transaction.commit();
 			}

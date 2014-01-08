@@ -3,20 +3,23 @@ package com.groupon.mobile.frag;
 import java.util.ArrayList;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.groupon.mobile.CreateTaskActivity;
 import com.groupon.mobile.CreateTaskTypeActivity;
 import com.groupon.mobile.GrouponApplication;
 import com.groupon.mobile.R;
@@ -24,8 +27,10 @@ import com.groupon.mobile.conn.GrouponCallback;
 import com.groupon.mobile.layout.TaskAdapter;
 import com.groupon.mobile.model.Community;
 import com.groupon.mobile.model.Task;
+import com.groupon.mobile.model.TaskType;
 import com.groupon.mobile.service.CommunityService;
 import com.groupon.mobile.service.TaskService;
+import com.groupon.mobile.service.TaskTypeService;
 import com.groupon.mobile.utils.ImageUtils;
 
 public class CommunityFragment extends Fragment {
@@ -44,6 +49,9 @@ public class CommunityFragment extends Fragment {
 
 	private GrouponApplication app;
 	private Community community;
+
+	private ArrayList<String> taskTypeNames;
+	private ArrayList<Long> taskTypeIds;
 
 	public CommunityFragment() {
 	}
@@ -116,13 +124,10 @@ public class CommunityFragment extends Fragment {
 	private OnClickListener createButtonClickListener = new OnClickListener() {
 		@Override
 		public void onClick(View v) {
-
-			Intent intent = new Intent(getActivity(), CreateTaskActivity.class);
-			intent.putExtra("communityId", community.getId());
-			startActivity(intent);
-
+			requestTaskTypes();
 		}
 	};
+
 	private OnClickListener createTypeButtonClickListener = new OnClickListener() {
 		@Override
 		public void onClick(View v) {
@@ -201,4 +206,73 @@ public class CommunityFragment extends Fragment {
 			Toast.makeText(getActivity(), errorMessage, Toast.LENGTH_SHORT).show();
 		}
 	};
+
+	private void requestTaskTypes() {
+		TaskTypeService service = new TaskTypeService(app);
+		service.getTaskTypes(community.getId(), new GrouponCallback<ArrayList<TaskType>>() {
+			public void onFail(String errorMessage) {
+				Toast.makeText(getActivity(), errorMessage, Toast.LENGTH_SHORT).show();
+			}
+
+			@Override
+			public void onSuccess(ArrayList<TaskType> taskTypesArray) {
+				taskTypeNames = new ArrayList<String>();
+				taskTypeIds = new ArrayList<Long>();
+
+				for (TaskType taskType : taskTypesArray) {
+					taskTypeNames.add(taskType.getName());
+					taskTypeIds.add(taskType.getId());
+				}
+
+				openSelectTaskTypeDialog();
+			}
+		});
+	}
+
+	private void openSelectTaskTypeDialog() {
+		View alertLayout = View.inflate(getActivity(), R.layout.fragment_task_type, null);
+
+		final Spinner spinner = (Spinner) alertLayout.findViewById(R.id.task_type_spinner);
+		ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, taskTypeNames);
+		adapter.setDropDownViewResource(android.R.layout.simple_list_item_1);
+		spinner.setAdapter(adapter);
+
+		Button selectButton = (Button) alertLayout.findViewById(R.id.task_type_select);
+
+		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+		builder.setView(alertLayout);
+		AlertDialog dialog = builder.create();
+		selectButton.setOnClickListener(new OnTaskTypeSelectedListener(dialog, spinner));
+
+		dialog.show();
+	}
+
+	private class OnTaskTypeSelectedListener implements OnClickListener {
+		private AlertDialog dialog;
+		private Spinner spinner;
+
+		public OnTaskTypeSelectedListener(AlertDialog dialog, Spinner spinner) {
+			this.dialog = dialog;
+			this.spinner = spinner;
+		}
+
+		public void onClick(View v) {
+			int selected = spinner.getSelectedItemPosition();
+			long taskTypeId = taskTypeIds.get(selected);
+
+			dialog.dismiss();
+
+			TaskFormFragment newFragment = new TaskFormFragment();
+			Bundle args = new Bundle();
+			args.putLong("taskTypeId", taskTypeId);
+			args.putLong("communityId", community.getId());
+			newFragment.setArguments(args);
+
+			FragmentTransaction transaction = getFragmentManager().beginTransaction();
+			transaction.replace(R.id.frame_container, newFragment);
+			transaction.addToBackStack(null);
+
+			transaction.commit();
+		}
+	}
 }

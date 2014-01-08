@@ -14,6 +14,7 @@ import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -53,6 +54,13 @@ public class HomeActivity extends BaseActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_home_activity2);
+
+		FragmentManager.enableDebugLogging(true);
+
+		if (savedInstanceState != null) {
+			return;
+		}
+
 		User user = getLoggedUser();
 
 		mTitle = mDrawerTitle = getTitle();
@@ -252,7 +260,33 @@ public class HomeActivity extends BaseActivity {
 
 		AlertDialog alertDialog = alertDialogBuilder.create();
 		alertDialog.show();
+	}
 
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		if (keyCode == KeyEvent.KEYCODE_BACK) {
+			if (getFragmentManager().getBackStackEntryCount() == 0) {
+				this.finish();
+				return false;
+			} else {
+				getFragmentManager().popBackStack();
+				removeCurrentFragment();
+				return false;
+			}
+		}
+
+		return super.onKeyDown(keyCode, event);
+	}
+
+	public void removeCurrentFragment() {
+		FragmentTransaction transaction = getFragmentManager().beginTransaction();
+
+		Fragment currentFrag = getFragmentManager().findFragmentById(R.id.frame_container);
+
+		if (currentFrag != null)
+			transaction.remove(currentFrag);
+
+		transaction.commit();
 	}
 
 }

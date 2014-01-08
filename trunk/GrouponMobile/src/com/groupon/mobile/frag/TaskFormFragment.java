@@ -5,8 +5,9 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,7 +36,7 @@ import com.groupon.mobile.service.TaskTypeService;
 
 public class TaskFormFragment extends Fragment {
 	private long taskTypeId;
-	TaskType taskType;
+	private TaskType taskType;
 	private long communityId;
 	private List<FieldType> fieldTypes;
 	private EditText taskNameField;
@@ -46,7 +47,7 @@ public class TaskFormFragment extends Fragment {
 	private LinearLayout formFieldsLayout;
 
 	private Button createTask;
-	View v;
+	private View rootView;
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -56,9 +57,9 @@ public class TaskFormFragment extends Fragment {
 	}
 
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		rootView = inflater.inflate(R.layout.fragment_task_form, container, false);
 		setTaskType();
-		v = inflater.inflate(R.layout.fragment_task_form, container, false);
-		return v;
+		return rootView;
 	}
 
 	private void setupUI(View v) {
@@ -72,74 +73,53 @@ public class TaskFormFragment extends Fragment {
 		taskDeadlineField.setInputType(InputType.TYPE_CLASS_DATETIME);
 		createTask = (Button) v.findViewById(R.id.button_task_create);
 		createTask.setOnClickListener(createButtonClickListener);
+
 		List<TaskTypeField> taskTypeFields = taskType.getFields();
 		formFieldsLayout = (LinearLayout) v.findViewById(R.id.layout_form_fields);
 
+		int marginTop = pxFromDp(10);
+
 		for (TaskTypeField taskTypeField : taskTypeFields) {
-
 			View fieldView = getFieldView(taskTypeField);
-			formFieldsLayout.addView(fieldView);
-
+			if (fieldView != null) {
+				formFieldsLayout.addView(fieldView);
+				((LinearLayout.LayoutParams) fieldView.getLayoutParams()).setMargins(0, marginTop, 0, 0);
+			}
 		}
+
 		if (taskType.getNeedType() == NeedType.GOODS) {
-			taskRequirementName = new EditText(getActivity().getApplicationContext());
-			taskRequirementName.setHint("What is the need ?");
-			taskRequirementQuantity = new EditText(getActivity().getApplicationContext());
-			taskRequirementQuantity.setHint("What is the required quantity of your need");
-			taskRequirementQuantity.setInputType(InputType.TYPE_CLASS_NUMBER);
-			formFieldsLayout.addView(taskRequirementName);
-			formFieldsLayout.addView(taskRequirementQuantity);
-		} else if (taskType.getNeedType() == NeedType.SERVICE) {
-			taskRequirementName = new EditText(getActivity().getApplicationContext());
-			taskRequirementName.setHint("What service do you need?");
-			formFieldsLayout.addView(taskRequirementName);
-		}
+			View requirementNameView = createRequirementNameLayout(getActivity().getString(R.string.question_name_of_requirement));
+			View requirementQuantityView = createRequirementQuantityLayout(getActivity().getString(R.string.question_quantity_of_requirement));
+			formFieldsLayout.addView(requirementNameView);
+			formFieldsLayout.addView(requirementQuantityView);
 
+			((LinearLayout.LayoutParams) requirementNameView.getLayoutParams()).setMargins(0, marginTop, 0, 0);
+			((LinearLayout.LayoutParams) requirementQuantityView.getLayoutParams()).setMargins(0, marginTop, 0, 0);
+		} else if (taskType.getNeedType() == NeedType.SERVICE) {
+			View requirementNameView = createRequirementNameLayout(getActivity().getString(R.string.question_name_of_service));
+			formFieldsLayout.addView(requirementNameView);
+
+			((LinearLayout.LayoutParams) requirementNameView.getLayoutParams()).setMargins(0, marginTop, 0, 0);
+		}
 	}
 
 	private OnClickListener createButtonClickListener = new OnClickListener() {
-
-		@Override
 		public void onClick(View v) {
 			sendTask();
-
 		}
 	};
 
 	private List<TaskAttribute> parseTaskAttributes() {
 		List<TaskTypeField> taskTypeFields = taskType.getFields();
 		List<TaskAttribute> taskAttributes = new ArrayList<TaskAttribute>();
+
 		for (int i = 0; i < taskTypeFields.size(); i++) {
 			TaskTypeField taskTypeField = taskTypeFields.get(i);
 			FieldType fieldType = taskTypeField.getFieldType();
-			TaskAttribute taskAttribute = new TaskAttribute();
-			String name = taskTypeField.getName();
-			String value = "";
-			if (fieldType == FieldType.SHORT_TEXT) {
-				value = ((EditText) formFieldsLayout.getChildAt(i)).getText().toString();
-			} else if (fieldType == FieldType.SELECT) {
-				LinearLayout spinnerLayout = (LinearLayout) formFieldsLayout.getChildAt(i);
-				// title TextView in first index
-				value = ((Spinner) spinnerLayout.getChildAt(1)).getSelectedItem().toString();
-			} else if (fieldType == FieldType.CHECKBOX) {
-				LinearLayout checkBoxLayout = (LinearLayout) formFieldsLayout.getChildAt(i);
-				// title TextView in first index
-				for (int j = 1; j < checkBoxLayout.getChildCount(); j++) {
-					CheckBox checkBox = ((CheckBox) checkBoxLayout.getChildAt(j));
-					if (checkBox.isChecked()) {
-						TaskAttribute checkBoxAttribute = new TaskAttribute();
-						checkBoxAttribute.setName(name);
-						String checkBoxValue = checkBox.getText().toString();
-						checkBoxAttribute.setValue(checkBoxValue);
-						taskAttributes.add(checkBoxAttribute);
-					}
-				}
-				continue;
-			}
-			taskAttribute.setName(name);
-			taskAttribute.setValue(value);
-			taskAttributes.add(taskAttribute);
+			View view = formFieldsLayout.getChildAt(i);
+			convertViewToTaskAttribute(fieldType, view, taskAttributes);
 		}
+
 		return taskAttributes;
 	}
 
@@ -167,21 +147,18 @@ public class TaskFormFragment extends Fragment {
 		task.setNeedType(taskType.getNeedType().toString());
 		TaskService taskService = new TaskService((GrouponApplication) getActivity().getApplication());
 		taskService.createTask(task, communityId, new GrouponCallback<Task>() {
-
-			@Override
 			public void onSuccess(Task task) {
-				// TODO FIXME
-				// Intent intent = new Intent(getActivity(),
-				// TaskActivity.class);
-				// Long id = task.getId();
-				// intent.putExtra("taskId", id);
-				// getActivity().startActivity(intent);
-				getActivity().finish();
+				TaskFragment taskFragment = new TaskFragment();
+				Bundle args = new Bundle();
+				args.putLong("taskId", task.getId());
+				taskFragment.setArguments(args);
+
+				FragmentTransaction transaction = getFragmentManager().beginTransaction();
+				transaction.replace(R.id.frame_container, taskFragment);
+				transaction.commit();
 			}
 
-			@Override
 			public void onFail(String errorMessage) {
-				// TODO Auto-generated method stub
 
 			}
 		});
@@ -190,52 +167,132 @@ public class TaskFormFragment extends Fragment {
 	private View getFieldView(TaskTypeField taskTypeField) {
 		FieldType f = taskTypeField.getFieldType();
 		fieldTypes.add(f);
-		String name = taskTypeField.getName();
-		List<FieldAttribute> fieldAttributes = taskTypeField.getAttributes();
 
 		switch (f) {
 		case SHORT_TEXT:
-			EditText e = new EditText(getActivity().getApplicationContext());
-			e.setHint(name);
-			return e;
+			return createShortTextLayout(taskTypeField);
 		case SELECT:
-			LinearLayout selectLayout = new LinearLayout(getActivity().getApplicationContext());
-			selectLayout.setOrientation(LinearLayout.VERTICAL);
-			TextView spinnerTitle = new TextView(getActivity().getApplicationContext());
-			spinnerTitle.setText(name);
-			selectLayout.addView(spinnerTitle);
-			Spinner spinner = new Spinner(getActivity().getApplicationContext());
-			List<String> options = new ArrayList<String>();
-			for (FieldAttribute fieldAttribute : fieldAttributes) {
-				options.add(fieldAttribute.getValue());
-			}
-			ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, options);
-			spinner.setAdapter(adapter);
-
-			selectLayout.addView(spinner);
-			return selectLayout;
+			return createSelectLayout(taskTypeField);
 		case CHECKBOX:
-			LinearLayout checkBoxLayout = new LinearLayout(getActivity().getApplicationContext());
-			checkBoxLayout.setOrientation(LinearLayout.VERTICAL);
-			TextView title = new TextView(getActivity().getApplicationContext());
-			title.setText(name);
-			checkBoxLayout.addView(title);
-			for (FieldAttribute fieldAttribute : fieldAttributes) {
-				CheckBox checkBox = new CheckBox(getActivity().getApplicationContext());
-				checkBox.setText(fieldAttribute.getValue());
-				checkBoxLayout.addView(checkBox);
-			}
-			return checkBoxLayout;
+			return createCheckboxesLayout(taskTypeField);
 		default:
 			return null;
 		}
+	}
 
+	private View createShortTextLayout(TaskTypeField taskTypeField) {
+		View editTextView = View.inflate(getActivity(), R.layout.custom_field_text, null);
+		TextView hintView = (TextView) editTextView.findViewById(R.id.custom_field_text_title);
+		hintView.setText(taskTypeField.getName());
+		return editTextView;
+	}
+
+	private View createCheckboxesLayout(TaskTypeField taskTypeField) {
+		View checkboxLayout = View.inflate(getActivity(), R.layout.custom_field_checkboxes, null);
+		TextView hintView = (TextView) checkboxLayout.findViewById(R.id.custom_field_checkboxes_title);
+
+		LinearLayout checkboxContainer = (LinearLayout) checkboxLayout.findViewById(R.id.checkboxes_container);
+
+		for (FieldAttribute fieldAttribute : taskTypeField.getAttributes()) {
+			CheckBox checkBox = (CheckBox) View.inflate(getActivity(), R.layout.custom_field_checkbox, null);
+			checkBox.setText(fieldAttribute.getValue());
+			checkboxContainer.addView(checkBox);
+		}
+
+		hintView.setText(taskTypeField.getName());
+		return checkboxLayout;
+	}
+
+	private View createSelectLayout(TaskTypeField taskTypeField) {
+		View selectLayout = View.inflate(getActivity(), R.layout.custom_field_select, null);
+		TextView hintView = (TextView) selectLayout.findViewById(R.id.custom_field_select_title);
+		Spinner spinner = (Spinner) selectLayout.findViewById(R.id.custom_field_select_spinner);
+
+		List<String> options = new ArrayList<String>();
+		for (FieldAttribute fieldAttribute : taskTypeField.getAttributes()) {
+			options.add(fieldAttribute.getValue());
+		}
+		ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, options);
+		adapter.setDropDownViewResource(android.R.layout.simple_list_item_1);
+		spinner.setAdapter(adapter);
+
+		hintView.setText(taskTypeField.getName());
+		return selectLayout;
+	}
+
+	private View createRequirementNameLayout(String name) {
+		View editTextView = View.inflate(getActivity(), R.layout.custom_field_text, null);
+		TextView hintView = (TextView) editTextView.findViewById(R.id.custom_field_text_title);
+		taskRequirementName = (EditText) editTextView.findViewById(R.id.custom_field_text_input);
+		hintView.setText(name);
+		return editTextView;
+	}
+
+	private View createRequirementQuantityLayout(String name) {
+		View editTextView = View.inflate(getActivity(), R.layout.custom_field_text, null);
+		TextView hintView = (TextView) editTextView.findViewById(R.id.custom_field_text_title);
+		taskRequirementQuantity = (EditText) editTextView.findViewById(R.id.custom_field_text_input);
+		taskRequirementQuantity.setInputType(InputType.TYPE_CLASS_NUMBER);
+		hintView.setText(name);
+		return editTextView;
+	}
+
+	private void convertViewToTaskAttribute(FieldType fieldType, View view, List<TaskAttribute> taskAttributes) {
+		switch (fieldType) {
+		case SHORT_TEXT:
+			taskAttributes.add(convertShortTextViewToTaskAttribute(view));
+			break;
+		case CHECKBOX:
+			taskAttributes.addAll(convertCheckboxViewToTaskAttribute(view));
+			break;
+		case SELECT:
+			taskAttributes.add(convertSelectViewToTaskAttribute(view));
+			break;
+		}
+	}
+
+	private TaskAttribute convertShortTextViewToTaskAttribute(View view) {
+		TaskAttribute taskAttribute = new TaskAttribute();
+		TextView textView = (TextView) view.findViewById(R.id.custom_field_text_title);
+		EditText editText = (EditText) view.findViewById(R.id.custom_field_text_input);
+
+		taskAttribute.setName(textView.getText().toString());
+		taskAttribute.setValue(editText.getText().toString());
+		return taskAttribute;
+	}
+
+	private TaskAttribute convertSelectViewToTaskAttribute(View view) {
+		TaskAttribute taskAttribute = new TaskAttribute();
+		TextView textView = (TextView) view.findViewById(R.id.custom_field_select_title);
+		Spinner spinner = (Spinner) view.findViewById(R.id.custom_field_select_spinner);
+
+		taskAttribute.setName(textView.getText().toString());
+		taskAttribute.setValue(spinner.getSelectedItem().toString());
+		return taskAttribute;
+	}
+
+	private List<TaskAttribute> convertCheckboxViewToTaskAttribute(View view) {
+		List<TaskAttribute> taskAttributes = new ArrayList<TaskAttribute>();
+		TextView textView = (TextView) view.findViewById(R.id.custom_field_checkboxes_title);
+		String title = textView.getText().toString();
+
+		LinearLayout checkboxContainer = (LinearLayout) view.findViewById(R.id.checkboxes_container);
+		for (int i = 0; i < checkboxContainer.getChildCount(); i++) {
+			CheckBox checkbox = (CheckBox) checkboxContainer.getChildAt(i);
+			if (checkbox.isChecked()) {
+				TaskAttribute taskAttribute = new TaskAttribute();
+				taskAttribute.setName(title);
+				taskAttribute.setValue(checkbox.getText().toString());
+				taskAttributes.add(taskAttribute);
+			}
+		}
+
+		return taskAttributes;
 	}
 
 	private void setTaskType() {
 		TaskTypeService service = new TaskTypeService((GrouponApplication) getActivity().getApplication());
 		service.getTaskType(taskTypeId, new GrouponCallback<TaskType>() {
-
 			public void onFail(String errorMessage) {
 
 			}
@@ -243,7 +300,7 @@ public class TaskFormFragment extends Fragment {
 			@Override
 			public void onSuccess(TaskType taskType) {
 				TaskFormFragment.this.taskType = taskType;
-				setupUI(v);
+				setupUI(rootView);
 			}
 		});
 	}
@@ -251,6 +308,10 @@ public class TaskFormFragment extends Fragment {
 	public void showDatePickerDialog(View v) {
 		// DialogFragment newFragment = new DatePickerFragment();
 		// newFragment.show(getChildFragmentManager(), "datePicker");
+	}
+
+	private int pxFromDp(float dp) {
+		return (int) (dp * getActivity().getResources().getDisplayMetrics().density);
 	}
 
 }

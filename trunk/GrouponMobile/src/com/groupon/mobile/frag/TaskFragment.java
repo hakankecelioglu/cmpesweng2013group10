@@ -137,6 +137,7 @@ public class TaskFragment extends Fragment {
 			});
 		}
 	};
+
 	private OnClickListener unFollowTaskListener = new OnClickListener() {
 
 		@Override
@@ -159,4 +160,5 @@ public class TaskFragment extends Fragment {
 			});
 		}
 	};
+
 }
