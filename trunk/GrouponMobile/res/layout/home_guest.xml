@@ -7,12 +7,19 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin" >
-
+	<ImageView 
+	    android:id="@+id/logooo"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:src="@drawable/taskt"
+	    android:layout_alignParentTop="true"
+	    android:contentDescription="@string/home_logo"/>
     <RelativeLayout
         android:id="@+id/layout_login_form"
         android:layout_width="fill_parent"
+        android:layout_below="@id/logooo"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true" >
+         >
 
         <LinearLayout
             android:id="@+id/layout_username"
@@ -73,64 +80,71 @@
             android:textColor="#444444"
             android:textSize="16sp" />
 
-        <Button
-            android:id="@+id/button_login"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/sign_in_up"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/textView_forgetPassword"
-            android:background="@drawable/green_button"
-        	style="@style/ButtonText"
-            android:layout_margin="10dp"
-            android:text="@string/login" />
+            android:orientation="horizontal"
+            android:weightSum="3.0" >
 
-        <Button
-            android:id="@+id/button_go_sign_up_page"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBaseline="@id/button_login"
-            android:layout_toRightOf="@id/button_login"
-            android:background="@drawable/yellow_button"
-        	style="@style/ButtonText"
-            android:layout_margin="10dp"
-            android:text="@string/go_sign_up_page" />
+            <Button
+                android:id="@+id/button_about"
+                style="@style/ButtonText"
+                android:layout_height="wrap_content"
+                android:layout_margin="3dp"
+                android:layout_weight="1.05"
+                android:background="@drawable/black_button"
+                android:text="@string/about" />
+
+            <Button
+                android:id="@+id/button_go_sign_up_page"
+                style="@style/ButtonText"
+                android:layout_height="wrap_content"
+                android:layout_margin="3dp"
+                android:layout_weight="0.95"
+                android:background="@drawable/yellow_button"
+                android:text="@string/go_sign_up_page" />
+
+            <Button
+                android:id="@+id/button_login"
+                style="@style/ButtonText"
+                android:layout_height="wrap_content"
+                android:layout_margin="3dp"
+                android:layout_weight="1"
+                android:background="@drawable/green_button"
+                android:text="@string/login" />
+        </LinearLayout>
     </RelativeLayout>
 
     <LinearLayout
         android:id="@+id/layout_guest_navigation"
-        android:layout_below="@id/layout_login_form"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical" >
+        android:layout_below="@id/layout_login_form"
+        android:orientation="horizontal"
+        android:weightSum="1.0" >
 
         <Button
-            android:id="@+id/button_about"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/black_button"
-        	style="@style/ButtonText"
-            android:layout_margin="5dp"
-            android:text="@string/about" />
-        
-        <Button
             android:id="@+id/button_top_helpful_users"
-            android:layout_width="fill_parent"
+            style="@style/ButtonText"
             android:layout_height="wrap_content"
+            android:layout_margin="3dp"
+            android:layout_weight="0.32"
             android:background="@drawable/red_button"
-        	style="@style/ButtonText"
-            android:layout_margin="5dp"
             android:text="@string/top_helpful_users" />
-        
+
         <Button
             android:id="@+id/button_advanced_search"
-            android:layout_width="fill_parent"
+            style="@style/ButtonText"
             android:layout_height="wrap_content"
+            android:layout_margin="3dp"
+            android:layout_weight="0.68"
             android:background="@drawable/blue_button"
-        	style="@style/ButtonText"
-            android:layout_margin="5dp"
             android:text="@string/advanced_search" />
     </LinearLayout>
 
-    <LinearLayout
+<!--     <LinearLayout
         android:id="@+id/linearLayout1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -143,6 +157,14 @@
             android:layout_height="129dp"
             android:clickable="true" >
         </ListView>
-    </LinearLayout>
+    </LinearLayout> -->
+
+    <ImageView 
+	    android:id="@+id/bot_logo"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:src="@drawable/bot_logo"
+	    android:layout_below="@id/layout_guest_navigation"
+	    android:contentDescription="@string/home_logo"/>
 
 </RelativeLayout>
