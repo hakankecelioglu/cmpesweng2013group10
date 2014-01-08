@@ -106,5 +106,10 @@
     <string name="profile_label_reputation">Reputation:</string>
     <string name="profile_label_edit_profile">Edit Profile</string>
     <string name="profile_label_save_profile">Save</string>
+    
+    <string name="select_task_type">Select a Task Type</string>
+    <string name="question_name_of_requirement">What is the need?</string>
+    <string name="question_quantity_of_requirement">What is the required quantity of your need?</string>
+    <string name="question_name_of_service">What service do you need?</string>
 
 </resources>
