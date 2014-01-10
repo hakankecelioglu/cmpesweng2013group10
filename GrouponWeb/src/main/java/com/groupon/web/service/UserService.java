@@ -75,6 +75,19 @@ public class UserService {
 		}
 	}
 
+	public void updateUserRole(User user, RoleName roleName) {
+		UserRole userRole = user.getRole();
+
+		if (userRole.getRole().getName() == roleName) {
+			throw new GrouponException("User is already [" + roleName + "] !!!");
+		}
+
+		Role role = userDao.findRoleByRoleName(roleName);
+		userRole.setRole(role);
+
+		userDao.update(userRole);
+	}
+
 	/**
 	 * Finds the user from DB object by its email address and password fields
 	 * 
@@ -135,6 +148,10 @@ public class UserService {
 	public void activateUser(User user) {
 		user.setStatus(UserStatus.ACTIVE);
 		userDao.update(user);
+	}
+
+	public void incrementUserReputation(Long userId, int increment) {
+		userDao.incrementUserReputation(userId, increment);
 	}
 
 	private void sendEmailConfirmationMail(final User user) {

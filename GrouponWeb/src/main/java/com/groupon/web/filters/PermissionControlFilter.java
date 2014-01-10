@@ -18,7 +18,7 @@ import org.springframework.stereotype.Component;
 
 import com.groupon.web.dao.model.User;
 import com.groupon.web.dao.model.UserStatus;
-import com.groupon.web.util.ControllerConstants;
+import com.groupon.web.util.GrouponConstants;
 
 @Component("permissionControlFilter")
 public class PermissionControlFilter implements Filter {
@@ -35,7 +35,7 @@ public class PermissionControlFilter implements Filter {
 		HttpServletResponse resp = (HttpServletResponse) response;
 
 		HttpSession session = req.getSession(true);
-		User user = (User) session.getAttribute(ControllerConstants.SESSION_ATTR_USER);
+		User user = (User) session.getAttribute(GrouponConstants.SESSION_ATTR_USER);
 		if (user != null) {
 			checkUserStatusAndRedirectOrChain(user, req, resp, chain);
 		} else {

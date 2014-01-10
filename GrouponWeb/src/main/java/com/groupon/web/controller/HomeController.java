@@ -20,7 +20,7 @@ import com.groupon.web.dao.model.Task;
 import com.groupon.web.dao.model.User;
 import com.groupon.web.service.CommunityService;
 import com.groupon.web.service.TaskService;
-import com.groupon.web.util.ControllerConstants;
+import com.groupon.web.util.GrouponConstants;
 import com.groupon.web.util.GrouponWebUtils;
 
 @Controller
@@ -121,7 +121,7 @@ public class HomeController extends AbstractBaseController {
 
 		HttpSession session = request.getSession(true);
 		SortBy newSortBy = SortBy.valueOf(sortBy);
-		session.setAttribute(ControllerConstants.SESSION_ATTR_SORTBY, newSortBy);
+		session.setAttribute(GrouponConstants.SESSION_ATTR_SORTBY, newSortBy);
 
 		response.put("sortBy", newSortBy);
 

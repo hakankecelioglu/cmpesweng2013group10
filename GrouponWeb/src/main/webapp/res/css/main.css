@@ -318,3 +318,69 @@ body.createTaskType .whenClosed {
 	background-repeat: no-repeat;
 	height: 30px;
 }
+
+table.table-no-border {
+	border: 0;
+}
+
+table.table-no-border tr td {
+	border: 0;
+}
+
+td.votecell {
+	width: 60px;
+	vertical-align: middle;
+	padding: 0;
+}
+
+.vote {
+	text-align: center;
+	-webkit-user-select: none; /* Chrome/Safari */        
+	-moz-user-select: none; /* Firefox */
+	-ms-user-select: none; /* IE10+ */
+	
+	/* Rules below not implemented in browsers yet */
+	-o-user-select: none;
+	user-select: none;
+}
+
+.vote-up-off, 
+.vote-up-on, 
+.vote-down-off, 
+.vote-down-on {
+	text-indent: -9999em;
+	font-size: 1px;
+	cursor: pointer;
+	display: block;
+	margin: 0 auto;
+	width: 41px;
+	height: 25px;
+	background-image: url('../img/sprites.png');
+	background-repeat: no-repeat;
+	overflow: hidden
+}
+
+.vote-up-off {
+	background-position: 0px -265px;
+}
+
+.vote-up-on {
+	background-position: 0px -230px;
+}
+
+.vote-down-off {
+	background-position: 0px -300px;
+}
+
+.vote-down-on {
+	background-position: 0px -330px;
+}
+
+.vote-count-post {
+	padding-top: 2px;
+	color: #555;
+	display: block;
+	font-weight: normal;
+	font-size: 24px;
+	font-family: Arial,Liberation Sans,DejaVu Sans,sans-serif;
+}

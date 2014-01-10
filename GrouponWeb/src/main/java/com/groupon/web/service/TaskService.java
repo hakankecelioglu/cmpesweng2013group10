@@ -10,14 +10,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.groupon.web.dao.TaskDAO;
+import com.groupon.web.dao.model.RateDirection;
 import com.groupon.web.dao.model.SortBy;
 import com.groupon.web.dao.model.Tag;
 import com.groupon.web.dao.model.Task;
+import com.groupon.web.dao.model.TaskRate;
 import com.groupon.web.dao.model.TaskReply;
 import com.groupon.web.dao.model.TaskStatus;
 import com.groupon.web.dao.model.User;
 import com.groupon.web.exception.GrouponException;
-import com.groupon.web.util.ControllerConstants;
+import com.groupon.web.util.GrouponConstants;
 
 @Component
 public class TaskService {
@@ -30,6 +32,9 @@ public class TaskService {
 
 	@Autowired
 	private NotificationService notificationService;
+
+	@Autowired
+	private UserService userService;
 
 	public Task getTaskById(Long id) {
 		return taskDao.getTaskById(id);
@@ -61,7 +66,7 @@ public class TaskService {
 
 		followTask(taskCreated.getId(), owner);
 
-		tagService.createTagUserRelationsOfTask(task.getId(), owner.getId(), ControllerConstants.TAG_USER_CREATE_TASK);
+		tagService.createTagUserRelationsOfTask(task.getId(), owner.getId(), GrouponConstants.TAG_USER_CREATE_TASK);
 		notificationService.sendTaskCreatedInFollowedCommunityNotification(task.getCommunity().getId(), taskCreated.getId());
 
 		return taskCreated;
@@ -81,7 +86,7 @@ public class TaskService {
 		task.setFollowerCount(task.getFollowerCount() + 1);
 		taskDao.updateTask(task);
 		if (!task.getOwner().equals(user)) {
-			tagService.createTagUserRelationsOfTask(task.getId(), user.getId(), ControllerConstants.TAG_USER_FOLLOW_TASK);
+			tagService.createTagUserRelationsOfTask(task.getId(), user.getId(), GrouponConstants.TAG_USER_FOLLOW_TASK);
 		}
 		return task.getFollowerCount();
 	}
@@ -146,6 +151,67 @@ public class TaskService {
 		return taskDao.searchTasks(queryText);
 	}
 
+	public TaskRate voteTask(User user, Task task, RateDirection direction) {
+		TaskRate taskRate = taskDao.findTaskRateByTaskAndUser(task.getId(), user.getId());
+
+		if (taskRate == null) {
+			// New rate
+			taskRate = new TaskRate();
+			taskRate.setTask(task);
+			taskRate.setUser(user);
+
+			taskDao.incrementTaskVotes(task.getId(), direction.getIncrementValue());
+
+			if (direction == RateDirection.UP) {
+				userService.incrementUserReputation(task.getOwner().getId(), GrouponConstants.REPUT_BY_TASK_UP);
+			} else {
+				userService.incrementUserReputation(task.getOwner().getId(), GrouponConstants.REPUT_BY_TASK_DOWN);
+			}
+
+			notificationService.sendTaskVoteNotification(task.getId(), user.getId(), direction);
+		} else if (taskRate.getDirection() == direction) {
+			throw new GrouponException("Already voted!");
+		} else {
+			// Old rate is changing
+			int incrementValue = direction.getIncrementValue() * 2;
+			taskDao.incrementTaskVotes(task.getId(), incrementValue);
+
+			if (direction == RateDirection.UP) {
+				userService.incrementUserReputation(task.getOwner().getId(), GrouponConstants.REPUT_BY_TASK_UP - GrouponConstants.REPUT_BY_TASK_DOWN);
+			} else {
+				userService.incrementUserReputation(task.getOwner().getId(), GrouponConstants.REPUT_BY_TASK_DOWN - GrouponConstants.REPUT_BY_TASK_UP);
+			}
+		}
+
+		taskRate.setDirection(direction);
+		taskDao.saveOrUpdate(taskRate);
+
+		return taskRate;
+	}
+
+	public void unvoteTask(Task task, Long userId) {
+		TaskRate taskRate = taskDao.findTaskRateByTaskAndUser(task.getId(), userId);
+
+		if (taskRate != null) {
+			RateDirection direction = taskRate.getDirection();
+			taskDao.incrementTaskVotes(task.getId(), -1 * direction.getIncrementValue());
+			
+			User taskOwner = task.getOwner();
+
+			if (direction == RateDirection.UP) {
+				userService.incrementUserReputation(taskOwner.getId(), -GrouponConstants.REPUT_BY_TASK_UP);
+			} else {
+				userService.incrementUserReputation(taskOwner.getId(), -GrouponConstants.REPUT_BY_TASK_DOWN);
+			}
+			
+			taskDao.delete(taskRate);
+		}
+	}
+	
+	public TaskRate findTaskRate(Long taskId, Long userId) {
+		return taskDao.findTaskRateByTaskAndUser(taskId, userId);
+	}
+
 	private void arrangeTagsOfTask(Task task) {
 		List<Tag> tags = task.getTags();
 		List<Tag> tags2 = new ArrayList<Tag>(tags.size());
@@ -158,4 +224,5 @@ public class TaskService {
 		}
 		task.setTags(tags2);
 	}
+
 }

@@ -54,4 +54,11 @@ public class UserDao extends BaseDaoImpl {
 		query.setParameter("id", id);
 		return (User) query.uniqueResult();
 	}
+
+	public void incrementUserReputation(Long userId, int increment) {
+		Query query = getSession().createQuery("update User set rating = rating + :increment where id = :userid");
+		query.setParameter("increment", (long) increment);
+		query.setParameter("userid", userId);
+		query.executeUpdate();
+	}
 }

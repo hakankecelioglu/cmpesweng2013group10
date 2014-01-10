@@ -194,4 +194,111 @@ $(function () {
 		});
 	});
 	
+	$(document).on('click', ".task-vote .vote-up-off", function () {
+		var that = $(this);
+		var countHolder = $(".task-vote .vote-count-post");
+		countHolder.html(parseInt(countHolder.html()) + 1);
+		that.removeClass("vote-up-off").addClass("vote-up-on");
+		
+		var downArrowOn = $(".task-vote .vote-down-on");
+		if (downArrowOn.length == 1) {
+			downArrowOn.removeClass("vote-down-on").addClass("vote-down-off");
+			countHolder.html(parseInt(countHolder.html()) + 1);
+		}
+		
+		var url = GrouponUtils.siteBase + 'task/voteTask';
+		var data = {};
+		data.direction = 'UP';
+		data.taskId = taskId;
+		$.post(url, data, function(resp) {
+			// VOTE IS OK!
+		}).fail(function () {
+			countHolder.html(parseInt(countHolder.html()) - 1);
+			that.removeClass("vote-up-on").addClass("vote-up-off");
+			
+			if (downArrowOn.length == 1) {
+				downArrowOn.addClass("vote-down-on").removeClass("vote-down-off");
+				countHolder.html(parseInt(countHolder.html()) - 1);
+			}
+		});
+	});
+	
+	$(document).on('click', ".task-vote .vote-up-on", function () {
+		var that = $(this);
+		var countHolder = $(".task-vote .vote-count-post");
+		countHolder.html(parseInt(countHolder.html()) - 1);
+		that.removeClass("vote-up-on").addClass("vote-up-off");
+		
+		var url = GrouponUtils.siteBase + 'task/unvoteTask';
+		var data = {};
+		data.taskId = taskId;
+		$.post(url, data, function(resp) {
+			// VOTE IS OK!
+		}).fail(function () {
+			countHolder.html(parseInt(countHolder.html()) + 1);
+			that.addClass("vote-up-on").removeClass("vote-up-off");
+		});
+	});
+	
+	$(document).on('click', ".task-vote .vote-down-off", function () {
+		var that = $(this);
+		var countHolder = $(".task-vote .vote-count-post");
+		countHolder.html(parseInt(countHolder.html()) - 1);
+		that.removeClass("vote-down-off").addClass("vote-down-on");
+		
+		var upArrowOn = $(".task-vote .vote-up-on");
+		if (upArrowOn.length == 1) {
+			upArrowOn.removeClass("vote-up-on").addClass("vote-up-off");
+			countHolder.html(parseInt(countHolder.html()) - 1);
+		}
+		
+		var url = GrouponUtils.siteBase + 'task/voteTask';
+		var data = {};
+		data.direction = 'DOWN';
+		data.taskId = taskId;
+		$.post(url, data, function(resp) {
+			// VOTE IS OK!
+		}).fail(function () {
+			countHolder.html(parseInt(countHolder.html()) + 1);
+			that.removeClass("vote-down-on").addClass("vote-down-off");
+			
+			if (upArrowOn.length == 1) {
+				upArrowOn.addClass("vote-down-on").removeClass("vote-down-off");
+				countHolder.html(parseInt(countHolder.html()) + 1);
+			}
+		});
+	});
+
+	$(document).on('click', ".task-vote .vote-down-on", function () {
+		var that = $(this);
+		var countHolder = $(".task-vote .vote-count-post");
+		countHolder.html(parseInt(countHolder.html()) + 1);
+		that.removeClass("vote-down-on").addClass("vote-down-off");
+		
+		var url = GrouponUtils.siteBase + 'task/unvoteTask';
+		var data = {};
+		data.taskId = taskId;
+		$.post(url, data, function(resp) {
+			// VOTE IS OK!
+		}).fail(function () {
+			countHolder.html(parseInt(countHolder.html()) - 1);
+			that.addClass("vote-down-on").removeClass("vote-down-off");
+		});
+	});
+	
+	function getUserVotes() {
+		var url = GrouponUtils.siteBase + 'task/getUserVotes?taskId=' + taskId;
+		$.get(url, function (resp) {
+			if (resp.task) {
+				if (resp.task == "UP") {
+					$(".task-vote .vote-up-off").removeClass("vote-up-off").addClass("vote-up-on");
+				} else if (resp.task == "DOWN") {
+					$(".task-vote .vote-down-off").removeClass("vote-down-off").addClass("vote-down-on");
+				}
+			}
+		});
+	}
+	
+	getUserVotes();
+	
 });

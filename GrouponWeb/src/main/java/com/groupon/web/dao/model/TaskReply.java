@@ -3,6 +3,7 @@ package com.groupon.web.dao.model;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -29,6 +30,12 @@ public class TaskReply extends BaseModel {
 	@OneToMany(mappedBy = "taskReply", cascade = CascadeType.ALL)
 	private List<ReplyAttribute> attributes;
 
+	@Column(name = "accepted", columnDefinition = "tinyint(1) default false")
+	private boolean isAccepted = false;
+
+	@Column(name = "votes", nullable = false, columnDefinition = "int default 0")
+	private int votes = 0;
+
 	public Task getTask() {
 		return task;
 	}
@@ -51,5 +58,21 @@ public class TaskReply extends BaseModel {
 
 	public void setAttributes(List<ReplyAttribute> attributes) {
 		this.attributes = attributes;
+	}
+
+	public boolean isAccepted() {
+		return isAccepted;
+	}
+
+	public void setAccepted(boolean isAccepted) {
+		this.isAccepted = isAccepted;
+	}
+
+	public int getVotes() {
+		return votes;
+	}
+
+	public void setVotes(int votes) {
+		this.votes = votes;
 	}
 }

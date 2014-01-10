@@ -20,7 +20,7 @@ import org.springframework.stereotype.Component;
 
 import com.groupon.web.dao.model.User;
 import com.groupon.web.service.UserService;
-import com.groupon.web.util.ControllerConstants;
+import com.groupon.web.util.GrouponConstants;
 import com.groupon.web.util.GrouponThreadLocal;
 import com.groupon.web.util.GrouponWebUtils;
 
@@ -55,10 +55,10 @@ public class SessionControlFilter implements Filter {
 
 		User user = null;
 
-		String authToken = req.getHeader(ControllerConstants.REQUEST_HEADER_AUTH_KEY);
+		String authToken = req.getHeader(GrouponConstants.REQUEST_HEADER_AUTH_KEY);
 		if (authToken == null) {
 			HttpSession session = req.getSession(true);
-			user = (User) session.getAttribute(ControllerConstants.SESSION_ATTR_USER);
+			user = (User) session.getAttribute(GrouponConstants.SESSION_ATTR_USER);
 
 			if (user == null) {
 				user = checkCookieAndSetSession(req, resp, chain, session);
@@ -79,7 +79,7 @@ public class SessionControlFilter implements Filter {
 		Cookie[] cookies = req.getCookies();
 		if (cookies != null) {
 			for (Cookie cookie : cookies) {
-				if (cookie.getName().equals(ControllerConstants.COOKIE_NAME_USER)) {
+				if (cookie.getName().equals(GrouponConstants.COOKIE_NAME_USER)) {
 					String cookieValue = cookie.getValue();
 					Long userId = GrouponWebUtils.extractUserIdFromCookieValue(cookieValue);
 					if (userId != null) {
@@ -88,7 +88,7 @@ public class SessionControlFilter implements Filter {
 							String userHash = GrouponWebUtils.generateUserHash(user);
 							String userHashInCookie = GrouponWebUtils.extractUserHashFromCookieValue(cookieValue);
 							if (userHash.equals(userHashInCookie)) {
-								session.setAttribute(ControllerConstants.SESSION_ATTR_USER, user);
+								session.setAttribute(GrouponConstants.SESSION_ATTR_USER, user);
 								return user;
 							}
 						}
