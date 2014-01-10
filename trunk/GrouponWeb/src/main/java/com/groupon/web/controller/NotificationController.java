@@ -17,6 +17,7 @@ import com.groupon.web.dao.model.Task;
 import com.groupon.web.dao.model.User;
 import com.groupon.web.exception.GrouponException;
 import com.groupon.web.service.NotificationService;
+import com.groupon.web.util.GrouponConstants;
 
 @Controller
 @RequestMapping(value = "notification")
@@ -69,8 +70,16 @@ public class NotificationController extends AbstractBaseController {
 		switch (notif.getType()) {
 		case TASK_CREATED_IN_FOLLOWED_COMMUNITY:
 			convertTaskInCommunityNotificationToMap(notif, map);
+			break;
 		case TASK_REPLY:
 			convertTaskReplyNotificationToMap(notif, map);
+			break;
+		case TASK_UPVOTE:
+			convertTaskUpVoteNotificationToMap(notif, map);
+			break;
+		case TASK_DOWNVOTE:
+			convertTaskDownVoteNotificationToMap(notif, map);
+			break;
 		}
 
 		map.put("date", notif.getCreateDate().getTime());
@@ -89,6 +98,18 @@ public class NotificationController extends AbstractBaseController {
 		map.put("source", convertSourceToMap(notif.getSource()));
 		map.put("task", convertTaskToMap(notif.getTask()));
 		map.put("community", convertCommunityToMap(notif.getCommunity()));
+		return map;
+	}
+
+	private Map<String, Object> convertTaskUpVoteNotificationToMap(Notification notif, Map<String, Object> map) {
+		map.put("task", convertTaskToMap(notif.getTask()));
+		map.put("reputChange", GrouponConstants.REPUT_BY_TASK_UP);
+		return map;
+	}
+
+	private Map<String, Object> convertTaskDownVoteNotificationToMap(Notification notif, Map<String, Object> map) {
+		map.put("task", convertTaskToMap(notif.getTask()));
+		map.put("reputChange", GrouponConstants.REPUT_BY_TASK_DOWN);
 		return map;
 	}
 

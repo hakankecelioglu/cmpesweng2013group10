@@ -15,6 +15,8 @@ import com.groupon.web.dao.model.BaseModel;
 public interface BaseDao {
 
 	public void delete(Object persistentInstance);
+	
+	public void deleteWithSession(Session session, Object persistentInstance);
 
 	public void deleteAll(Class<?> entityClass);
 

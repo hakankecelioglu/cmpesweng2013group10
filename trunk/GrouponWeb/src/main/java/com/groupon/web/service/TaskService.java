@@ -181,6 +181,8 @@ public class TaskService {
 			} else {
 				userService.incrementUserReputation(task.getOwner().getId(), GrouponConstants.REPUT_BY_TASK_DOWN - GrouponConstants.REPUT_BY_TASK_UP);
 			}
+
+			notificationService.updateTaskVoteNotification(task.getId(), user.getId(), direction);
 		}
 
 		taskRate.setDirection(direction);
@@ -195,7 +197,7 @@ public class TaskService {
 		if (taskRate != null) {
 			RateDirection direction = taskRate.getDirection();
 			taskDao.incrementTaskVotes(task.getId(), -1 * direction.getIncrementValue());
-			
+
 			User taskOwner = task.getOwner();
 
 			if (direction == RateDirection.UP) {
@@ -203,11 +205,12 @@ public class TaskService {
 			} else {
 				userService.incrementUserReputation(taskOwner.getId(), -GrouponConstants.REPUT_BY_TASK_DOWN);
 			}
-			
+
+			notificationService.deleteTaskVoteNotification(task.getId(), taskOwner.getId(), userId);
 			taskDao.delete(taskRate);
 		}
 	}
-	
+
 	public TaskRate findTaskRate(Long taskId, Long userId) {
 		return taskDao.findTaskRateByTaskAndUser(taskId, userId);
 	}

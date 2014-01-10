@@ -41,6 +41,17 @@ public class BaseDaoImpl extends HibernateDaoSupport implements BaseDao {
 	}
 
 	@Override
+	public void deleteWithSession(Session session, Object persistentInstance) {
+		try {
+			session.delete(persistentInstance);
+			session.flush();
+			session.evict(persistentInstance);
+		} catch (final RuntimeException re) {
+			throw re;
+		}
+	}
+
+	@Override
 	public void deleteAll(Class<?> entityClass) {
 		try {
 			this.getHibernateTemplate().deleteAll(this.findAll(entityClass));
@@ -132,7 +143,7 @@ public class BaseDaoImpl extends HibernateDaoSupport implements BaseDao {
 			throw re;
 		}
 	}
-	
+
 	@Override
 	public <T> T findById(Class<T> entityClass, Serializable id) {
 		try {
