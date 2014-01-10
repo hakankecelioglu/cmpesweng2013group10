@@ -39,6 +39,11 @@
             android:theme="@android:style/Theme.Light.NoTitleBar" >
         </activity>
         <activity
+            android:name="com.groupon.mobile.CreateTaskTypeFragmentActivity"
+            android:label="@string/title_activity_create_task_type"
+            android:theme="@android:style/Theme.Light.NoTitleBar" >
+        </activity>
+        <activity
             android:name="com.groupon.mobile.SignUpActivity"
             android:label="@string/title_activity_sign_up"
             android:theme="@android:style/Theme.Light.NoTitleBar" >

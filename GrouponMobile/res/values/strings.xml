@@ -113,4 +113,7 @@
     <string name="question_quantity_of_requirement">What is the required quantity of your need?</string>
     <string name="question_name_of_service">What service do you need?</string>
 
+    <string name="task_type_name">Task Type Name</string>
+    <string name="add_form_fields">Form Fields</string>
+     <string name="add_reply_fields">Reply Fields</string>
 </resources>
