@@ -176,14 +176,28 @@ public class TaskTypeService {
 			json.put("name", TaskType.getName());
 			json.put("description", TaskType.getDescription());
 			json.put("needType", TaskType.getNeedType().toString());
-			JSONArray array = new JSONArray();
+		
 
-			List<TaskTypeField> TaskTypeFields = TaskType.getFields();
-			for (TaskTypeField TaskTypeField : TaskTypeFields) {
-				JSONObject j = convertTaskTypeFieldToJson(TaskTypeField);
-				array.put(j);
-			}
+			List<TaskTypeField> taskTypeFields = TaskType.getFields();
+			if(taskTypeFields!=null){
+			JSONArray array = new JSONArray();
+				for (TaskTypeField TaskTypeField : taskTypeFields) {
+					JSONObject j = convertTaskTypeFieldToJson(TaskTypeField);
+					array.put(j);
+				}
 			json.put("fields", array);
+			}
+			
+
+			List<TaskTypeField> replyFields = TaskType.getFields();
+			if(replyFields!=null){
+				JSONArray arrayReplyFields = new JSONArray();
+				for (TaskTypeField TaskTypeField : replyFields) {
+					JSONObject j = convertTaskTypeFieldToJson(TaskTypeField);
+					arrayReplyFields.put(j);
+				}
+			json.put("replyFields", arrayReplyFields);
+			}
 
 			json.put("communityId", TaskType.getCommunityId());
 

@@ -20,7 +20,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.groupon.mobile.CreateTaskTypeActivity;
+import com.groupon.mobile.CreateTaskTypeFragmentActivity;
 import com.groupon.mobile.GrouponApplication;
 import com.groupon.mobile.R;
 import com.groupon.mobile.conn.GrouponCallback;
@@ -41,7 +41,7 @@ public class CommunityFragment extends Fragment {
 
 	private TextView communityNameField;
 	private TextView communityDescriptionField;
-
+	
 	private Button createTaskButton;
 	private Button createTaskTypeButton;
 	private Button joinCommunityButton;
@@ -132,7 +132,7 @@ public class CommunityFragment extends Fragment {
 		@Override
 		public void onClick(View v) {
 
-			Intent intent = new Intent(getActivity(), CreateTaskTypeActivity.class);
+			Intent intent = new Intent(getActivity(), CreateTaskTypeFragmentActivity.class);
 			intent.putExtra("communityId", community.getId());
 			startActivity(intent);
 		}
@@ -268,11 +268,11 @@ public class CommunityFragment extends Fragment {
 			args.putLong("communityId", community.getId());
 			newFragment.setArguments(args);
 
-			FragmentTransaction transaction = getFragmentManager().beginTransaction();
-			transaction.replace(R.id.frame_container, newFragment);
-			transaction.addToBackStack(null);
+            FragmentTransaction transaction = getFragmentManager().beginTransaction();
+            transaction.replace(R.id.frame_container, newFragment);
+            transaction.addToBackStack(null);
 
-			transaction.commit();
+            transaction.commit();		
 		}
 	}
 }

@@ -8,6 +8,7 @@ public class TaskType {
 	private String name;
 	private String description;
 	private List<TaskTypeField> fields;
+	private List<TaskTypeField> replyFields;
 	private NeedType needType;
 	private long communityId;
 
@@ -57,6 +58,14 @@ public class TaskType {
 
 	public void setCommunityId(long communityId) {
 		this.communityId = communityId;
+	}
+
+	public List<TaskTypeField> getReplyFields() {
+		return replyFields;
+	}
+
+	public void setReplyFields(List<TaskTypeField> replyFields) {
+		this.replyFields = replyFields;
 	}
 
 }
