@@ -125,6 +125,53 @@ public class NotificationService {
 		});
 	}
 
+	public void updateTaskVoteNotification(final Long taskId, final Long voterUserId, final RateDirection direction) {
+		taskExecutor.execute(new AsyncWebTask(notificationDao.getSessionFactory()) {
+			public void runInBackground() {
+				NotificationType previousNotificationType;
+				NotificationType newNotificationType;
+
+				Task task = (Task) getSession().get(Task.class, taskId);
+				User source = (User) getSession().get(User.class, voterUserId);
+				User receiver = task.getOwner();
+
+				if (direction == RateDirection.UP) {
+					previousNotificationType = NotificationType.TASK_DOWNVOTE;
+					newNotificationType = NotificationType.TASK_UPVOTE;
+				} else {
+					previousNotificationType = NotificationType.TASK_UPVOTE;
+					newNotificationType = NotificationType.TASK_DOWNVOTE;
+				}
+
+				Notification notification = notificationDao.findNotification(getSession(), receiver.getId(), source.getId(), task.getId(), previousNotificationType);
+
+				if (notification != null) {
+					notification.setType(newNotificationType);
+					notificationDao.updateNotification(getSession(), notification);
+				}
+			}
+		});
+	}
+
+	public void deleteTaskVoteNotification(final Long taskId, final Long receiverId, final Long voterUserId) {
+		taskExecutor.execute(new AsyncWebTask(notificationDao.getSessionFactory()) {
+			public void runInBackground() {
+				User source = (User) getSession().get(User.class, voterUserId);
+				User receiver = (User) getSession().get(User.class, receiverId);
+
+				Notification notification = notificationDao.findTaskVoteNotification(getSession(), receiver.getId(), source.getId(), taskId);
+
+				if (notification != null) {
+					if (notification.getIsRead() == Boolean.FALSE) {
+						updateNotificationMapIfUserExists(receiver.getId(), -1);
+					}
+
+					notificationDao.deleteWithSession(getSession(), notification);
+				}
+			}
+		});
+	}
+
 	private void updateNotificationMapIfUserExists(Long userId, int increment) {
 		synchronized (lockNotificationCount) {
 			if (unreadNotifications.containsKey(userId)) {
