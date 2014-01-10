@@ -30,11 +30,13 @@ import com.groupon.web.controller.json.TaskJson;
 import com.groupon.web.controller.json.TaskReplyJson;
 import com.groupon.web.dao.model.Community;
 import com.groupon.web.dao.model.NeedType;
+import com.groupon.web.dao.model.RateDirection;
 import com.groupon.web.dao.model.ReplyAttribute;
 import com.groupon.web.dao.model.ReplyField;
 import com.groupon.web.dao.model.Tag;
 import com.groupon.web.dao.model.Task;
 import com.groupon.web.dao.model.TaskAttribute;
+import com.groupon.web.dao.model.TaskRate;
 import com.groupon.web.dao.model.TaskReply;
 import com.groupon.web.dao.model.TaskType;
 import com.groupon.web.dao.model.User;
@@ -341,6 +343,81 @@ public class TaskController extends AbstractBaseController {
 		}
 
 		return "searchResult.view";
+	}
+
+	@RequestMapping(value = "voteTask", method = RequestMethod.POST)
+	public ResponseEntity<Map<String, Object>> voteTask(HttpServletRequest request, @RequestParam Long taskId, @RequestParam(value = "direction") String directionStr) {
+		Map<String, Object> response = new HashMap<String, Object>();
+
+		User user = getUser();
+		if (user == null) {
+			throw new GrouponException("Please login before vote!");
+		}
+
+		if (taskId == null) {
+			throw new GrouponException("What are you trying to do, man!?");
+		}
+
+		Task task = taskService.getTaskById(taskId);
+		if (task == null) {
+			throw new GrouponException("What are you trying to do, man!?");
+		}
+
+		RateDirection direction = RateDirection.valueOf(directionStr);
+		TaskRate taskRate = taskService.voteTask(user, task, direction);
+
+		response.put("direction", taskRate.getDirection());
+
+		return prepareSuccessResponse(response);
+	}
+
+	@RequestMapping(value = "unvoteTask", method = RequestMethod.POST)
+	public ResponseEntity<Map<String, Object>> unvoteTask(HttpServletRequest request, @RequestParam Long taskId) {
+		Map<String, Object> response = new HashMap<String, Object>();
+
+		User user = getUser();
+		if (user == null) {
+			throw new GrouponException("Please login before vote!");
+		}
+
+		if (taskId == null) {
+			throw new GrouponException("What are you trying to do, man!?");
+		}
+
+		Task task = taskService.getTaskById(taskId);
+		if (task == null) {
+			throw new GrouponException("What are you trying to do, man!?");
+		}
+
+		taskService.unvoteTask(task, user.getId());
+
+		return prepareSuccessResponse(response);
+	}
+
+	@RequestMapping(value = "getUserVotes", method = RequestMethod.GET)
+	public ResponseEntity<Map<String, Object>> getUserVotes(HttpServletRequest request, @RequestParam Long taskId) {
+		Map<String, Object> response = new HashMap<String, Object>();
+
+		User user = getUser();
+		if (user == null) {
+			throw new GrouponException("Please login before vote!");
+		}
+
+		if (taskId == null) {
+			throw new GrouponException("What are you trying to do, man!?");
+		}
+
+		Task task = taskService.getTaskById(taskId);
+		if (task == null) {
+			throw new GrouponException("What are you trying to do, man!?");
+		}
+
+		TaskRate taskRate = taskService.findTaskRate(taskId, user.getId());
+		if (taskRate != null) {
+			response.put("task", taskRate.getDirection());
+		}
+
+		return prepareSuccessResponse(response);
 	}
 
 	private TaskReply generateTaskReplyFromJson(JSONObject json) throws JSONException {

@@ -1,24 +1,37 @@
 <%@ include file="/WEB-INF/views/common/includes.jsp"%>
 <div class="well community-task-well">
-	<h3 class="pull-left">${task.title}</h3>
-	<h6 class="pull-right">&nbsp;Community: <a href="<c:url value="/community/${task.community.id}" />">${task.community.name}</a></h6>
-	<a class="pull-right" href="<c:url value="/community/${task.community.id}" />">
-		<c:choose>
-			<c:when test="${not empty task.community.picture}">
-				<img class="media-object" height="60" width="60" src="<c:url value="/community/thumb/medium/${task.community.picture}" />">
-			</c:when>
-			<c:otherwise>
-				<img class="media-object" height="60" width="60" src="<c:url value="/res/img/default_com_picture.jpg" />">
-			</c:otherwise>
-		</c:choose>
-	</a>
-	<div class="clearfix"></div>
-	<div>
-		<p class="pull-left">by <a href="<c:url value="/profile/${task.owner.username}" />"><b>${task.owner.username}</b></a></p>
-		<!-- <p class="pull-right">Location: <b>Van/Turkey</b></p> -->
-		<div class="clearfix"></div>
-	</div>
-	
+	<table class="table table-no-border">
+		<tr>
+			<td class="votecell task-vote">
+				<div class="vote">
+					<a class="vote-up-off" title="This task is useful for some reason.">up vote</a>
+					<span class="vote-count-post ">${task.votes}</span>
+					<a class="vote-down-off" title="This task is not useful or it is duplicate.">down vote</a>
+				</div>
+			</td>
+			<td>
+				<h3 class="pull-left">${task.title}</h3>
+				<h6 class="pull-right">&nbsp;Community: <a href="<c:url value="/community/${task.community.id}" />">${task.community.name}</a></h6>
+				<a class="pull-right" href="<c:url value="/community/${task.community.id}" />">
+					<c:choose>
+						<c:when test="${not empty task.community.picture}">
+							<img class="media-object" height="60" width="60" src="<c:url value="/community/thumb/medium/${task.community.picture}" />">
+						</c:when>
+						<c:otherwise>
+							<img class="media-object" height="60" width="60" src="<c:url value="/res/img/default_com_picture.jpg" />">
+						</c:otherwise>
+					</c:choose>
+				</a>
+				<div class="clearfix"></div>
+				<div>
+					<p class="pull-left">by <a href="<c:url value="/profile/${task.owner.username}" />"><b>${task.owner.username}</b></a></p>
+					<!-- <p class="pull-right">Location: <b>Van/Turkey</b></p> -->
+					<div class="clearfix"></div>
+				</div>
+			</td>
+		</tr>
+	</table>
+
 	<hr class="clearfix">
 	
 	<h4 class="text-error">Description</h4>

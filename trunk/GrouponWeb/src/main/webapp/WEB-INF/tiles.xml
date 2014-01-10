@@ -159,4 +159,16 @@
 			<add-attribute value="/createTaskType.js" />
 		</put-list-attribute>
 	</definition>
+	
+	
+	<!-- ADMIN PAGES -->
+	<definition name="admManageUsers.view" extends="grouponTemplate">
+		<put-attribute name="title" cascade="true" value="ADM: Manage Users" />
+		<put-attribute name="body" value="/WEB-INF/views/admin/admManageUsers.jsp" />
+		<put-list-attribute name="cssFiles" cascade="true">
+		</put-list-attribute>
+		<put-list-attribute name="jsFiles" cascade="true">
+			<add-attribute value="/admin.js" />
+		</put-list-attribute>
+	</definition>
 </tiles-definitions>

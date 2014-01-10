@@ -17,7 +17,7 @@ import com.groupon.web.dao.model.SortBy;
 import com.groupon.web.dao.model.Task;
 import com.groupon.web.dao.model.User;
 import com.groupon.web.dao.model.UserStatus;
-import com.groupon.web.util.ControllerConstants;
+import com.groupon.web.util.GrouponConstants;
 import com.groupon.web.util.GrouponLogger;
 import com.groupon.web.util.GrouponThreadLocal;
 
@@ -38,7 +38,7 @@ public abstract class AbstractBaseController {
 
 	public SortBy getCurrentSortBy(HttpServletRequest request) {
 		HttpSession session = request.getSession(true);
-		SortBy sortby = (SortBy) session.getAttribute(ControllerConstants.SESSION_ATTR_SORTBY);
+		SortBy sortby = (SortBy) session.getAttribute(GrouponConstants.SESSION_ATTR_SORTBY);
 		return sortby == null ? SortBy.DEADLINE : sortby;
 	}
 

@@ -13,6 +13,7 @@ import com.groupon.web.dao.NotificationDao;
 import com.groupon.web.dao.model.Community;
 import com.groupon.web.dao.model.Notification;
 import com.groupon.web.dao.model.NotificationType;
+import com.groupon.web.dao.model.RateDirection;
 import com.groupon.web.dao.model.Task;
 import com.groupon.web.dao.model.User;
 import com.groupon.web.util.AsyncWebTask;
@@ -49,12 +50,7 @@ public class NotificationService {
 		taskExecutor.execute(new AsyncWebTask(notificationDao.getSessionFactory()) {
 			public void runInBackground() {
 				Integer updatedRows = notificationDao.markNotificationsAsReadByTask(getSession(), userId, taskId);
-				if (unreadNotifications.containsKey(userId)) {
-					synchronized (lockNotificationCount) {
-						Integer count = unreadNotifications.get(userId);
-						unreadNotifications.put(userId, count - updatedRows);
-					}
-				}
+				updateNotificationMapIfUserExists(userId, -updatedRows);
 			}
 		});
 	}
@@ -76,12 +72,7 @@ public class NotificationService {
 						notification.setType(NotificationType.TASK_CREATED_IN_FOLLOWED_COMMUNITY);
 						notificationDao.saveNotification(getSession(), notification);
 
-						if (unreadNotifications.containsKey(user.getId())) {
-							synchronized (lockNotificationCount) {
-								Integer count = unreadNotifications.get(user.getId());
-								unreadNotifications.put(user.getId(), count + 1);
-							}
-						}
+						updateNotificationMapIfUserExists(user.getId(), 1);
 					}
 				}
 			}
@@ -104,15 +95,42 @@ public class NotificationService {
 						notification.setType(NotificationType.TASK_REPLY);
 						notificationDao.saveNotification(getSession(), notification);
 
-						if (unreadNotifications.containsKey(follower.getId())) {
-							synchronized (lockNotificationCount) {
-								Integer count = unreadNotifications.get(follower.getId());
-								unreadNotifications.put(follower.getId(), count + 1);
-							}
-						}
+						updateNotificationMapIfUserExists(follower.getId(), 1);
 					}
 				}
 			}
 		});
+	}
+
+	public void sendTaskVoteNotification(final Long taskId, final Long voterUserId, final RateDirection direction) {
+		taskExecutor.execute(new AsyncWebTask(notificationDao.getSessionFactory()) {
+			public void runInBackground() {
+				Task task = (Task) getSession().get(Task.class, taskId);
+				User source = (User) getSession().get(User.class, voterUserId);
+				User receiver = task.getOwner();
+
+				Notification notification = new Notification();
+				notification.setTask(task);
+				notification.setReceiver(receiver);
+				notification.setSource(source);
+				if (direction == RateDirection.UP) {
+					notification.setType(NotificationType.TASK_UPVOTE);
+				} else {
+					notification.setType(NotificationType.TASK_DOWNVOTE);
+				}
+				notificationDao.saveNotification(getSession(), notification);
+
+				updateNotificationMapIfUserExists(receiver.getId(), 1);
+			}
+		});
+	}
+
+	private void updateNotificationMapIfUserExists(Long userId, int increment) {
+		synchronized (lockNotificationCount) {
+			if (unreadNotifications.containsKey(userId)) {
+				Integer count = unreadNotifications.get(userId);
+				unreadNotifications.put(userId, count + increment);
+			}
+		}
 	}
 }

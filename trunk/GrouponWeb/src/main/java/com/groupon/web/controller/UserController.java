@@ -30,7 +30,7 @@ import com.groupon.web.dao.model.UserStatus;
 import com.groupon.web.exception.GrouponException;
 import com.groupon.web.service.CommunityService;
 import com.groupon.web.service.UserService;
-import com.groupon.web.util.ControllerConstants;
+import com.groupon.web.util.GrouponConstants;
 import com.groupon.web.util.EmailValidator;
 import com.groupon.web.util.GrouponWebUtils;
 
@@ -276,16 +276,16 @@ public class UserController extends AbstractBaseController {
 	private void setUserSession(HttpServletRequest request, HttpServletResponse response, User user) {
 		HttpSession session = request.getSession(true);
 		if (user != null) {
-			session.setAttribute(ControllerConstants.SESSION_ATTR_USER, user);
-			Cookie cookie = new Cookie(ControllerConstants.COOKIE_NAME_USER, GrouponWebUtils.generateCookieForUser(user));
+			session.setAttribute(GrouponConstants.SESSION_ATTR_USER, user);
+			Cookie cookie = new Cookie(GrouponConstants.COOKIE_NAME_USER, GrouponWebUtils.generateCookieForUser(user));
 			cookie.setPath(cookiePath);
-			cookie.setMaxAge(ControllerConstants.COOKIE_USER_MAX_AGE);
+			cookie.setMaxAge(GrouponConstants.COOKIE_USER_MAX_AGE);
 			response.addCookie(cookie);
 		} else {
-			session.removeAttribute(ControllerConstants.SESSION_ATTR_USER);
+			session.removeAttribute(GrouponConstants.SESSION_ATTR_USER);
 			Cookie[] cookies = request.getCookies();
 			for (Cookie cookie : cookies) {
-				if (cookie.getName().equals(ControllerConstants.COOKIE_NAME_USER)) {
+				if (cookie.getName().equals(GrouponConstants.COOKIE_NAME_USER)) {
 					cookie.setMaxAge(0);
 					cookie.setValue("");
 					cookie.setPath(cookiePath);

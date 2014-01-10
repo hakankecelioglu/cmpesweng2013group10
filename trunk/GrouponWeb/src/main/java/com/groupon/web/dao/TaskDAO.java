@@ -8,7 +8,8 @@ import org.springframework.stereotype.Repository;
 
 import com.groupon.web.dao.model.SortBy;
 import com.groupon.web.dao.model.Task;
-import com.groupon.web.util.ControllerConstants;
+import com.groupon.web.dao.model.TaskRate;
+import com.groupon.web.util.GrouponConstants;
 
 @Repository
 public class TaskDAO extends BaseDaoImpl {
@@ -132,7 +133,7 @@ public class TaskDAO extends BaseDaoImpl {
 				.createQuery(
 						"select t.id, sum(ra.value) from Task t, ReplyAttribute ra where ra.taskReply.task.id in (:taskids) and ra.name = :qName and ra.taskReply.task.id = t.id group by t.id");
 		query.setParameterList("taskids", taskIds);
-		query.setParameter("qName", ControllerConstants.ATTR_NAME_REPLY_QUANTITY);
+		query.setParameter("qName", GrouponConstants.ATTR_NAME_REPLY_QUANTITY);
 		Object list = query.list();
 		return (List<Object[]>) list;
 	}
@@ -143,5 +144,19 @@ public class TaskDAO extends BaseDaoImpl {
 		String likeText = "%" + queryText + "%";
 		query.setParameter("queryText", likeText);
 		return query.list();
+	}
+
+	public TaskRate findTaskRateByTaskAndUser(Long taskId, Long userId) {
+		Query query = getSession().createQuery("from TaskRate t where t.task.id = :taskid and t.user.id = :userid");
+		query.setParameter("taskid", taskId);
+		query.setParameter("userid", userId);
+		return (TaskRate) query.uniqueResult();
+	}
+
+	public void incrementTaskVotes(Long taskId, int increment) {
+		Query query = getSession().createQuery("update Task set votes = votes + :increment where id = :taskid");
+		query.setParameter("increment", increment);
+		query.setParameter("taskid", taskId);
+		query.executeUpdate();
 	}
 }

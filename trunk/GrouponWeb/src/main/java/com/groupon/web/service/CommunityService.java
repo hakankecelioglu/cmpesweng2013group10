@@ -14,7 +14,7 @@ import com.groupon.web.dao.model.Community;
 import com.groupon.web.dao.model.Tag;
 import com.groupon.web.dao.model.TaskType;
 import com.groupon.web.dao.model.User;
-import com.groupon.web.util.ControllerConstants;
+import com.groupon.web.util.GrouponConstants;
 
 @Component
 public class CommunityService {
@@ -30,7 +30,7 @@ public class CommunityService {
 		arrangeTagsOfCommunity(community);
 		communityDao.saveCommunity(community);
 
-		tagService.createTagUserRelationsOfCommunity(community.getId(), community.getOwner().getId(), ControllerConstants.TAG_USER_CREATE_COMMUNITY);
+		tagService.createTagUserRelationsOfCommunity(community.getId(), community.getOwner().getId(), GrouponConstants.TAG_USER_CREATE_COMMUNITY);
 	}
 
 	public Community getCommunityById(Long id) {
@@ -53,7 +53,7 @@ public class CommunityService {
 		communityDao.update(community);
 
 		if (!community.getOwner().equals(user)) {
-			tagService.createTagUserRelationsOfCommunity(community.getId(), user.getId(), ControllerConstants.TAG_USER_JOIN_COMMUNITY);
+			tagService.createTagUserRelationsOfCommunity(community.getId(), user.getId(), GrouponConstants.TAG_USER_JOIN_COMMUNITY);
 			System.out.println("async!!!");
 		}
 	}
