@@ -58,7 +58,7 @@ public class DynamicFieldsFragment extends DialogFragment {
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
 
-		// This makes sure that the container activity has implemented
+
 
 	}
 	private void setupUI(View view){
@@ -109,11 +109,23 @@ public class DynamicFieldsFragment extends DialogFragment {
 				break;
 			case CHECKBOX:
 				layout.addView(optionLayout(fieldType));
-				layout.addView(optionCheckBoxButton());
+				layout.addView(optionButton(fieldType));
 				break;
 			case SELECT:
 				layout.addView(optionLayout(fieldType));
-				layout.addView(optionDropDownButton());
+				layout.addView(optionButton(fieldType));
+				break;
+			case RADIO:
+				layout.addView(optionLayout(fieldType));
+				layout.addView(optionButton(fieldType));
+				break;
+			case DATE:
+				break;
+			case INTEGER:
+				break;
+			case FLOAT:
+				break;
+			case LONG_TEXT:
 				break;
 			default:
 				return;
@@ -134,7 +146,7 @@ public class DynamicFieldsFragment extends DialogFragment {
 		optionsLayout.setOrientation(LinearLayout.VERTICAL);
 		optionsLayout.addView(option);
 
-		if (fieldType == FieldType.SELECT) {
+		if (fieldType == FieldType.SELECT||fieldType == FieldType.RADIO) {
 			option = new EditText(app.getApplicationContext());
 			option.setHint(optionStr + " " + "option");
 			optionsLayout.addView(option);
@@ -143,39 +155,30 @@ public class DynamicFieldsFragment extends DialogFragment {
 		return optionsLayout;
 	}
 
-	private Button optionCheckBoxButton() {
+	private Button optionButton(FieldType f) {
 		Button newOptionButton = new Button(app.getApplicationContext());
-		newOptionButton.setText("Add New Check Box Option");
-		newOptionButton.setOnClickListener(newCheckBoxOptionButtonClickListener);
+		newOptionButton.setText("Add "+f.getUIName()+" Option");
+
+		newOptionButton.setOnClickListener(newOptionButtonClickListener);
+
 		return newOptionButton;
 	}
 
-	private Button optionDropDownButton() {
-		Button newOptionButton = new Button(app.getApplicationContext());
-		newOptionButton.setText("Add New DropDown  Option");
-		newOptionButton.setOnClickListener(newDropDownOptionButtonClickListener);
-		return newOptionButton;
-	}
 
-	private OnClickListener newCheckBoxOptionButtonClickListener = new OnClickListener() {
+
+	private OnClickListener newOptionButtonClickListener = new OnClickListener() {
 		public void onClick(View v) {
 			LinearLayout parent = (LinearLayout) v.getParent();
+			
 			LinearLayout optionsLayout = (LinearLayout) parent.getChildAt(2);
-			EditText option = new EditText(app.getApplicationContext());
-			option.setHint("Checkbox Option");
+			EditText defaultOption = (EditText)optionsLayout.getChildAt(0);
+			EditText option = new EditText(app.getApplicationContext());	
+			option.setHint(defaultOption.getHint());
 			optionsLayout.addView(option);
 		}
 	};
 
-	private OnClickListener newDropDownOptionButtonClickListener = new OnClickListener() {
-		public void onClick(View v) {
-			LinearLayout parent = (LinearLayout) v.getParent();
-			LinearLayout optionsLayout = (LinearLayout) parent.getChildAt(2);
-			EditText option = new EditText(app.getApplicationContext());
-			option.setHint("Dropdown Option");
-			optionsLayout.addView(option);
-		}
-	};
+
 
 
 	public List<TaskTypeField> getTaskTypeFields() {
@@ -196,15 +199,13 @@ public class DynamicFieldsFragment extends DialogFragment {
 
 			if (fieldType == FieldType.SHORT_TEXT) {
 				// Nothing to do for now
-			} else if (fieldType == FieldType.SELECT) {
+			} else if (fieldType == FieldType.DATE) {
+				// Nothing to do for now
+			} else if (fieldType == FieldType.SELECT || fieldType == FieldType.RADIO || fieldType == FieldType.CHECKBOX) {
 				LinearLayout optionsLayout = (LinearLayout) layout.getChildAt(2);
 				List<FieldAttribute> FieldAttributes = fieldAttributes(optionsLayout, taskTypeField);
 				taskTypeField.setAttributes(FieldAttributes);
-			} else if (fieldType == FieldType.CHECKBOX) {
-				LinearLayout optionsLayout = (LinearLayout) layout.getChildAt(2);
-				List<FieldAttribute> FieldAttributes = fieldAttributes(optionsLayout, taskTypeField);
-				taskTypeField.setAttributes(FieldAttributes);
-			}
+			} 
 
 			taskTypeFields.add(taskTypeField);
 
