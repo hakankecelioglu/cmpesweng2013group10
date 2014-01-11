@@ -27,7 +27,7 @@ public class Task {
 	private String communityPicture;
 	private Long followerCount = 0L;
 	private List<TaskAttribute> attributes;
-
+	private Long taskTypeId;
 	public String getName() {
 		return name;
 	}
@@ -202,6 +202,14 @@ public class Task {
 
 	public void setAttributeMap(Map<String, List<String>> AttributeMap) {
 		this.AttributeMap = AttributeMap;
+	}
+
+	public Long getTaskTypeId() {
+		return taskTypeId;
+	}
+
+	public void setTaskTypeId(Long taskTypeId) {
+		this.taskTypeId = taskTypeId;
 	}
 
 }
