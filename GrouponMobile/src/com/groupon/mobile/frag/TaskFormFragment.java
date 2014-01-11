@@ -143,6 +143,7 @@ public class TaskFormFragment extends Fragment {
 			task.setRequirementName(requirementName);
 		}
 		List<TaskAttribute> taskAttributes = parseTaskAttributes();
+		task.setTaskTypeId(taskTypeId);
 		task.setAttributes(taskAttributes);
 		task.setNeedType(taskType.getNeedType().toString());
 		TaskService taskService = new TaskService((GrouponApplication) getActivity().getApplication());
