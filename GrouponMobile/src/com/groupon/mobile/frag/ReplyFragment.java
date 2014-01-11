@@ -1,11 +1,16 @@
 package com.groupon.mobile.frag;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import android.app.Activity;
+import android.app.DatePickerDialog.OnDateSetListener;
 import android.app.DialogFragment;
+import android.app.FragmentManager;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -13,8 +18,11 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -27,8 +35,9 @@ import com.groupon.mobile.model.Task;
 import com.groupon.mobile.model.TaskAttribute;
 import com.groupon.mobile.model.TaskTypeField;
 import com.groupon.mobile.service.TaskService;
+import com.groupon.mobile.utils.DateUtils;
 
-public class ReplyFragment extends DialogFragment {
+public class ReplyFragment extends DialogFragment implements OnDateSetListener {
 	private long taskId;
 	private GrouponApplication app;
 	private String needType;
@@ -99,15 +108,71 @@ public class ReplyFragment extends DialogFragment {
 
 		switch (f) {
 		case SHORT_TEXT:
-			return createShortTextLayout(replyField);
+			return createShortTextLayout(replyField, f);
 		case SELECT:
 			return createSelectLayout(replyField);
 		case CHECKBOX:
 			return createCheckboxesLayout(replyField);
+		case INTEGER:
+			return createShortTextLayout(replyField, f);
+		case RADIO:
+			return createRadioLayout(replyField);
+		case FLOAT:
+			return createShortTextLayout(replyField, f);
+		case LONG_TEXT:
+			return createLongTextLayout(replyField);
+		case DATE:
+			return createDateLayout(replyField);
 		default:
 			return null;
 		}
 
+	}
+	private View createRadioLayout(TaskTypeField taskTypeField) {
+		View checkboxLayout = View.inflate(getActivity(), R.layout.custom_field_radios, null);
+		TextView hintView = (TextView) checkboxLayout.findViewById(R.id.custom_field_radios_title);
+
+		RadioGroup radioContainer = (RadioGroup) checkboxLayout.findViewById(R.id.radios_container);
+
+		for (FieldAttribute fieldAttribute : taskTypeField.getAttributes()) {
+			RadioButton checkBox = (RadioButton) View.inflate(getActivity(), R.layout.custom_field_radio, null);
+			checkBox.setText(fieldAttribute.getValue());
+			radioContainer.addView(checkBox);
+		}
+
+		hintView.setText(taskTypeField.getName());
+		return checkboxLayout;
+	}
+
+	private View createLongTextLayout(TaskTypeField taskTypeField) {
+		View editTextView = View.inflate(getActivity(), R.layout.custom_field_long_text, null);
+		TextView hintView = (TextView) editTextView.findViewById(R.id.custom_field_text_title);
+		hintView.setText(taskTypeField.getName());
+		return editTextView;
+	}
+
+	private View createDateLayout(TaskTypeField taskTypeField) {
+		View editTextView = View.inflate(getActivity(), R.layout.custom_field_text, null);
+		TextView hintView = (TextView) editTextView.findViewById(R.id.custom_field_text_title);
+		hintView.setText(taskTypeField.getName());
+		EditText dateView = (EditText) editTextView.findViewById(R.id.custom_field_text_input);
+		dateView.setText(DateUtils.getCurrentDate());
+		dateView.setOnClickListener(dateClickListener);
+		return editTextView;
+	}
+
+	private View createShortTextLayout(TaskTypeField taskTypeField, FieldType f) {
+		View editTextView = View.inflate(getActivity(), R.layout.custom_field_text, null);
+		TextView hintView = (TextView) editTextView.findViewById(R.id.custom_field_text_title);
+		hintView.setText(taskTypeField.getName());
+		if (f != FieldType.SHORT_TEXT) {
+			EditText integerView = (EditText) editTextView.findViewById(R.id.custom_field_text_input);
+			if (f == FieldType.FLOAT)
+				integerView.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
+			else if (f == FieldType.INTEGER)
+				integerView.setInputType(InputType.TYPE_CLASS_NUMBER);
+		}
+		return editTextView;
 	}
 
 	private View createCheckboxesLayout(TaskTypeField taskTypeField) {
@@ -142,13 +207,30 @@ public class ReplyFragment extends DialogFragment {
 		hintView.setText(taskTypeField.getName());
 		return selectLayout;
 	}
-
-	private View createShortTextLayout(TaskTypeField taskTypeField) {
-		View editTextView = View.inflate(getActivity(), R.layout.custom_field_text, null);
-		TextView hintView = (TextView) editTextView.findViewById(R.id.custom_field_text_title);
-		hintView.setText(taskTypeField.getName());
-		return editTextView;
+	private OnClickListener dateClickListener = new OnClickListener() {
+		public void onClick(View v) {
+			showDatePickerDialog(v);
+		}
+	};
+	private EditText changed;
+	public void showDatePickerDialog(View v) {
+		changed = (EditText) v;
+		FragmentManager fm = getFragmentManager();
+		DialogFragment newFragment = new DatePickerFragment(ReplyFragment.this);
+		newFragment.show(fm, "datePicker");
 	}
+	@Override
+	public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+		Calendar c = Calendar.getInstance();
+		c.set(Calendar.YEAR,year);
+		c.set(Calendar.MONTH, monthOfYear);
+		c.set(Calendar.DAY_OF_MONTH,dayOfMonth);
+	   
+	    SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
+
+	    changed.setText(sdf.format(c.getTime()));	
+	}
+	
 
 	private OnClickListener replyButtonListener = new OnClickListener() {
 
@@ -226,6 +308,21 @@ public class ReplyFragment extends DialogFragment {
 		case SELECT:
 			taskAttributes.add(convertSelectViewToTaskAttribute(view));
 			break;
+		case DATE:
+			taskAttributes.add(convertDateViewToTaskAttribute(view));
+			break;
+		case INTEGER:
+			taskAttributes.add(convertIntegerViewToTaskAttribute(view));
+			break;
+		case RADIO:
+			taskAttributes.add(convertRadioViewToTaskAttribute(view));
+			break;
+		case FLOAT:
+			taskAttributes.add(convertFloatViewToTaskAttribute(view));
+			break;
+		case LONG_TEXT:
+			taskAttributes.add(convertShortTextViewToTaskAttribute(view));
+		
 		}
 	}
 
@@ -234,6 +331,35 @@ public class ReplyFragment extends DialogFragment {
 
 		EditText editText = (EditText) view.findViewById(R.id.custom_field_text_input);
 		taskAttribute.setName("TT_RES_QUANTITY");
+		taskAttribute.setValue(editText.getText().toString());
+		return taskAttribute;
+	}
+	private TaskAttribute convertDateViewToTaskAttribute(View view) {
+		TaskAttribute taskAttribute = new TaskAttribute();
+		TextView textView = (TextView) view.findViewById(R.id.custom_field_text_title);
+		EditText editText = (EditText) view.findViewById(R.id.custom_field_text_input);
+		String date = editText.getText().toString();
+		taskAttribute.setName(textView.getText().toString());
+		taskAttribute.setValue(date);
+		return taskAttribute;
+	}
+
+	private TaskAttribute convertFloatViewToTaskAttribute(View view) {
+		TaskAttribute taskAttribute = new TaskAttribute();
+		TextView textView = (TextView) view.findViewById(R.id.custom_field_text_title);
+		EditText editText = (EditText) view.findViewById(R.id.custom_field_text_input);
+
+		taskAttribute.setName(textView.getText().toString());
+		taskAttribute.setValue(editText.getText().toString());
+		return taskAttribute;
+	}
+
+	private TaskAttribute convertIntegerViewToTaskAttribute(View view) {
+		TaskAttribute taskAttribute = new TaskAttribute();
+		TextView textView = (TextView) view.findViewById(R.id.custom_field_text_title);
+		EditText editText = (EditText) view.findViewById(R.id.custom_field_text_input);
+
+		taskAttribute.setName(textView.getText().toString());
 		taskAttribute.setValue(editText.getText().toString());
 		return taskAttribute;
 	}
@@ -275,6 +401,25 @@ public class ReplyFragment extends DialogFragment {
 		}
 
 		return taskAttributes;
+	}
+
+	private TaskAttribute convertRadioViewToTaskAttribute(View view) {
+		TaskAttribute taskAttribute = new TaskAttribute();
+		
+		TextView textView = (TextView) view.findViewById(R.id.custom_field_radios_title);
+		String title = textView.getText().toString();
+		taskAttribute.setName(title);
+		RadioGroup radioContainer = (RadioGroup) view.findViewById(R.id.radios_container);
+		if (radioContainer.getCheckedRadioButtonId() != -1) {
+			int id = radioContainer.getCheckedRadioButtonId();
+			View radioButton = radioContainer.findViewById(id);
+			int radioId = radioContainer.indexOfChild(radioButton);
+			RadioButton btn = (RadioButton) radioContainer.getChildAt(radioId);
+			String selection = (String) btn.getText();
+			taskAttribute.setValue(selection);
+		}
+		
+		return taskAttribute;
 	}
 
 	private int pxFromDp(float dp) {
