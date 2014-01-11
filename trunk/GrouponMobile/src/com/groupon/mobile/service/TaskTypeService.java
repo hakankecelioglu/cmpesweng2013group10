@@ -125,7 +125,7 @@ public class TaskTypeService {
 		return taskType;
 	}
 
-	private TaskTypeField convertJSONObjectToTaskTypeField(JSONObject field) throws JSONException {
+	public TaskTypeField convertJSONObjectToTaskTypeField(JSONObject field) throws JSONException {
 
 		TaskTypeField taskTypeField = new TaskTypeField();
 
@@ -176,27 +176,25 @@ public class TaskTypeService {
 			json.put("name", TaskType.getName());
 			json.put("description", TaskType.getDescription());
 			json.put("needType", TaskType.getNeedType().toString());
-		
 
 			List<TaskTypeField> taskTypeFields = TaskType.getFields();
-			if(taskTypeFields!=null){
-			JSONArray array = new JSONArray();
+			if (taskTypeFields != null) {
+				JSONArray array = new JSONArray();
 				for (TaskTypeField TaskTypeField : taskTypeFields) {
 					JSONObject j = convertTaskTypeFieldToJson(TaskTypeField);
 					array.put(j);
 				}
-			json.put("fields", array);
+				json.put("fields", array);
 			}
-			
 
-			List<TaskTypeField> replyFields = TaskType.getFields();
-			if(replyFields!=null){
+			List<TaskTypeField> replyFields = TaskType.getReplyFields();
+			if (replyFields != null) {
 				JSONArray arrayReplyFields = new JSONArray();
 				for (TaskTypeField TaskTypeField : replyFields) {
 					JSONObject j = convertTaskTypeFieldToJson(TaskTypeField);
 					arrayReplyFields.put(j);
 				}
-			json.put("replyFields", arrayReplyFields);
+				json.put("replyFields", arrayReplyFields);
 			}
 
 			json.put("communityId", TaskType.getCommunityId());
@@ -210,7 +208,7 @@ public class TaskTypeService {
 
 	}
 
-	private JSONObject convertTaskTypeFieldToJson(TaskTypeField TaskTypeField) {
+	public JSONObject convertTaskTypeFieldToJson(TaskTypeField TaskTypeField) {
 		JSONObject json = new JSONObject();
 		try {
 			json.put("name", TaskTypeField.getName());
