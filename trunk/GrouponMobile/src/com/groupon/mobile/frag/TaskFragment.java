@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import android.app.Fragment;
+import android.app.FragmentManager;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -29,6 +30,7 @@ public class TaskFragment extends Fragment {
 	private TextView taskfollowercount;
 	private TextView taskCommunityName;
 	private Button followTaskButton;
+	private Button replyTaskButton;
 	private long taskId;
 	private Task task;
 	private GrouponApplication app;
@@ -57,7 +59,9 @@ public class TaskFragment extends Fragment {
 			public void onFail(String errorMessage) {
 
 			}
+
 		});
+
 	}
 
 	private void setupUI(View rootView) {
@@ -84,15 +88,37 @@ public class TaskFragment extends Fragment {
 		}
 		taskfollowercount = (TextView) rootView.findViewById(R.id.task_follower_count);
 		taskfollowercount.setText(task.getFollowerCount() + " followers");
+		setFollowerUI(rootView);
+		setNeedTypeUI(rootView);
+		setTaskAttributesUI(rootView);
+		replyTaskButton = (Button) rootView.findViewById(R.id.task_reply_button);
+		replyTaskButton.setOnClickListener(replyListener);
+
+	}
+
+	private void setFollowerUI(View rootView) {
 		followTaskButton = (Button) rootView.findViewById(R.id.task_follow_button);
 		followTaskButton.setVisibility(View.VISIBLE);
 		if (!task.isFollower()) {
 			followTaskButton.setOnClickListener(followTaskListener);
+			followTaskButton.setText("follow");
 		} else {
 			followTaskButton.setText("Unfollow");
 			followTaskButton.setOnClickListener(unFollowTaskListener);
 		}
+	}
 
+	private void setNeedTypeUI(View rootView) {
+		String needType = task.getNeedType();
+		TextView requirement = (TextView) rootView.findViewById(R.id.task_requirement);
+		if (needType.equals("GOODS")) {
+			requirement.setText(task.getRequirementQuantity() + " more " + task.getRequirementName() + " needed");
+		} else if (needType.equals("SERVICE")) {
+			requirement.setText(task.getRequirementName() + " needed");
+		}
+	}
+
+	private void setTaskAttributesUI(View rootView) {
 		Map<String, List<String>> m = task.getAttributeMap();
 		LinearLayout mainLayout = (LinearLayout) rootView.findViewById(R.id.mainLinear);
 		for (Map.Entry<String, List<String>> entry : m.entrySet()) {
@@ -107,14 +133,34 @@ public class TaskFragment extends Fragment {
 			for (String attributeValue : AttributeValues) {
 				TextView attributeNameView = new TextView(app.getApplicationContext());
 				attributeNameView.setText("\t" + attributeValue);
-
-				attributeNameView.setTextColor(Color.BLACK);
 				taskAttributeLayout.addView(attributeNameView);
+				attributeNameView.setTextColor(Color.BLACK);
 			}
 			mainLayout.addView(taskAttributeLayout);
 		}
+
 	}
 
+	private OnClickListener replyListener = new OnClickListener() {
+
+		@Override
+		public void onClick(View v) {
+			ReplyFragment replyFragment = new ReplyFragment();
+			Bundle args = new Bundle();
+			args.putLong("taskId", taskId);
+			String needType = task.getNeedType();
+			args.putString("needType", needType);
+			if (needType.equals("GOODS") || needType.equals("SERVICE"))
+				args.putString("requirementName", task.getRequirementName());
+			if (needType.equals("GOODS"))
+				args.putLong("requirementQuantity", task.getRequirementQuantity());
+			replyFragment.setArguments(args);
+			FragmentManager fm = getFragmentManager();
+			replyFragment.show(fm, "reply");
+
+		}
+
+	};
 	private OnClickListener followTaskListener = new OnClickListener() {
 
 		@Override

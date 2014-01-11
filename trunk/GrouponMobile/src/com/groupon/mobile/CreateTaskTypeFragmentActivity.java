@@ -72,10 +72,10 @@ public class CreateTaskTypeFragmentActivity extends BaseFragmentActivity impleme
 	private void setupUI() {
 		createButton = (Button) findViewById(R.id.button_create);
 		createButton.setOnClickListener(createButtonClickListener);
-		taskNameField = (EditText) findViewById(R.id.task_name);
+		taskNameField = (EditText) findViewById(R.id.task_type_name);
 		needTypeSpinner = (Spinner) findViewById(R.id.need_type);
 		needTypeSpinner.setOnItemSelectedListener(needTypeSpinnerListener);
-		taskDescriptionField = (EditText) findViewById(R.id.task_description);
+		taskDescriptionField = (EditText) findViewById(R.id.task_type_description);
 		formFieldsButton = (Button)findViewById(R.id.button_form_fields);
 		formFieldsButton.setOnClickListener(formFieldsButtonClickListener);
 		replyFieldsButton = (Button) findViewById(R.id.button_reply_fields);
