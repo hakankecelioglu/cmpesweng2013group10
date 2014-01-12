@@ -2,7 +2,8 @@
 
 <div class="row">
 	<div class="well">
-		You can search according to tasks or communities!
+		You can search according to tasks or communities!<br>
+	    You should log in to search!
 	</div>
 	
 	<div class="span6">

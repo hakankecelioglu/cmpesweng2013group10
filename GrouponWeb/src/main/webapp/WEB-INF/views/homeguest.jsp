@@ -1,8 +1,8 @@
 <%@ include file="/WEB-INF/views/common/includes.jsp"%>
 
 <div class="row">
-	<div class="span6">
-		<span class="label label-success label-home-header">Latest Tasks</span>
+	<div class="span3">
+		<span class="label label-success label-home-header">Try | Help | Solve</span>
 		
 		<c:forEach var="task" items="${alltasks}">
 			<div class="well community-task-well">
@@ -52,7 +52,7 @@
 			</div>
 		</c:forEach>
 	</div><%-- End of random tasks --%>
-	<div class="span6">
+	<div class="span9">
 		<span class="label label-important label-home-header">Latest Communities</span>
 		
 		<c:forEach var="community" items="${allcommunities}">
@@ -70,7 +70,7 @@
 					</a>
 					
 					<div class="media-body">
-						<h1 class="media-heading">${community.name}</h1>
+						<h2 class="media-heading">${community.name}</h1>
 						<p class="lead">${community.description}</p>
 					</div>
 				</div>
