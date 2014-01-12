@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="5dp" >
+
+        <RelativeLayout
+            android:id="@+id/task_type_name_field_layout"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/listview_task_background"
+            android:paddingBottom="5dp"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:paddingTop="5dp" >
+
+            <TextView
+                android:id="@+id/task_type_name_field_textview"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="2dp"
+                android:text="@string/task_type_name"
+                android:textSize="20sp" />
+
+            <EditText
+                android:id="@+id/task_type_name"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/task_type_name_field_textview"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="5dp"
+                android:background="@android:drawable/editbox_background"
+                android:hint="@string/task_type_name" >
+            </EditText>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/task_type_description_field_layout"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/task_type_name_field_layout"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/listview_task_background"
+            android:paddingBottom="5dp"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:paddingTop="5dp" >
+
+            <TextView
+                android:id="@+id/task_type_description_field_textview"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="2dp"
+                android:text="@string/task_description"
+                android:textSize="20sp" />
+
+            <EditText
+                android:id="@+id/task_type_description"
+                android:layout_width="fill_parent"
+                android:layout_height="100dp"
+                android:layout_below="@id/task_type_description_field_textview"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="5dp"
+                android:background="@android:drawable/editbox_background"
+                android:ems="10"
+                android:hint="@string/task_description"
+                android:inputType="textMultiLine" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/task_type_need_type_field_layout"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/task_type_description_field_layout"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/listview_task_background"
+            android:paddingBottom="5dp"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:paddingTop="5dp" >
+
+            <TextView
+                android:id="@+id/task_type_need_type_field_textview"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="2dp"
+                android:text="@string/task_type_of_need"
+                android:textSize="20sp" />
+
+            <Spinner
+                android:id="@+id/need_type"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/task_type_need_type_field_textview"
+                android:layout_marginTop="5dp"
+                android:entries="@array/need_type_array"
+                android:prompt="@string/need_type_prompt" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/task_type_next_button_field_layout"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/task_type_need_type_field_layout"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/listview_task_background"
+            android:paddingBottom="5dp"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:paddingTop="5dp" >
+
+            <TextView
+                android:id="@+id/task_type_next_button_textview"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="2dp"
+                android:text="@string/task_type_next_select_task_fields"
+                android:textSize="20sp" />
+
+            <Button
+                android:id="@+id/button_create"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/task_type_next_button_textview"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/green_button"
+                android:text="@string/next_button"
+                android:textColor="#FFFFFF" />
+        </RelativeLayout>
+    </RelativeLayout>
+
+</ScrollView>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="10dp"
+    android:background="@drawable/listview_task_background"
+    android:paddingBottom="5dp"
+    android:paddingLeft="5dp"
+    android:paddingRight="5dp"
+    android:paddingTop="5dp" >
+
+    <TextView
+        android:id="@+id/custom_fieldtype_radio_title"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="2dp"
+        android:text="@string/custom_fieldtype_radio"
+        android:textSize="18sp" />
+
+    <EditText
+        android:id="@+id/custom_fieldtype_question_edittext"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/custom_fieldtype_radio_title"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp"
+        android:background="@android:drawable/editbox_background"
+        android:inputType="text" >
+    </EditText>
+
+    <LinearLayout
+        android:id="@+id/custom_fieldtype_options_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/custom_fieldtype_question_edittext"
+        android:layout_marginLeft="10dp"
+        android:orientation="vertical" >
+
+        <include layout="@layout/custom_fieldtype_radio_option" />
+
+        <include layout="@layout/custom_fieldtype_radio_option" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/custom_fieldtype_radio_add_option_btn"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/custom_fieldtype_options_layout"
+        android:layout_marginLeft="20dp"
+        android:background="@drawable/green_button"
+        android:text="@string/custom_fieldtype_add_another_option_btn" />
+
+</RelativeLayout>

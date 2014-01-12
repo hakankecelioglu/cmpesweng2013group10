@@ -33,6 +33,9 @@
     <string name="title_activity_task">Task</string>
     <string name="task_deadline">Deadline</string>
     <string name="task_type_of_need">Type of need</string>
+    <string name="task_type_next_select_task_fields">Press next button to specify fields of this task type</string>
+    <string name="next_button">Next &gt;&gt;</string>
+    <string name="create_task_type_button">Create Task Type</string>
     <string name="need_type_prompt">Choose a type</string>
 
     <string-array name="need_type_array">
@@ -108,13 +111,22 @@
     <string name="profile_label_reputation">Reputation:</string>
     <string name="profile_label_edit_profile">Edit Profile</string>
     <string name="profile_label_save_profile">Save</string>
-    
     <string name="select_task_type">Select a Task Type</string>
     <string name="question_name_of_requirement">What is the need?</string>
     <string name="question_quantity_of_requirement">What is the required quantity of your need?</string>
     <string name="question_name_of_service">What service do you need?</string>
-
     <string name="task_type_name">Task Type Name</string>
     <string name="add_form_fields">Form Fields</string>
-     <string name="add_reply_fields">Reply Fields</string>
+    <string name="add_reply_fields">Reply Fields</string>
+
+    <!-- Custom Field Types -->
+    <string name="custom_fieldtype_short_text">Question for Short Text Field</string>
+    <string name="custom_fieldtype_long_text">Question for Long Text Field</string>
+    <string name="custom_fieldtype_checkbox">Question for Checkbox Field</string>
+    <string name="custom_fieldtype_select">Question for Drop Down Field</string>
+    <string name="custom_fieldtype_radio">Question for Radio Field</string>
+    <string name="custom_fieldtype_date">Question for Date Field</string>
+    <string name="custom_fieldtype_integer">Question for Integer Field</string>
+    <string name="custom_fieldtype_float">Question for Float Field</string>
+    <string name="custom_fieldtype_add_another_option_btn">Add another option</string>
 </resources>
