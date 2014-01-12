@@ -1,174 +1,138 @@
 package com.groupon.mobile;
 
-
-
-
-import java.util.List;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+import android.app.ActionBar;
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
+import android.os.Bundle;
+import android.view.KeyEvent;
+import android.view.Window;
+import android.widget.Toast;
 
 import com.groupon.mobile.conn.GrouponCallback;
-import com.groupon.mobile.frag.FormFieldsFragment;
-import com.groupon.mobile.frag.FormFieldsFragment.OnFormFieldsSelectedListener;
-import com.groupon.mobile.frag.ReplyFieldsFragment.OnReplyFieldsSelectedListener;
-import com.groupon.mobile.frag.ReplyFieldsFragment;
-import com.groupon.mobile.model.NeedType;
+import com.groupon.mobile.frag.CreateTaskTypeFirst;
+import com.groupon.mobile.frag.CreateTaskTypeSecond;
+import com.groupon.mobile.frag.CreateTaskTypeThird;
 import com.groupon.mobile.model.TaskType;
-import com.groupon.mobile.model.TaskTypeField;
-
-
-
-
-
 import com.groupon.mobile.service.TaskTypeService;
 
-import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Spinner;
-import android.widget.Toast;
-import android.widget.AdapterView.OnItemSelectedListener;
-
-
-
-public class CreateTaskTypeFragmentActivity extends BaseFragmentActivity implements OnFormFieldsSelectedListener, OnReplyFieldsSelectedListener {
+public class CreateTaskTypeFragmentActivity extends BaseActivity implements TaskTypeStepListener {
+	private static final int NUM_STEPS = 3;
+	private int currentStep;
 	private long communityId;
-	private EditText taskNameField;
-	private EditText taskDescriptionField;
+	private Fragment[] childFragments = new Fragment[3];
+	private TaskType taskType;
 
-	private Button	formFieldsButton;
-	private Button	replyFieldsButton;
-	private Button createButton;
-	private NeedType needType;
-	private Spinner needTypeSpinner;
-	private List<TaskTypeField> taskTypeFields;
-	private List<TaskTypeField> replyFields; 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_create_task_type_fragment);
+		requestWindowFeature(Window.FEATURE_ACTION_BAR);
+		setContentView(R.layout.activity_create_task_type);
+
+		if (savedInstanceState != null) {
+			return;
+		}
+
 		communityId = getIntent().getLongExtra("communityId", -1);
+		taskType = new TaskType();
+		taskType.setCommunityId(communityId);
+
+		childFragments[0] = new CreateTaskTypeFirst();
+		childFragments[1] = new CreateTaskTypeSecond();
+		childFragments[2] = new CreateTaskTypeThird();
+
+		for (Fragment f : childFragments) {
+			TaskTypeStepUpdater stepUpdater = ((TaskTypeStepUpdater) f);
+			stepUpdater.setTaskTypeStepListener(this);
+			stepUpdater.setTaskType(taskType);
+		}
+
 		setupUI();
 	}
+
 	private void setupUI() {
-		createButton = (Button) findViewById(R.id.button_create);
-		createButton.setOnClickListener(createButtonClickListener);
-		taskNameField = (EditText) findViewById(R.id.task_type_name);
-		needTypeSpinner = (Spinner) findViewById(R.id.need_type);
-		needTypeSpinner.setOnItemSelectedListener(needTypeSpinnerListener);
-		taskDescriptionField = (EditText) findViewById(R.id.task_type_description);
-		formFieldsButton = (Button)findViewById(R.id.button_form_fields);
-		formFieldsButton.setOnClickListener(formFieldsButtonClickListener);
-		replyFieldsButton = (Button) findViewById(R.id.button_reply_fields);
-		replyFieldsButton.setOnClickListener(replyFieldsButtonClickListener);
+		ActionBar actionBar = getActionBar();
+		if (actionBar != null) {
+			actionBar.setDisplayHomeAsUpEnabled(true);
+			actionBar.setTitle("Create Task Type");
+			actionBar.show();
+		}
+
+		currentStep = 0;
+		changeStepFragment(currentStep, false);
 	}
-	private OnItemSelectedListener needTypeSpinnerListener = new OnItemSelectedListener() {
-		public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-			if (pos == 0)
-				needType = NeedType.GOODS;
-			else if (pos == 1)
-				needType = NeedType.SERVICE;
-			else
-				needType = NeedType.ONLY_FORM;
-		}
 
-		public void onNothingSelected(AdapterView<?> arg0) {
-		}
-	};
-	private OnClickListener createButtonClickListener = new OnClickListener() {
-		@Override
-		public void onClick(View v) {
-			String name = taskNameField.getText().toString();
-			String description = taskDescriptionField.getText().toString();
+	@Override
+	public boolean onNavigateUp() {
+		finish();
+		return true;
+	}
 
-			if (name.trim().equals("")) {
-				Toast.makeText(CreateTaskTypeFragmentActivity.this, "Task type name cannot be empty!", Toast.LENGTH_SHORT).show();
-				return;
+	private void changeStepFragment(int index, boolean backStack) {
+		FragmentManager fm = getFragmentManager();
+		FragmentTransaction tr = fm.beginTransaction();
+		tr.replace(R.id.frame_container, childFragments[index]);
+		if (backStack) {
+			tr.addToBackStack(null);
+		}
+		tr.commit();
+	}
+
+	@Override
+	public void nextStep() {
+		if (currentStep < NUM_STEPS - 1) {
+			currentStep++;
+			changeStepFragment(currentStep, true);
+		} else if (currentStep == NUM_STEPS - 1) {
+			createTaskTypeAndFinishActivity();
+		}
+	}
+
+	private void createTaskTypeAndFinishActivity() {
+		TaskTypeService taskTypeService = new TaskTypeService(getApp());
+		taskTypeService.createTaskType(taskType, new GrouponCallback<TaskType>() {
+			public void onSuccess(TaskType response) {
+				finish();
 			}
 
-			if (description.trim().equals("")) {
-				Toast.makeText(CreateTaskTypeFragmentActivity.this, "Task type description cannot be empty!", Toast.LENGTH_SHORT).show();
-				return;
+			public void onFail(String errorMessage) {
+				Toast.makeText(getApplicationContext(), errorMessage, Toast.LENGTH_SHORT).show();
 			}
-
-			TaskTypeService service = new TaskTypeService(getApp());
-			TaskType taskType = new TaskType();
-			taskType.setName(name);
-			taskType.setDescription(description);
-			taskType.setNeedType(needType);
-			taskType.setCommunityId(communityId);
-			taskType.setFields(taskTypeFields);
-			taskType.setReplyFields(replyFields);
-			service.createTaskType(taskType, new GrouponCallback<TaskType>() {
-				public void onSuccess(TaskType TaskType) {
-					finish();
-				}
-
-				public void onFail(String errorMessage) {
-					Toast.makeText(CreateTaskTypeFragmentActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
-				}
-			});
-
-		}
-	};
-	private OnClickListener formFieldsButtonClickListener = new OnClickListener() {
-
-		@Override
-		public void onClick(View v) {
-			FormFieldsFragment fragment = new  FormFieldsFragment();
-			Bundle args = new Bundle();			
-			args.putLong("communityId", communityId);
-			fragment.setArguments(args);
-			FragmentManager fm =getSupportFragmentManager();
-			fragment.show(fm, "form_fields_fragment");
-		}
-		
-	};
-	
-	private OnClickListener replyFieldsButtonClickListener = new OnClickListener(){
-
-		@Override
-		public void onClick(View v) {
-			ReplyFieldsFragment fragment = new  ReplyFieldsFragment();
-			Bundle args = new Bundle();
-			
-			args.putLong("communityId", communityId);
-			fragment.setArguments(args);
-			FragmentManager fm =getSupportFragmentManager();
-			fragment.show(fm, "reply_fields_fragment");		
-		}
-		
-	};
-	@Override
-	public void OnFormFieldsSelected(List<TaskTypeField> taskTypeFields) {
-		this.taskTypeFields= taskTypeFields;
-		
-	}
-	@Override
-	public void OnReplyFieldsSelected(List<TaskTypeField> taskTypeFields) {
-		this.replyFields = taskTypeFields;
-		
+		});
 	}
 
+	@Override
+	public void previosStep() {
+		if (currentStep > 0) {
+			currentStep--;
+			changeStepFragment(currentStep, true);
+		}
+	}
 
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		if (keyCode == KeyEvent.KEYCODE_BACK) {
+			if (getFragmentManager().getBackStackEntryCount() == 0) {
+				this.finish();
+				return false;
+			} else {
+				getFragmentManager().popBackStack();
+				removeCurrentFragment();
+				currentStep--;
+				return false;
+			}
+		}
 
+		return super.onKeyDown(keyCode, event);
+	}
+
+	public void removeCurrentFragment() {
+		FragmentTransaction transaction = getFragmentManager().beginTransaction();
+
+		Fragment currentFrag = getFragmentManager().findFragmentById(R.id.frame_container);
+
+		if (currentFrag != null)
+			transaction.remove(currentFrag);
+
+		transaction.commit();
+	}
 }

@@ -34,14 +34,10 @@
             android:windowSoftInputMode="adjustPan" >
         </activity>
         <activity
-            android:name="com.groupon.mobile.CreateTaskTypeActivity"
-            android:label="@string/title_activity_create_task_type"
-            android:theme="@android:style/Theme.Light.NoTitleBar" >
-        </activity>
-        <activity
             android:name="com.groupon.mobile.CreateTaskTypeFragmentActivity"
             android:label="@string/title_activity_create_task_type"
-            android:theme="@android:style/Theme.Light.NoTitleBar" >
+            android:logo="@drawable/create_task_type_icon"
+            android:theme="@style/AppTheme" >
         </activity>
         <activity
             android:name="com.groupon.mobile.SignUpActivity"

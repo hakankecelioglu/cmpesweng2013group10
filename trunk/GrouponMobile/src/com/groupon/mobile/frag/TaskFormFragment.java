@@ -1,19 +1,15 @@
 package com.groupon.mobile.frag;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 import android.app.DatePickerDialog.OnDateSetListener;
 import android.app.DialogFragment;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.media.TimedText;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.LayoutInflater;
@@ -43,7 +39,6 @@ import com.groupon.mobile.model.TaskType;
 import com.groupon.mobile.model.TaskTypeField;
 import com.groupon.mobile.service.TaskService;
 import com.groupon.mobile.service.TaskTypeService;
-import com.groupon.mobile.utils.DateEditText;
 import com.groupon.mobile.utils.DateUtils;
 
 public class TaskFormFragment extends Fragment implements OnDateSetListener {
