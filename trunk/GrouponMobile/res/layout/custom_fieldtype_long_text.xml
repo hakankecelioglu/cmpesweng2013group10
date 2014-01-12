@@ -25,7 +25,8 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="5dp"
         android:background="@android:drawable/editbox_background"
-        android:inputType="text" >
+        android:inputType="text"
+        android:saveEnabled="false" >
     </EditText>
 
 </RelativeLayout>

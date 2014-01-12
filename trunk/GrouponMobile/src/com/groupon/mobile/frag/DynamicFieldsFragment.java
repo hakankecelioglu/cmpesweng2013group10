@@ -32,7 +32,6 @@ public abstract class DynamicFieldsFragment extends Fragment {
 	private Button addFormButton;
 	private Button saveButton;
 	private List<FieldType> fieldTypes;
-	private View rootView;
 	private TextView textViewDescription;
 	private LinearLayout formFieldsLayout;
 
@@ -40,13 +39,8 @@ public abstract class DynamicFieldsFragment extends Fragment {
 	private String nextButtonText;
 	private String title;
 
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		fieldTypes = new ArrayList<FieldType>();
-	}
-
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		rootView = inflater.inflate(R.layout.fragment_form_fields, container, false);
+		View rootView = inflater.inflate(R.layout.fragment_form_fields, container, false);
 		setupUI(rootView);
 		return rootView;
 	}
@@ -68,6 +62,8 @@ public abstract class DynamicFieldsFragment extends Fragment {
 		textViewDescription.setText(title);
 		saveButton.setText(nextButtonText);
 		saveButton.setOnClickListener(nextButtonClickListener);
+
+		fieldTypes = new ArrayList<FieldType>();
 	}
 
 	public void setupDefaults(String fragmentTitle, OnClickListener nextButtonClickListener, String nextButtonTitle) {
@@ -79,53 +75,103 @@ public abstract class DynamicFieldsFragment extends Fragment {
 	private OnClickListener addFormButtonClickListener = new OnClickListener() {
 		@Override
 		public void onClick(View v) {
-			View customFieldRow;
-
 			String selected = fieldTypeSpinner.getSelectedItem().toString();
 			FieldType fieldType = FieldType.getFromUIName(selected);
-
-			switch (fieldType) {
-			case SHORT_TEXT:
-				customFieldRow = View.inflate(getActivity(), R.layout.custom_fieldtype_short_text, null);
-				break;
-			case CHECKBOX:
-				customFieldRow = View.inflate(getActivity(), R.layout.custom_fieldtype_checkbox, null);
-				setNewCheckboxOptionButtonClickListener(customFieldRow);
-				break;
-			case SELECT:
-				customFieldRow = View.inflate(getActivity(), R.layout.custom_fieldtype_select, null);
-				setNewSelectOptionButtonClickListener(customFieldRow);
-				break;
-			case RADIO:
-				customFieldRow = View.inflate(getActivity(), R.layout.custom_fieldtype_radio, null);
-				setNewRadioOptionButtonClickListener(customFieldRow);
-				break;
-			case DATE:
-				customFieldRow = View.inflate(getActivity(), R.layout.custom_fieldtype_date, null);
-				break;
-			case INTEGER:
-				customFieldRow = View.inflate(getActivity(), R.layout.custom_fieldtype_integer, null);
-				break;
-			case FLOAT:
-				customFieldRow = View.inflate(getActivity(), R.layout.custom_fieldtype_float, null);
-				break;
-			case LONG_TEXT:
-				customFieldRow = View.inflate(getActivity(), R.layout.custom_fieldtype_long_text, null);
-				break;
-			default:
-				return;
-			}
-
-			fieldTypes.add(fieldType);
-			formFieldsLayout.addView(customFieldRow);
-
-			LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) customFieldRow.getLayoutParams();
-			int margin = pxFromDp(10);
-			params.setMargins(margin, margin, margin, 0);
-
+			addCustomFieldView(fieldType);
 			scrollDown();
 		}
 	};
+
+	private View addCustomFieldView(FieldType fieldType) {
+		View customFieldRow;
+
+		switch (fieldType) {
+		case SHORT_TEXT:
+			customFieldRow = View.inflate(getActivity(), R.layout.custom_fieldtype_short_text, null);
+			break;
+		case CHECKBOX:
+			customFieldRow = View.inflate(getActivity(), R.layout.custom_fieldtype_checkbox, null);
+			setNewCheckboxOptionButtonClickListener(customFieldRow);
+			break;
+		case SELECT:
+			customFieldRow = View.inflate(getActivity(), R.layout.custom_fieldtype_select, null);
+			setNewSelectOptionButtonClickListener(customFieldRow);
+			break;
+		case RADIO:
+			customFieldRow = View.inflate(getActivity(), R.layout.custom_fieldtype_radio, null);
+			setNewRadioOptionButtonClickListener(customFieldRow);
+			break;
+		case DATE:
+			customFieldRow = View.inflate(getActivity(), R.layout.custom_fieldtype_date, null);
+			break;
+		case INTEGER:
+			customFieldRow = View.inflate(getActivity(), R.layout.custom_fieldtype_integer, null);
+			break;
+		case FLOAT:
+			customFieldRow = View.inflate(getActivity(), R.layout.custom_fieldtype_float, null);
+			break;
+		case LONG_TEXT:
+			customFieldRow = View.inflate(getActivity(), R.layout.custom_fieldtype_long_text, null);
+			break;
+		default:
+			return null;
+		}
+
+		formFieldsLayout.addView(customFieldRow);
+
+		LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) customFieldRow.getLayoutParams();
+		int margin = pxFromDp(10);
+		params.setMargins(margin, margin, margin, 0);
+
+		fieldTypes.add(fieldType);
+
+		return customFieldRow;
+	}
+
+	protected void setSelectedTaskTypeFields(List<TaskTypeField> selectedTaskTypeFields) {
+		fieldTypes.clear();
+		formFieldsLayout.removeAllViews();
+
+		for (TaskTypeField selected : selectedTaskTypeFields) {
+			FieldType fieldType = selected.getFieldType();
+			View view = addCustomFieldView(fieldType);
+
+			EditText questionField = (EditText) view.findViewById(R.id.custom_fieldtype_question_edittext);
+			questionField.setText(selected.getName());
+
+			fillFieldOptions(fieldType, selected.getAttributes(), view);
+		}
+	}
+
+	private void fillFieldOptions(FieldType fieldType, List<FieldAttribute> attributes, View parent) {
+		int optionLayoutId;
+
+		switch (fieldType) {
+		case CHECKBOX:
+			optionLayoutId = R.layout.custom_fieldtype_checkbox_option;
+			break;
+		case SELECT:
+			optionLayoutId = R.layout.custom_fieldtype_select_option;
+			break;
+		case RADIO:
+			optionLayoutId = R.layout.custom_fieldtype_radio_option;
+			break;
+		default:
+			return;
+		}
+
+		LinearLayout optionsLayout = (LinearLayout) parent.findViewById(R.id.custom_fieldtype_options_layout);
+		optionsLayout.removeAllViews();
+
+		for (FieldAttribute attribute : attributes) {
+			if (attribute.getName().startsWith("option")) {
+				View optionLayout = View.inflate(getActivity(), optionLayoutId, null);
+				EditText optionValue = (EditText) optionLayout.findViewById(R.id.custom_fieldtype_option_value);
+				optionValue.setText(attribute.getValue());
+				optionsLayout.addView(optionLayout);
+			}
+		}
+	}
 
 	private void setNewRadioOptionButtonClickListener(View parent) {
 		Button button = (Button) parent.findViewById(R.id.custom_fieldtype_radio_add_option_btn);
@@ -241,9 +287,9 @@ public abstract class DynamicFieldsFragment extends Fragment {
 	}
 
 	private void scrollDown() {
-		rootView.post(new Runnable() {
+		getView().post(new Runnable() {
 			public void run() {
-				((ScrollView) rootView).fullScroll(ScrollView.FOCUS_DOWN);
+				((ScrollView) getView()).fullScroll(ScrollView.FOCUS_DOWN);
 			}
 		});
 	}

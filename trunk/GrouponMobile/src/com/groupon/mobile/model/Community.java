@@ -12,6 +12,10 @@ public class Community implements Serializable {
 	private String description;
 
 	private String picture;
+	
+	private String ownerUsername;
+	
+	private Long ownerId = -1L;
 
 	public String getName() {
 		return name;
@@ -43,6 +47,22 @@ public class Community implements Serializable {
 
 	public void setPicture(String picture) {
 		this.picture = picture;
+	}
+
+	public String getOwnerUsername() {
+		return ownerUsername;
+	}
+
+	public void setOwnerUsername(String ownerUsername) {
+		this.ownerUsername = ownerUsername;
+	}
+
+	public Long getOwnerId() {
+		return ownerId;
+	}
+
+	public void setOwnerId(Long ownerId) {
+		this.ownerId = ownerId;
 	}
 
 }

@@ -1,5 +1,6 @@
 package com.groupon.mobile.frag;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -13,13 +14,12 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.groupon.mobile.CreateTaskTypeFragmentActivity;
 import com.groupon.mobile.R;
-import com.groupon.mobile.TaskTypeStepListener;
-import com.groupon.mobile.TaskTypeStepUpdater;
 import com.groupon.mobile.model.NeedType;
 import com.groupon.mobile.model.TaskType;
 
-public class CreateTaskTypeFirst extends Fragment implements TaskTypeStepUpdater {
+public class CreateTaskTypeFirst extends Fragment {
 	private EditText taskNameField;
 	private EditText taskDescriptionField;
 
@@ -27,7 +27,7 @@ public class CreateTaskTypeFirst extends Fragment implements TaskTypeStepUpdater
 	private NeedType needType;
 	private Spinner needTypeSpinner;
 
-	private TaskTypeStepListener listener;
+	private CreateTaskTypeFragmentActivity mActivity;
 	private TaskType taskType;
 
 	@Override
@@ -81,18 +81,16 @@ public class CreateTaskTypeFirst extends Fragment implements TaskTypeStepUpdater
 			taskType.setDescription(description);
 			taskType.setNeedType(needType);
 
-			listener.nextStep();
+			mActivity.openSecondStep();
 		}
 	};
 
 	@Override
-	public void setTaskTypeStepListener(TaskTypeStepListener listener) {
-		this.listener = listener;
-	}
-
-	@Override
-	public void setTaskType(TaskType taskType) {
-		this.taskType = taskType;
-	}
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+		CreateTaskTypeFragmentActivity act = (CreateTaskTypeFragmentActivity) activity;
+		this.mActivity = act;
+		this.taskType = act.getTaskTypeInstance();
+	};
 
 }
