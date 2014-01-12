@@ -10,10 +10,6 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.GenericWebApplicationContext;
 import org.springframework.web.servlet.DispatcherServlet;
 
-/**
- * @author turankonan
- * 
- */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(loader = MockWebContextLoader.class, locations = { "classpath:app-config-test.xml" })
 public abstract class AbstractTestSupport {

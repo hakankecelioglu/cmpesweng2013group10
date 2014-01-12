@@ -14,10 +14,6 @@ import org.springframework.test.context.support.AbstractContextLoader;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.GenericWebApplicationContext;
 
-/**
- * @author turankonan
- * 
- */
 public class MockWebContextLoader extends AbstractContextLoader {
 
 	public static final ServletContext SERVLET_CONTEXT = new MockServletContext(new FileSystemResourceLoader());

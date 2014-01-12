@@ -153,6 +153,10 @@ public class TaskService {
 
 	public TaskRate voteTask(User user, Task task, RateDirection direction) {
 		TaskRate taskRate = taskDao.findTaskRateByTaskAndUser(task.getId(), user.getId());
+		
+		if (task.getOwner().equals(user)) {
+			throw new GrouponException("You can't vote your own task!");
+		}
 
 		if (taskRate == null) {
 			// New rate
