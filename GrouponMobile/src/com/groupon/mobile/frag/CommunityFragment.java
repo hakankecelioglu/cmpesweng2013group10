@@ -41,7 +41,7 @@ public class CommunityFragment extends Fragment {
 
 	private TextView communityNameField;
 	private TextView communityDescriptionField;
-	
+
 	private Button createTaskButton;
 	private Button createTaskTypeButton;
 	private Button joinCommunityButton;
@@ -116,9 +116,14 @@ public class CommunityFragment extends Fragment {
 		communityDescriptionField.setText(community.getDescription());
 		ImageUtils.loadBitmap(communityPicture, community.getPicture());
 
-		createTaskTypeButton.setOnClickListener(createTypeButtonClickListener);
 		joinCommunityButton.setOnClickListener(joinCommunityListener);
 		createTaskButton.setOnClickListener(createButtonClickListener);
+
+		if (community.getOwnerId() != app.getLoggedUser().getId()) {
+			createTaskTypeButton.setVisibility(View.INVISIBLE);
+		} else {
+			createTaskTypeButton.setOnClickListener(createTypeButtonClickListener);
+		}
 	}
 
 	private OnClickListener createButtonClickListener = new OnClickListener() {
@@ -268,11 +273,11 @@ public class CommunityFragment extends Fragment {
 			args.putLong("communityId", community.getId());
 			newFragment.setArguments(args);
 
-            FragmentTransaction transaction = getFragmentManager().beginTransaction();
-            transaction.replace(R.id.frame_container, newFragment);
-            transaction.addToBackStack(null);
+			FragmentTransaction transaction = getFragmentManager().beginTransaction();
+			transaction.replace(R.id.frame_container, newFragment);
+			transaction.addToBackStack(null);
 
-            transaction.commit();		
+			transaction.commit();
 		}
 	}
 }

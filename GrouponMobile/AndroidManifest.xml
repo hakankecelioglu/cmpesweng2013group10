@@ -35,17 +35,20 @@
         </activity>
         <activity
             android:name="com.groupon.mobile.CreateTaskTypeFragmentActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
             android:label="@string/title_activity_create_task_type"
             android:logo="@drawable/create_task_type_icon"
             android:theme="@style/AppTheme" >
         </activity>
         <activity
             android:name="com.groupon.mobile.SignUpActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
             android:label="@string/title_activity_sign_up"
             android:theme="@android:style/Theme.Light.NoTitleBar" >
         </activity>
         <activity
             android:name="com.groupon.mobile.AboutUs"
+            android:configChanges="orientation|screenSize|keyboardHidden"
             android:label="About Us"
             android:theme="@android:style/Theme.Light.NoTitleBar" >
         </activity>

@@ -55,8 +55,6 @@ public class HomeActivity extends BaseActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_home_activity2);
 
-		FragmentManager.enableDebugLogging(true);
-
 		if (savedInstanceState != null) {
 			return;
 		}

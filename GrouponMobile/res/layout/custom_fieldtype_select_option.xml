@@ -16,6 +16,7 @@
         android:id="@+id/custom_fieldtype_option_value"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="text" />
+        android:inputType="text"
+        android:saveEnabled="false" />
 
 </LinearLayout>

@@ -16,37 +16,24 @@ import com.groupon.mobile.frag.CreateTaskTypeThird;
 import com.groupon.mobile.model.TaskType;
 import com.groupon.mobile.service.TaskTypeService;
 
-public class CreateTaskTypeFragmentActivity extends BaseActivity implements TaskTypeStepListener {
-	private static final int NUM_STEPS = 3;
-	private int currentStep;
+public class CreateTaskTypeFragmentActivity extends BaseActivity {
 	private long communityId;
-	private Fragment[] childFragments = new Fragment[3];
-	private TaskType taskType;
+	private TaskType taskType = new TaskType();
+	boolean initialized = false;
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_ACTION_BAR);
 		setContentView(R.layout.activity_create_task_type);
 
-		if (savedInstanceState != null) {
-			return;
-		}
-
 		communityId = getIntent().getLongExtra("communityId", -1);
-		taskType = new TaskType();
 		taskType.setCommunityId(communityId);
 
-		childFragments[0] = new CreateTaskTypeFirst();
-		childFragments[1] = new CreateTaskTypeSecond();
-		childFragments[2] = new CreateTaskTypeThird();
-
-		for (Fragment f : childFragments) {
-			TaskTypeStepUpdater stepUpdater = ((TaskTypeStepUpdater) f);
-			stepUpdater.setTaskTypeStepListener(this);
-			stepUpdater.setTaskType(taskType);
-		}
-
 		setupUI();
+	}
+
+	public TaskType getTaskTypeInstance() {
+		return taskType;
 	}
 
 	private void setupUI() {
@@ -57,8 +44,29 @@ public class CreateTaskTypeFragmentActivity extends BaseActivity implements Task
 			actionBar.show();
 		}
 
-		currentStep = 0;
-		changeStepFragment(currentStep, false);
+		if (!initialized) {
+			FragmentManager fm = getFragmentManager();
+			FragmentTransaction tr = fm.beginTransaction();
+			tr.replace(R.id.frame_container, new CreateTaskTypeFirst());
+			tr.commit();
+			initialized = true;
+		}
+	}
+
+	public void openSecondStep() {
+		FragmentManager fm = getFragmentManager();
+		FragmentTransaction tr = fm.beginTransaction();
+		tr.replace(R.id.frame_container, new CreateTaskTypeSecond());
+		tr.addToBackStack(null);
+		tr.commit();
+	}
+
+	public void openThirdStep() {
+		FragmentManager fm = getFragmentManager();
+		FragmentTransaction tr = fm.beginTransaction();
+		tr.replace(R.id.frame_container, new CreateTaskTypeThird());
+		tr.addToBackStack(null);
+		tr.commit();
 	}
 
 	@Override
@@ -67,27 +75,7 @@ public class CreateTaskTypeFragmentActivity extends BaseActivity implements Task
 		return true;
 	}
 
-	private void changeStepFragment(int index, boolean backStack) {
-		FragmentManager fm = getFragmentManager();
-		FragmentTransaction tr = fm.beginTransaction();
-		tr.replace(R.id.frame_container, childFragments[index]);
-		if (backStack) {
-			tr.addToBackStack(null);
-		}
-		tr.commit();
-	}
-
-	@Override
-	public void nextStep() {
-		if (currentStep < NUM_STEPS - 1) {
-			currentStep++;
-			changeStepFragment(currentStep, true);
-		} else if (currentStep == NUM_STEPS - 1) {
-			createTaskTypeAndFinishActivity();
-		}
-	}
-
-	private void createTaskTypeAndFinishActivity() {
+	public void createTaskTypeAndFinishActivity() {
 		TaskTypeService taskTypeService = new TaskTypeService(getApp());
 		taskTypeService.createTaskType(taskType, new GrouponCallback<TaskType>() {
 			public void onSuccess(TaskType response) {
@@ -101,14 +89,6 @@ public class CreateTaskTypeFragmentActivity extends BaseActivity implements Task
 	}
 
 	@Override
-	public void previosStep() {
-		if (currentStep > 0) {
-			currentStep--;
-			changeStepFragment(currentStep, true);
-		}
-	}
-
-	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
 			if (getFragmentManager().getBackStackEntryCount() == 0) {
@@ -117,7 +97,6 @@ public class CreateTaskTypeFragmentActivity extends BaseActivity implements Task
 			} else {
 				getFragmentManager().popBackStack();
 				removeCurrentFragment();
-				currentStep--;
 				return false;
 			}
 		}
