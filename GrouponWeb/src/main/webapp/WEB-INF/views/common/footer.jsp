@@ -27,3 +27,7 @@
 		<a href="#" data-dismiss="modal" class="btn btn-info">Close</a>
 	</div>
 </div>
+
+<div class="toast-notification">
+	<div class="content">Test toast notification</div>
+</div>

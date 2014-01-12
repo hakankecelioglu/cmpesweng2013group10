@@ -212,7 +212,7 @@ $(function () {
 		data.taskId = taskId;
 		$.post(url, data, function(resp) {
 			// VOTE IS OK!
-		}).fail(function () {
+		}).fail(function (resp) {
 			countHolder.html(parseInt(countHolder.html()) - 1);
 			that.removeClass("vote-up-on").addClass("vote-up-off");
 			
@@ -220,6 +220,9 @@ $(function () {
 				downArrowOn.addClass("vote-down-on").removeClass("vote-down-off");
 				countHolder.html(parseInt(countHolder.html()) - 1);
 			}
+			
+			var msg = GrouponUtils.getAjaxErrorMessage(resp);
+			GrouponUtils.makeToast(msg);
 		});
 	});
 	
@@ -234,9 +237,12 @@ $(function () {
 		data.taskId = taskId;
 		$.post(url, data, function(resp) {
 			// VOTE IS OK!
-		}).fail(function () {
+		}).fail(function (resp) {
 			countHolder.html(parseInt(countHolder.html()) + 1);
 			that.addClass("vote-up-on").removeClass("vote-up-off");
+			
+			var msg = GrouponUtils.getAjaxErrorMessage(resp);
+			GrouponUtils.makeToast(msg);
 		});
 	});
 	
@@ -258,7 +264,7 @@ $(function () {
 		data.taskId = taskId;
 		$.post(url, data, function(resp) {
 			// VOTE IS OK!
-		}).fail(function () {
+		}).fail(function (resp) {
 			countHolder.html(parseInt(countHolder.html()) + 1);
 			that.removeClass("vote-down-on").addClass("vote-down-off");
 			
@@ -266,6 +272,9 @@ $(function () {
 				upArrowOn.addClass("vote-down-on").removeClass("vote-down-off");
 				countHolder.html(parseInt(countHolder.html()) + 1);
 			}
+			
+			var msg = GrouponUtils.getAjaxErrorMessage(resp);
+			GrouponUtils.makeToast(msg);
 		});
 	});
 
@@ -280,9 +289,11 @@ $(function () {
 		data.taskId = taskId;
 		$.post(url, data, function(resp) {
 			// VOTE IS OK!
-		}).fail(function () {
+		}).fail(function (resp) {
 			countHolder.html(parseInt(countHolder.html()) - 1);
 			that.addClass("vote-down-on").removeClass("vote-down-off");
+			var msg = GrouponUtils.getAjaxErrorMessage(resp);
+			GrouponUtils.makeToast(msg);
 		});
 	});
 	

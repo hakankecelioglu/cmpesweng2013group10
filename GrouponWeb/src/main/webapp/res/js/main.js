@@ -98,6 +98,11 @@ $(function() {
 		},
 		
 		ajaxModalError: function (jqxhr) {
+			var msg = GrouponUtils.getAjaxErrorMessage(jqxhr);
+			GrouponUtils.modalError(msg);
+		},
+		
+		getAjaxErrorMessage: function (jqxhr) {
 			var msg;
 			try {
 				var jsonErr = JSON.parse(jqxhr.responseText);
@@ -109,8 +114,7 @@ $(function() {
 			} catch (e) {
 				msg = "An error occured! Please try again later.";
 			}
-			
-			GrouponUtils.modalError(msg);
+			return msg;
 		},
 		
 		validateEmail: function (email) {
@@ -126,6 +130,11 @@ $(function() {
 			} else {
 				return i + ' follower';
 			}
+		},
+		
+		makeToast: function (text) {
+			$('.toast-notification').fadeIn(400).delay(3000).fadeOut(400);
+			$('.toast-notification .content').html(text);
 		}
 	};
 	
