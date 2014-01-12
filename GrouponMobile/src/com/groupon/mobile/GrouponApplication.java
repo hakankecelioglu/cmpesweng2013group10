@@ -10,6 +10,11 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
+/**
+ * Application class which represents the Task Together application as singleton on runtime.
+ * 
+ * @author sedrik
+ */
 public class GrouponApplication extends Application {
 	private User user;
 	private String authToken;
@@ -26,15 +31,27 @@ public class GrouponApplication extends Application {
 		ImageLoader.getInstance().init(config);
 	}
 
+	/**
+	 * Returns the logged user, if any
+	 * @return the logged user, if any
+	 */
 	public User getLoggedUser() {
 		return user;
 	}
 
+	/**
+	 * Sets the logged user. This user will be logged until he logs out. Stored in shared preferences.
+	 * @param user user being logged in
+	 */
 	public void setLoggedUser(User user) {
 		this.user = user;
 		writeLoggedUser(user);
 	}
 
+	/**
+	 * Returns the authorization token of the logged user, if any
+	 * @return the authorization token of the logged user, if any
+	 */
 	public String getAuthToken() {
 		if (authToken == null) {
 			SharedPreferences prefs = getSharedPreferences(Constants.PREFS_NAME_SECURITY, Activity.MODE_PRIVATE);
@@ -43,6 +60,10 @@ public class GrouponApplication extends Application {
 		return authToken;
 	}
 
+	/**
+	 * Sets the authorization token of the logged user. Stores it in shared preferences.
+	 * @param token the authorization token to be set.
+	 */
 	public void setAuthToken(String token) {
 		authToken = token;
 		SharedPreferences preferences = getSharedPreferences(Constants.PREFS_NAME_SECURITY, Activity.MODE_PRIVATE);
