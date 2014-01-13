@@ -70,7 +70,7 @@
 					</a>
 					
 					<div class="media-body">
-						<h2 class="media-heading">${community.name}</h1>
+						<h2 class="media-heading">${community.name}</h2>
 						<p class="lead">${community.description}</p>
 					</div>
 				</div>

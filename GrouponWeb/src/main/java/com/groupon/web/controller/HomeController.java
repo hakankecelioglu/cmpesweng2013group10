@@ -44,25 +44,31 @@ public class HomeController extends AbstractBaseController {
 		User user = getUser();
 		if (user == null) {
 			// TODO : limit search
-			model.addAttribute("allcommunities", communityService.getAllCommunities());
+			model.addAttribute("allcommunities",
+					communityService.getAllCommunities());
 			return "homeguest.view";
 		}
 
-		List<Task> homeFeedTasks = taskService.getHomeFeedTasks(user, getCurrentSortBy(request));
+		List<Task> homeFeedTasks = taskService.getHomeFeedTasks(user,
+				getCurrentSortBy(request));
 		if (homeFeedTasks == null || homeFeedTasks.size() == 0) {
 			model.addAttribute("emptyHomeFeed", Boolean.TRUE);
-			homeFeedTasks = taskService.getAllTasks(0, 5, getCurrentSortBy(request));
+			homeFeedTasks = taskService.getAllTasks(0, 5,
+					getCurrentSortBy(request));
 		}
 
 		model.addAttribute("homeFeedTasks", homeFeedTasks);
 
 		if (homeFeedTasks.size() > 0) {
-			List<Long> taskIds = GrouponWebUtils.convertModelListToLongList(homeFeedTasks);
+			List<Long> taskIds = GrouponWebUtils
+					.convertModelListToLongList(homeFeedTasks);
 
-			Map<Long, Boolean> followedTaskMap = taskService.findFollowedTasksIdsByUser(user, taskIds);
+			Map<Long, Boolean> followedTaskMap = taskService
+					.findFollowedTasksIdsByUser(user, taskIds);
 			model.addAttribute("followedMap", followedTaskMap);
 
-			Map<Long, Integer> replyCounts = taskService.getTaskHelpCounts(taskIds);
+			Map<Long, Integer> replyCounts = taskService
+					.getTaskHelpCounts(taskIds);
 			putReplyPercentagesToModel(homeFeedTasks, replyCounts, model);
 		}
 
@@ -109,14 +115,17 @@ public class HomeController extends AbstractBaseController {
 		model.addAttribute("page", "home");
 
 		model.addAttribute("followedTasks", taskService.getFollowedTasks(user));
-		model.addAttribute("communityTasks", taskService.getCommunityTasks(user));
-		model.addAttribute("recommendedTasks", taskService.getRecommendedTasks(user));
+		model.addAttribute("communityTasks",
+				taskService.getCommunityTasks(user));
+		model.addAttribute("recommendedTasks",
+				taskService.getRecommendedTasks(user));
 
 		return "home.view";
 	}
 
 	@RequestMapping(value = "/setSorting", method = RequestMethod.POST)
-	public ResponseEntity<Map<String, Object>> setSorting(@RequestParam String sortBy, HttpServletRequest request) {
+	public ResponseEntity<Map<String, Object>> setSorting(
+			@RequestParam String sortBy, HttpServletRequest request) {
 		Map<String, Object> response = new HashMap<String, Object>();
 
 		HttpSession session = request.getSession(true);
@@ -126,5 +135,16 @@ public class HomeController extends AbstractBaseController {
 		response.put("sortBy", newSortBy);
 
 		return prepareSuccessResponse(response);
+	}
+
+	@RequestMapping(value = "/allCommunities", method = RequestMethod.GET)
+	public Object allCommunities(HttpServletRequest request, Model model) {
+		setGlobalAttributesToModel(model, request);
+		model.addAttribute("page", "allCommunities");
+
+		model.addAttribute("allcommunities",
+				communityService.getAllCommunities());
+
+		return "allCommunities.view";
 	}
 }
