@@ -39,6 +39,8 @@ public class HomeController extends AbstractBaseController {
 	/**
 	 * Opens home page
 	 * 
+	 * @param request
+	 * @param model
 	 * @return the view which will be shown on homepage
 	 */
 	@RequestMapping(value = "/", method = RequestMethod.GET)
@@ -74,33 +76,54 @@ public class HomeController extends AbstractBaseController {
 		return "home.view";
 	}
 
+	/**
+	 * Opens advanced search page
+	 * @param request
+	 * @param model
+	 * @return view for advanced search page
+	 */
 	@RequestMapping(value = "/search", method = RequestMethod.GET)
 	public Object search(HttpServletRequest request, Model model) {
-
 		return "advancedSearch.view";
 	}
 
+	/**
+	 * Opens contact us page
+	 * @param request
+	 * @param model
+	 * @return view for contact us page
+	 */
 	@RequestMapping(value = "/contactUs", method = RequestMethod.GET)
 	public Object contactUs(HttpServletRequest request, Model model) {
-
 		return "contactUs.view";
 	}
 
+	/**
+	 * Opens android application download page
+	 * @param request
+	 * @param model
+	 * @return view for android app download page
+	 */
 	@RequestMapping(value = "/androidDown", method = RequestMethod.GET)
 	public Object androidDown(HttpServletRequest request, Model model) {
-
 		return "androidDown.view";
 	}
 
+	/**
+	 * Opens about use page
+	 * @param request
+	 * @param model
+	 * @return view for about us page
+	 */
 	@RequestMapping(value = "/aboutUs", method = RequestMethod.GET)
 	public Object aboutUs(HttpServletRequest request, Model model) {
-
 		return "aboutUs.view";
 	}
 
 	/**
 	 * Opens community feed
-	 * 
+	 * @param request
+	 * @param model
 	 * @return the view which will be shown on homepage
 	 */
 	@RequestMapping(value = "/feed/community", method = RequestMethod.GET)
@@ -120,6 +143,12 @@ public class HomeController extends AbstractBaseController {
 		return "home.view";
 	}
 
+	/**
+	 * Updates logged user's sortby preference
+	 * @param sortBy new sortby preference of the user
+	 * @param request
+	 * @return json response
+	 */
 	@RequestMapping(value = "/setSorting", method = RequestMethod.POST)
 	public ResponseEntity<Map<String, Object>> setSorting(@RequestParam String sortBy, HttpServletRequest request) {
 		Map<String, Object> response = new HashMap<String, Object>();
@@ -133,6 +162,13 @@ public class HomeController extends AbstractBaseController {
 		return prepareSuccessResponse(response);
 	}
 
+	/**
+	 * Opens newest communities page
+	 * @param request
+	 * @param model
+	 * @param page the page to start with
+	 * @return the view for newest communities
+	 */
 	@RequestMapping(value = "/communities/newest", method = RequestMethod.GET)
 	public Object allCommunities(HttpServletRequest request, Model model, @RequestParam(required = false) Integer page) {
 		setGlobalAttributesToModel(model, request);
@@ -150,6 +186,13 @@ public class HomeController extends AbstractBaseController {
 		return "allCommunities.view";
 	}
 
+	/**
+	 * Opens newest tasks page
+	 * @param request
+	 * @param model
+	 * @param page the page to start with
+	 * @return view for newest tasks page
+	 */
 	@RequestMapping(value = "/tasks/newest", method = RequestMethod.GET)
 	public Object newestTasks(HttpServletRequest request, Model model, @RequestParam(required = false) Integer page) {
 		setGlobalAttributesToModel(model, request);
@@ -181,6 +224,13 @@ public class HomeController extends AbstractBaseController {
 		return "newestTasks.view";
 	}
 	
+	/**
+	 * Opens top helpful users page
+	 * @param request
+	 * @param model
+	 * @param page page to start with
+	 * @return the view for top helpful users
+	 */
 	@RequestMapping(value = "/user/helpful", method = RequestMethod.GET)
 	public Object topHelpfulUsers(HttpServletRequest request, Model model, @RequestParam(required = false) Integer page) {
 		setGlobalAttributesToModel(model, request);

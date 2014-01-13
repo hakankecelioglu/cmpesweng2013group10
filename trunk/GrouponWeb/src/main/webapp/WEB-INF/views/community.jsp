@@ -183,7 +183,7 @@
 					<div class="well community-task-well">
 						<p>There is no task in this community!</p>
 						<p>
-							<a href="<c:url value="/task/create?communityId=${community.id}" />" class="btn btn-success"><i class="icon-plus"></i> Create Task</a>
+							<a href="javascript:;" class="btn btn-success createTaskLink"><i class="icon-plus"></i> Create Task</a>
 						</p>
 					</div>
 				</c:otherwise>

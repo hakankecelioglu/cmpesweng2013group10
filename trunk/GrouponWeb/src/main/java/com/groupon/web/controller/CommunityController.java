@@ -101,6 +101,13 @@ public class CommunityController extends AbstractBaseController {
 	private static long lastImageTime = System.currentTimeMillis();
 	private static Integer imageNumber = 0;
 
+	/**
+	 * Returns the communities of the logged user
+	 * @param request
+	 * @param page page to start with
+	 * @param max maximum number of desired results
+	 * @return the communities of the logged user as json response
+	 */
 	@RequestMapping(value = "getCommunitiesOfUser", method = RequestMethod.POST)
 	public ResponseEntity<Map<String, Object>> getCommunitiesAndroid(HttpServletRequest request, @RequestParam(required = false) Integer page,
 			@RequestParam(required = false) Integer max) {
@@ -124,6 +131,13 @@ public class CommunityController extends AbstractBaseController {
 		return prepareSuccessResponse(response);
 	}
 
+	/**
+	 * Returns all communities
+	 * @param request
+	 * @param page page to start with
+	 * @param max maximum number of desired results
+	 * @return all communities as json response
+	 */
 	@RequestMapping(value = "getAllCommunities", method = RequestMethod.POST)
 	public ResponseEntity<Map<String, Object>> getAllCommunitiesAndroid(HttpServletRequest request, @RequestParam(required = false) Integer page,
 			@RequestParam(required = false) Integer max) {
@@ -135,6 +149,12 @@ public class CommunityController extends AbstractBaseController {
 		return prepareSuccessResponse(response);
 	}
 
+	/**
+	 * Returns the similar communities as the given community
+	 * @param request
+	 * @param communityId id of the community to find similar ones 
+	 * @return the similar communities as the given community as json
+	 */
 	@RequestMapping(value = "getSimiliarCommunities", method = RequestMethod.POST)
 	public ResponseEntity<Map<String, Object>> getSimiliarCommunities(HttpServletRequest request, @RequestParam(required = true) Long communityId) {
 		Map<String, Object> response = new HashMap<String, Object>();
@@ -152,6 +172,12 @@ public class CommunityController extends AbstractBaseController {
 		return prepareSuccessResponse(response);
 	}
 
+	/**
+	 * Displays the page for creating community
+	 * @param request
+	 * @param model
+	 * @return create community view.
+	 */
 	@RequestMapping(value = "createCommunity", method = RequestMethod.GET)
 	public Object createCommunity(HttpServletRequest request, Model model) {
 		User user = getUser();
@@ -165,6 +191,13 @@ public class CommunityController extends AbstractBaseController {
 		return "createCommunity.view";
 	}
 
+	/**
+	 * Creates a new community
+	 * @param request
+	 * @param file picture of the community which is being created.
+	 * @return json response which indicates a successful create
+	 * @throws JSONException
+	 */
 	@RequestMapping(value = "createCommunity", method = RequestMethod.POST)
 	public ResponseEntity<Map<String, Object>> createCommunity(HttpServletRequest request, @RequestParam(value = "file", required = false) MultipartFile file) throws JSONException {
 		Map<String, Object> response = new HashMap<String, Object>();
@@ -221,6 +254,13 @@ public class CommunityController extends AbstractBaseController {
 		return prepareSuccessResponse(response);
 	}
 
+	/**
+	 * Creates a new community by handling the request coming from android devices.
+	 * @param request
+	 * @param name name of the community
+	 * @param description description of the community
+	 * @return json response which shows a successful create
+	 */
 	@RequestMapping(value = "createCommunityAndroid", method = RequestMethod.POST)
 	public ResponseEntity<Map<String, Object>> createCommunityAndroid(HttpServletRequest request, @RequestParam String name, @RequestParam String description) {
 		Map<String, Object> response = new HashMap<String, Object>();
@@ -245,6 +285,13 @@ public class CommunityController extends AbstractBaseController {
 		return prepareSuccessResponse(response);
 	}
 
+	/**
+	 * Displays a communities' page
+	 * @param request
+	 * @param model
+	 * @param id id of the community to be displayed
+	 * @return community.view
+	 */
 	@RequestMapping(value = "community/{id}")
 	public Object communityPage(HttpServletRequest request, Model model, @PathVariable Long id) {
 		User user = getUser();
@@ -284,6 +331,13 @@ public class CommunityController extends AbstractBaseController {
 		return "community.view";
 	}
 
+	/**
+	 * Returns the members of a given community
+	 * @param request
+	 * @param model
+	 * @param id id of the community
+	 * @return members of a community as json response
+	 */
 	@RequestMapping(value = "community/{id}/members", method = RequestMethod.GET)
 	public ResponseEntity<Map<String, Object>> getCommunityMembers(HttpServletRequest request, Model model, @PathVariable Long id) {
 		Map<String, Object> response = new HashMap<String, Object>();
@@ -302,6 +356,13 @@ public class CommunityController extends AbstractBaseController {
 		return prepareSuccessResponse(response);
 	}
 
+	/**
+	 * Returns a community as json response
+	 * @param request
+	 * @param model
+	 * @param id id of the desired community
+	 * @return the community data as json response
+	 */
 	@RequestMapping(value = "communityMobile/{id}")
 	public ResponseEntity<Map<String, Object>> communityPageMobile(HttpServletRequest request, Model model, @PathVariable Long id) {
 		// User user = userService.getUserById((long) 1);
@@ -312,6 +373,12 @@ public class CommunityController extends AbstractBaseController {
 
 	}
 
+	/**
+	 * Makes logged user a member of the given community. Called from mobile project.
+	 * @param request
+	 * @param communityId the id of the community 
+	 * @return json response
+	 */
 	@RequestMapping(value = "community/mobilejoin")
 	public ResponseEntity<Map<String, Object>> joinCommunityMobile(HttpServletRequest request, @RequestParam Long communityId) {
 		if (communityId == null) {
@@ -328,6 +395,12 @@ public class CommunityController extends AbstractBaseController {
 		return prepareSuccessResponse(response);
 	}
 
+	/**
+	 * Makes logged user a member of the given community. Called from web project.
+	 * @param request
+	 * @param communityId the id of the community 
+	 * @return redirect to the community page
+	 */
 	@RequestMapping(value = "community/join")
 	public Object joinCommunity(HttpServletRequest request, @RequestParam Long communityId) {
 		if (communityId == null) {
@@ -347,6 +420,12 @@ public class CommunityController extends AbstractBaseController {
 		return "redirect:/community/" + communityId;
 	}
 
+	/**
+	 * Makes logged user leave a community. He is not a member of that community anymore
+	 * @param request
+	 * @param communityId the id of the community
+	 * @return json response
+	 */
 	@RequestMapping(value = "community/mobileleave")
 	public ResponseEntity<Map<String, Object>> leaveCommunityMobile(HttpServletRequest request, @RequestParam Long communityId) {
 		User user = getUser();
@@ -369,6 +448,12 @@ public class CommunityController extends AbstractBaseController {
 		return prepareSuccessResponse(response);
 	}
 
+	/**
+	 * Makes logged user leave a community. He is not a member of that community anymore
+	 * @param request
+	 * @param communityId the id of the community
+	 * @return redirect to the community page
+	 */
 	@RequestMapping(value = "community/leave")
 	public Object leaveCommunity(HttpServletRequest request, @RequestParam Long communityId) {
 		User user = getUser();
@@ -391,6 +476,13 @@ public class CommunityController extends AbstractBaseController {
 		return "redirect:/community/" + communityId;
 	}
 
+	/**
+	 * Opens task type creation page
+	 * @param request
+	 * @param model
+	 * @param communityId the id of the community
+	 * @return view of createTaskType page
+	 */
 	@RequestMapping(value = "community/createTaskType", method = RequestMethod.GET)
 	public Object createTaskType(HttpServletRequest request, Model model, @RequestParam Long communityId) {
 		setGlobalAttributesToModel(model, request);
@@ -415,6 +507,12 @@ public class CommunityController extends AbstractBaseController {
 		return "createTaskType.view";
 	}
 
+	/**
+	 * Creates a task type
+	 * @param body json string in request which contains task type fields
+	 * @return json response
+	 * @throws JSONException if json body in request string is invalid
+	 */
 	@RequestMapping(value = "community/createTaskType", method = RequestMethod.POST)
 	public ResponseEntity<Map<String, Object>> createTaskType(@RequestBody String body) throws JSONException {
 		User user = getUser();
@@ -432,6 +530,11 @@ public class CommunityController extends AbstractBaseController {
 		return prepareSuccessResponse(response);
 	}
 
+	/**
+	 * Returns the task types of a community
+	 * @param communityId the id of the community
+	 * @return task types of a community
+	 */
 	@RequestMapping(value = "community/taskTypes", method = RequestMethod.GET)
 	public ResponseEntity<Map<String, Object>> getTaskTypes(@RequestParam Long communityId) {
 		Map<String, Object> response = new HashMap<String, Object>();
@@ -445,6 +548,11 @@ public class CommunityController extends AbstractBaseController {
 		return prepareSuccessResponse(response);
 	}
 
+	/**
+	 * Returns a task type
+	 * @param taskTypeId the id of the task type
+	 * @return desired task type as json response
+	 */
 	@RequestMapping(value = "taskType", method = RequestMethod.POST)
 	public ResponseEntity<Map<String, Object>> getTaskType(@RequestParam Long taskTypeId) {
 		Map<String, Object> response = new HashMap<String, Object>();
@@ -457,6 +565,11 @@ public class CommunityController extends AbstractBaseController {
 		return prepareSuccessResponse(response);
 	}
 
+	/**
+	 * Returns the picture of a community
+	 * @param pictureName name of the desired picture
+	 * @param response byte response of community picture
+	 */
 	@RequestMapping(value = "community/picture/{pictureName:.+}", method = RequestMethod.GET)
 	public void getCommunityPicture(@PathVariable String pictureName, HttpServletResponse response) {
 		try {
@@ -469,6 +582,11 @@ public class CommunityController extends AbstractBaseController {
 		}
 	}
 
+	/**
+	 * Returns the small picture of a community 
+	 * @param pictureName name of the desired picture
+	 * @param response byte response of community picture
+	 */
 	@RequestMapping(value = "community/thumb/small/{pictureName:.+}", method = RequestMethod.GET)
 	public void getCommunitySmallThumbnail(@PathVariable String pictureName, HttpServletResponse response) {
 		try {
@@ -481,6 +599,11 @@ public class CommunityController extends AbstractBaseController {
 		}
 	}
 
+	/**
+	 * Returns the medium size picture of a community
+	 * @param pictureName name of the desired picture
+	 * @param response byte response of community picture
+	 */
 	@RequestMapping(value = "community/thumb/medium/{pictureName:.+}", method = RequestMethod.GET)
 	public void getCommunityMediumThumbnail(@PathVariable String pictureName, HttpServletResponse response) {
 		try {
@@ -493,6 +616,13 @@ public class CommunityController extends AbstractBaseController {
 		}
 	}
 
+	/**
+	 * Searches for communities
+	 * @param q search text
+	 * @param model
+	 * @param request
+	 * @return the view for search result
+	 */
 	@RequestMapping(value = "community/search", method = RequestMethod.GET)
 	public Object searchCommunities(@RequestParam String q, Model model, HttpServletRequest request) {
 		User user = getUser();
@@ -513,6 +643,11 @@ public class CommunityController extends AbstractBaseController {
 		return "searchResult.view";
 	}
 
+	/**
+	 * Removes a given community
+	 * @param communityId id of the community to be deleted
+	 * @return json response
+	 */
 	@RequestMapping(value = "community/delete", method = RequestMethod.GET)
 	public ResponseEntity<Map<String, Object>> deleteCommunity(@RequestParam(required = false) Long communityId) {
 		if (!hasRoleAccessGranted(RoleName.ADMIN)) {

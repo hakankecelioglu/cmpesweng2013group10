@@ -34,6 +34,11 @@ public class TagController extends AbstractBaseController {
 	@Value("${TAG_AUTOCOMPLETE_MAX_RESULTS}")
 	private int tagAutocompleteMaxResults;
 
+	/**
+	 * Searches tags by a given search text
+	 * @param term the search text
+	 * @return the tags matching the given search text as json response
+	 */
 	@RequestMapping(value = "/searchTags")
 	public ResponseEntity<Map<String, Object>> getTags(@RequestParam String term) {
 		Map<String, Object> response = new HashMap<String, Object>();
