@@ -45,6 +45,7 @@ import com.groupon.web.dao.model.FieldType;
 import com.groupon.web.dao.model.NeedType;
 import com.groupon.web.dao.model.ReplyField;
 import com.groupon.web.dao.model.ReplyFieldAttribute;
+import com.groupon.web.dao.model.RoleName;
 import com.groupon.web.dao.model.Tag;
 import com.groupon.web.dao.model.Task;
 import com.groupon.web.dao.model.TaskType;
@@ -214,9 +215,6 @@ public class CommunityController extends AbstractBaseController {
 
 		communityService.createCommunity(community);
 		logger.debug("Community Created::communityId::{0}", community.getId());
-
-		// Every user is a member of his own communities
-		communityService.addMemberToCommunity(community, user);
 
 		response.put("message", "OK");
 		response.put("communityId", community.getId());
@@ -513,6 +511,26 @@ public class CommunityController extends AbstractBaseController {
 		model.addAttribute("communities", results);
 
 		return "searchResult.view";
+	}
+
+	@RequestMapping(value = "community/delete", method = RequestMethod.GET)
+	public Object deleteCommunity(@RequestParam(required = false) Long communityId) {
+		if (!hasRoleAccessGranted(RoleName.ADMIN)) {
+			throw new GrouponException("You can't delete community!");
+		}
+
+		if (communityId == null) {
+			throw new GrouponException("Enter communityId!");
+		}
+
+		Community community = communityService.getCommunityById(communityId);
+		if (community == null) {
+			throw new GrouponException("Community not found!");
+		}
+
+		communityService.removeCommunity(community);
+
+		return "OK";
 	}
 
 	private String saveFile(MultipartFile multipartFile) throws IllegalStateException, IOException {
