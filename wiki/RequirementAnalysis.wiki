@@ -5,7 +5,9 @@ Purposeful Communities is an crowd sourcing application whose goal is to create 
 == Definitions ==
   * *Community:* The place where group of people having a common purpose communicates and creates and completes tasks .
   * *Task:*  Publications of a need created by a community member and demanded from members of the community and information about how need should be provided.
+  * *Task Type:* A generic definition which determines how tasks are created and replied. Each task is assoicated with a task type and created depending on it.
   * *Need type:* A need can be a service or a good. Goods are  countable needs specified with a quantity (Ex: 50 tents needed for an help after an earthquake ). Services are generally actions such as cleaning of a place or treatment of wounded people.
+
 
 = 2.Functional requirements =
 
@@ -16,6 +18,8 @@ Purposeful Communities is an crowd sourcing application whose goal is to create 
 2.1.2. Communities shall support membership. Users shall be able to join a community
 
 2.1.3. Creator of a community shall become automatically community admin who have the rights  specified in 2.3.9.
+
+2.1.4. Community admins shall be able to create task types of community.
 
 2.1.4. Community members shall be able to create community tasks.
 
@@ -29,59 +33,61 @@ Purposeful Communities is an crowd sourcing application whose goal is to create 
 
 2.1.9. Communities members shall be notified when a new community task is created.
 
- == 2.2 Tasks ==
+ == 2.2 Task Types ==
 
-2.2.1. Tasks shall be created by community members .
+2.2.1. Task types 
+2.2.2. Tasks types shall consist of generic information about how a task is created on replied and what is type of need of task.
+2.2.3. Task type creator shall specify need type as service, goods or only form.
+2.2.3. Task type creator shall be able to specify to form fields which will be filled by a possible task creator using this task type and  reply fields which will be filled by users replying a task created from this task type.
+  2.3.4.1 Forms shall consists of form fields which consists of a field label and a field type
+  2.3.4.2 Single text line, text area, photo, multiple choice, single choice and optional set field types shall be provided
 
-2.2.2. Following information should be provided by user to create a task.
+ == 2.3 Tasks ==
+2.3.1. Tasks shall be created by community members .
 
-  2.2.2.1. task name which states task's identity.
+2.3.2  A task type shall be selected in order to persist structured data
 
-  2.2.2.2. task description which describes task more detailed and provides necessary information to possible task contributers.
+2.3.3. Following information should be provided by user to create a task.
 
-  2.2.2.3. deadline: latest day of for task to be done. After deadline tasks shall be closed.
+  2.3.3.1. task name which states task's identity.
 
-  2.2.2.4. need: main need which characterize the task.
+  2.3.3.2. task description which describes task more detailed and provides necessary information to possible task contributers.
 
-  2.2.2.5. need type: a need can be a service or good as explained in definitions.
+  2.3.3.3. deadline: latest day of for task to be done. After deadline tasks shall be closed.
 
-2.2.3. Users who creates tasks shall be able to add a form to tasks to be filled by members replying the task in order to persist structured data.
 
-  2.2.3.1 Forms shall consists of form fields which consists of a field label and a field type
+  2.3.3.5. Form fields determined in selected tas type.
 
-  2.2.3.2 Single text line, text area, photo, multiple choice, single choice and optional set field types shall be provided
-
-2.2.4. Tasks shall be done by users providing task need and completing task form 
+2.3.4. Tasks shall be done by users providing task need and completing task reply form 
  
-2.2.5. Completion status(Percentage of needs satisfied) of the task shall automatically be tracked by the system.
+2.3.5. Completion status(Percentage of needs satisfied) of the task shall automatically be tracked by the system.
 
-2.2.6. Tasks shall be monitored with their name, description, completion status, follower number, and remaning day information.
+2.3.6. Tasks shall be monitored with their name, description, completion status, follower number, and remaning day information.
 
-2.2.7. Tasks(task description and name) shall be updatable by task owners.
 
- == 2.3 Users ==
+ == 2.4 Users ==
 Users There should be 4 different user types: general admin, user, guest and community  admin
 
-2.3.1. Guests shall be able to browse the system but not create content and participate 
+2.4.1. Guests shall be able to browse the system but not create content and participate 
 
-2.3.2. Guests should provide name, surname, email, password,   to become registered users.
+2.4.2. Guests should provide name, surname, email, password,   to become registered users.
 
 
-2.3.3. Personal information (unless they want to hide), communities and tasks of an user shall be presented publicly to the other users.
+2.4.3. Personal information (unless they want to hide), communities and tasks of an user shall be presented publicly to the other users.
 
-2.3.4. Users shall have a reputation score  calculated based on the tasks he helped.
+2.4.4. Users shall have a reputation score  calculated based on the tasks he helped.
 
-2.3.5. Users shall login system providing email and password.
+2.4.5. Users shall login system providing email and password.
 
-2.3.6. Users shall be provided with the facilities to edit their profiles.
+2.4.6. Users shall be provided with the facilities to edit their profiles.
 
-2.3.7. General admins shall have, in addition to normal users' abilities,  
+2.4.7. General admins shall have, in addition to normal users' abilities,  
 authorities  to  ban users, and remove all types of content
 
-2.3.8. Community admins shall be provided with additional authority to edit 
+2.4.8. Community admins shall be provided with additional authority to edit 
 community profile information,ban members, remove  tasks unrelated to community purpose, and appoint other members of community as admin
 
- == 2.4 Tagging ==
+ == 2.5 Tagging ==
 
 2.5.1.Tasks and  communities shall be tagged by the ones who create them.
 
@@ -92,7 +98,7 @@ community profile information,ban members, remove  tasks unrelated to community 
 2.5.4. Number of tags for a task or community shall be restricted 
 
 
- ==2.5 Searching == 
+ ==2.6 Searching == 
 
 2.6.1. Community and task search  with a basic keyword shall be supported
 
@@ -107,19 +113,19 @@ community profile information,ban members, remove  tasks unrelated to community 
   2.6.2.4. completion status
 
 
-  ==2.6 Follow / Share ==
+  ==2.7 Follow / Share ==
 
-2.6.1. Community members shall be able to follow community tasks. Followers shall get   notifications when a progress occurs in a task.
+2.7.1. Community members shall be able to follow community tasks. Followers shall get   notifications when a progress occurs in a task.
 
-2.6.2 Users shall  be able to share tasks via facebook or twitter. 
+2.7.2 Users shall  be able to share tasks via facebook or twitter. 
 
-  ==2.7 Recommendation system ==
+  ==2.8 Recommendation system ==
 
-2.7.1. Communities similar to another community shall be recommended.
+2.8.1. Communities similar to another community shall be recommended.
 
-2.7.2. Communities which are related to users profile information such as job  skill and locations shall be recommended
+2.8.2. Communities which are related to users profile information such as job  skill and locations shall be recommended
 
-2.7.3. Tasks shall be recommended to users using users profile information  and task help history. 
+2.8.3. Tasks shall be recommended to users using users profile information  and task help history. 
 
 
 
