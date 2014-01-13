@@ -6,8 +6,11 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
 
+import com.groupon.web.dao.model.Community;
 import com.groupon.web.dao.model.Notification;
 import com.groupon.web.dao.model.NotificationType;
+import com.groupon.web.dao.model.Task;
+import com.groupon.web.util.GrouponWebUtils;
 
 @Repository
 public class NotificationDao extends BaseDaoImpl {
@@ -69,9 +72,10 @@ public class NotificationDao extends BaseDaoImpl {
 		query.setMaxResults(1);
 		return (Notification) query.uniqueResult();
 	}
-	
+
 	public Notification findTaskVoteNotification(Session session, Long receiver, Long source, Long task) {
-		Query query = session.createQuery("from Notification n where n.receiver.id = :recid and n.task.id = :taskid and (n.type = :type1 or n.type = :type2) and n.source.id = :srcid");
+		Query query = session
+				.createQuery("from Notification n where n.receiver.id = :recid and n.task.id = :taskid and (n.type = :type1 or n.type = :type2) and n.source.id = :srcid");
 		query.setParameter("recid", receiver);
 		query.setParameter("taskid", task);
 		query.setParameter("srcid", source);
@@ -79,5 +83,18 @@ public class NotificationDao extends BaseDaoImpl {
 		query.setParameter("type2", NotificationType.TASK_DOWNVOTE);
 		query.setMaxResults(1);
 		return (Notification) query.uniqueResult();
+	}
+
+	public void deleteTaskNotifications(Task task) {
+		Query query = getSession().createQuery("delete from Notification n where n.task.id = :taskid");
+		query.setParameter("taskid", task.getId());
+		query.executeUpdate();
+	}
+
+	public void deleteCommunityNotifications(Community community) {
+		Query query = getSession().createQuery("delete from Notification n where n.community.id = :communityid or n.task.id in (:taskids)");
+		query.setParameter("communityid", community.getId());
+		query.setParameterList("taskids", GrouponWebUtils.convertModelListToLongList(community.getTasks()));
+		query.executeUpdate();
 	}
 }

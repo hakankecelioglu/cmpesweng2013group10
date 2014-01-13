@@ -4,6 +4,7 @@ import java.awt.Dimension;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -94,7 +95,7 @@ public class GrouponWebUtils {
 		}
 	}
 
-	public static List<Long> convertModelListToLongList(List<? extends BaseModel> objects) {
+	public static List<Long> convertModelListToLongList(Collection<? extends BaseModel> objects) {
 		List<Long> longs = new ArrayList<Long>();
 		if (objects != null) {
 			for (BaseModel obj : objects) {
