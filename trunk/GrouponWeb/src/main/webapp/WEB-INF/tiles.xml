@@ -176,6 +176,16 @@
 		</put-list-attribute>
 	</definition>
 	
+	<definition name="topHelpfulUsers.view" extends="grouponTemplate">
+		<put-attribute name="title" cascade="true" value="Purposeful Communities" />
+		<put-attribute name="body" value="/WEB-INF/views/topHelpfulUsers.jsp" />
+		<put-list-attribute name="cssFiles" cascade="true">
+			<add-attribute value="/home.css" />
+		</put-list-attribute>
+		<put-list-attribute name="jsFiles" cascade="true">
+			<add-attribute value="/home.js" />
+		</put-list-attribute>
+	</definition>
 	
 	<!-- ADMIN PAGES -->
 	<definition name="admManageUsers.view" extends="grouponTemplate">
