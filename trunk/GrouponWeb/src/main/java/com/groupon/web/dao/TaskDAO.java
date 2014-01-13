@@ -159,4 +159,9 @@ public class TaskDAO extends BaseDaoImpl {
 		query.setParameter("taskid", taskId);
 		query.executeUpdate();
 	}
+
+	public long countOpenTasks() {
+		Query query = this.getSession().createQuery("select count(*) from Task t where t.deadline > NOW() order by t.createDate DESC");
+		return ((Number) query.uniqueResult()).longValue();
+	}
 }

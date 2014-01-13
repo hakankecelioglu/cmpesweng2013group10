@@ -146,6 +146,37 @@ public class HomeController extends AbstractBaseController {
 		return "allCommunities.view";
 	}
 
+	@RequestMapping(value = "/tasks/newest", method = RequestMethod.GET)
+	public Object newestTasks(HttpServletRequest request, Model model, @RequestParam(required = false) Integer page) {
+		setGlobalAttributesToModel(model, request);
+		model.addAttribute("page", "newestTasks");
+
+		User user = getUser();
+		if (user == null) {
+			return "redirect:/";
+		}
+		
+		int currentPage = (page != null) ? page.intValue() : 0;
+
+		List<Task> homeFeedTasks = taskService.getAllTasks(currentPage, 5, SortBy.LATEST);
+		model.addAttribute("homeFeedTasks", homeFeedTasks);
+
+		if (homeFeedTasks.size() > 0) {
+			List<Long> taskIds = GrouponWebUtils.convertModelListToLongList(homeFeedTasks);
+
+			Map<Long, Boolean> followedTaskMap = taskService.findFollowedTasksIdsByUser(user, taskIds);
+			model.addAttribute("followedMap", followedTaskMap);
+
+			Map<Long, Integer> replyCounts = taskService.getTaskHelpCounts(taskIds);
+			putReplyPercentagesToModel(homeFeedTasks, replyCounts, model);
+		}
+		
+		long count = taskService.countOpenTasks();
+		generatePagination(model, currentPage, count, 5);
+
+		return "newestTasks.view";
+	}
+
 	private void generatePagination(Model model, int currentPage, long numberOfItems, int itemsPerPage) {
 		ArrayList<Integer> pageNumbers = new ArrayList<Integer>(5);
 
