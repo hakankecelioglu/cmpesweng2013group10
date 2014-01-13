@@ -1,5 +1,6 @@
 package com.groupon.mobile.frag;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -13,90 +14,145 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.groupon.mobile.GrouponApplication;
 import com.groupon.mobile.R;
 import com.groupon.mobile.conn.GrouponCallback;
+import com.groupon.mobile.layout.TaskReplyAdapter;
 import com.groupon.mobile.model.Task;
+import com.groupon.mobile.model.TaskReply;
 import com.groupon.mobile.service.TaskService;
 
 public class TaskFragment extends Fragment {
+	private GrouponApplication app;
+
+	private ListView listview;
+	private TaskReplyAdapter adapter;
+	private ArrayList<TaskReply> taskReplies = new ArrayList<TaskReply>();
+
+	private long taskId;
+	private Task task;
+
 	private TextView taskNameField;
 	private TextView taskDescriptionField;
 	private TextView taskDeadlineField;
 	private TextView taskOwner;
 	private TextView taskfollowercount;
 	private TextView taskCommunityName;
+	private TextView requirement;
+	private TextView taskRepliesTitle;
+	private LinearLayout mainLayout;
 	private Button followTaskButton;
 	private Button unfollowTaskButton;
 	private Button replyTaskButton;
-	private long taskId;
-	private Task task;
-	private GrouponApplication app;
 
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		final View rootView = inflater.inflate(R.layout.activity_task, container, false);
-
+		final View rootView = inflater.inflate(R.layout.fragment_task, container, false);
 		app = (GrouponApplication) getActivity().getApplication();
+
 		taskId = getArguments().getLong("taskId", -1);
-		setTask(rootView);
+		setupUI(rootView);
+
+		if (task != null) {
+			fillTaskFields();
+		} else {
+			setTask();
+			setTaskReplies();
+		}
 
 		return rootView;
 	}
 
-	private void setTask(final View rootView) {
+	private void setupUI(View rootView) {
+		listview = (ListView) rootView.findViewById(R.id.listview);
+		View listHeader = View.inflate(getActivity(), R.layout.task_header, null);
+
+		taskNameField = (TextView) listHeader.findViewById(R.id.task_name);
+		taskCommunityName = (TextView) listHeader.findViewById(R.id.task_community_name);
+		taskDescriptionField = (TextView) listHeader.findViewById(R.id.task_description);
+		taskDeadlineField = (TextView) listHeader.findViewById(R.id.task_deadline);
+		taskOwner = (TextView) listHeader.findViewById(R.id.task_owner);
+		requirement = (TextView) listHeader.findViewById(R.id.task_requirement);
+		taskfollowercount = (TextView) listHeader.findViewById(R.id.task_follower_count);
+		followTaskButton = (Button) listHeader.findViewById(R.id.task_follow_button);
+		unfollowTaskButton = (Button) listHeader.findViewById(R.id.task_unfollow_button);
+		mainLayout = (LinearLayout) listHeader.findViewById(R.id.mainLinear);
+		taskRepliesTitle = (TextView) listHeader.findViewById(R.id.textview_task_replies_title);
+
+		adapter = new TaskReplyAdapter(app, getActivity(), R.layout.listview_taskreply, taskReplies);
+		adapter.setFragmentManager(getFragmentManager());
+
+		listview.addHeaderView(listHeader);
+		listview.setAdapter(adapter);
+
+		replyTaskButton = (Button) listHeader.findViewById(R.id.task_reply_button);
+
+		if (taskReplies.size() > 0) {
+			taskRepliesTitle.setVisibility(View.VISIBLE);
+		}
+	}
+
+	private void fillTaskFields() {
+		taskNameField.setText(task.getName());
+		taskCommunityName.setText(task.getCommunityName());
+		taskDescriptionField.setText(task.getDescription());
+		taskDeadlineField.setText(task.getDeadlineCount().toString() + " days left");
+		taskOwner.setText(task.getOwnerUsername());
+		String needType = task.getNeedType();
+
+		if (needType.equals("GOODS")) {
+			requirement.setText(task.getRequirementQuantity() + " more " + task.getRequirementName() + " needed");
+		} else if (needType.equals("SERVICE")) {
+			requirement.setText(task.getRequirementName() + " needed");
+		}
+
+		taskfollowercount.setText(task.getFollowerCount() + " followers");
+		setFollowerUI();
+		setNeedTypeUI();
+		setTaskAttributesUI();
+		replyTaskButton.setOnClickListener(replyListener);
+	}
+
+	private void setTask() {
 		TaskService taskService = new TaskService(app);
 		taskService.getTask(taskId, new GrouponCallback<Task>() {
-
 			@Override
 			public void onSuccess(Task task) {
 				TaskFragment.this.task = task;
-				setupUI(rootView);
+				fillTaskFields();
+			}
+
+			@Override
+			public void onFail(String errorMessage) {
+				Toast.makeText(getActivity(), errorMessage, Toast.LENGTH_LONG).show();
+			}
+		});
+	}
+
+	private void setTaskReplies() {
+		TaskService taskService = new TaskService(app);
+		taskService.getTaskReplies(taskId, new GrouponCallback<List<TaskReply>>() {
+			@Override
+			public void onSuccess(List<TaskReply> response) {
+				taskReplies.addAll(response);
+				adapter.notifyDataSetChanged();
+
+				if (taskReplies.size() > 0) {
+					taskRepliesTitle.setVisibility(View.VISIBLE);
+				}
 			}
 
 			@Override
 			public void onFail(String errorMessage) {
 
 			}
-
 		});
-
 	}
 
-	private void setupUI(View rootView) {
-		taskNameField = (TextView) rootView.findViewById(R.id.task_name);
-		taskNameField.setText(task.getName());
-		taskCommunityName = (TextView) rootView.findViewById(R.id.task_community_name);
-		taskCommunityName.setText(task.getCommunityName());
-		taskDescriptionField = (TextView) rootView.findViewById(R.id.task_description);
-		taskDescriptionField.setText(task.getDescription());
-		taskDeadlineField = (TextView) rootView.findViewById(R.id.task_deadline);
-		taskDeadlineField.setText(task.getDeadlineCount().toString() + " days left");
-		taskOwner = (TextView) rootView.findViewById(R.id.task_owner);
-		taskOwner.setText(task.getOwnerUsername());
-
-		String needType = task.getNeedType();
-		TextView requirement = (TextView) rootView.findViewById(R.id.task_requirement);
-		if (needType.equals("GOODS")) {
-
-			requirement.setText(task.getRequirementQuantity() + " more " + task.getRequirementName() + " needed");
-		} else if (needType.equals("SERVICE")) {
-			requirement.setText(task.getRequirementName() + " needed");
-		}
-		taskfollowercount = (TextView) rootView.findViewById(R.id.task_follower_count);
-		taskfollowercount.setText(task.getFollowerCount() + " followers");
-		setFollowerUI(rootView);
-		setNeedTypeUI(rootView);
-		setTaskAttributesUI(rootView);
-		replyTaskButton = (Button) rootView.findViewById(R.id.task_reply_button);
-		replyTaskButton.setOnClickListener(replyListener);
-
-	}
-
-	private void setFollowerUI(View rootView) {
-		followTaskButton = (Button) rootView.findViewById(R.id.task_follow_button);
-		unfollowTaskButton = (Button) rootView.findViewById(R.id.task_unfollow_button);
+	private void setFollowerUI() {
 		followTaskButton.setOnClickListener(followTaskListener);
 		unfollowTaskButton.setOnClickListener(unFollowTaskListener);
 
@@ -113,19 +169,19 @@ public class TaskFragment extends Fragment {
 		}
 	}
 
-	private void setNeedTypeUI(View rootView) {
+	private void setNeedTypeUI() {
 		String needType = task.getNeedType();
-		TextView requirement = (TextView) rootView.findViewById(R.id.task_requirement);
 		if (needType.equals("GOODS")) {
 			requirement.setText(task.getRequirementQuantity() + " more " + task.getRequirementName() + " needed");
 		} else if (needType.equals("SERVICE")) {
 			requirement.setText(task.getRequirementName() + " needed");
+		} else {
+			requirement.setVisibility(View.GONE);
 		}
 	}
 
-	private void setTaskAttributesUI(View rootView) {
+	private void setTaskAttributesUI() {
 		Map<String, List<String>> m = task.getAttributeMap();
-		LinearLayout mainLayout = (LinearLayout) rootView.findViewById(R.id.mainLinear);
 		for (Map.Entry<String, List<String>> entry : m.entrySet()) {
 			String attributeName = entry.getKey();
 			List<String> AttributeValues = entry.getValue();

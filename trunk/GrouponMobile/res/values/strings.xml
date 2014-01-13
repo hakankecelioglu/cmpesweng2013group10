@@ -132,5 +132,8 @@
     
     <!-- loading placeholder -->
     <string name="loading">loading...</string>
+    
+    <!-- Task Page -->
+    <string name="task_page_task_replies_title">Task Replies</string>
 
 </resources>
