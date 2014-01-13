@@ -26,10 +26,10 @@ public class TaskFragment extends Fragment {
 	private TextView taskDescriptionField;
 	private TextView taskDeadlineField;
 	private TextView taskOwner;
-	private TextView taskDescriptionLabel;
 	private TextView taskfollowercount;
 	private TextView taskCommunityName;
 	private Button followTaskButton;
+	private Button unfollowTaskButton;
 	private Button replyTaskButton;
 	private long taskId;
 	private Task task;
@@ -68,15 +68,13 @@ public class TaskFragment extends Fragment {
 		taskNameField = (TextView) rootView.findViewById(R.id.task_name);
 		taskNameField.setText(task.getName());
 		taskCommunityName = (TextView) rootView.findViewById(R.id.task_community_name);
-		taskCommunityName.setText("Community: " + task.getCommunityName());
+		taskCommunityName.setText(task.getCommunityName());
 		taskDescriptionField = (TextView) rootView.findViewById(R.id.task_description);
 		taskDescriptionField.setText(task.getDescription());
-		taskDescriptionLabel = (TextView) rootView.findViewById(R.id.task_description_info);
-		taskDescriptionLabel.setVisibility(View.VISIBLE);
 		taskDeadlineField = (TextView) rootView.findViewById(R.id.task_deadline);
 		taskDeadlineField.setText(task.getDeadlineCount().toString() + " days left");
 		taskOwner = (TextView) rootView.findViewById(R.id.task_owner);
-		taskOwner.setText("by " + task.getOwnerUsername());
+		taskOwner.setText(task.getOwnerUsername());
 
 		String needType = task.getNeedType();
 		TextView requirement = (TextView) rootView.findViewById(R.id.task_requirement);
@@ -98,13 +96,20 @@ public class TaskFragment extends Fragment {
 
 	private void setFollowerUI(View rootView) {
 		followTaskButton = (Button) rootView.findViewById(R.id.task_follow_button);
-		followTaskButton.setVisibility(View.VISIBLE);
-		if (!task.isFollower()) {
-			followTaskButton.setOnClickListener(followTaskListener);
-			followTaskButton.setText("follow");
+		unfollowTaskButton = (Button) rootView.findViewById(R.id.task_unfollow_button);
+		followTaskButton.setOnClickListener(followTaskListener);
+		unfollowTaskButton.setOnClickListener(unFollowTaskListener);
+
+		changeFollowUnfollowUI(task.isFollower());
+	}
+
+	private void changeFollowUnfollowUI(boolean isFollower) {
+		if (!isFollower) {
+			followTaskButton.setVisibility(View.VISIBLE);
+			unfollowTaskButton.setVisibility(View.GONE);
 		} else {
-			followTaskButton.setText("Unfollow");
-			followTaskButton.setOnClickListener(unFollowTaskListener);
+			followTaskButton.setVisibility(View.GONE);
+			unfollowTaskButton.setVisibility(View.VISIBLE);
 		}
 	}
 
@@ -170,9 +175,7 @@ public class TaskFragment extends Fragment {
 
 				@Override
 				public void onSuccess(Task response) {
-
-					followTaskButton.setText("unfollow");
-					followTaskButton.setOnClickListener(unFollowTaskListener);
+					changeFollowUnfollowUI(true);
 					taskfollowercount.setText(response.getFollowerCount() + " followers");
 				}
 
@@ -193,9 +196,7 @@ public class TaskFragment extends Fragment {
 
 				@Override
 				public void onSuccess(Task response) {
-
-					followTaskButton.setText("follow");
-					followTaskButton.setOnClickListener(followTaskListener);
+					changeFollowUnfollowUI(false);
 					taskfollowercount.setText(response.getFollowerCount() + " followers");
 				}
 
