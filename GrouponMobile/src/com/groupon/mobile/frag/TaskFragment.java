@@ -21,6 +21,7 @@ import android.widget.Toast;
 import com.groupon.mobile.GrouponApplication;
 import com.groupon.mobile.R;
 import com.groupon.mobile.conn.GrouponCallback;
+import com.groupon.mobile.frag.ReplyFragment.refreshListener;
 import com.groupon.mobile.layout.TaskReplyAdapter;
 import com.groupon.mobile.model.Task;
 import com.groupon.mobile.model.TaskReply;
@@ -32,7 +33,7 @@ import com.groupon.mobile.service.TaskService;
  * @author serkan
  * 
  */
-public class TaskFragment extends Fragment {
+public class TaskFragment extends Fragment implements refreshListener {
 	private GrouponApplication app;
 
 	private ListView listview;
@@ -54,9 +55,10 @@ public class TaskFragment extends Fragment {
 	private Button followTaskButton;
 	private Button unfollowTaskButton;
 	private Button replyTaskButton;
-
+	private  View rootView;
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		final View rootView = inflater.inflate(R.layout.fragment_task, container, false);
+		rootView = inflater.inflate(R.layout.fragment_task, container, false);
+		
 		app = (GrouponApplication) getActivity().getApplication();
 
 		taskId = getArguments().getLong("taskId", -1);
@@ -251,12 +253,20 @@ public class TaskFragment extends Fragment {
 			if (needType.equals("GOODS"))
 				args.putLong("requirementQuantity", task.getRequirementQuantity());
 			replyFragment.setArguments(args);
+			replyFragment.setListen(TaskFragment.this);
 			FragmentManager fm = getFragmentManager();
 			replyFragment.show(fm, "reply");
 
 		}
 
 	};
+	public void refresh(int quantity){
+		if (task.getNeedType().equals("GOODS")){
+			task.setRequirementQuantity(task.getRequirementQuantity()-quantity);
+			requirement.setText(task.getRequirementQuantity()+ " more " + task.getRequirementName());
+		}
+		setTaskReplies();
+	}
 	private OnClickListener followTaskListener = new OnClickListener() {
 
 		@Override
