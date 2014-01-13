@@ -31,8 +31,8 @@ public class CreateTaskTypeThird extends DynamicFieldsFragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		setupDefaults(fragmentTitle, saveButtonClickListener, getString(R.string.create_task_type_button));
 		View rootView = super.onCreateView(inflater, container, savedInstanceState);
-		if (taskType != null && taskType.getFields() != null) {
-			setSelectedTaskTypeFields(taskType.getFields());
+		if (taskType != null && taskType.getReplyFields() != null) {
+			setSelectedTaskTypeFields(taskType.getReplyFields());
 		}
 		return rootView;
 	}
