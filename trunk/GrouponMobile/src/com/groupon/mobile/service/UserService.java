@@ -13,7 +13,11 @@ import com.groupon.mobile.conn.GrouponTask;
 import com.groupon.mobile.exception.GrouponException;
 import com.groupon.mobile.model.User;
 import com.groupon.mobile.utils.Constants;
-
+/**
+ * Provides service functions related to users such as login, signup.
+ * @author sedrik
+ *
+ */
 public class UserService {
 
 	private GrouponApplication app;
@@ -21,7 +25,12 @@ public class UserService {
 	public UserService(GrouponApplication app) {
 		this.app = app;
 	}
-
+	/**
+	 * Make a post request to log user in
+	 * @param username User name of user
+	 * @param password password of user
+	 * @param callback callback passed as parameter to GrouponTask
+	 */
 	public void login(final String username, final String password, GrouponCallback<User> callback) {
 		GrouponTask<User> userTask = new GrouponTask<User>(callback) {
 			@Override
@@ -41,7 +50,13 @@ public class UserService {
 		};
 		GrouponTask.execute(userTask);
 	}
-
+	/**
+	 * Make  post request to signup request to sign up 
+	 * @param username Requested user name of user
+	 * @param password Requested password password of user
+	 * @param email Requested email password of user
+	 * @param callback passed as parameter to GrouponTask
+	 */
 	public void signup(final String username, final String password, final String email, GrouponCallback<User> callback) {
 		GrouponTask<User> userTask = new GrouponTask<User>(callback) {
 			@Override
@@ -71,7 +86,11 @@ public class UserService {
 		};
 		GrouponTask.execute(userTask);
 	}
-
+	/**
+	 * Make a get request to return user's information data
+	 * @param userId id of User requested
+	 * @param callback passed as parameter to GrouponTask
+	 */
 	public void getUserInfo(final Long userId, GrouponCallback<User> callback) {
 		GrouponTask<User> userTask = new GrouponTask<User>(callback) {
 			public User run() throws GrouponException {
@@ -86,7 +105,12 @@ public class UserService {
 		};
 		GrouponTask.execute(userTask);
 	}
-
+	/**
+	 * Convert JSONObject to User
+	 * @param json JSONObject converted
+	 * @return User created.
+	 * @throws JSONException
+	 */
 	private User convertJsonToUser(JSONObject json) throws JSONException {
 		if (json.has("auth")) {
 			String auth = json.getString("auth");

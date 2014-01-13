@@ -29,7 +29,10 @@ import com.groupon.mobile.frag.ProfileFragment;
 import com.groupon.mobile.layout.NavDrawerItem;
 import com.groupon.mobile.layout.NavDrawerListAdapter;
 import com.groupon.mobile.model.User;
-
+/**
+ * It provides navigation functionality. The fragment chosen from navigation pane is loaded from this activity to a frame layout
+ * @author sedrik
+ */
 public class HomeActivity extends BaseActivity {
 	private DrawerLayout mDrawerLayout;
 	private ListView leftBarListView;
@@ -176,7 +179,7 @@ public class HomeActivity extends BaseActivity {
 	}
 
 	/**
-	 * Diplaying fragment view for selected nav drawer list item
+	 * Displaying fragment view for selected nav drawer list item
 	 * */
 	private void displayView(int position) {
 		// update the main content by replacing fragments

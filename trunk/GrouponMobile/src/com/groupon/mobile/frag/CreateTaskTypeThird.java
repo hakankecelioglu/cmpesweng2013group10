@@ -15,7 +15,12 @@ import com.groupon.mobile.R;
 import com.groupon.mobile.exception.GrouponException;
 import com.groupon.mobile.model.TaskType;
 import com.groupon.mobile.model.TaskTypeField;
-
+/**
+ * This is the final step for task type creation. User enters reply fields here and touchs save button
+ * to save his task type.
+ * @author sedrik
+ *
+ */
 public class CreateTaskTypeThird extends DynamicFieldsFragment {
 	private static final String fragmentTitle = "Enter the fields which will be filled by task repliers";
 
@@ -31,6 +36,7 @@ public class CreateTaskTypeThird extends DynamicFieldsFragment {
 		}
 		return rootView;
 	}
+
 
 	private OnClickListener saveButtonClickListener = new OnClickListener() {
 		public void onClick(View v) {

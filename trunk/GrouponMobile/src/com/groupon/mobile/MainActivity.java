@@ -11,7 +11,12 @@ import android.widget.Toast;
 import com.groupon.mobile.conn.GrouponCallback;
 import com.groupon.mobile.model.User;
 import com.groupon.mobile.service.UserService;
-
+/**
+ * It is the main activity of the application. If user is not logged it provides an interface 
+ * to go signup and about us activities.If user is logged HomeActivity is started onCreate.
+ * @author serkan
+ *
+ */
 public class MainActivity extends BaseActivity {
 
 	private Button loginButton;
@@ -35,7 +40,9 @@ public class MainActivity extends BaseActivity {
 
 		setupUI();
 	}
-
+	/**
+	 * setup UI of this activity.
+	 */
 	private void setupUI() {
 		loginButton = (Button) findViewById(R.id.button_login);
 		loginButton.setOnClickListener(onLoginButtonClick);

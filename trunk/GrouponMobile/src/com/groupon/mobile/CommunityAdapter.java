@@ -13,7 +13,11 @@ import android.widget.TextView;
 
 import com.groupon.mobile.model.Community;
 import com.groupon.mobile.utils.ImageUtils;
-
+/**
+ * Custom adapter class for showing an item of community list item.
+ * @author serkan
+ *
+ */
 public class CommunityAdapter extends ArrayAdapter<Community> {
 
 	int resource;
@@ -26,28 +30,28 @@ public class CommunityAdapter extends ArrayAdapter<Community> {
 	}
 
 	public View getView(int position, View convertView, ViewGroup parent) {
-		LinearLayout alertView;
+		LinearLayout communityView;
 
 		Community community = getItem(position);
 
 		if (convertView == null) {
-			alertView = new LinearLayout(getContext());
+			communityView = new LinearLayout(getContext());
 			String inflater = Context.LAYOUT_INFLATER_SERVICE;
 			LayoutInflater vi;
 			vi = (LayoutInflater) getContext().getSystemService(inflater);
-			vi.inflate(resource, alertView, true);
+			vi.inflate(resource, communityView, true);
 		} else {
-			alertView = (LinearLayout) convertView;
+			communityView = (LinearLayout) convertView;
 		}
-
-		TextView communityName = (TextView) alertView.findViewById(R.id.community_name);
-		TextView communityDescription = (TextView) alertView.findViewById(R.id.community_description);
-		ImageView imageView = (ImageView) alertView.findViewById(R.id.community_picture);
+		//all view elements of a community list item is set.
+		TextView communityName = (TextView) communityView.findViewById(R.id.community_name);
+		TextView communityDescription = (TextView) communityView.findViewById(R.id.community_description);
+		ImageView imageView = (ImageView) communityView.findViewById(R.id.community_picture);
 
 		communityName.setText(community.getName());
 		communityDescription.setText(community.getDescription());
 		ImageUtils.loadBitmap(imageView, community.getPicture());
 
-		return alertView;
+		return communityView;
 	}
 }

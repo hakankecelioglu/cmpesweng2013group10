@@ -17,7 +17,11 @@ import com.groupon.mobile.conn.GrouponCallback;
 import com.groupon.mobile.model.User;
 import com.groupon.mobile.service.UserService;
 import com.groupon.mobile.utils.StringUtils;
-
+/**
+ * shows profile of the user.
+ * @author sedrik
+ *
+ */
 public class ProfileFragment extends Fragment {
 	private boolean isInEditMode = false;
 	private Long profileOwnerId = -1L;
@@ -51,7 +55,10 @@ public class ProfileFragment extends Fragment {
 		setData();
 		return rootView;
 	}
-
+	/**
+	 * setup UI of this fragment.
+	 * @param rootView root view of this fragment.
+	 */
 	public void setupUI(View rootView) {
 		usernameTextView = (TextView) rootView.findViewById(R.id.profile_username);
 		editProfileButton = (Button) rootView.findViewById(R.id.profile_edit_button);

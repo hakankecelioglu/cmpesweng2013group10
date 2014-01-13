@@ -19,7 +19,11 @@ import com.groupon.mobile.R;
 import com.groupon.mobile.conn.GrouponCallback;
 import com.groupon.mobile.model.Community;
 import com.groupon.mobile.service.CommunityService;
-
+/**
+ * Shows a list of communities which a user is member of
+ * @author serkan
+ *
+ */
 public class MyCommunitiesFragment extends Fragment {
 
 	private CommunityAdapter arrayAdapter;
@@ -43,12 +47,18 @@ public class MyCommunitiesFragment extends Fragment {
 
 		return rootView;
 	}
-
+	/**
+	 * setup UI of this fragment.
+	 * @param rootView root view of this fragment.
+	 */
 	private void setupUI(View rootView) {
 		setupListView(rootView);
 		listview.setOnItemClickListener(listViewListener);
 	}
-
+	/**
+	 * setup community list view by calling related service funcitons.
+	 * @param rootView root view of this fragment
+	 */
 	private void setupListView(View rootView) {
 		listview = (ListView) rootView.findViewById(R.id.listview);
 		arrayAdapter = new CommunityAdapter(getActivity(), R.layout.listview_community, communities);
@@ -73,7 +83,9 @@ public class MyCommunitiesFragment extends Fragment {
 			});
 		}
 	}
-
+	/**
+	 * Redirects user to the community chosen from listview.
+	 */
 	private OnItemClickListener listViewListener = new OnItemClickListener() {
 
 		@Override
