@@ -99,6 +99,12 @@
 		<put-attribute name="title" cascade="true" value="Search" />
 		<put-attribute name="body" value="/WEB-INF/views/advancedSearch.jsp" />
 	</definition>
+	
+	<definition name="allCommunities.view" extends="grouponTemplate">
+		<put-attribute name="title" cascade="true" value="All Communities" />
+		<put-attribute name="body" value="/WEB-INF/views/allCommunities.jsp" />
+
+	</definition>
 
 	<definition name="searchResult.view" extends="grouponTemplate">
 		<put-attribute name="title" cascade="true" value="Search Results" />

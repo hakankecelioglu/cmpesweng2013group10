@@ -8,8 +8,7 @@
 			<li><a href="#">Home Feed</a></li>
 			<li><a href="#">Community Feed</a></li>
 			<li><a href="#">Followed Tasks</a></li>
-			<li><a href="#">Top Communities</a></li>
-			<li><a href="#">New Communities</a></li>
+			<li><a href="<c:url value="/allCommunities" />">All Communities</a></li>
 			<li><a href="#">New Tasks</a></li>
 		</ul>
 		
