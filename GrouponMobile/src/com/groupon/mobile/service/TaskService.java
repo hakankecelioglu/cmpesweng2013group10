@@ -28,7 +28,11 @@ import com.groupon.mobile.model.TaskTypeField;
 import com.groupon.mobile.model.User;
 import com.groupon.mobile.utils.Constants;
 import com.groupon.mobile.utils.DateUtils;
-
+/**
+ * Provides service functions related to tasks such as creating task, returning task, following and unfollowing tasks.
+ * @author serkan
+ *
+ */
 public class TaskService {
 	private GrouponApplication app;
 
@@ -65,7 +69,11 @@ public class TaskService {
 		};
 		GrouponTask.execute(taskTask);
 	}
-
+	/**
+	 * Make a get request and returns tasks of a community
+	 * @param communityId id of community whose tasks are returned
+	 * @param callback callback passed as parameter to GrouponTask
+	 */
 	public void getCommunityTasks(final long communityId, GrouponCallback<ArrayList<Task>> callback) {
 		GrouponTask<ArrayList<Task>> taskTask = new GrouponTask<ArrayList<Task>>(callback) {
 			public ArrayList<Task> run() throws GrouponException {
@@ -95,7 +103,10 @@ public class TaskService {
 		GrouponTask.execute(taskTask);
 
 	}
-
+	/**
+	 * Makes a get request to return followed tasks of user
+	 * @param callback callback passed as parameter to GrouponTask
+	 */
 	public void getFollowedTasks(GrouponCallback<ArrayList<Task>> callback) {
 		GrouponTask<ArrayList<Task>> taskTask = new GrouponTask<ArrayList<Task>>(callback) {
 			public ArrayList<Task> run() throws GrouponException {
@@ -124,7 +135,10 @@ public class TaskService {
 		GrouponTask.execute(taskTask);
 
 	}
-
+	/**
+	 * make a get request get home feed tasks of user
+	 * @param callback callback passed as parameter to GrouponTask
+	 */
 	public void getHomeFeedTasks(GrouponCallback<ArrayList<Task>> callback) {
 		GrouponTask<ArrayList<Task>> taskTask = new GrouponTask<ArrayList<Task>>(callback) {
 			public ArrayList<Task> run() throws GrouponException {
@@ -153,7 +167,11 @@ public class TaskService {
 		GrouponTask.execute(taskTask);
 
 	}
-
+	/**
+	 * makes a post request to unfollow a task
+	 * @param taskId id of task unfollowed
+	 * @param callback callback passed as parameter to GrouponTask
+	 */
 	public void unFollowTask(final long taskId, final GrouponCallback<Task> callback) {
 		GrouponTask<Task> taskTask = new GrouponTask<Task>(callback) {
 
@@ -176,7 +194,11 @@ public class TaskService {
 		};
 		GrouponTask.execute(taskTask);
 	}
-
+	/**
+	 * makes a post request to follow a task
+	 * @param taskId id of task followed
+	 * @param callback callback passed as parameter to GrouponTask
+	 */	
 	public void followTask(final long taskId, final GrouponCallback<Task> callback) {
 		GrouponTask<Task> taskTask = new GrouponTask<Task>(callback) {
 
@@ -199,7 +221,12 @@ public class TaskService {
 		};
 		GrouponTask.execute(taskTask);
 	}
-
+	/**
+	 * makes a post request to reply a task
+	 * @param taskId id of task replied
+	 * @param replyFields list of TaskAttributes which constitues reply data
+	 * @param callback callback passed as parameter to GrouponTask
+	 */
 	public void replyTask(final long taskId, final List<TaskAttribute> replyFields, final GrouponCallback<Task> callback) {
 		GrouponTask<Task> taskTask = new GrouponTask<Task>(callback) {
 			public Task run() throws GrouponException {
@@ -221,7 +248,12 @@ public class TaskService {
 
 		GrouponTask.execute(taskTask);
 	}
-
+	/**
+	 * makes a post request to create task
+	 * @param task Task instance which is posted
+	 * @param communityId id of community which task belongs to
+	 * @param callback callback passed as parameter to GrouponTask
+	 */
 	public void createTask(final Task task, final long communityId, final GrouponCallback<Task> callback) {
 		GrouponTask<Task> taskTask = new GrouponTask<Task>(callback) {
 			public Task run() throws GrouponException {
@@ -264,7 +296,11 @@ public class TaskService {
 
 		GrouponTask.execute(taskTask);
 	}
-
+	/**
+	 * Makes a post request and returns a task
+	 * @param id id of returned task
+	 * @param callback callback passed as parameter to GrouponTask
+	 */
 	public void getTask(final long id, final GrouponCallback<Task> callback) {
 		GrouponTask<Task> taskTask = new GrouponTask<Task>(callback) {
 			public Task run() throws GrouponException {
@@ -415,7 +451,12 @@ public class TaskService {
 		}
 		return m;
 	}
-
+	/**
+	 * Converts  JSONObject to Task
+	 * @param json JSON data converted
+	 * @return Task created
+	 * @throws JSONException
+	 */
 	private Task convertJSONObjectToTask(JSONObject json) throws JSONException {
 
 		Task task = new Task();
@@ -491,7 +532,11 @@ public class TaskService {
 
 		return task;
 	}
-
+	/**
+	 * convert TaskAttribute list to JSONArray
+	 * @param taskAttributes TaskAttribute list converted
+	 * @return JSONArray o task attributes
+	 */
 	private JSONArray taskAttributestoJSONArray(List<TaskAttribute> taskAttributes) {
 		JSONArray array = new JSONArray();
 
@@ -509,35 +554,7 @@ public class TaskService {
 		return array;
 	}
 
-	private ReplyField convertJSONObjectToReplyField(JSONObject json) throws JSONException {
-		ReplyField replyField = new ReplyField();
-		if (json.has("name")) {
-			replyField.setName(json.getString("name"));
-		}
-		if (json.has("fieldType")) {
-			replyField.setFieldType("fieldType");
-		}
-		if (json.has("attributes")) {
-			JSONArray attributesJsonArray = json.getJSONArray("attributes");
-			List<ReplyFieldAttribute> replyFieldAttributes = new ArrayList<ReplyFieldAttribute>();
-			for (int i = 0; i < attributesJsonArray.length(); i++) {
-				ReplyFieldAttribute replyFieldAttribute = convertJsonToReplyFieldAttribute(attributesJsonArray.getJSONObject(i));
-				replyFieldAttributes.add(replyFieldAttribute);
-			}
-		}
 
-		return replyField;
-	}
 
-	private ReplyFieldAttribute convertJsonToReplyFieldAttribute(JSONObject json) throws JSONException {
-		ReplyFieldAttribute replyFieldAttribute = new ReplyFieldAttribute();
-		if (json.has("name")) {
-			replyFieldAttribute.setName(json.getString("name"));
-		}
-		if (json.has("value")) {
-			replyFieldAttribute.setValue(json.getString("value"));
-		}
-		return replyFieldAttribute;
-	}
 
 }

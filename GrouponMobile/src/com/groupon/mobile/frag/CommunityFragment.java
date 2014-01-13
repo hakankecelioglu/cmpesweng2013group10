@@ -24,6 +24,7 @@ import android.widget.Toast;
 import com.groupon.mobile.CreateTaskTypeFragmentActivity;
 import com.groupon.mobile.GrouponApplication;
 import com.groupon.mobile.R;
+
 import com.groupon.mobile.conn.GrouponCallback;
 import com.groupon.mobile.layout.TaskAdapter;
 import com.groupon.mobile.model.Community;
@@ -33,7 +34,12 @@ import com.groupon.mobile.service.CommunityService;
 import com.groupon.mobile.service.TaskService;
 import com.groupon.mobile.service.TaskTypeService;
 import com.groupon.mobile.utils.ImageUtils;
-
+/**
+ * This fragment display view of a community. Community name, description 
+ * and buttons to create task and task type is displayed
+ * @author serkan
+ * @author sedrik
+ */
 public class CommunityFragment extends Fragment {
 	private ListView listview;
 	private TaskAdapter arrayAdapter;
@@ -85,7 +91,10 @@ public class CommunityFragment extends Fragment {
 
 		return rootView;
 	}
-
+	/**
+	 * setup UI of this fragment.
+	 * @param rootView root view of this fragment.
+	 */
 	private void setupUI(View view) {
 		// for root layout
 		listview = (ListView) view.findViewById(R.id.listview);
@@ -131,14 +140,18 @@ public class CommunityFragment extends Fragment {
 			createTaskTypeButton.setOnClickListener(createTypeButtonClickListener);
 		}
 	}
-
+	/**
+	 * On click listener for task creation. It prompts a list of task types upon click
+	 */
 	private OnClickListener createButtonClickListener = new OnClickListener() {
 		@Override
 		public void onClick(View v) {
 			requestTaskTypes();
 		}
 	};
-
+	/**
+	 * On click listener for task  type creation. It redirects to Create TaskType activity.
+	 */
 	private OnClickListener createTypeButtonClickListener = new OnClickListener() {
 		@Override
 		public void onClick(View v) {
@@ -148,6 +161,9 @@ public class CommunityFragment extends Fragment {
 			startActivity(intent);
 		}
 	};
+	/**
+	 * On click listener for joinig community. It makes join request to server and set join button to leave if join is successful
+	 */
 	private OnClickListener joinCommunityListener = new OnClickListener() {
 
 		@Override
@@ -164,11 +180,14 @@ public class CommunityFragment extends Fragment {
 
 				@Override
 				public void onFail(String errorMessage) {
-
+					Toast.makeText(activity, errorMessage, Toast.LENGTH_SHORT).show();
 				}
 			});
 		}
 	};
+	/**
+	 * On click listener for leaving community. It makes leave request to server and set leave button to join if leave is successful
+	 */
 	private OnClickListener leaveCommunityListener = new OnClickListener() {
 
 		@Override
@@ -185,12 +204,14 @@ public class CommunityFragment extends Fragment {
 
 				@Override
 				public void onFail(String errorMessage) {
-
+					Toast.makeText(activity, errorMessage, Toast.LENGTH_SHORT).show();
 				}
 			});
 		}
 	};
-
+	/**
+	 * Callback that gets tasks of the community
+	 */
 	private GrouponCallback<ArrayList<Task>> onCommunityTasksResponse = new GrouponCallback<ArrayList<Task>>() {
 		public void onSuccess(ArrayList<Task> response) {
 			for (Task t : response) {
@@ -207,6 +228,9 @@ public class CommunityFragment extends Fragment {
 		}
 	};
 
+	/**
+	 * Callback that gets the properties of the comunity
+	 */
 	private GrouponCallback<Community> onCommunityResponse = new GrouponCallback<Community>() {
 		public void onSuccess(Community community) {
 			CommunityFragment.this.community = community;
@@ -217,7 +241,9 @@ public class CommunityFragment extends Fragment {
 			Toast.makeText(getActivity(), errorMessage, Toast.LENGTH_SHORT).show();
 		}
 	};
-
+	/**
+	 * Function that prompts task types of the community
+	 */
 	private void requestTaskTypes() {
 		TaskTypeService service = new TaskTypeService(app);
 		service.getTaskTypes(community.getId(), new GrouponCallback<ArrayList<TaskType>>() {
@@ -239,7 +265,9 @@ public class CommunityFragment extends Fragment {
 			}
 		});
 	}
-
+	/**
+	 * Creates and shows a alert dialog for selecting task type
+	 */
 	private void openSelectTaskTypeDialog() {
 		View alertLayout = View.inflate(getActivity(), R.layout.fragment_task_type, null);
 
@@ -257,7 +285,11 @@ public class CommunityFragment extends Fragment {
 
 		dialog.show();
 	}
-
+	/**
+	 * Listener class that responds to task type selection.
+	 * @author sedrik
+	 *
+	 */
 	private class OnTaskTypeSelectedListener implements OnClickListener {
 		private AlertDialog dialog;
 		private Spinner spinner;

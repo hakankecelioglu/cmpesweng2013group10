@@ -18,7 +18,12 @@ import com.groupon.mobile.CreateTaskTypeFragmentActivity;
 import com.groupon.mobile.R;
 import com.groupon.mobile.model.NeedType;
 import com.groupon.mobile.model.TaskType;
-
+/**
+ * First fragment of the create task type activity. Task type name need type and task description is 
+ * inputted here. A next button is provided to the second fragment which inputs form fields.
+ * @author sedrik
+ *
+ */
 public class CreateTaskTypeFirst extends Fragment {
 	private EditText taskNameField;
 	private EditText taskDescriptionField;
@@ -36,7 +41,10 @@ public class CreateTaskTypeFirst extends Fragment {
 		setupUI(rootView);
 		return rootView;
 	}
-
+	/**
+	 * setup UI of this fragment.
+	 * @param rootView root view of this fragment.
+	 */
 	private void setupUI(View rootView) {
 		nextButton = (Button) rootView.findViewById(R.id.button_create);
 		nextButton.setOnClickListener(nextButtonClickListener);
@@ -60,7 +68,9 @@ public class CreateTaskTypeFirst extends Fragment {
 		public void onNothingSelected(AdapterView<?> arg0) {
 		}
 	};
-
+	/**
+	 * Sets name description and need type on TaskType and move view into next fragment.
+	 */
 	private OnClickListener nextButtonClickListener = new OnClickListener() {
 		@Override
 		public void onClick(View v) {

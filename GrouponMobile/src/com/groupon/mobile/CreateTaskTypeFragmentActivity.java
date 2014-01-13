@@ -15,7 +15,13 @@ import com.groupon.mobile.frag.CreateTaskTypeSecond;
 import com.groupon.mobile.frag.CreateTaskTypeThird;
 import com.groupon.mobile.model.TaskType;
 import com.groupon.mobile.service.TaskTypeService;
-
+/**
+ * Activity that provides interface for creating a task type. It manages 3 child fragments 
+ * and transitions between them
+ * @author sedrik
+ * @author serkan
+ *
+ */
 public class CreateTaskTypeFragmentActivity extends BaseActivity {
 	private long communityId;
 	private TaskType taskType = new TaskType();
@@ -31,7 +37,9 @@ public class CreateTaskTypeFragmentActivity extends BaseActivity {
 
 		setupUI();
 	}
-
+	/**
+	 * setup UI of this activity.
+	 */
 	public TaskType getTaskTypeInstance() {
 		return taskType;
 	}

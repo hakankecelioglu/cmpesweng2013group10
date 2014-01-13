@@ -25,6 +25,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.groupon.mobile.GrouponApplication;
 import com.groupon.mobile.R;
@@ -36,7 +37,12 @@ import com.groupon.mobile.model.TaskAttribute;
 import com.groupon.mobile.model.TaskTypeField;
 import com.groupon.mobile.service.TaskService;
 import com.groupon.mobile.utils.DateUtils;
-
+/**
+ * This is a dialog fragment class to let to user reply a task.
+ * It creates reply form using reply fields previously created by task type creator 
+ * @author serkan
+ *
+ */
 public class ReplyFragment extends DialogFragment implements OnDateSetListener {
 	private long taskId;
 	private GrouponApplication app;
@@ -74,7 +80,10 @@ public class ReplyFragment extends DialogFragment implements OnDateSetListener {
 		super.onAttach(activity);
 
 	}
-
+	/**
+	 * setup UI of this fragment.
+	 * @param rootView root view of this fragment.
+	 */
 	private void setupUI(View rootView) {
 		replyFieldsLayout = (LinearLayout) rootView.findViewById(R.id.holder);
 		int marginTop = pxFromDp(10);
@@ -101,7 +110,11 @@ public class ReplyFragment extends DialogFragment implements OnDateSetListener {
 			replyFieldsLayout.addView(noReply);
 		}
 	}
-
+	/**
+	 * Returns a View of  .TaskTypeField
+	 * @param replyField	TaskTypeField 
+	 * @return view of TaskTypeField
+	 */
 	private View getFieldView(TaskTypeField replyField) {
 		FieldType f = replyField.getFieldType();
 		fieldTypes.add(f);
@@ -128,6 +141,11 @@ public class ReplyFragment extends DialogFragment implements OnDateSetListener {
 		}
 
 	}
+	/**
+	 * Creates radio input layout by setting related  radio layouts from a TaskTypeField instance
+	 * @param taskTypeField	a TaskTypeField represents reply field
+	 * @return	 radio input view
+	 */
 	private View createRadioLayout(TaskTypeField taskTypeField) {
 		View checkboxLayout = View.inflate(getActivity(), R.layout.custom_field_radios, null);
 		TextView hintView = (TextView) checkboxLayout.findViewById(R.id.custom_field_radios_title);
@@ -143,14 +161,22 @@ public class ReplyFragment extends DialogFragment implements OnDateSetListener {
 		hintView.setText(taskTypeField.getName());
 		return checkboxLayout;
 	}
-
+	/**
+	 * Creates long text layout from a TaskTypeField instance by setting related  layout parameters 
+	 * @param taskTypeField represents reply field
+	 * @return long text input view
+	 */
 	private View createLongTextLayout(TaskTypeField taskTypeField) {
 		View editTextView = View.inflate(getActivity(), R.layout.custom_field_long_text, null);
 		TextView hintView = (TextView) editTextView.findViewById(R.id.custom_field_text_title);
 		hintView.setText(taskTypeField.getName());
 		return editTextView;
 	}
-
+	/**
+	 * Creates date input layout from a TaskTypeField instance by setting related  layout parameters 
+	 * @param taskTypeField represents reply field
+	 * @return date input view
+	 */
 	private View createDateLayout(TaskTypeField taskTypeField) {
 		View editTextView = View.inflate(getActivity(), R.layout.custom_field_text, null);
 		TextView hintView = (TextView) editTextView.findViewById(R.id.custom_field_text_title);
@@ -160,7 +186,12 @@ public class ReplyFragment extends DialogFragment implements OnDateSetListener {
 		dateView.setOnClickListener(dateClickListener);
 		return editTextView;
 	}
-
+	/**
+	 * Creates short text input layout from a TaskTypeField instance by setting related  layout parameters 
+	 * @param taskTypeField represents reply field
+	 * @param f field type which determines if short text is in form of integer float or default 
+	 * @return short text input view
+	 */
 	private View createShortTextLayout(TaskTypeField taskTypeField, FieldType f) {
 		View editTextView = View.inflate(getActivity(), R.layout.custom_field_text, null);
 		TextView hintView = (TextView) editTextView.findViewById(R.id.custom_field_text_title);
@@ -174,7 +205,11 @@ public class ReplyFragment extends DialogFragment implements OnDateSetListener {
 		}
 		return editTextView;
 	}
-
+	/**
+	 * Creates checkbox layout from a TaskTypeField instance by setting related  layout parameters 
+	 * @param taskTypeField represents reply field
+	 * @return checkbox input view
+	 */
 	private View createCheckboxesLayout(TaskTypeField taskTypeField) {
 		View checkboxLayout = View.inflate(getActivity(), R.layout.custom_field_checkboxes, null);
 		TextView hintView = (TextView) checkboxLayout.findViewById(R.id.custom_field_checkboxes_title);
@@ -190,7 +225,11 @@ public class ReplyFragment extends DialogFragment implements OnDateSetListener {
 		hintView.setText(taskTypeField.getName());
 		return checkboxLayout;
 	}
-
+	/**
+	 * Creates select (spinner) layout from a TaskTypeField instance by setting related  layout parameters 
+	 * @param taskTypeField represents reply field
+	 * @return select input layout
+	 */
 	private View createSelectLayout(TaskTypeField taskTypeField) {
 		View selectLayout = View.inflate(getActivity(), R.layout.custom_field_select, null);
 		TextView hintView = (TextView) selectLayout.findViewById(R.id.custom_field_select_title);
@@ -241,7 +280,9 @@ public class ReplyFragment extends DialogFragment implements OnDateSetListener {
 
 		}
 	};
-
+	/**
+	 * Calls reply service function with task attributes list parsed.
+	 */
 	private void reply() {
 		TaskService taskService = new TaskService(app);
 		List<TaskAttribute> replyAttributes = parseTaskAttributes();
@@ -256,11 +297,13 @@ public class ReplyFragment extends DialogFragment implements OnDateSetListener {
 			@Override
 			public void onFail(String errorMessage) {
 				// TODO Auto-generated method stub
-
+				Toast.makeText(getActivity(), errorMessage, Toast.LENGTH_SHORT).show();
 			}
 		});
 	}
-
+	/**
+	 * set reply fields of the task to create initial form.
+	 */
 	private void getReplyFields() {
 		TaskService taskService = new TaskService(app);
 		taskService.getReplyFields(taskId, new GrouponCallback<List<TaskTypeField>>() {
@@ -273,11 +316,14 @@ public class ReplyFragment extends DialogFragment implements OnDateSetListener {
 
 			@Override
 			public void onFail(String errorMessage) {
-
+				Toast.makeText(getActivity(), errorMessage, Toast.LENGTH_SHORT).show();
 			}
 		});
 	}
-
+	/**
+	 * Parses TaskAttribute list from user input
+	 * @return	list of TaskAttribute s parsed
+	 */
 	private List<TaskAttribute> parseTaskAttributes() {
 		List<TaskTypeField> taskTypeFields = replyFields;
 		List<TaskAttribute> taskAttributes = new ArrayList<TaskAttribute>();
@@ -296,7 +342,12 @@ public class ReplyFragment extends DialogFragment implements OnDateSetListener {
 
 		return taskAttributes;
 	}
-
+	/**
+	 * Convert a view to taskAttributes and add it to task attribute list
+	 * @param fieldType	related field type of view
+	 * @param view	view to be cnonverted
+	 * @param taskAttributes converted view added to this.
+	 */
 	private void convertViewToTaskAttribute(FieldType fieldType, View view, List<TaskAttribute> taskAttributes) {
 		switch (fieldType) {
 		case SHORT_TEXT:
@@ -325,7 +376,11 @@ public class ReplyFragment extends DialogFragment implements OnDateSetListener {
 		
 		}
 	}
-
+	/**
+	 * Convert a good - quantity pair to task attribute
+	 * @param view	related view of input
+	 * @return	task attribute converted from view
+	 */
 	private TaskAttribute convertGoodViewToTaskAttribute(View view) {
 		TaskAttribute taskAttribute = new TaskAttribute();
 
@@ -334,6 +389,11 @@ public class ReplyFragment extends DialogFragment implements OnDateSetListener {
 		taskAttribute.setValue(editText.getText().toString());
 		return taskAttribute;
 	}
+	/**
+	 * Convert a date input to task Attribute
+	 * @param view related view of input
+	 * @return task attribute converted from view
+	 */
 	private TaskAttribute convertDateViewToTaskAttribute(View view) {
 		TaskAttribute taskAttribute = new TaskAttribute();
 		TextView textView = (TextView) view.findViewById(R.id.custom_field_text_title);
@@ -343,7 +403,11 @@ public class ReplyFragment extends DialogFragment implements OnDateSetListener {
 		taskAttribute.setValue(date);
 		return taskAttribute;
 	}
-
+	/**
+	 * Convert a float input to task Attribute
+	 * @param view related view of input
+	 * @return task attribute converted from view
+	 */
 	private TaskAttribute convertFloatViewToTaskAttribute(View view) {
 		TaskAttribute taskAttribute = new TaskAttribute();
 		TextView textView = (TextView) view.findViewById(R.id.custom_field_text_title);
@@ -353,7 +417,11 @@ public class ReplyFragment extends DialogFragment implements OnDateSetListener {
 		taskAttribute.setValue(editText.getText().toString());
 		return taskAttribute;
 	}
-
+	/**
+	 * Convert a integer input to task Attribute
+	 * @param view related view of input
+	 * @return task attribute converted from view
+	 */
 	private TaskAttribute convertIntegerViewToTaskAttribute(View view) {
 		TaskAttribute taskAttribute = new TaskAttribute();
 		TextView textView = (TextView) view.findViewById(R.id.custom_field_text_title);
@@ -363,7 +431,11 @@ public class ReplyFragment extends DialogFragment implements OnDateSetListener {
 		taskAttribute.setValue(editText.getText().toString());
 		return taskAttribute;
 	}
-
+	/**
+	 * Convert a short text input to task Attribute
+	 * @param view related view of input
+	 * @return task attribute converted from view
+	 */
 	private TaskAttribute convertShortTextViewToTaskAttribute(View view) {
 		TaskAttribute taskAttribute = new TaskAttribute();
 		TextView textView = (TextView) view.findViewById(R.id.custom_field_text_title);
@@ -373,7 +445,11 @@ public class ReplyFragment extends DialogFragment implements OnDateSetListener {
 		taskAttribute.setValue(editText.getText().toString());
 		return taskAttribute;
 	}
-
+	/**
+	 * Convert a select  input to task Attribute
+	 * @param view related view of input
+	 * @return task attribute converted from view
+	 */
 	private TaskAttribute convertSelectViewToTaskAttribute(View view) {
 		TaskAttribute taskAttribute = new TaskAttribute();
 		TextView textView = (TextView) view.findViewById(R.id.custom_field_select_title);
@@ -383,7 +459,11 @@ public class ReplyFragment extends DialogFragment implements OnDateSetListener {
 		taskAttribute.setValue(spinner.getSelectedItem().toString());
 		return taskAttribute;
 	}
-
+	/**
+	 * Convert a checkbox input to list of task Attributes
+	 * @param view related view of input
+	 * @return task attribute list converted from view
+	 */
 	private List<TaskAttribute> convertCheckboxViewToTaskAttribute(View view) {
 		List<TaskAttribute> taskAttributes = new ArrayList<TaskAttribute>();
 		TextView textView = (TextView) view.findViewById(R.id.custom_field_checkboxes_title);
@@ -402,7 +482,11 @@ public class ReplyFragment extends DialogFragment implements OnDateSetListener {
 
 		return taskAttributes;
 	}
-
+	/**
+	 * Convert chosen radio input to task Attribute
+	 * @param view related view of input
+	 * @return task attribute converted from view
+	 */
 	private TaskAttribute convertRadioViewToTaskAttribute(View view) {
 		TaskAttribute taskAttribute = new TaskAttribute();
 		
@@ -421,7 +505,7 @@ public class ReplyFragment extends DialogFragment implements OnDateSetListener {
 		
 		return taskAttribute;
 	}
-
+	
 	private int pxFromDp(float dp) {
 		return (int) (dp * getActivity().getResources().getDisplayMetrics().density);
 	}

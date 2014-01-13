@@ -11,7 +11,11 @@ import android.widget.Toast;
 import com.groupon.mobile.conn.GrouponCallback;
 import com.groupon.mobile.model.User;
 import com.groupon.mobile.service.UserService;
-
+/**
+ * Activity that provides sign up screen.
+ * @author seyma
+ *
+ */
 public class SignUpActivity extends BaseActivity {
 
 	private Button signUpButton;
@@ -26,7 +30,9 @@ public class SignUpActivity extends BaseActivity {
 
 		setupUI();
 	}
-
+	/**
+	 * setup UI of this activity.
+	 */
 	private void setupUI() {
 		userNameField = (EditText) findViewById(R.id.user_name);
 		passwordField = (EditText) findViewById(R.id.user_password);
@@ -34,7 +40,9 @@ public class SignUpActivity extends BaseActivity {
 		signUpButton = (Button) findViewById(R.id.button_sign_up);
 		signUpButton.setOnClickListener(signUpListener);
 	}
-
+	/**
+	 * Gets user name password and email and make a signup request to server. 
+	 */
 	private OnClickListener signUpListener = new OnClickListener() {
 		@Override
 		public void onClick(View v) {

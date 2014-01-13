@@ -25,8 +25,20 @@ import com.groupon.mobile.layout.TaskReplyAdapter;
 import com.groupon.mobile.model.Task;
 import com.groupon.mobile.model.TaskReply;
 import com.groupon.mobile.service.TaskService;
-
+/**
+ * Fragment to display a view of task.
+ * @author serkan
+ *
+ */
 public class TaskFragment extends Fragment {
+	private GrouponApplication app;
+
+	private ListView listview;
+	private TaskReplyAdapter adapter;
+	private ArrayList<TaskReply> taskReplies = new ArrayList<TaskReply>();
+
+	private long taskId;
+	private Task task;
 	private GrouponApplication app;
 
 	private ListView listview;
@@ -65,7 +77,10 @@ public class TaskFragment extends Fragment {
 
 		return rootView;
 	}
-
+	/**
+	 * setup UI of this fragment.
+	 * @param rootView root view of this fragment.
+	 */
 	private void setupUI(View rootView) {
 		listview = (ListView) rootView.findViewById(R.id.listview);
 		View listHeader = View.inflate(getActivity(), R.layout.task_header, null);
@@ -84,7 +99,7 @@ public class TaskFragment extends Fragment {
 
 		adapter = new TaskReplyAdapter(app, getActivity(), R.layout.listview_taskreply, taskReplies);
 		adapter.setFragmentManager(getFragmentManager());
-
+				Toast.makeText(getActivity(), errorMessage, Toast.LENGTH_SHORT).show();
 		listview.addHeaderView(listHeader);
 		listview.setAdapter(adapter);
 
@@ -94,7 +109,10 @@ public class TaskFragment extends Fragment {
 			taskRepliesTitle.setVisibility(View.VISIBLE);
 		}
 	}
-
+	/**
+	 * setup UI of this fragment.
+	 * @param rootView root view of this fragment.
+	 */
 	private void fillTaskFields() {
 		taskNameField.setText(task.getName());
 		taskCommunityName.setText(task.getCommunityName());
@@ -131,7 +149,10 @@ public class TaskFragment extends Fragment {
 			}
 		});
 	}
-
+	/**
+	 * Inýtialize follow task button depending on whether user is a follower.
+	 * @param rootView  root view of this fragment.
+	 */
 	private void setTaskReplies() {
 		TaskService taskService = new TaskService(app);
 		taskService.getTaskReplies(taskId, new GrouponCallback<List<TaskReply>>() {
@@ -168,7 +189,10 @@ public class TaskFragment extends Fragment {
 			unfollowTaskButton.setVisibility(View.VISIBLE);
 		}
 	}
-
+	/**
+	 * Initalize requirement ui depending on need type of task.
+	 * @param rootView root view of this fragment.
+	 */
 	private void setNeedTypeUI() {
 		String needType = task.getNeedType();
 		if (needType.equals("GOODS")) {
@@ -179,7 +203,10 @@ public class TaskFragment extends Fragment {
 			requirement.setVisibility(View.GONE);
 		}
 	}
-
+	/**
+	 *  Initalize ui for attributes f the task.
+	 * @param rootView root view of this fragment.
+	 */
 	private void setTaskAttributesUI() {
 		Map<String, List<String>> m = task.getAttributeMap();
 		for (Map.Entry<String, List<String>> entry : m.entrySet()) {
@@ -237,7 +264,7 @@ public class TaskFragment extends Fragment {
 
 				@Override
 				public void onFail(String errorMessage) {
-
+					Toast.makeText(getActivity(), errorMessage, Toast.LENGTH_SHORT).show();
 				}
 			});
 		}
@@ -258,7 +285,7 @@ public class TaskFragment extends Fragment {
 
 				@Override
 				public void onFail(String errorMessage) {
-
+					Toast.makeText(getActivity(), errorMessage, Toast.LENGTH_SHORT).show();
 				}
 			});
 		}

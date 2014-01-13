@@ -20,7 +20,11 @@ import com.groupon.mobile.model.NeedType;
 import com.groupon.mobile.model.TaskType;
 import com.groupon.mobile.model.TaskTypeField;
 import com.groupon.mobile.utils.Constants;
-
+/**
+ * Provides service functions related to tasks types such as creating task type, returning task types, following and unfollowing tasks.
+ * @author serkan
+ *
+ */
 public class TaskTypeService {
 
 	private GrouponApplication app;
@@ -28,7 +32,11 @@ public class TaskTypeService {
 	public TaskTypeService(GrouponApplication app) {
 		this.app = app;
 	}
-
+	/**
+	 * Returns task types of a community
+	 * @param id community id task types belongs to
+	 * @param callback callback passed as parameter to GrouponTask
+	 */
 	public void getTaskTypes(final long id, final GrouponCallback<ArrayList<TaskType>> callback) {
 		GrouponTask<ArrayList<TaskType>> TaskTypeTask = new GrouponTask<ArrayList<TaskType>>(callback) {
 			public ArrayList<TaskType> run() throws GrouponException {
@@ -53,7 +61,11 @@ public class TaskTypeService {
 		GrouponTask.execute(TaskTypeTask);
 
 	}
-
+	/**
+	 * returns a  task type specified with an id.
+	 * @param id id of task type returned
+	 * @param callback callback passed as parameter to GrouponTask
+	 */
 	public void getTaskType(final long id, final GrouponCallback<TaskType> callback) {
 		GrouponTask<TaskType> TaskTypeTask = new GrouponTask<TaskType>(callback) {
 			public TaskType run() throws GrouponException {
@@ -76,7 +88,12 @@ public class TaskTypeService {
 		GrouponTask.execute(TaskTypeTask);
 
 	}
-
+	/**
+	 * Convert JSONObject TaskType instance
+	 * @param json JSON data converted
+	 * @return created TaskType
+	 * @throws JSONException
+	 */
 	private TaskType convertJsonToTaskType(JSONObject json) throws JSONException {
 		if (json.has("auth")) {
 			String auth = json.getString("auth");
@@ -93,7 +110,12 @@ public class TaskTypeService {
 		}
 		return tasktype;
 	}
-
+	/**
+	 * Convert JSONObject to task type
+	 * @param json JSON data converted
+	 * @return TaskType created
+	 * @throws JSONException
+	 */
 	private TaskType convertJSONObjectToTaskType(JSONObject json) throws JSONException {
 
 		json = json.getJSONObject("taskType");
@@ -124,7 +146,12 @@ public class TaskTypeService {
 		taskType.setFields(taskTypeFields);
 		return taskType;
 	}
-
+	/**
+	 * Convert JSONObject to TaskTypeField
+	 * @param field json data converted
+	 * @return created TaskTypeField
+	 * @throws JSONException
+	 */
 	public TaskTypeField convertJSONObjectToTaskTypeField(JSONObject field) throws JSONException {
 
 		TaskTypeField taskTypeField = new TaskTypeField();
@@ -155,7 +182,11 @@ public class TaskTypeService {
 		taskTypeField.setAttributes(attributes);
 		return taskTypeField;
 	}
-
+	/**
+	 * Make a post request to creates a task type
+	 * @param TaskType TaskType instance specifying task type data
+	 * @param callback callback passed as parameter to GrouponTask
+	 */
 	public void createTaskType(final TaskType TaskType, final GrouponCallback<TaskType> callback) {
 		GrouponTask<TaskType> TaskTypeTask = new GrouponTask<TaskType>(callback) {
 			public TaskType run() throws GrouponException {
@@ -169,7 +200,11 @@ public class TaskTypeService {
 
 		GrouponTask.execute(TaskTypeTask);
 	}
-
+	/**
+	 * Convert TaskType to JSONObject
+	 * @param TaskType TaskType converted
+	 * @return created JSONObject
+	 */
 	private JSONObject convertTaskTypeToJson(TaskType TaskType) {
 		JSONObject json = new JSONObject();
 		try {
@@ -207,7 +242,11 @@ public class TaskTypeService {
 		return json;
 
 	}
-
+	/**
+	 * Convert TaskTypeField to JSONObject
+	 * @param TaskTypeField TaskTypeField converted
+	 * @return created JSONObject
+	 */
 	public JSONObject convertTaskTypeFieldToJson(TaskTypeField TaskTypeField) {
 		JSONObject json = new JSONObject();
 		try {
@@ -228,7 +267,11 @@ public class TaskTypeService {
 		}
 		return json;
 	}
-
+	/**
+	 * Convert FieldAttribute to JSONObject
+	 * @param TaskTypeField FieldAttribute converted
+	 * @return created JSONObject
+	 */
 	private JSONObject convertFieldAttributeToJson(FieldAttribute FieldAttribute) {
 		JSONObject json = new JSONObject();
 		try {

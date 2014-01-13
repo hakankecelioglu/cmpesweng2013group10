@@ -1,5 +1,7 @@
 package com.groupon.mobile;
-
+/**
+ * This class shows the about us view. It is currently empty.
+ */
 import android.app.Activity;
 import android.os.Bundle;
 

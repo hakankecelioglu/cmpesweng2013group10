@@ -15,14 +15,22 @@ import com.groupon.mobile.conn.GrouponTask;
 import com.groupon.mobile.exception.GrouponException;
 import com.groupon.mobile.model.Community;
 import com.groupon.mobile.utils.Constants;
-
+/**
+ * Provides service functions related to community types such as creating community, returning communities, leaving and joining communities.
+ * @author serkan
+ *
+ */
 public class CommunityService {
 	private GrouponApplication app;
 
 	public CommunityService(GrouponApplication app) {
 		this.app = app;
 	}
-
+	/**
+	 * Makes a post request to create community
+	 * @param community	Community instance to create post data
+	 * @param callback	callback passed as parameter to GrouponTask
+	 */
 	public void createCommunity(final Community community, final GrouponCallback<Community> callback) {
 		GrouponTask<Community> communityTask = new GrouponTask<Community>(callback) {
 			public Community run() throws GrouponException {
@@ -51,7 +59,11 @@ public class CommunityService {
 
 		GrouponTask.execute(communityTask);
 	}
-
+	/**
+	 * Makes a post request and returns list of comunities
+	 * @param isAll returns all communities if true , communities of user if false
+	 * @param callback callback passed as parameter to GrouponTask
+	 */
 	public void getCommunities(final boolean isAll, final GrouponCallback<ArrayList<Community>> callback) {
 		GrouponTask<ArrayList<Community>> communityTask = new GrouponTask<ArrayList<Community>>(callback) {
 			public ArrayList<Community> run() throws GrouponException {
@@ -81,7 +93,11 @@ public class CommunityService {
 
 		GrouponTask.execute(communityTask);
 	}
-
+	/**
+	 * Make a post request and returns a community
+	 * @param communityId	Id of a community requested
+	 * @param callback  callback passed as parameter to GrouponTask
+	 */
 	public void getCommunity(final Long communityId, final GrouponCallback<Community> callback) {
 		GrouponTask<Community> communityTask = new GrouponTask<Community>(callback) {
 			public Community run() throws GrouponException {
@@ -98,7 +114,12 @@ public class CommunityService {
 		};
 		GrouponTask.execute(communityTask);
 	}
-
+	/**
+	 * Convert JSONObject to Community
+	 * @param json json converted
+	 * @return Community created
+	 * @throws JSONException
+	 */
 	private Community convertJsonToCommunity(JSONObject json) throws JSONException {
 		Community community = new Community();
 
@@ -117,6 +138,7 @@ public class CommunityService {
 		if (json.has("picture")) {
 			community.setPicture(json.getString("picture"));
 		}
+
 		
 		if (json.has("ownerUsername")) {
 			community.setOwnerUsername(json.getString("ownerUsername"));
@@ -128,7 +150,11 @@ public class CommunityService {
 
 		return community;
 	}
-
+	/**
+	 * Makes a post request to leave community
+	 * @param communityId id of community left
+	 * @param callback callback passed as parameter to GrouponTask
+	 */
 	public void leaveCommunity(final long communityId, GrouponCallback<Community> callback) {
 		GrouponTask<Community> taskCommunity = new GrouponTask<Community>(callback) {
 
@@ -146,7 +172,11 @@ public class CommunityService {
 		};
 		GrouponTask.execute(taskCommunity);
 	}
-
+	/**
+	 * Makes a post request to join community
+	 * @param communityId id of community joined
+	 * @param callback callback passed as parameter to GrouponTask
+	 */
 	public void joinCommunity(final long communityId, GrouponCallback<Community> callback) {
 		GrouponTask<Community> taskCommunity = new GrouponTask<Community>(callback) {
 

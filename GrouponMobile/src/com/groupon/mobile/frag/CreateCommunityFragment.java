@@ -16,7 +16,11 @@ import com.groupon.mobile.R;
 import com.groupon.mobile.conn.GrouponCallback;
 import com.groupon.mobile.model.Community;
 import com.groupon.mobile.service.CommunityService;
-
+/**
+ * Fragment which provides community creation interface.
+ * @author serkan
+ *
+ */
 public class CreateCommunityFragment extends Fragment {
 
 	private Button createButton;
@@ -31,7 +35,10 @@ public class CreateCommunityFragment extends Fragment {
 
 		return rootView;
 	}
-
+	/**
+	 * setup UI of this fragment.
+	 * @param rootView root view of this fragment.
+	 */
 	private void setupUI(View rootView) {
 		createButton = (Button) rootView.findViewById(R.id.button_create_community);
 		createButton.setOnClickListener(createButtonClickListener);
@@ -39,7 +46,9 @@ public class CreateCommunityFragment extends Fragment {
 		communityNameField = (EditText) rootView.findViewById(R.id.community_name);
 		communityDescriptionField = (EditText) rootView.findViewById(R.id.community_description);
 	}
-
+	/**
+	 * Listens create button. Prepares communiy input and send it to the service class to make community create post.
+	 */
 	private OnClickListener createButtonClickListener = new OnClickListener() {
 		@Override
 		public void onClick(View v) {

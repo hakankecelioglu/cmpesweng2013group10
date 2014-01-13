@@ -15,7 +15,12 @@ import com.groupon.mobile.R;
 import com.groupon.mobile.exception.GrouponException;
 import com.groupon.mobile.model.TaskType;
 import com.groupon.mobile.model.TaskTypeField;
-
+/**
+ * Second fragment of the create task type activity. User creates
+ * form fields here. A next button is provided to the second fragment which inputs form fields.
+ * @author sedrik
+ *
+ */
 public class CreateTaskTypeSecond extends DynamicFieldsFragment {
 	private static final String fragmentTitle = "Enter the fields which will be filled by task creators";
 
@@ -31,6 +36,7 @@ public class CreateTaskTypeSecond extends DynamicFieldsFragment {
 		}
 		return rootView;
 	}
+
 
 	private OnClickListener nextButtonClickListener = new OnClickListener() {
 		public void onClick(View v) {

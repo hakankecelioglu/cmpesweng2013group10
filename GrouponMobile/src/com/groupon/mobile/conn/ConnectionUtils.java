@@ -26,12 +26,32 @@ import org.json.JSONObject;
 import com.groupon.mobile.exception.GrouponException;
 import com.groupon.mobile.utils.Constants;
 import com.groupon.mobile.utils.StringUtils;
-
+/**
+ * Connection utils for the class that make post and get get requests
+ * @author sedrik
+ *
+ */
 public class ConnectionUtils {
+	/**
+	 * Function that makes a post request with specified parameters and returns JSONObject of response
+	 * @param url	Post address
+	 * @param attributeMap	map that specifies query string
+	 * @param authToken	Authorization token of user
+	 * @return	server response to post as JSon
+	 * @throws GrouponException
+	 */
 	public static JSONObject makePostRequest(String url, Map<String, String> attributeMap, String authToken) throws GrouponException {
 		return makePostRequest(url, attributeMap, null, authToken);
 	}
-
+	/**
+	 * Function that makes a post request with specified parameters and returns JSONObject of response
+	 * @param url	Post address
+	 * @param attributeMap	map that specifies query string
+	 * @param postBody	JSON data of post
+	 * @param authToken	Authorization token of user
+	 * @return	server response to post as JSon
+	 * @throws GrouponException
+	 */
 	public static JSONObject makePostRequest(String url, Map<String, String> attributeMap, JSONObject postBody, String authToken) throws GrouponException {
 		List<NameValuePair> params = new LinkedList<NameValuePair>();
 
@@ -83,7 +103,14 @@ public class ConnectionUtils {
 			throw new GrouponException("Exception occurred while executing your request.", e);
 		}
 	}
-
+	/**
+	 * Function that makes a get request with specified parameters and returns JSONObject of response
+	 * @param url	GET address
+	 * @param attributeMap	map that specifies query string
+	 * @param authToken	Authorization token of user
+	 * @return	server JSON response to GET 
+	 * @throws GrouponException
+	 */
 	public static JSONObject makeGetRequest(String url, Map<String, String> attributeMap, String authToken) throws GrouponException {
 		List<NameValuePair> params = new LinkedList<NameValuePair>();
 
@@ -130,6 +157,12 @@ public class ConnectionUtils {
 		}
 	}
 
+	/**
+	 * Converts HttpResponse to String
+	 * @param response	HttpResponse which will be converted to String
+	 * @return	String of HttpResponse
+	 * @throws GrouponException
+	 */
 	private static String getResponseContent(HttpResponse response) throws GrouponException {
 		String respContent = "";
 		HttpEntity entity = response.getEntity();

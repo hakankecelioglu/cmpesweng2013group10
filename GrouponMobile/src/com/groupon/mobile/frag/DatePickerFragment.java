@@ -8,13 +8,24 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.os.Bundle;
 import android.widget.DatePicker;
-
+/**
+ * Date picker fragment which is used by other activities and fragments.
+ * Classes that wants to use this implements onDateSetListener became onDateSet listener of
+ * this.
+ * @author serkan
+ *
+ */
 public class DatePickerFragment extends DialogFragment
 implements DatePickerDialog.OnDateSetListener {
 	private OnDateSetListener onDateSetListener = this;
 	public DatePickerFragment(){
 		
 	}
+	/**
+	 * A date picker fragment is initalized with another onDateSetListener class to
+	 * make necessary steps upon on date set in that class.
+	 * @param onDateSetListener onDateSetListener interface that is passed.
+	 */
 	public DatePickerFragment(OnDateSetListener onDateSetListener){
 	
 		this.onDateSetListener = onDateSetListener;

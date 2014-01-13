@@ -24,7 +24,13 @@ import com.groupon.mobile.model.FieldAttribute;
 import com.groupon.mobile.model.FieldType;
 import com.groupon.mobile.model.TaskTypeField;
 import com.groupon.mobile.utils.StringUtils;
-
+/**
+ * This class provides dynamic interface for creating view elements whose types
+ * selected from a spinner. Currently, short text long text check box dropdown 
+ * radio date integer float and long text can be chosen and added by the user.
+ * @author serkan
+ * @author sedrik
+ */
 public abstract class DynamicFieldsFragment extends Fragment {
 	private Spinner fieldTypeSpinner;
 	private ArrayAdapter<String> fieldTypeAdapter;
@@ -44,7 +50,10 @@ public abstract class DynamicFieldsFragment extends Fragment {
 		setupUI(rootView);
 		return rootView;
 	}
-
+	/**
+	 * setup UI of this fragment.
+	 * @param rootView root view of this fragment.
+	 */
 	private void setupUI(View view) {
 		textViewDescription = (TextView) view.findViewById(R.id.description);
 		addFormButton = (Button) view.findViewById(R.id.button_add_form_field);
@@ -72,6 +81,10 @@ public abstract class DynamicFieldsFragment extends Fragment {
 		this.title = fragmentTitle;
 	}
 
+	/**
+	 * Listener of add button on the screen. It looks for selected spinner value and
+	 * call necessary function to create selected type's view.
+	 */
 	private OnClickListener addFormButtonClickListener = new OnClickListener() {
 		@Override
 		public void onClick(View v) {
@@ -143,6 +156,12 @@ public abstract class DynamicFieldsFragment extends Fragment {
 		}
 	}
 
+
+	/**
+	 * sets click listener of an add option button of a radio group
+	 * @param parent parent radio button view
+	 */
+
 	private void fillFieldOptions(FieldType fieldType, List<FieldAttribute> attributes, View parent) {
 		int optionLayoutId;
 
@@ -177,7 +196,9 @@ public abstract class DynamicFieldsFragment extends Fragment {
 		Button button = (Button) parent.findViewById(R.id.custom_fieldtype_radio_add_option_btn);
 		button.setOnClickListener(newRadioOptionButtonClickListener);
 	}
-
+	/**
+	 * A new option input is added to associated radio view
+	 */
 	private OnClickListener newRadioOptionButtonClickListener = new OnClickListener() {
 		public void onClick(View v) {
 			ViewGroup parent = (ViewGroup) v.getParent();
@@ -189,12 +210,17 @@ public abstract class DynamicFieldsFragment extends Fragment {
 			scrollDown();
 		}
 	};
-
+	/**
+	 * sets click listener of an add option button of a dropdown
+	 * @param parent parent select view
+	 */
 	private void setNewSelectOptionButtonClickListener(View parent) {
 		Button button = (Button) parent.findViewById(R.id.custom_fieldtype_select_add_option_btn);
 		button.setOnClickListener(newSelectOptionButtonClickListener);
 	}
-
+	/**
+	 * A new option input is added to associated select view
+	 */
 	private OnClickListener newSelectOptionButtonClickListener = new OnClickListener() {
 		public void onClick(View v) {
 			ViewGroup parent = (ViewGroup) v.getParent();
@@ -206,12 +232,17 @@ public abstract class DynamicFieldsFragment extends Fragment {
 			scrollDown();
 		}
 	};
-
+	/**
+	 * sets click listener of an add option button of a checkbox layout
+	 * @param parent parent select view
+	 */
 	private void setNewCheckboxOptionButtonClickListener(View parent) {
 		Button button = (Button) parent.findViewById(R.id.custom_fieldtype_checkbox_add_option_btn);
 		button.setOnClickListener(newCheckboxOptionButtonClickListener);
 	}
-
+	/**
+	 * A new option input is added to associated select view
+	 */
 	private OnClickListener newCheckboxOptionButtonClickListener = new OnClickListener() {
 		public void onClick(View v) {
 			ViewGroup parent = (ViewGroup) v.getParent();
@@ -223,7 +254,11 @@ public abstract class DynamicFieldsFragment extends Fragment {
 			scrollDown();
 		}
 	};
-
+	/**
+	 * Parse task type fields from the inputs set by user
+	 * @return parsed task type field list
+	 * @throws GrouponException
+	 */
 	public List<TaskTypeField> getTaskTypeFields() throws GrouponException {
 		List<TaskTypeField> taskTypeFields = new ArrayList<TaskTypeField>();
 
@@ -259,7 +294,14 @@ public abstract class DynamicFieldsFragment extends Fragment {
 
 		return taskTypeFields;
 	}
-
+	/**
+	 * Parse list of field attributes of view types with options such as checbox select and radio
+	 * 
+	 * @param optionsLayout option layout parsed
+	 * @param taskTypeField	associated task type fields of field attributes
+	 * @return list of field Attributes parsed
+	 * @throws GrouponException
+	 */
 	private List<FieldAttribute> getFieldAttributes(LinearLayout optionsLayout, TaskTypeField taskTypeField) throws GrouponException {
 		List<FieldAttribute> fieldAttributes = new ArrayList<FieldAttribute>();
 

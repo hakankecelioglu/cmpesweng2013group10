@@ -13,13 +13,18 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.groupon.mobile.GrouponApplication;
 import com.groupon.mobile.R;
 import com.groupon.mobile.conn.GrouponCallback;
 import com.groupon.mobile.model.TaskType;
 import com.groupon.mobile.service.TaskTypeService;
-
+/**
+ * Fragment for selection of task type in case of task creation.
+ * @author serkan
+ *
+ */
 public class TaskTypeFragment extends Fragment {
 
 	OnTaskTypeSelectedListener mCallback;
@@ -28,7 +33,7 @@ public class TaskTypeFragment extends Fragment {
 	private long communityId;
 	ArrayList<String> taskTypeNames;
 	ArrayList<Long> taskTypeIds;
-
+	
 	public interface OnTaskTypeSelectedListener {
 		public void onTaskTypeSelected(long position);
 	}
@@ -47,7 +52,10 @@ public class TaskTypeFragment extends Fragment {
 		communityId = getArguments().getLong("communityId");
 
 	}
-
+	/**
+	 * setup UI of this fragment.
+	 * @param rootView root view of this fragment.
+	 */
 	private void setupUI(View v) {
 		taskTypeSelect = (Button) v.findViewById(R.id.task_type_select);
 		taskTypeSelect.setOnClickListener(taskTypeSelectListener);
@@ -55,13 +63,15 @@ public class TaskTypeFragment extends Fragment {
 
 		fillSpinner();
 	}
-
+	/**
+	 * Task type spinner is filled by making service calls.
+	 */
 	private void fillSpinner() {
 		TaskTypeService service = new TaskTypeService((GrouponApplication) getActivity().getApplication());
 		service.getTaskTypes(communityId, new GrouponCallback<ArrayList<TaskType>>() {
 
 			public void onFail(String errorMessage) {
-
+				Toast.makeText(getActivity(), errorMessage, Toast.LENGTH_SHORT).show();
 			}
 
 			@Override
