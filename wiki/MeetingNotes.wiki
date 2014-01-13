@@ -1,5 +1,25 @@
 #labels meeting
 = Meeting Notes - Current Semester =
+=== Meeting  13.01.2014 ===
+*Participants:* <a href="http://code.google.com/p/cmpesweng2013group10/wiki/MuhammedSabriSahin">M Sabri Şahin</a>, <a href="http://code.google.com/p/cmpesweng2013group10/wiki/HuseyinAnilOzmen">H Anıl Özmen</a>,<a href="http://code.google.com/p/cmpesweng2013group10/wiki/SerkanOzer">Serkan Özer</a>,<a href="http://code.google.com/p/cmpesweng2013group10/wiki/SerdarKuzucu">Serdar Kuzucu</a>,<a href="http://code.google.com/p/cmpesweng2013group10/wiki/BerhanSenyazar">Berhan Şenyazar</a> 
+<br>
+
+*Location:* Serkan's home
+<br>
+*New action items:* Required documents for final presentation created or updated
+
+<table border="3">
+<tr>
+<td>H Anıl Özmen, Berhan Şenyazar, M Sabri Şahin</td>
+<td>Final Presentation(H Anıl + Berhan),db schema-web manual(H Anıl), android manuel(Sabri)</td>
+</tr>
+
+<tr>
+<td>Serkan Özer, Serdar Kuzucu </td>
+<td>Javadoc document, last revisions, software architecture</td>
+</tr>
+
+</table>
 === Meeting #2 21.10.2013 ===
 *Participants:* <a href="http://code.google.com/p/cmpesweng2013group10/wiki/MuhammedSabriSahin">M Sabri Şahin</a>, <a href="https://code.google.com/p/cmpesweng2013group10/wiki/NSeymaErdem">N Şeyma Erdem</a>, <a href="http://code.google.com/p/cmpesweng2013group10/wiki/HuseyinAnilOzmen">H Anıl Özmen</a>,<a href="http://code.google.com/p/cmpesweng2013group10/wiki/SerkanOzer">Serkan Özer</a>,<a href="http://code.google.com/p/cmpesweng2013group10/wiki/SerdarKuzucu">Serdar Kuzucu</a>,<a href="http://code.google.com/p/cmpesweng2013group10/wiki/BerhanSenyazar">Berhan Şenyazar</a> , Mehmet Alparslan Bal
 <br>
