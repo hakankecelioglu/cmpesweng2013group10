@@ -26,6 +26,10 @@ public class NotificationController extends AbstractBaseController {
 	@Autowired
 	private NotificationService notificationService;
 
+	/**
+	 * Returns the notifications of logged user
+	 * @return the notifications of the logged user as json response
+	 */
 	@RequestMapping(value = "get", method = RequestMethod.POST)
 	public ResponseEntity<Map<String, Object>> getNotifications() {
 		Map<String, Object> response = new HashMap<String, Object>();
@@ -41,6 +45,10 @@ public class NotificationController extends AbstractBaseController {
 		return prepareSuccessResponse(response);
 	}
 
+	/**
+	 * Returns the unread notification count of the logged user
+	 * @return the unread notification count of the logged user
+	 */
 	@RequestMapping(value = "count", method = RequestMethod.POST)
 	public ResponseEntity<Map<String, Object>> getNotificationCount() {
 		Map<String, Object> response = new HashMap<String, Object>();
