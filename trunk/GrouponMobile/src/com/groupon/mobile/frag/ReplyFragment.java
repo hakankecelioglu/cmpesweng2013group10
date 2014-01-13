@@ -49,6 +49,8 @@ public class ReplyFragment extends DialogFragment implements OnDateSetListener {
 	private String needType;
 	private String requirementName;
 	private long requirementQuantity;
+	private int inputQuantity = 0;
+	private refreshListener listen;
 	private LinearLayout replyFieldsLayout;
 	private Button replyButton;
 	private List<FieldType> fieldTypes = new ArrayList<FieldType>();
@@ -75,7 +77,9 @@ public class ReplyFragment extends DialogFragment implements OnDateSetListener {
 		getReplyFields();
 		return rootView;
 	}
-
+	public interface refreshListener {
+		public void refresh(int quantity);
+	}
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
 
@@ -286,12 +290,17 @@ public class ReplyFragment extends DialogFragment implements OnDateSetListener {
 	private void reply() {
 		TaskService taskService = new TaskService(app);
 		List<TaskAttribute> replyAttributes = parseTaskAttributes();
+		int inputquantity=0;
+		if(this.needType.equals("GOODS"))
+			inputquantity= Integer.parseInt(replyAttributes.get(0).getValue());
+		final int finalinput=inputquantity;
 		taskService.replyTask(taskId, replyAttributes, new GrouponCallback<Task>() {
 
 			@Override
 			public void onSuccess(Task response) {
 				// TODO Auto-generated method stub
-
+				
+				listen.refresh(finalinput);
 			}
 
 			@Override
@@ -508,6 +517,14 @@ public class ReplyFragment extends DialogFragment implements OnDateSetListener {
 	
 	private int pxFromDp(float dp) {
 		return (int) (dp * getActivity().getResources().getDisplayMetrics().density);
+	}
+
+	public refreshListener getListen() {
+		return listen;
+	}
+
+	public void setListen(refreshListener listen) {
+		this.listen = listen;
 	}
 
 }
