@@ -91,7 +91,7 @@ public class TagController extends AbstractBaseController {
 		response.put("tags", respList);
 		return prepareSuccessResponse(response);
 	}
-	
+
 	private URL getWikipediaSearchUrl(String term, int maxResults) throws MalformedURLException {
 		StringBuilder urlBuilder = new StringBuilder();
 		urlBuilder.append("http://en.wikipedia.org/w/api.php?action=opensearch&search=");

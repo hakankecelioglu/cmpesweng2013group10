@@ -27,15 +27,28 @@ public class TagService {
 	@Autowired
 	@Qualifier("tagRelationExecutor")
 	private TaskExecutor tagRelationExecutor;
-
+	/**
+	 * get tag with specified nam
+	 * @param tagName target name
+	 * @return
+	 */
 	public Tag getTagByName(String tagName) {
 		return tagDao.getTagByName(tagName);
 	}
-
+	/**
+	 * create a tag with specified data
+	 * @param tag Tag instance to create
+	 * @return
+	 */
 	public Tag createTag(Tag tag) {
 		return tagDao.saveTag(tag);
 	}
-
+	/**
+	 * relates a tag with a user
+	 * @param tagId  id of target tag 
+	 * @param userId id of target user
+	 * @param amount
+	 */
 	public void createTagUserRelation(final Long tagId, final Long userId, final long amount) {
 		tagRelationExecutor.execute(new AsyncWebTask(tagDao.getSessionFactory()) {
 			public void runInBackground() {
@@ -46,7 +59,12 @@ public class TagService {
 			}
 		});
 	}
-
+	/**
+	 * creates tag user relations of community
+	 * @param communityId id of target community
+	 * @param userId	target user id
+	 * @param amount weight of relation
+	 */
 	public void createTagUserRelationsOfCommunity(final Long communityId, final Long userId, final long amount) {
 		tagRelationExecutor.execute(new AsyncWebTask(tagDao.getSessionFactory()) {
 			public void runInBackground() {
@@ -59,7 +77,12 @@ public class TagService {
 			}
 		});
 	}
-
+	/**
+	 * creates tag user relations of task
+	 * @param taskId id of target task
+	 * @param userId id of target user
+	 * @param amount
+	 */
 	public void createTagUserRelationsOfTask(final Long taskId, final Long userId, final long amount) {
 		tagRelationExecutor.execute(new AsyncWebTask(tagDao.getSessionFactory()) {
 			public void runInBackground() {
@@ -72,11 +95,17 @@ public class TagService {
 			}
 		});
 	}
-
+	/**
+	 * search tag with specifed query
+	 * @param query
+	 * @param page
+	 * @param maxResults
+	 * @return
+	 */
 	public List<Tag> searchTags(String query, int page, int maxResults) {
 		return tagDao.searchTags(query, page, maxResults);
 	}
-
+	
 	private void createTagUserRelation(Session session, Tag tag, User user, long amount) {
 		TagUser tagUser = tagDao.findTagUserRelation(session, tag.getId(), user.getId());
 		if (tagUser == null) {

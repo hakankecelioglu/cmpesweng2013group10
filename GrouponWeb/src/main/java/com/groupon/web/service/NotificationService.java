@@ -31,11 +31,19 @@ public class NotificationService {
 	private Object lockNotificationCount = new Object();
 
 	private Map<Long, Integer> unreadNotifications = new HashMap<Long, Integer>();
-
+	/**
+	 * get notification list of a user
+	 * @param userId
+	 * @return
+	 */
 	public List<Notification> getNotifications(Long userId) {
 		return notificationDao.findNotificationsOfUser(userId);
 	}
-
+	/**
+	 * return unread notification count of user
+	 * @param userId
+	 * @return
+	 */
 	public Integer getNotificationCount(Long userId) {
 		if (unreadNotifications.containsKey(userId)) {
 			return unreadNotifications.get(userId);
@@ -45,7 +53,11 @@ public class NotificationService {
 			return count;
 		}
 	}
-
+	/**
+	 * clear read notifications from unread notifications
+	 * @param userId
+	 * @param taskId
+	 */
 	public void markTaskNotificationsRead(final Long userId, final Long taskId) {
 		taskExecutor.execute(new AsyncWebTask(notificationDao.getSessionFactory()) {
 			public void runInBackground() {
@@ -54,7 +66,11 @@ public class NotificationService {
 			}
 		});
 	}
-
+	/**
+	 * send a notification to members of a community if a task is created in a community
+	 * @param communityId
+	 * @param taskId
+	 */
 	public void sendTaskCreatedInFollowedCommunityNotification(final Long communityId, final Long taskId) {
 		taskExecutor.execute(new AsyncWebTask(notificationDao.getSessionFactory()) {
 			public void runInBackground() {
@@ -78,7 +94,11 @@ public class NotificationService {
 			}
 		});
 	}
-
+	/**
+	 * send a notification to user if his task is replied
+	 * @param taskId
+	 * @param replier
+	 */
 	public void sendTaskRepliedNotification(final Long taskId, final Long replier) {
 		taskExecutor.execute(new AsyncWebTask(notificationDao.getSessionFactory()) {
 			public void runInBackground() {
@@ -101,7 +121,12 @@ public class NotificationService {
 			}
 		});
 	}
-
+	/**
+	 * send a notification to user if his task is voted
+	 * @param taskId
+	 * @param voterUserId
+	 * @param direction
+	 */
 	public void sendTaskVoteNotification(final Long taskId, final Long voterUserId, final RateDirection direction) {
 		taskExecutor.execute(new AsyncWebTask(notificationDao.getSessionFactory()) {
 			public void runInBackground() {
@@ -124,7 +149,12 @@ public class NotificationService {
 			}
 		});
 	}
-
+	/**
+	 * update a notification of a vote to it is chnged.
+	 * @param taskId
+	 * @param voterUserId
+	 * @param direction
+	 */
 	public void updateTaskVoteNotification(final Long taskId, final Long voterUserId, final RateDirection direction) {
 		taskExecutor.execute(new AsyncWebTask(notificationDao.getSessionFactory()) {
 			public void runInBackground() {
@@ -152,7 +182,12 @@ public class NotificationService {
 			}
 		});
 	}
-
+	/**
+	 * if a vote is deleted its notifications cleared.
+	 * @param taskId
+	 * @param receiverId
+	 * @param voterUserId
+	 */
 	public void deleteTaskVoteNotification(final Long taskId, final Long receiverId, final Long voterUserId) {
 		taskExecutor.execute(new AsyncWebTask(notificationDao.getSessionFactory()) {
 			public void runInBackground() {
@@ -171,11 +206,17 @@ public class NotificationService {
 			}
 		});
 	}
-	
+	/**
+	 * remove notifications of a task
+	 * @param task
+	 */
 	public void removeTaskNotifications(Task task) {
 		notificationDao.deleteTaskNotifications(task);
 	}
-	
+	/**
+	 * remove notifications of a community
+	 * @param community
+	 */
 	public void removeCommunityNotifications(Community community) {
 		notificationDao.deleteCommunityNotifications(community);
 	}

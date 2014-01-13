@@ -33,7 +33,16 @@ public class MailService {
 
 	@Value("${SITE_URL}")
 	private String SITE_URL;
-
+	/**
+	 * send an email to user
+	 * @param email target email address
+	 * @param subject subject of email address
+	 * @param msg message content
+	 * @param replyTo reply to field of email
+	 * @throws AddressException
+	 * @throws MessagingException
+	 * @throws UnsupportedEncodingException
+	 */
 	public void sendMail(String email, String subject, String msg, String replyTo) throws AddressException, MessagingException, UnsupportedEncodingException {
 		logger.debug("sending email to::{0}::subject::{1}", email, subject);
 
@@ -53,7 +62,17 @@ public class MailService {
 
 		mailSender.send(message);
 	}
-
+	/**
+	 * 
+	 * @param velocityTemplateName email template
+	 * @param to who gets the mail
+	 * @param subject	subject of mail
+	 * @param params parameters of email
+	 * @param replyTo reply to field of email
+	 * @throws AddressException
+	 * @throws MessagingException
+	 * @throws UnsupportedEncodingException
+	 */
 	public void sendEmail(String velocityTemplateName, String to, String subject, Map<String, Object> params, String replyTo) throws AddressException, MessagingException,
 			UnsupportedEncodingException {
 		logger.debug("sendEmail(velocityTemplateName={0}, to={1}, subject={2})", velocityTemplateName, to, subject);

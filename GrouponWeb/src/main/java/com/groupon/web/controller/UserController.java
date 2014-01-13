@@ -45,13 +45,21 @@ public class UserController extends AbstractBaseController {
 
 	@Value("${COOKIE_PATH}")
 	private String cookiePath;
-
+	/**
+	 * 
+	 * @return login view
+	 */
 	@RequestMapping(value = "login", method = RequestMethod.GET)
 	public Object login() {
 		// TODO to be implemented
 		return "login.view";
 	}
-
+	/**
+	 * Logs user and set sesssion variables
+	 * @param request
+	 * @param resp
+	 * @return
+	 */
 	@RequestMapping(value = "login", method = RequestMethod.POST)
 	public ResponseEntity<Map<String, Object>> login(HttpServletRequest request, HttpServletResponse resp) {
 		Map<String, Object> response = new HashMap<String, Object>();
@@ -76,7 +84,12 @@ public class UserController extends AbstractBaseController {
 		response.put("message", "OK");
 		return prepareSuccessResponse(response);
 	}
-
+	/**
+	 * login controller for mobile
+	 * @param request
+	 * @param resp
+	 * @return
+	 */
 	@RequestMapping(value = "mobile/login", method = RequestMethod.POST)
 	public ResponseEntity<Map<String, Object>> loginMobile(HttpServletRequest request, HttpServletResponse resp) {
 		Map<String, Object> response = new HashMap<String, Object>();
@@ -101,19 +114,32 @@ public class UserController extends AbstractBaseController {
 		response.put("message", "OK");
 		return prepareSuccessResponse(response);
 	}
-
+	/**
+	 * Log out user and redirects to root page
+	 * @param request
+	 * @param response
+	 * @return
+	 */
 	@RequestMapping(value = "logout", method = { RequestMethod.GET, RequestMethod.POST })
 	public String logout(HttpServletRequest request, HttpServletResponse response) {
 		setUserSession(request, response, null);
 		return "redirect:/";
 	}
-
+	/**
+	 * 
+	 * @return sign up view
+	 */
 	@RequestMapping(value = "signup", method = RequestMethod.GET)
 	public Object signup() {
 		// TODO to be implemented
 		return "signup.view";
 	}
-
+	/**
+	 * Sign ups user
+	 * @param request
+	 * @param servletResponse
+	 * @return
+	 */
 	@RequestMapping(value = "signup", method = RequestMethod.POST)
 	public ResponseEntity<Map<String, Object>> signup(HttpServletRequest request, HttpServletResponse servletResponse) {
 		Map<String, Object> response = new HashMap<String, Object>();
@@ -146,7 +172,13 @@ public class UserController extends AbstractBaseController {
 		response.put("message", "OK");
 		return prepareSuccessResponse(response);
 	}
-
+	/**
+	 * Mobile controller for signing up user
+	 * @param request
+	 * @param body
+	 * @return
+	 * @throws JSONException
+	 */
 	@RequestMapping(value = "mobile/signup", method = RequestMethod.POST)
 	public ResponseEntity<Map<String, Object>> signupMobile(HttpServletRequest request, @RequestBody String body) throws JSONException {
 		Map<String, Object> response = new HashMap<String, Object>();
@@ -188,7 +220,12 @@ public class UserController extends AbstractBaseController {
 
 		return prepareSuccessResponse(response);
 	}
-
+	/**
+	 * return profile data of logged user
+	 * @param request
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping(value = "profile", method = RequestMethod.GET)
 	public Object getMyProfile(HttpServletRequest request, Model model) {
 		User user = getUser();
@@ -204,7 +241,13 @@ public class UserController extends AbstractBaseController {
 		setGlobalAttributesToModel(model, request);
 		return "profile.view";
 	}
-
+	/**
+	 * return profile data of a user
+	 * @param request
+	 * @param model
+	 * @param username
+	 * @return
+	 */
 	@RequestMapping(value = "profile/{username}", method = RequestMethod.GET)
 	public Object getMyProfile(HttpServletRequest request, Model model, @PathVariable("username") String username) {
 		User user = getUser();
@@ -225,7 +268,12 @@ public class UserController extends AbstractBaseController {
 		setGlobalAttributesToModel(model, request);
 		return "profile.view";
 	}
-
+	/**
+	 * return profile data of a user (mobile)
+	 * @param request
+	 * @param userId
+	 * @return
+	 */
 	@RequestMapping(value = "mobile/profile/{userid}", method = RequestMethod.GET)
 	public ResponseEntity<Map<String, Object>> getUserProfile(HttpServletRequest request, @PathVariable("userid") Long userId) {
 		Map<String, Object> response = new HashMap<String, Object>();
@@ -242,7 +290,14 @@ public class UserController extends AbstractBaseController {
 		response.put("user", UserJson.convert(profile));
 		return prepareSuccessResponse(response);
 	}
-
+	/**
+	 * controller that returns view  upon email activation.
+	 * @param code
+	 * @param userId
+	 * @param request
+	 * @param response
+	 * @return
+	 */
 	@RequestMapping(value = "emailApproval", method = RequestMethod.GET)
 	public Object emailApproval(@RequestParam String code, @RequestParam Long userId, HttpServletRequest request, HttpServletResponse response) {
 		if (userId != null && code != null) {
@@ -257,22 +312,36 @@ public class UserController extends AbstractBaseController {
 		}
 		return "redirect:/user/deactivated?failed=true";
 	}
-
+	/**
+	 * return view for deactivated user
+	 * @return
+	 */
 	@RequestMapping(value = "user/deactivated", method = RequestMethod.GET)
 	public Object userDeactivated() {
 		return "userDeactivated.view";
 	}
-
+	/**
+	 * return view for banned user
+	 * @return
+	 */
 	@RequestMapping(value = "user/banned", method = RequestMethod.GET)
 	public Object userBanned() {
 		return "userBanned.view";
 	}
-
+	/**
+	 * return view for deleted user
+	 * @return
+	 */
 	@RequestMapping(value = "user/deleted", method = RequestMethod.GET)
 	public Object userDeleted() {
 		return "userDeleted.view";
 	}
-
+	/**
+	 * set session variables for user
+	 * @param request
+	 * @param response
+	 * @param user
+	 */
 	private void setUserSession(HttpServletRequest request, HttpServletResponse response, User user) {
 		HttpSession session = request.getSession(true);
 		if (user != null) {
