@@ -514,7 +514,7 @@ public class CommunityController extends AbstractBaseController {
 	}
 
 	@RequestMapping(value = "community/delete", method = RequestMethod.GET)
-	public Object deleteCommunity(@RequestParam(required = false) Long communityId) {
+	public ResponseEntity<Map<String, Object>> deleteCommunity(@RequestParam(required = false) Long communityId) {
 		if (!hasRoleAccessGranted(RoleName.ADMIN)) {
 			throw new GrouponException("You can't delete community!");
 		}
@@ -530,7 +530,8 @@ public class CommunityController extends AbstractBaseController {
 
 		communityService.removeCommunity(community);
 
-		return "OK";
+		Map<String, Object> response = new HashMap<String, Object>();
+		return prepareSuccessResponse(response);
 	}
 
 	private String saveFile(MultipartFile multipartFile) throws IllegalStateException, IOException {

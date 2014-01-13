@@ -97,10 +97,10 @@ public class Task extends BaseModel implements Serializable {
 	@JoinColumn(name = "task_type_id", nullable = true)
 	private TaskType taskType;
 
-	@OneToMany(mappedBy = "task", cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "task", cascade = CascadeType.ALL)
 	private List<TaskAttribute> attributes;
 
-	@OneToMany(mappedBy = "task", cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "task", cascade = CascadeType.ALL)
 	private List<TaskReply> taskReplies;
 
 	@Column(name = "votes", nullable = false, columnDefinition = "int default 0")

@@ -51,6 +51,9 @@ public class Community extends BaseModel implements Serializable {
 	@JoinTable(name = "community_tags", joinColumns = @JoinColumn(name = "community_id"), inverseJoinColumns = @JoinColumn(name = "tag_id"))
 	private List<Tag> tags;
 
+	@OneToMany(mappedBy = "community", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private Set<Task> tasks = new HashSet<Task>();
+
 	public String getName() {
 		return name;
 	}
@@ -105,6 +108,14 @@ public class Community extends BaseModel implements Serializable {
 
 	public void setTags(List<Tag> tags) {
 		this.tags = tags;
+	}
+
+	public Set<Task> getTasks() {
+		return tasks;
+	}
+
+	public void setTasks(Set<Task> tasks) {
+		this.tasks = tasks;
 	}
 
 }
