@@ -29,8 +29,11 @@ import com.groupon.mobile.frag.ProfileFragment;
 import com.groupon.mobile.layout.NavDrawerItem;
 import com.groupon.mobile.layout.NavDrawerListAdapter;
 import com.groupon.mobile.model.User;
+
 /**
- * It provides navigation functionality. The fragment chosen from navigation pane is loaded from this activity to a frame layout
+ * It provides navigation functionality. The fragment chosen from navigation
+ * pane is loaded from this activity to a frame layout
+ * 
  * @author sedrik
  */
 public class HomeActivity extends BaseActivity {
@@ -79,9 +82,9 @@ public class HomeActivity extends BaseActivity {
 		navDrawerItems.add(new NavDrawerItem(navMenuTitles[0], navMenuIcons.getResourceId(0, -1)));
 		navDrawerItems.add(new NavDrawerItem(navMenuTitles[1], navMenuIcons.getResourceId(1, -1)));
 		navDrawerItems.add(new NavDrawerItem(navMenuTitles[2], navMenuIcons.getResourceId(2, -1)));
-		navDrawerItems.add(new NavDrawerItem(navMenuTitles[3], navMenuIcons.getResourceId(3, -1), true, "22"));
+		navDrawerItems.add(new NavDrawerItem(navMenuTitles[3], navMenuIcons.getResourceId(3, -1)));
 		navDrawerItems.add(new NavDrawerItem(navMenuTitles[4], navMenuIcons.getResourceId(4, -1)));
-		navDrawerItems.add(new NavDrawerItem(navMenuTitles[5], navMenuIcons.getResourceId(5, -1), true, "50+"));
+		navDrawerItems.add(new NavDrawerItem(navMenuTitles[5], navMenuIcons.getResourceId(5, -1)));
 
 		// Recycle the typed array
 		navMenuIcons.recycle();
