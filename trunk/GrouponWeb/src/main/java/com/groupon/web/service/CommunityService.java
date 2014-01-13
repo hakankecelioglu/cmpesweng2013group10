@@ -32,7 +32,11 @@ public class CommunityService {
 
 	@Autowired
 	private NotificationService notificationService;
-
+	/**
+	 * creates a community.Set create data from system data . Makes owner member of community.
+	 * 
+	 * @param community
+	 */
 	public void createCommunity(Community community) {
 		community.setCreateDate(new Date());
 
@@ -44,27 +48,52 @@ public class CommunityService {
 		// Every user is a member of his own communities
 		addMemberToCommunity(community, community.getOwner());
 	}
-
+	/**
+	 * returns community with specified id
+	 * @param id
+	 * @return
+	 */
 	public Community getCommunityById(Long id) {
 		return communityDao.getCommunityById(id);
 	}
-
+	/**
+	 * get communities of a member
+	 * @param userId member id
+	 * @param page
+	 * @param max
+	 * @return
+	 */
 	public List<Community> getCommunitiesByFollowerId(Long userId, int page, int max) {
 		return communityDao.getCommunitiesByFollowerId(userId, page, max);
 	}
-
+	/**
+	 * return all communities in the system
+	 * @return
+	 */
 	public List<Community> getAllCommunities() {
 		return communityDao.findAll();
 	}
-
+	/**
+	 * get newest communities
+	 * @param page
+	 * @param max
+	 * @return
+	 */
 	public List<Community> getNewestCommunities(int page, int max) {
 		return communityDao.getNewestCommunities(page, max);
 	}
-
+	/**
+	 * returns number of communities in the system.
+	 * @return
+	 */
 	public Long getCommunityCount() {
 		return communityDao.countCommunities();
 	}
-
+	/**
+	 * add a member to community.
+	 * @param community community input
+	 * @param user user who become member
+	 */
 	public void addMemberToCommunity(Community community, User user) {
 		if (community.getMembers().contains(user)) {
 			return;
@@ -77,7 +106,11 @@ public class CommunityService {
 			System.out.println("async!!!");
 		}
 	}
-
+	/**
+	 * remove a member from community
+	 * @param community target community
+	 * @param user	removed member
+	 */
 	public void removeMemberFromCommunity(Community community, User user) {
 		if (!community.getMembers().contains(user)) {
 			return;
@@ -85,15 +118,28 @@ public class CommunityService {
 		community.getMembers().remove(user);
 		communityDao.update(community);
 	}
-
+	/**
+	 * get similar communities to a community
+	 * @param communityId id of target community
+	 * @param page
+	 * @param max
+	 * @return
+	 */
 	public List<Community> getSimiliarCommunities(Long communityId, int page, int max) {
 		return communityDao.findSimiliarCommunities(communityId, page, max);
 	}
-
+	/**
+	 * creates a task type
+	 * @param taskType task type input
+	 */
 	public void createTaskType(TaskType taskType) {
 		communityDao.save(taskType);
 	}
-
+	/**
+	 * get task type names of community
+	 * @param communityId id of target community
+	 * @return
+	 */
 	public List<Map<String, Object>> getTaskTypeNames(Long communityId) {
 		List<Object[]> taskTypesList = communityDao.getTaskTypeNames(communityId);
 
@@ -108,15 +154,26 @@ public class CommunityService {
 		}
 		return taskTypes;
 	}
-
+	/**
+	 * get task type with specified id
+	 * @param taskTypeId id of target task type
+	 * @return
+	 */
 	public TaskType getTaskType(Long taskTypeId) {
 		return communityDao.getTaskType(taskTypeId);
 	}
-
+	/**
+	 * returns result of community search
+	 * @param queryText query text
+	 * @return
+	 */
 	public List<Community> searchCommunities(String queryText) {
 		return communityDao.searchCommunities(queryText);
 	}
-
+	/**
+	 * remove a community
+	 * @param community target community
+	 */
 	public void removeCommunity(Community community) {
 		notificationService.removeCommunityNotifications(community);
 

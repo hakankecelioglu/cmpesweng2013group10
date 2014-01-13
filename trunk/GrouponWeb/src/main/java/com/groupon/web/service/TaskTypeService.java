@@ -12,7 +12,11 @@ public class TaskTypeService {
 
 	@Autowired
 	private TaskTypeDao taskTypeDao;
-
+	/**
+	 * return a task type with specified id
+	 * @param id target task id
+	 * @return
+	 */
 	public TaskType getTaskTypeById(Long id) {
 		return taskTypeDao.getTaskTypeById(id);
 	}

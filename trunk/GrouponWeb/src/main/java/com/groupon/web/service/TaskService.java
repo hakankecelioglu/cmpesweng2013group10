@@ -35,31 +35,62 @@ public class TaskService {
 
 	@Autowired
 	private UserService userService;
-
+	/**
+	 * get a task with specified id
+	 * @param id
+	 * @return
+	 */
 	public Task getTaskById(Long id) {
 		return taskDao.getTaskById(id);
 	}
-
+	/**
+	 * get followed tasks of user
+	 * @param user target user
+	 * @return
+	 */
 	public List<Task> getFollowedTasks(User user) {
 		return taskDao.getFollowedTasks(user.getId());
 	}
-
+	/**
+	 * get tasks of a community
+	 * @param user target user
+	 * @return
+	 */
 	public List<Task> getCommunityTasks(User user) {
 		return taskDao.getCommunityTasks(user.getId());
 	}
-
+	/**
+	 * get home feed of tasks
+	 * @param user
+	 * @param sortBy
+	 * @return
+	 */
 	public List<Task> getHomeFeedTasks(User user, SortBy sortBy) {
 		return taskDao.getHomeFeedTasks(user.getId(), sortBy);
 	}
-
+	/**
+	 * return all tasks
+	 * @param page
+	 * @param max
+	 * @param sortBy
+	 * @return
+	 */
 	public List<Task> getAllTasks(int page, int max, SortBy sortBy) {
 		return taskDao.findAll(page, max, sortBy);
 	}
-
+	/**
+	 * count all open tasks
+	 * @return
+	 */
 	public long countOpenTasks() {
 		return taskDao.countOpenTasks();
 	}
-
+	/**
+	 * creates a task with specified data
+	 * @param task
+	 * @param owner
+	 * @return
+	 */
 	public Task createTask(Task task, User owner) {
 		task.setCreateDate(new Date());
 		task.setOwner(owner);
@@ -75,11 +106,22 @@ public class TaskService {
 
 		return taskCreated;
 	}
-
+	/**
+	 * get tasks of a community
+	 * @param communityId id of target comumnity
+	 * @param page
+	 * @param numberOfTasksPerPage
+	 * @return
+	 */
 	public List<Task> getTasks(long communityId, int page, int numberOfTasksPerPage) {
 		return taskDao.getTasks(communityId, page, numberOfTasksPerPage);
 	}
-
+	/**
+	 * Makes necessary dao calls for following task operation
+	 * @param taskId id of task followed
+	 * @param user follower
+	 * @return
+	 */
 	public synchronized Long followTask(Long taskId, User user) {
 		Task task = taskDao.getTaskById(taskId);
 		if (task.getFollowers().contains(user)) {
@@ -94,7 +136,12 @@ public class TaskService {
 		}
 		return task.getFollowerCount();
 	}
-
+	/**
+	 * Makes necessary dao calls for following task operation
+	 * @param taskId id of task unfollowed
+	 * @param user unfollower
+	 * @return
+	 */
 	public synchronized Long unfollowTask(Long taskId, User user) {
 		Task task = taskDao.getTaskById(taskId);
 		if (!task.getFollowers().contains(user)) {
@@ -110,7 +157,12 @@ public class TaskService {
 		taskDao.updateTask(task);
 		return task.getFollowerCount();
 	}
-
+	/**
+	 * find followed task ids of a user
+	 * @param user target user
+	 * @param inIds
+	 * @return
+	 */
 	public Map<Long, Boolean> findFollowedTasksIdsByUser(User user, List<Long> inIds) {
 		List<Long> followedIds;
 		if (inIds != null && inIds.size() > 0) {
@@ -132,16 +184,27 @@ public class TaskService {
 		}
 		return response;
 	}
-
+	/**
+	 * Return tasks recommended to user
+	 * @param user target user
+	 * @return
+	 */
 	public List<Task> getRecommendedTasks(User user) {
 		return taskDao.getRecommendedTasks(user.getId());
 	}
-
+	/**
+	 * Save a task reply 
+	 * @param taskReply TaskReply instance representing task reply data
+	 */
 	public void saveTaskReply(TaskReply taskReply) {
 		taskDao.save(taskReply);
 		notificationService.sendTaskRepliedNotification(taskReply.getTask().getId(), taskReply.getReplier().getId());
 	}
-
+	/**
+	 * return a map <count,task id> where count is sum of replied requirement quantities
+	 * @param taskIds
+	 * @return
+	 */
 	public Map<Long, Integer> getTaskHelpCounts(List<Long> taskIds) {
 		List<Object[]> taskHelpCounts = taskDao.findHelpAmount(taskIds);
 		Map<Long, Integer> helpMap = new HashMap<Long, Integer>();
@@ -150,11 +213,21 @@ public class TaskService {
 		}
 		return helpMap;
 	}
-
+	/**
+	 * search tasks for query text
+	 * @param queryText 
+	 * @return
+	 */
 	public List<Task> searchTasks(String queryText) {
 		return taskDao.searchTasks(queryText);
 	}
-
+	/**
+	 * makes necessary dao calls for voting a task
+	 * @param user voter user
+	 * @param task task voted
+	 * @param direction
+	 * @return
+	 */
 	public TaskRate voteTask(User user, Task task, RateDirection direction) {
 		TaskRate taskRate = taskDao.findTaskRateByTaskAndUser(task.getId(), user.getId());
 
@@ -198,7 +271,13 @@ public class TaskService {
 
 		return taskRate;
 	}
-
+	/**
+	 * makes necessary dao calls for unvoting a task
+	 * @param user unvoter user
+	 * @param task task voted
+	 * @param direction
+	 * @return
+	 */
 	public void unvoteTask(Task task, Long userId) {
 		TaskRate taskRate = taskDao.findTaskRateByTaskAndUser(task.getId(), userId);
 
@@ -218,11 +297,19 @@ public class TaskService {
 			taskDao.delete(taskRate);
 		}
 	}
-
+	/**
+	 * return rate which user give to a task
+	 * @param taskId target task
+	 * @param userId target user
+	 * @return
+	 */
 	public TaskRate findTaskRate(Long taskId, Long userId) {
 		return taskDao.findTaskRateByTaskAndUser(taskId, userId);
 	}
-
+	/**
+	 * remove a task
+	 * @param task target task
+	 */
 	public void removeTask(Task task) {
 		notificationService.removeTaskNotifications(task);
 		task.getTags().clear();

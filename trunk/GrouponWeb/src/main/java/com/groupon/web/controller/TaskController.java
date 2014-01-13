@@ -62,7 +62,13 @@ public class TaskController extends AbstractBaseController {
 
 	@Autowired
 	private TaskTypeService taskTypeService;
-
+	/**
+	 * return view of a task page
+	 * @param request
+	 * @param model
+	 * @param id
+	 * @return
+	 */
 	@RequestMapping(value = "/show/{id}")
 	public Object taskPage(HttpServletRequest request, Model model, @PathVariable Long id) {
 		if (id == null) {
@@ -102,7 +108,12 @@ public class TaskController extends AbstractBaseController {
 		return "task.view";
 
 	}
-
+	/**
+	 * return task data for mobile request
+	 * @param request
+	 * @param id
+	 * @return
+	 */
 	@RequestMapping(value = "/mobileShow/{id}")
 	public ResponseEntity<Map<String, Object>> taskMobile(HttpServletRequest request, @PathVariable Long id) {
 		User user = getUser();
@@ -125,7 +136,12 @@ public class TaskController extends AbstractBaseController {
 		
 		return prepareSuccessResponse(response);
 	}
-
+	/**
+	 * return view upon creating tasks
+	 * @param request
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
 	public Object createTask(HttpServletRequest request, Model model) {
 		User user = getUser();
@@ -153,7 +169,12 @@ public class TaskController extends AbstractBaseController {
 		setGlobalAttributesToModel(model, request);
 		return "createTask.view";
 	}
-
+	/**
+	 * Creates a task with requested data
+	 * @param request
+	 * @param body data of the task
+	 * @return
+	 */
 	@RequestMapping(value = "/create", method = RequestMethod.POST)
 	public ResponseEntity<Map<String, Object>> createTask(HttpServletRequest request, @RequestBody String body) {
 		Map<String, Object> response = new HashMap<String, Object>();
@@ -174,7 +195,12 @@ public class TaskController extends AbstractBaseController {
 
 		return prepareErrorResponse(response);
 	}
-
+	/**
+	 * Returns a suggested tasks response
+	 * @param page page to start with
+	 * @param max maximum number of results
+	 * @return
+	 */
 	@RequestMapping(value = "/suggest", method = RequestMethod.GET)
 	public ResponseEntity<Map<String, Object>> getSuggestedTasks(@RequestParam(required = false) Integer page, @RequestParam(required = false) Integer max) {
 		Map<String, Object> response = new HashMap<String, Object>();
@@ -185,7 +211,12 @@ public class TaskController extends AbstractBaseController {
 		response.put("tasks", TaskJson.convert(suggestedTasks));
 		return prepareSuccessResponse(response);
 	}
-
+	/**
+	 * Response task follow requests of user 
+	 * @param request
+	 * @param taskId id of task followed
+	 * @return
+	 */
 	@RequestMapping(value = "/followTask", method = RequestMethod.POST)
 	public ResponseEntity<Map<String, Object>> followTask(HttpServletRequest request, @RequestParam Long taskId) {
 		Map<String, Object> response = new HashMap<String, Object>();
@@ -197,7 +228,12 @@ public class TaskController extends AbstractBaseController {
 
 		return prepareSuccessResponse(response);
 	}
-
+	/**
+	 * Response task unfollow requests of user 
+	 * @param request
+	 * @param taskId id of task followed
+	 * @return
+	 */
 	@RequestMapping(value = "/unfollowTask", method = RequestMethod.POST)
 	public ResponseEntity<Map<String, Object>> unfollowTask(HttpServletRequest request, @RequestParam Long taskId) {
 		Map<String, Object> response = new HashMap<String, Object>();
@@ -209,7 +245,12 @@ public class TaskController extends AbstractBaseController {
 
 		return prepareSuccessResponse(response);
 	}
-
+	/**
+	 * returns reply form of a task
+	 * @param request
+	 * @param taskId id of task
+	 * @return
+	 */
 	@RequestMapping(value = "/getReplyForm", method = RequestMethod.GET)
 	public ResponseEntity<Map<String, Object>> getReplyForm(HttpServletRequest request, @RequestParam Long taskId) {
 		Map<String, Object> response = new HashMap<String, Object>();
@@ -240,7 +281,11 @@ public class TaskController extends AbstractBaseController {
 		response.put("fields", ReplyFieldJson.convert(replyFields));
 		return prepareSuccessResponse(response);
 	}
-
+	/**
+	 * returns followed tasks of a user
+	 * @param request
+	 * @return
+	 */
 	@RequestMapping(value = "/getFollowedTasks", method = RequestMethod.GET)
 	public ResponseEntity<Map<String, Object>> getFollowedTasks(HttpServletRequest request) {
 		Map<String, Object> response = new HashMap<String, Object>();
@@ -255,7 +300,11 @@ public class TaskController extends AbstractBaseController {
 
 		return prepareSuccessResponse(response);
 	}
-
+	/**
+	 * returns home feed tasks
+	 * @param request
+	 * @return
+	 */
 	@RequestMapping(value = "/getHomeFeedTasks", method = RequestMethod.GET)
 	public ResponseEntity<Map<String, Object>> getHomeFeedTasks(HttpServletRequest request) {
 		Map<String, Object> response = new HashMap<String, Object>();
@@ -276,7 +325,12 @@ public class TaskController extends AbstractBaseController {
 
 		return prepareSuccessResponse(response);
 	}
-
+	/**
+	 * returns tasks of a community
+	 * @param request
+	 * @param communityId id of community
+	 * @return
+	 */
 	@RequestMapping(value = "/getCommunityTasks", method = RequestMethod.GET)
 	public ResponseEntity<Map<String, Object>> getCommunityTasks(HttpServletRequest request, @RequestParam Long communityId) {
 		Map<String, Object> response = new HashMap<String, Object>();
@@ -286,7 +340,13 @@ public class TaskController extends AbstractBaseController {
 
 		return prepareSuccessResponse(response);
 	}
-
+	/**
+	 * Response reply request of a task
+	 * @param request
+	 * @param body reply data
+	 * @return
+	 * @throws JSONException
+	 */
 	@RequestMapping(value = "/reply", method = RequestMethod.POST)
 	public ResponseEntity<Map<String, Object>> replyTask(HttpServletRequest request, @RequestBody String body) throws JSONException {
 		Map<String, Object> response = new HashMap<String, Object>();
@@ -304,7 +364,11 @@ public class TaskController extends AbstractBaseController {
 
 		return prepareSuccessResponse(response);
 	}
-
+	/**
+	 * returns current replies of a task
+	 * @param taskId task id
+	 * @return
+	 */
 	@RequestMapping(value = "/replies", method = RequestMethod.GET)
 	public ResponseEntity<Map<String, Object>> getTaskReplies(@RequestParam Long taskId) {
 		Map<String, Object> response = new HashMap<String, Object>();
@@ -323,7 +387,13 @@ public class TaskController extends AbstractBaseController {
 
 		return prepareSuccessResponse(response);
 	}
-
+	/**
+	 * search tasks and return results
+	 * @param q search text
+	 * @param model
+	 * @param request
+	 * @return
+	 */
 	@RequestMapping(value = "/search", method = RequestMethod.GET)
 	public Object searchTasks(@RequestParam String q, Model model, HttpServletRequest request) {
 		User user = getUser();
@@ -353,7 +423,13 @@ public class TaskController extends AbstractBaseController {
 
 		return "searchResult.view";
 	}
-
+	/**
+	 * response vote request of an user
+	 * @param request
+	 * @param taskId task id voted
+	 * @param directionStr shows whether vote is upvote or downvote
+	 * @return
+	 */
 	@RequestMapping(value = "voteTask", method = RequestMethod.POST)
 	public ResponseEntity<Map<String, Object>> voteTask(HttpServletRequest request, @RequestParam Long taskId, @RequestParam(value = "direction") String directionStr) {
 		Map<String, Object> response = new HashMap<String, Object>();
@@ -379,7 +455,12 @@ public class TaskController extends AbstractBaseController {
 
 		return prepareSuccessResponse(response);
 	}
-
+	/**
+	 * remove a vote previously given to a specific task
+	 * @param request
+	 * @param taskId id of task
+	 * @return
+	 */
 	@RequestMapping(value = "unvoteTask", method = RequestMethod.POST)
 	public ResponseEntity<Map<String, Object>> unvoteTask(HttpServletRequest request, @RequestParam Long taskId) {
 		Map<String, Object> response = new HashMap<String, Object>();
@@ -402,7 +483,12 @@ public class TaskController extends AbstractBaseController {
 
 		return prepareSuccessResponse(response);
 	}
-
+	/**
+	 * returns direction of vote of user previously given. Initial vote direction is determined with this.
+	 * @param request
+	 * @param taskId id of task
+	 * @return
+	 */
 	@RequestMapping(value = "getUserVotes", method = RequestMethod.GET)
 	public ResponseEntity<Map<String, Object>> getUserVotes(HttpServletRequest request, @RequestParam Long taskId) {
 		Map<String, Object> response = new HashMap<String, Object>();
@@ -428,7 +514,11 @@ public class TaskController extends AbstractBaseController {
 
 		return prepareSuccessResponse(response);
 	}
-	
+	/**
+	 * deletes a task
+	 * @param taskId id of task
+	 * @return
+	 */
 	@RequestMapping(value = "delete", method = RequestMethod.GET)
 	public ResponseEntity<Map<String, Object>> deleteTask(@RequestParam(required = false) Long taskId) {
 		if (!hasRoleAccessGranted(RoleName.ADMIN)) {
@@ -449,7 +539,12 @@ public class TaskController extends AbstractBaseController {
 		Map<String, Object> response = new HashMap<String, Object>();
 		return prepareSuccessResponse(response);
 	}
-
+	/**
+	 * parse task reply from json object
+	 * @param json data parsed
+	 * @return
+	 * @throws JSONException
+	 */
 	private TaskReply generateTaskReplyFromJson(JSONObject json) throws JSONException {
 		TaskReply taskReply = new TaskReply();
 
@@ -487,7 +582,12 @@ public class TaskController extends AbstractBaseController {
 
 		return taskReply;
 	}
-
+	/**
+	 * parse task reply from json object
+	 * @param json data parsed
+	 * @return
+	 * @throws JSONException
+	 */
 	private Task generateTaskFromJSON(String body) throws JSONException, ParseException {
 		JSONObject json = new JSONObject(body);
 		String name = json.getString("name");
@@ -570,7 +670,11 @@ public class TaskController extends AbstractBaseController {
 
 		return task;
 	}
-
+	/**
+	 * get task attributes of a task
+	 * @param task
+	 * @return
+	 */
 	@SuppressWarnings("unchecked")
 	private Map<String, Object> getTaskAttributeMapForModel(Task task) {
 		Map<String, Object> attributes = new HashMap<String, Object>();
@@ -596,7 +700,11 @@ public class TaskController extends AbstractBaseController {
 		}
 		return attributes;
 	}
-
+	/**
+	 * puts task mobile to response model
+	 * @param tasks
+	 * @param response
+	 */
 	private void putTaskListToMobileResponseModel(List<Task> tasks, Map<String, Object> response) {
 		List<TaskJson> taskJsons = TaskJson.convert(tasks);
 

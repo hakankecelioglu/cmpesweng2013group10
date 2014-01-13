@@ -75,7 +75,11 @@ public class UserService {
 			sendEmailConfirmationMail(user);
 		}
 	}
-
+	/**
+	 * updates a role of user to admin normal user
+	 * @param user target user
+	 * @param roleName rolename of user
+	 */
 	public void updateUserRole(User user, RoleName roleName) {
 		UserRole userRole = user.getRole();
 
@@ -132,7 +136,11 @@ public class UserService {
 			return user;
 		}
 	}
-
+	/**
+	 * get user with specified user name
+	 * @param username
+	 * @return
+	 */
 	public User getUserByUsername(String username) {
 		User user = userDao.findUserByUsername(username);
 		return user;
@@ -145,24 +153,42 @@ public class UserService {
 		User user = userDao.findUserById(id);
 		return user;
 	}
-
+	/**
+	 * activate a specified user
+	 * @param user
+	 */
 	public void activateUser(User user) {
 		user.setStatus(UserStatus.ACTIVE);
 		userDao.update(user);
 	}
-
+	/**
+	 * incremet reputation of user by given increment amount
+	 * @param userId
+	 * @param increment
+	 */
 	public void incrementUserReputation(Long userId, int increment) {
 		userDao.incrementUserReputation(userId, increment);
 	}
-	
+
+
+
+	/**
+	 * return list of top helpful users
+	 */
 	public List<User> getTopHelpfulUsers(int page, int max) {
 		return userDao.getUsersSortedByReputation(page, max);
 	}
-	
+	/**
+	 * return number of active users
+	 */
 	public long countActiveUsers() {
 		return userDao.countActiveUsers();
 	}
 
+	/**
+	 * send email confirmation mail to a user
+	 * @param user
+	 */
 	private void sendEmailConfirmationMail(final User user) {
 		new Thread(new Runnable() {
 			@Override
