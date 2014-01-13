@@ -31,6 +31,9 @@ public class CommunityService {
 		communityDao.saveCommunity(community);
 
 		tagService.createTagUserRelationsOfCommunity(community.getId(), community.getOwner().getId(), GrouponConstants.TAG_USER_CREATE_COMMUNITY);
+
+		// Every user is a member of his own communities
+		addMemberToCommunity(community, community.getOwner());
 	}
 
 	public Community getCommunityById(Long id) {
@@ -44,11 +47,11 @@ public class CommunityService {
 	public List<Community> getAllCommunities() {
 		return communityDao.findAll();
 	}
-	
+
 	public List<Community> getNewestCommunities(int page, int max) {
 		return communityDao.getNewestCommunities(page, max);
 	}
-	
+
 	public Long getCommunityCount() {
 		return communityDao.countCommunities();
 	}
@@ -103,6 +106,15 @@ public class CommunityService {
 
 	public List<Community> searchCommunities(String queryText) {
 		return communityDao.searchCommunities(queryText);
+	}
+
+	public void removeCommunity(Community community) {
+		community.getTags().clear();
+		for (TaskType taskType : community.getTaskTypes()) {
+			communityDao.delete(taskType);
+		}
+
+		communityDao.delete(community);
 	}
 
 	private void arrangeTagsOfCommunity(Community community) {
