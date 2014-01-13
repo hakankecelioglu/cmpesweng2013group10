@@ -129,4 +129,8 @@
     <string name="custom_fieldtype_integer">Question for Integer Field</string>
     <string name="custom_fieldtype_float">Question for Float Field</string>
     <string name="custom_fieldtype_add_another_option_btn">Add another option</string>
+    
+    <!-- loading placeholder -->
+    <string name="loading">loading...</string>
+
 </resources>
