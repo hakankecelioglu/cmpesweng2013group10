@@ -171,6 +171,14 @@ public class NotificationService {
 			}
 		});
 	}
+	
+	public void removeTaskNotifications(Task task) {
+		notificationDao.deleteTaskNotifications(task);
+	}
+	
+	public void removeCommunityNotifications(Community community) {
+		notificationDao.deleteCommunityNotifications(community);
+	}
 
 	private void updateNotificationMapIfUserExists(Long userId, int increment) {
 		synchronized (lockNotificationCount) {

@@ -104,7 +104,7 @@ public class TaskController extends AbstractBaseController {
 	}
 
 	@RequestMapping(value = "/mobileShow/{id}")
-	public ResponseEntity<Map<String, Object>> taskMobile(HttpServletRequest request, Model model, @PathVariable Long id) {
+	public ResponseEntity<Map<String, Object>> taskMobile(HttpServletRequest request, @PathVariable Long id) {
 		User user = getUser();
 		Task task = taskService.getTaskById(id);
 		boolean isAFollower = task.getFollowers().contains(user);
@@ -114,8 +114,16 @@ public class TaskController extends AbstractBaseController {
 		response.put("task", TaskJson.convert(task));
 		response.put("isFollower", isAFollower);
 		response.put("taskAttributes", getTaskAttributeMapForModel(task));
+		
+		if (task.getNeedType() == NeedType.GOODS) {
+			Map<Long, Integer> quantityCounts = taskService.getTaskHelpCounts(Arrays.asList(id));
+			if (quantityCounts.size() == 1) {
+				Integer count = quantityCounts.get(id);
+				task.setRequirementQuantity(task.getRequirementQuantity() - count);
+			}
+		}
+		
 		return prepareSuccessResponse(response);
-
 	}
 
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
@@ -422,7 +430,7 @@ public class TaskController extends AbstractBaseController {
 	}
 	
 	@RequestMapping(value = "delete", method = RequestMethod.GET)
-	public ResponseEntity<Map<String, Object>> deleteCommunity(@RequestParam(required = false) Long taskId) {
+	public ResponseEntity<Map<String, Object>> deleteTask(@RequestParam(required = false) Long taskId) {
 		if (!hasRoleAccessGranted(RoleName.ADMIN)) {
 			throw new GrouponException("You can't delete tasks!");
 		}

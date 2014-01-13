@@ -224,6 +224,7 @@ public class TaskService {
 	}
 
 	public void removeTask(Task task) {
+		notificationService.removeTaskNotifications(task);
 		task.getTags().clear();
 		task.getFollowers().clear();
 		task.getAttributes().clear();

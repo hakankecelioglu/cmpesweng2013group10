@@ -3,8 +3,10 @@ package com.groupon.web.service;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -12,6 +14,7 @@ import org.springframework.stereotype.Component;
 import com.groupon.web.dao.CommunityDao;
 import com.groupon.web.dao.model.Community;
 import com.groupon.web.dao.model.Tag;
+import com.groupon.web.dao.model.Task;
 import com.groupon.web.dao.model.TaskType;
 import com.groupon.web.dao.model.User;
 import com.groupon.web.util.GrouponConstants;
@@ -23,6 +26,12 @@ public class CommunityService {
 
 	@Autowired
 	private TagService tagService;
+	
+	@Autowired
+	private TaskService taskService;
+
+	@Autowired
+	private NotificationService notificationService;
 
 	public void createCommunity(Community community) {
 		community.setCreateDate(new Date());
@@ -109,8 +118,16 @@ public class CommunityService {
 	}
 
 	public void removeCommunity(Community community) {
+		notificationService.removeCommunityNotifications(community);
+
 		community.getTags().clear();
-		community.getTasks().clear();
+		
+		Set<Task> tasks = new HashSet<Task>(community.getTasks());
+		for (Task task : tasks) {
+			community.getTasks().remove(task);
+			taskService.removeTask(task);
+		}
+		
 		community.getTaskTypes().clear();
 		community.getMembers().clear();
 
