@@ -44,6 +44,14 @@ public class CommunityService {
 	public List<Community> getAllCommunities() {
 		return communityDao.findAll();
 	}
+	
+	public List<Community> getNewestCommunities(int page, int max) {
+		return communityDao.getNewestCommunities(page, max);
+	}
+	
+	public Long getCommunityCount() {
+		return communityDao.countCommunities();
+	}
 
 	public void addMemberToCommunity(Community community, User user) {
 		if (community.getMembers().contains(user)) {

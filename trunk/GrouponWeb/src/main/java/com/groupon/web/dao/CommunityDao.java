@@ -72,4 +72,17 @@ public class CommunityDao extends BaseDaoImpl {
 		query.setParameter("query", like);
 		return query.list();
 	}
+
+	@SuppressWarnings("unchecked")
+	public List<Community> getNewestCommunities(int page, int max) {
+		Query query = getSession().createQuery("from Community c order by c.createDate DESC");
+		query.setMaxResults(max);
+		query.setFirstResult(max * page);
+		return query.list();
+	}
+
+	public Long countCommunities() {
+		Query query = getSession().createQuery("select count(*) from Community c");
+		return ((Number) query.uniqueResult()).longValue();
+	}
 }
