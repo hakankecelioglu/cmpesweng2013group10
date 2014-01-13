@@ -1,5 +1,7 @@
 package com.groupon.web.dao;
 
+import java.util.List;
+
 import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
 
@@ -7,6 +9,7 @@ import com.groupon.web.dao.model.Role;
 import com.groupon.web.dao.model.RoleName;
 import com.groupon.web.dao.model.User;
 import com.groupon.web.dao.model.UserRole;
+import com.groupon.web.dao.model.UserStatus;
 
 @Repository
 public class UserDao extends BaseDaoImpl {
@@ -60,5 +63,20 @@ public class UserDao extends BaseDaoImpl {
 		query.setParameter("increment", (long) increment);
 		query.setParameter("userid", userId);
 		query.executeUpdate();
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<User> getUsersSortedByReputation(int page, int max) {
+		Query query = getSession().createQuery("from User u where u.status = :status order by u.rating DESC");
+		query.setParameter("status", UserStatus.ACTIVE);
+		query.setMaxResults(max);
+		query.setFirstResult(page * max);
+		return (List<User>) query.list();
+	}
+
+	public long countActiveUsers() {
+		Query query = getSession().createQuery("select count(*) from User u where u.status = :status");
+		query.setParameter("status", UserStatus.ACTIVE);
+		return ((Number) query.uniqueResult()).longValue();
 	}
 }

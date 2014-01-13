@@ -2,6 +2,7 @@ package com.groupon.web.service;
 
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.mail.MessagingException;
@@ -152,6 +153,14 @@ public class UserService {
 
 	public void incrementUserReputation(Long userId, int increment) {
 		userDao.incrementUserReputation(userId, increment);
+	}
+	
+	public List<User> getTopHelpfulUsers(int page, int max) {
+		return userDao.getUsersSortedByReputation(page, max);
+	}
+	
+	public long countActiveUsers() {
+		return userDao.countActiveUsers();
 	}
 
 	private void sendEmailConfirmationMail(final User user) {

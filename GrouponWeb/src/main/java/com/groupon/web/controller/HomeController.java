@@ -21,6 +21,7 @@ import com.groupon.web.dao.model.Task;
 import com.groupon.web.dao.model.User;
 import com.groupon.web.service.CommunityService;
 import com.groupon.web.service.TaskService;
+import com.groupon.web.service.UserService;
 import com.groupon.web.util.GrouponConstants;
 import com.groupon.web.util.GrouponWebUtils;
 
@@ -28,6 +29,9 @@ import com.groupon.web.util.GrouponWebUtils;
 public class HomeController extends AbstractBaseController {
 	@Autowired
 	private TaskService taskService;
+	
+	@Autowired
+	private UserService userService;
 
 	@Autowired
 	private CommunityService communityService;
@@ -175,6 +179,27 @@ public class HomeController extends AbstractBaseController {
 		generatePagination(model, currentPage, count, 5);
 
 		return "newestTasks.view";
+	}
+	
+	@RequestMapping(value = "/user/helpful", method = RequestMethod.GET)
+	public Object topHelpfulUsers(HttpServletRequest request, Model model, @RequestParam(required = false) Integer page) {
+		setGlobalAttributesToModel(model, request);
+		model.addAttribute("page", "topHelpfulUsers");
+
+		User user = getUser();
+		if (user == null) {
+			return "redirect:/";
+		}
+		
+		int currentPage = (page != null) ? page.intValue() : 0;
+
+		List<User> users = userService.getTopHelpfulUsers(currentPage, 10);
+		model.addAttribute("users", users);
+
+		long count = userService.countActiveUsers();
+		generatePagination(model, currentPage, count, 5);
+
+		return "topHelpfulUsers.view";
 	}
 
 	private void generatePagination(Model model, int currentPage, long numberOfItems, int itemsPerPage) {
