@@ -103,7 +103,17 @@
 	<definition name="allCommunities.view" extends="grouponTemplate">
 		<put-attribute name="title" cascade="true" value="All Communities" />
 		<put-attribute name="body" value="/WEB-INF/views/allCommunities.jsp" />
-
+	</definition>
+	
+	<definition name="newestTasks.view" extends="grouponTemplate">
+		<put-attribute name="title" cascade="true" value="Newest Tasks" />
+		<put-attribute name="body" value="/WEB-INF/views/newestTasks.jsp" />
+		<put-list-attribute name="cssFiles" cascade="true">
+			<add-attribute value="/home.css" />
+		</put-list-attribute>
+		<put-list-attribute name="jsFiles" cascade="true">
+			<add-attribute value="/home.js" />
+		</put-list-attribute>
 	</definition>
 
 	<definition name="searchResult.view" extends="grouponTemplate">

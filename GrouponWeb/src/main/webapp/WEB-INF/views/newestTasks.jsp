@@ -7,21 +7,8 @@
 	
 	<%------------------------------------ MIDDLE FRAME BEGINS ----------------------------------------------%>
 	<div class="span7">
-		<div class="sort-selection-line">
-			<a href="javascript:;" class="sort-selection-item"><span>SORT: ${sortby}</span> <strong class="caret"></strong></a>
-			<ul class="sort-selection-menu nav nav-tabs nav-stacked">
-				<li><a href="#" data-sort="DEADLINE">Deadline</a></li>
-				<li><a href="#" data-sort="LATEST">Latest</a></li>
-			</ul>
-		</div>
-		
 		<c:choose>
 			<c:when test="${not empty homeFeedTasks}">
-				<c:if test="${emptyHomeFeed}">
-					<div class="well text-info">
-						<p>You are neither following a task nor a member of a community. Therefore, here we the list of recent tasks below.</p>
-					</div>
-				</c:if>
 				<c:forEach var="task" items="${homeFeedTasks}">
 					<div class="well community-task-well">
 					
@@ -129,13 +116,48 @@
 						</div>
 					</div>
 				</c:forEach>
+				
+				<%-- pagination starts here --%>
+				<div class="pagination">
+					<ul>
+						<c:choose>
+							<c:when test="${hasPrev}">
+								<li><a href="<c:url value="/tasks/newest?page=${currentPage - 1}" />">Prev</a></li>
+							</c:when>
+							<c:otherwise>
+								<li class="disabled"><a href="javascript:;">Prev</a></li>
+							</c:otherwise>
+						</c:choose>
+						
+						<c:forEach items="${pages}" var="page">
+							<c:choose>
+								<c:when test="${currentPage eq page}">
+									<li class="active"><a href="javascript:;">${page + 1}</a></li>
+								</c:when>
+								<c:otherwise>
+									<li><a href="<c:url value="/tasks/newest?page=${page}" />">${page + 1}</a></li>
+								</c:otherwise>
+							</c:choose>
+						</c:forEach>
+						
+						<c:choose>
+							<c:when test="${hasNext}">
+								<li><a href="<c:url value="/tasks/newest?page=${currentPage + 1}" />">Next</a></li>
+							</c:when>
+							<c:otherwise>
+								<li class="disabled"><a href="javascript:;">Next</a></li>
+							</c:otherwise>
+						</c:choose>
+					</ul>
+				</div>
+				<%-- pagination ends here --%>
 			</c:when>
 			<c:otherwise>
 				<div class="well community-task-well">
 					<h5>Nothing to display here</h5>
 					<hr class="clearfix">
 					<p>
-						You don't follow any task.
+						There is no open task in the system!
 					</p>
 				</div>
 			</c:otherwise>

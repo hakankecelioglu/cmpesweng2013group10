@@ -55,6 +55,10 @@ public class TaskService {
 	public List<Task> getAllTasks(int page, int max, SortBy sortBy) {
 		return taskDao.findAll(page, max, sortBy);
 	}
+	
+	public long countOpenTasks() {
+		return taskDao.countOpenTasks();
+	}
 
 	public Task createTask(Task task, User owner) {
 		task.setCreateDate(new Date());
