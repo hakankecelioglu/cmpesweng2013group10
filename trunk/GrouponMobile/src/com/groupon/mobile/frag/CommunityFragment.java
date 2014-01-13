@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout.LayoutParams;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -120,7 +121,12 @@ public class CommunityFragment extends Fragment {
 		createTaskButton.setOnClickListener(createButtonClickListener);
 
 		if (community.getOwnerId() != app.getLoggedUser().getId()) {
-			createTaskTypeButton.setVisibility(View.INVISIBLE);
+			createTaskTypeButton.setVisibility(View.GONE);
+
+			LayoutParams params1 = (LayoutParams) createTaskButton.getLayoutParams();
+			params1.weight = 0.5f;
+			LayoutParams params2 = (LayoutParams) joinCommunityButton.getLayoutParams();
+			params2.weight = 0.5f;
 		} else {
 			createTaskTypeButton.setOnClickListener(createTypeButtonClickListener);
 		}
