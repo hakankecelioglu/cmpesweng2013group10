@@ -11,16 +11,21 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.util.Log;
+
 import com.groupon.mobile.GrouponApplication;
 import com.groupon.mobile.conn.ConnectionUtils;
 import com.groupon.mobile.conn.GrouponCallback;
 import com.groupon.mobile.conn.GrouponTask;
 import com.groupon.mobile.exception.GrouponException;
+import com.groupon.mobile.model.FieldAttribute;
 import com.groupon.mobile.model.ReplyField;
 import com.groupon.mobile.model.ReplyFieldAttribute;
 import com.groupon.mobile.model.Task;
 import com.groupon.mobile.model.TaskAttribute;
+import com.groupon.mobile.model.TaskReply;
 import com.groupon.mobile.model.TaskTypeField;
+import com.groupon.mobile.model.User;
 import com.groupon.mobile.utils.Constants;
 import com.groupon.mobile.utils.DateUtils;
 
@@ -289,6 +294,101 @@ public class TaskService {
 		};
 
 		GrouponTask.execute(taskTask);
+	}
+
+	/**
+	 * Makes a get request to get the list of task replies
+	 * 
+	 * @param taskId
+	 *            id of the task whose replies will be here soon
+	 * @param callback
+	 *            callback function which will be called when success or error
+	 */
+	public void getTaskReplies(final Long taskId, final GrouponCallback<List<TaskReply>> callback) {
+		GrouponTask<List<TaskReply>> task = new GrouponTask<List<TaskReply>>(callback) {
+			public List<TaskReply> run() throws GrouponException {
+				String url = Constants.SERVER + "task/replies";
+
+				Map<String, String> params = new HashMap<String, String>();
+				params.put("taskId", String.valueOf(taskId));
+
+				List<TaskReply> list = new ArrayList<TaskReply>();
+
+				JSONObject response = ConnectionUtils.makeGetRequest(url, params, app.getAuthToken());
+				if (response.has("replies")) {
+					try {
+						JSONArray arr = response.getJSONArray("replies");
+						for (int i = 0; i < arr.length(); i++) {
+							JSONObject replyObj = arr.getJSONObject(i);
+							list.add(convertJSONObjectToTaskReply(replyObj));
+						}
+					} catch (Exception e) {
+						Log.e("groupon", e.getMessage());
+					}
+				}
+
+				return list;
+			}
+		};
+
+		GrouponTask.execute(task);
+	}
+
+	private TaskReply convertJSONObjectToTaskReply(JSONObject obj) throws JSONException {
+		TaskReply taskReply = new TaskReply();
+
+		if (obj.has("replier")) {
+			JSONObject replier = obj.getJSONObject("replier");
+			taskReply.setUser(convertJsonToUser(replier));
+		}
+
+		if (obj.has("date")) {
+			Long millis = obj.getLong("date");
+			taskReply.setDate(new Date(millis));
+		}
+
+		List<FieldAttribute> attributes = new ArrayList<FieldAttribute>();
+		if (obj.has("attributes")) {
+			JSONArray arr = obj.getJSONArray("attributes");
+			for (int i = 0; i < arr.length(); i++) {
+				JSONObject attr = arr.getJSONObject(i);
+				String name = attr.getString("name");
+				String value = attr.getString("value");
+
+				FieldAttribute attribute = new FieldAttribute();
+				attribute.setName(name);
+				attribute.setValue(value);
+				attributes.add(attribute);
+			}
+		}
+		taskReply.setAttributes(attributes);
+
+		return taskReply;
+	}
+
+	private User convertJsonToUser(JSONObject json) throws JSONException {
+		User user = new User();
+
+		if (json.has("email")) {
+			user.setEmail(json.getString("email"));
+		}
+
+		if (json.has("id")) {
+			user.setId(json.getLong("id"));
+		}
+
+		if (json.has("name") && !json.isNull("name")) {
+			user.setName(json.getString("name"));
+		}
+
+		if (json.has("surname") && !json.isNull("surname")) {
+			user.setSurname(json.getString("surname"));
+		}
+
+		if (json.has("username")) {
+			user.setUsername(json.getString("username"));
+		}
+		return user;
 	}
 
 	private Map<String, List<String>> convertJSONObjectToTaskAttribute(JSONObject json) throws JSONException {

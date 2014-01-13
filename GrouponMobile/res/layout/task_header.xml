@@ -123,6 +123,7 @@
     </LinearLayout>
 
     <RelativeLayout
+        android:id="@+id/layout_task_small_info"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/task_button_holder"
@@ -161,5 +162,28 @@
             android:text="@string/loading"
             android:textSize="15sp" />
     </RelativeLayout>
+
+    <View
+        android:id="@+id/horizontal_line"
+        android:layout_width="fill_parent"
+        android:layout_height="2dp"
+        android:layout_below="@id/layout_task_small_info"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:background="@android:color/black" />
+
+    <TextView
+        android:id="@+id/textview_task_replies_title"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/horizontal_line"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="5dp"
+        android:text="@string/task_page_task_replies_title"
+        android:textColor="#900"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:visibility="gone" />
 
 </RelativeLayout>
