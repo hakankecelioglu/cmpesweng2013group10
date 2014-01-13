@@ -64,22 +64,21 @@ Users There should be 4 different user types: general admin, user, guest and co
 
 2.3.1. Guests shall be able to browse the system but not create content and participate 
 
-2.3.2. Guests should provide name, surname, email, password,  job information to become registered users.
+2.3.2. Guests should provide name, surname, email, password,   to become registered users.
 
-2.3.3. After step 2 users shall be asked for nonrequired information fields : date of birth, gender, address, interest areas, skills, telephone number, education and a brief info about user.
 
-2.3.4. Personal information (unless they want to hide), communities and tasks of an user shall be presented publicly to the other users.
+2.3.3. Personal information (unless they want to hide), communities and tasks of an user shall be presented publicly to the other users.
 
-2.3.5. Users shall have a reputation score  calculated based on the tasks he helped.
+2.3.4. Users shall have a reputation score  calculated based on the tasks he helped.
 
-2.3.6. Users shall login system providing email and password.
+2.3.5. Users shall login system providing email and password.
 
-2.3.7. Users shall be provided with the facilities to edit their profiles.
+2.3.6. Users shall be provided with the facilities to edit their profiles.
 
-2.3.8. General admins shall have, in addition to normal users' abilities,  
+2.3.7. General admins shall have, in addition to normal users' abilities,  
 authorities  to  ban users, and remove all types of content
 
-2.3.9. Community admins shall be provided with additional authority to edit 
+2.3.8. Community admins shall be provided with additional authority to edit 
 community profile information,ban members, remove  tasks unrelated to community purpose, and appoint other members of community as admin
 
  == 2.4 Tagging ==
