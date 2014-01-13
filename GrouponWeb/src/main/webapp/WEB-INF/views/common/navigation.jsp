@@ -27,7 +27,6 @@
 			<c:if test="${!empty user}">
 				<div id="topRightButtons">
 					<a href="#" class="btn btn-warning" id="notifications">Notifications <span class="badge badge-important" style="display: none;"></span></a>
-					<a href="#" class="btn btn-success">Followed Tasks</a>
 				</div>
 			</c:if>
 			

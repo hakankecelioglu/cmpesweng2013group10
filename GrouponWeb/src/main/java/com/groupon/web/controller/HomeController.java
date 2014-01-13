@@ -1,5 +1,6 @@
 package com.groupon.web.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -44,31 +45,25 @@ public class HomeController extends AbstractBaseController {
 		User user = getUser();
 		if (user == null) {
 			// TODO : limit search
-			model.addAttribute("allcommunities",
-					communityService.getAllCommunities());
+			model.addAttribute("allcommunities", communityService.getAllCommunities());
 			return "homeguest.view";
 		}
 
-		List<Task> homeFeedTasks = taskService.getHomeFeedTasks(user,
-				getCurrentSortBy(request));
+		List<Task> homeFeedTasks = taskService.getHomeFeedTasks(user, getCurrentSortBy(request));
 		if (homeFeedTasks == null || homeFeedTasks.size() == 0) {
 			model.addAttribute("emptyHomeFeed", Boolean.TRUE);
-			homeFeedTasks = taskService.getAllTasks(0, 5,
-					getCurrentSortBy(request));
+			homeFeedTasks = taskService.getAllTasks(0, 5, getCurrentSortBy(request));
 		}
 
 		model.addAttribute("homeFeedTasks", homeFeedTasks);
 
 		if (homeFeedTasks.size() > 0) {
-			List<Long> taskIds = GrouponWebUtils
-					.convertModelListToLongList(homeFeedTasks);
+			List<Long> taskIds = GrouponWebUtils.convertModelListToLongList(homeFeedTasks);
 
-			Map<Long, Boolean> followedTaskMap = taskService
-					.findFollowedTasksIdsByUser(user, taskIds);
+			Map<Long, Boolean> followedTaskMap = taskService.findFollowedTasksIdsByUser(user, taskIds);
 			model.addAttribute("followedMap", followedTaskMap);
 
-			Map<Long, Integer> replyCounts = taskService
-					.getTaskHelpCounts(taskIds);
+			Map<Long, Integer> replyCounts = taskService.getTaskHelpCounts(taskIds);
 			putReplyPercentagesToModel(homeFeedTasks, replyCounts, model);
 		}
 
@@ -115,17 +110,14 @@ public class HomeController extends AbstractBaseController {
 		model.addAttribute("page", "home");
 
 		model.addAttribute("followedTasks", taskService.getFollowedTasks(user));
-		model.addAttribute("communityTasks",
-				taskService.getCommunityTasks(user));
-		model.addAttribute("recommendedTasks",
-				taskService.getRecommendedTasks(user));
+		model.addAttribute("communityTasks", taskService.getCommunityTasks(user));
+		model.addAttribute("recommendedTasks", taskService.getRecommendedTasks(user));
 
 		return "home.view";
 	}
 
 	@RequestMapping(value = "/setSorting", method = RequestMethod.POST)
-	public ResponseEntity<Map<String, Object>> setSorting(
-			@RequestParam String sortBy, HttpServletRequest request) {
+	public ResponseEntity<Map<String, Object>> setSorting(@RequestParam String sortBy, HttpServletRequest request) {
 		Map<String, Object> response = new HashMap<String, Object>();
 
 		HttpSession session = request.getSession(true);
@@ -137,14 +129,49 @@ public class HomeController extends AbstractBaseController {
 		return prepareSuccessResponse(response);
 	}
 
-	@RequestMapping(value = "/allCommunities", method = RequestMethod.GET)
-	public Object allCommunities(HttpServletRequest request, Model model) {
+	@RequestMapping(value = "/communities/newest", method = RequestMethod.GET)
+	public Object allCommunities(HttpServletRequest request, Model model, @RequestParam(required = false) Integer page) {
 		setGlobalAttributesToModel(model, request);
 		model.addAttribute("page", "allCommunities");
 
-		model.addAttribute("allcommunities",
-				communityService.getAllCommunities());
+		if (page == null || page < 0) {
+			page = 0;
+		}
+
+		model.addAttribute("allcommunities", communityService.getNewestCommunities(page, 5));
+
+		Long count = communityService.getCommunityCount();
+		generatePagination(model, page, count, 5);
 
 		return "allCommunities.view";
+	}
+
+	private void generatePagination(Model model, int currentPage, long numberOfItems, int itemsPerPage) {
+		ArrayList<Integer> pageNumbers = new ArrayList<Integer>(5);
+
+		int allPages = (int) Math.ceil((double) numberOfItems / itemsPerPage);
+
+		int startPage = Math.max(0, currentPage - 2);
+		int endPage = Math.min(allPages - 1, currentPage + 2);
+		int numPages = endPage - startPage + 1;
+
+		while (allPages > numPages && numPages < 5) {
+			if (startPage > 0) {
+				startPage--;
+			} else if (endPage < allPages - 1) {
+				endPage++;
+			}
+
+			numPages++;
+		}
+
+		for (int i = startPage; i < endPage + 1; i++) {
+			pageNumbers.add(i);
+		}
+
+		model.addAttribute("pages", pageNumbers);
+		model.addAttribute("currentPage", currentPage);
+		model.addAttribute("hasNext", currentPage < allPages - 1);
+		model.addAttribute("hasPrev", currentPage > 0);
 	}
 }
