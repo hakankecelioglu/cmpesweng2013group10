@@ -138,7 +138,6 @@ public class CommunityService {
 		if (json.has("picture")) {
 			community.setPicture(json.getString("picture"));
 		}
-
 		
 		if (json.has("ownerUsername")) {
 			community.setOwnerUsername(json.getString("ownerUsername"));
