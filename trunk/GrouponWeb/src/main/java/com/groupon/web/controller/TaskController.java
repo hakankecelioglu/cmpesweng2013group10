@@ -33,6 +33,7 @@ import com.groupon.web.dao.model.NeedType;
 import com.groupon.web.dao.model.RateDirection;
 import com.groupon.web.dao.model.ReplyAttribute;
 import com.groupon.web.dao.model.ReplyField;
+import com.groupon.web.dao.model.RoleName;
 import com.groupon.web.dao.model.Tag;
 import com.groupon.web.dao.model.Task;
 import com.groupon.web.dao.model.TaskAttribute;
@@ -417,6 +418,27 @@ public class TaskController extends AbstractBaseController {
 			response.put("task", taskRate.getDirection());
 		}
 
+		return prepareSuccessResponse(response);
+	}
+	
+	@RequestMapping(value = "delete", method = RequestMethod.GET)
+	public ResponseEntity<Map<String, Object>> deleteCommunity(@RequestParam(required = false) Long taskId) {
+		if (!hasRoleAccessGranted(RoleName.ADMIN)) {
+			throw new GrouponException("You can't delete tasks!");
+		}
+
+		if (taskId == null) {
+			throw new GrouponException("Enter taskId!");
+		}
+
+		Task task = taskService.getTaskById(taskId);
+		if (task == null) {
+			throw new GrouponException("Task not found!");
+		}
+
+		taskService.removeTask(task);
+
+		Map<String, Object> response = new HashMap<String, Object>();
 		return prepareSuccessResponse(response);
 	}
 

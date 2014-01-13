@@ -110,10 +110,11 @@ public class CommunityService {
 
 	public void removeCommunity(Community community) {
 		community.getTags().clear();
-		for (TaskType taskType : community.getTaskTypes()) {
-			communityDao.delete(taskType);
-		}
+		community.getTasks().clear();
+		community.getTaskTypes().clear();
+		community.getMembers().clear();
 
+		communityDao.update(community);
 		communityDao.delete(community);
 	}
 

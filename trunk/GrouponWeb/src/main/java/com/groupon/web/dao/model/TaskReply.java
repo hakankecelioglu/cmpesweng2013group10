@@ -5,6 +5,7 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -27,7 +28,7 @@ public class TaskReply extends BaseModel {
 	@JoinColumn(name = "user_id", nullable = true)
 	private User replier;
 
-	@OneToMany(mappedBy = "taskReply", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "taskReply", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private List<ReplyAttribute> attributes;
 
 	@Column(name = "accepted", columnDefinition = "tinyint(1) default false")

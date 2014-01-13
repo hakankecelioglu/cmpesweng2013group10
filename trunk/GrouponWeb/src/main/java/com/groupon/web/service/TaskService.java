@@ -55,7 +55,7 @@ public class TaskService {
 	public List<Task> getAllTasks(int page, int max, SortBy sortBy) {
 		return taskDao.findAll(page, max, sortBy);
 	}
-	
+
 	public long countOpenTasks() {
 		return taskDao.countOpenTasks();
 	}
@@ -157,7 +157,7 @@ public class TaskService {
 
 	public TaskRate voteTask(User user, Task task, RateDirection direction) {
 		TaskRate taskRate = taskDao.findTaskRateByTaskAndUser(task.getId(), user.getId());
-		
+
 		if (task.getOwner().equals(user)) {
 			throw new GrouponException("You can't vote your own task!");
 		}
@@ -221,6 +221,16 @@ public class TaskService {
 
 	public TaskRate findTaskRate(Long taskId, Long userId) {
 		return taskDao.findTaskRateByTaskAndUser(taskId, userId);
+	}
+
+	public void removeTask(Task task) {
+		task.getTags().clear();
+		task.getFollowers().clear();
+		task.getAttributes().clear();
+		task.getTaskReplies().clear();
+
+		taskDao.update(task);
+		taskDao.delete(task);
 	}
 
 	private void arrangeTagsOfTask(Task task) {
