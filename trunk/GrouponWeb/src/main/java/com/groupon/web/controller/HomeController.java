@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.groupon.web.controller.json.CommunityJson;
+import com.groupon.web.dao.model.Community;
 import com.groupon.web.dao.model.SortBy;
 import com.groupon.web.dao.model.Task;
 import com.groupon.web.dao.model.User;
@@ -29,7 +31,7 @@ import com.groupon.web.util.GrouponWebUtils;
 public class HomeController extends AbstractBaseController {
 	@Autowired
 	private TaskService taskService;
-	
+
 	@Autowired
 	private UserService userService;
 
@@ -78,6 +80,7 @@ public class HomeController extends AbstractBaseController {
 
 	/**
 	 * Opens advanced search page
+	 * 
 	 * @param request
 	 * @param model
 	 * @return view for advanced search page
@@ -89,6 +92,7 @@ public class HomeController extends AbstractBaseController {
 
 	/**
 	 * Opens contact us page
+	 * 
 	 * @param request
 	 * @param model
 	 * @return view for contact us page
@@ -100,6 +104,7 @@ public class HomeController extends AbstractBaseController {
 
 	/**
 	 * Opens android application download page
+	 * 
 	 * @param request
 	 * @param model
 	 * @return view for android app download page
@@ -111,6 +116,7 @@ public class HomeController extends AbstractBaseController {
 
 	/**
 	 * Opens about use page
+	 * 
 	 * @param request
 	 * @param model
 	 * @return view for about us page
@@ -122,6 +128,7 @@ public class HomeController extends AbstractBaseController {
 
 	/**
 	 * Opens community feed
+	 * 
 	 * @param request
 	 * @param model
 	 * @return the view which will be shown on homepage
@@ -145,7 +152,9 @@ public class HomeController extends AbstractBaseController {
 
 	/**
 	 * Updates logged user's sortby preference
-	 * @param sortBy new sortby preference of the user
+	 * 
+	 * @param sortBy
+	 *            new sortby preference of the user
 	 * @param request
 	 * @return json response
 	 */
@@ -164,9 +173,11 @@ public class HomeController extends AbstractBaseController {
 
 	/**
 	 * Opens newest communities page
+	 * 
 	 * @param request
 	 * @param model
-	 * @param page the page to start with
+	 * @param page
+	 *            the page to start with
 	 * @return the view for newest communities
 	 */
 	@RequestMapping(value = "/communities/newest", method = RequestMethod.GET)
@@ -187,10 +198,35 @@ public class HomeController extends AbstractBaseController {
 	}
 
 	/**
-	 * Opens newest tasks page
+	 * Opens newest communities page
+	 * 
 	 * @param request
 	 * @param model
-	 * @param page the page to start with
+	 * @param page
+	 *            the page to start with
+	 * @return the view for newest communities
+	 */
+	@RequestMapping(value = "/communities/mobile/newest", method = RequestMethod.GET)
+	public ResponseEntity<Map<String, Object>> allCommunities(HttpServletRequest request, @RequestParam(required = false) Integer page) {
+		Map<String, Object> response = new HashMap<String, Object>();
+
+		if (page == null || page < 0) {
+			page = 0;
+		}
+
+		List<Community> list = communityService.getNewestCommunities(page, 10);
+		response.put("communities", CommunityJson.convert(list));
+
+		return prepareSuccessResponse(response);
+	}
+
+	/**
+	 * Opens newest tasks page
+	 * 
+	 * @param request
+	 * @param model
+	 * @param page
+	 *            the page to start with
 	 * @return view for newest tasks page
 	 */
 	@RequestMapping(value = "/tasks/newest", method = RequestMethod.GET)
@@ -202,7 +238,7 @@ public class HomeController extends AbstractBaseController {
 		if (user == null) {
 			return "redirect:/";
 		}
-		
+
 		int currentPage = (page != null) ? page.intValue() : 0;
 
 		List<Task> homeFeedTasks = taskService.getAllTasks(currentPage, 5, SortBy.LATEST);
@@ -217,18 +253,20 @@ public class HomeController extends AbstractBaseController {
 			Map<Long, Integer> replyCounts = taskService.getTaskHelpCounts(taskIds);
 			putReplyPercentagesToModel(homeFeedTasks, replyCounts, model);
 		}
-		
+
 		long count = taskService.countOpenTasks();
 		generatePagination(model, currentPage, count, 5);
 
 		return "newestTasks.view";
 	}
-	
+
 	/**
 	 * Opens top helpful users page
+	 * 
 	 * @param request
 	 * @param model
-	 * @param page page to start with
+	 * @param page
+	 *            page to start with
 	 * @return the view for top helpful users
 	 */
 	@RequestMapping(value = "/user/helpful", method = RequestMethod.GET)
@@ -240,7 +278,7 @@ public class HomeController extends AbstractBaseController {
 		if (user == null) {
 			return "redirect:/";
 		}
-		
+
 		int currentPage = (page != null) ? page.intValue() : 0;
 
 		List<User> users = userService.getTopHelpfulUsers(currentPage, 10);
