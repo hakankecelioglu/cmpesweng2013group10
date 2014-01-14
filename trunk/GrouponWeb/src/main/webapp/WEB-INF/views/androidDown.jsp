@@ -5,6 +5,6 @@
 	<br>
 	<p>You can download our Android Application to help others!</p>
 	<p>
-		<a class="btn btn-success btn-large" target="_blank" href="https://cmpesweng2013group10.googlecode.com/files/GrouponMobile.apk">Download .apk file</a>
+		<a class="btn btn-success btn-large" target="_blank" href="https://cmpesweng2013group10.googlecode.com/files/GrouponMobileFinalVersion.apk">Download .apk file</a>
 	</p>
 </div>
