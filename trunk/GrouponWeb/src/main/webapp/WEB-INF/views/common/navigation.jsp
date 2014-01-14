@@ -40,9 +40,9 @@
 			</div>
 			
 			<div style="margin-top: 5px;">
-				<form class="form-search" style="margin-bottom: 0;">
+				<form class="form-search" style="margin-bottom: 0;" method="get" action="<c:url value="/task/search" />">
 				  <div class="input-append pull-right">
-				    <input type="text" class="span2 search-query">
+				    <input type="text" name="q" class="span2 search-query">
 				    <button type="submit" class="btn"><i class="icon-search"></i></button>
 				  </div>
 				</form>
