@@ -62,8 +62,10 @@ public class TaskController extends AbstractBaseController {
 
 	@Autowired
 	private TaskTypeService taskTypeService;
+
 	/**
 	 * return view of a task page
+	 * 
 	 * @param request
 	 * @param model
 	 * @param id
@@ -108,8 +110,10 @@ public class TaskController extends AbstractBaseController {
 		return "task.view";
 
 	}
+
 	/**
 	 * return task data for mobile request
+	 * 
 	 * @param request
 	 * @param id
 	 * @return
@@ -120,24 +124,27 @@ public class TaskController extends AbstractBaseController {
 		Task task = taskService.getTaskById(id);
 		boolean isAFollower = task.getFollowers().contains(user);
 		Map<String, Object> response = new HashMap<String, Object>();
-		task.getAttributes();
 
-		response.put("task", TaskJson.convert(task));
+		TaskJson taskJson = TaskJson.convert(task);
+
+		response.put("task", taskJson);
 		response.put("isFollower", isAFollower);
 		response.put("taskAttributes", getTaskAttributeMapForModel(task));
-		
+
 		if (task.getNeedType() == NeedType.GOODS) {
 			Map<Long, Integer> quantityCounts = taskService.getTaskHelpCounts(Arrays.asList(id));
-			if (quantityCounts.size() == 1) {
+			if (quantityCounts.containsKey(id)) {
 				Integer count = quantityCounts.get(id);
-				task.setRequirementQuantity(task.getRequirementQuantity() - count);
+				taskJson.setRequirementQuantity(taskJson.getRequirementQuantity() - count);
 			}
 		}
-		
+
 		return prepareSuccessResponse(response);
 	}
+
 	/**
 	 * return view upon creating tasks
+	 * 
 	 * @param request
 	 * @param model
 	 * @return
@@ -169,10 +176,13 @@ public class TaskController extends AbstractBaseController {
 		setGlobalAttributesToModel(model, request);
 		return "createTask.view";
 	}
+
 	/**
 	 * Creates a task with requested data
+	 * 
 	 * @param request
-	 * @param body data of the task
+	 * @param body
+	 *            data of the task
 	 * @return
 	 */
 	@RequestMapping(value = "/create", method = RequestMethod.POST)
@@ -195,10 +205,14 @@ public class TaskController extends AbstractBaseController {
 
 		return prepareErrorResponse(response);
 	}
+
 	/**
 	 * Returns a suggested tasks response
-	 * @param page page to start with
-	 * @param max maximum number of results
+	 * 
+	 * @param page
+	 *            page to start with
+	 * @param max
+	 *            maximum number of results
 	 * @return
 	 */
 	@RequestMapping(value = "/suggest", method = RequestMethod.GET)
@@ -211,10 +225,13 @@ public class TaskController extends AbstractBaseController {
 		response.put("tasks", TaskJson.convert(suggestedTasks));
 		return prepareSuccessResponse(response);
 	}
+
 	/**
-	 * Response task follow requests of user 
+	 * Response task follow requests of user
+	 * 
 	 * @param request
-	 * @param taskId id of task followed
+	 * @param taskId
+	 *            id of task followed
 	 * @return
 	 */
 	@RequestMapping(value = "/followTask", method = RequestMethod.POST)
@@ -228,10 +245,13 @@ public class TaskController extends AbstractBaseController {
 
 		return prepareSuccessResponse(response);
 	}
+
 	/**
-	 * Response task unfollow requests of user 
+	 * Response task unfollow requests of user
+	 * 
 	 * @param request
-	 * @param taskId id of task followed
+	 * @param taskId
+	 *            id of task followed
 	 * @return
 	 */
 	@RequestMapping(value = "/unfollowTask", method = RequestMethod.POST)
@@ -245,10 +265,13 @@ public class TaskController extends AbstractBaseController {
 
 		return prepareSuccessResponse(response);
 	}
+
 	/**
 	 * returns reply form of a task
+	 * 
 	 * @param request
-	 * @param taskId id of task
+	 * @param taskId
+	 *            id of task
 	 * @return
 	 */
 	@RequestMapping(value = "/getReplyForm", method = RequestMethod.GET)
@@ -281,8 +304,10 @@ public class TaskController extends AbstractBaseController {
 		response.put("fields", ReplyFieldJson.convert(replyFields));
 		return prepareSuccessResponse(response);
 	}
+
 	/**
 	 * returns followed tasks of a user
+	 * 
 	 * @param request
 	 * @return
 	 */
@@ -300,8 +325,10 @@ public class TaskController extends AbstractBaseController {
 
 		return prepareSuccessResponse(response);
 	}
+
 	/**
 	 * returns home feed tasks
+	 * 
 	 * @param request
 	 * @return
 	 */
@@ -325,10 +352,13 @@ public class TaskController extends AbstractBaseController {
 
 		return prepareSuccessResponse(response);
 	}
+
 	/**
 	 * returns tasks of a community
+	 * 
 	 * @param request
-	 * @param communityId id of community
+	 * @param communityId
+	 *            id of community
 	 * @return
 	 */
 	@RequestMapping(value = "/getCommunityTasks", method = RequestMethod.GET)
@@ -340,10 +370,13 @@ public class TaskController extends AbstractBaseController {
 
 		return prepareSuccessResponse(response);
 	}
+
 	/**
 	 * Response reply request of a task
+	 * 
 	 * @param request
-	 * @param body reply data
+	 * @param body
+	 *            reply data
 	 * @return
 	 * @throws JSONException
 	 */
@@ -361,12 +394,26 @@ public class TaskController extends AbstractBaseController {
 		taskReply.setReplier(user);
 
 		taskService.saveTaskReply(taskReply);
+		
+		Task task = taskReply.getTask();
+		Long taskId = task.getId();
+		
+		if (task.getNeedType() == NeedType.GOODS) {
+			Map<Long, Integer> quantityCounts = taskService.getTaskHelpCounts(Arrays.asList(taskId));
+			if (quantityCounts.containsKey(taskId)) {
+				Integer count = quantityCounts.get(taskId);
+				response.put("requirementQuantity", task.getRequirementQuantity() - count);
+			}
+		}
 
 		return prepareSuccessResponse(response);
 	}
+
 	/**
 	 * returns current replies of a task
-	 * @param taskId task id
+	 * 
+	 * @param taskId
+	 *            task id
 	 * @return
 	 */
 	@RequestMapping(value = "/replies", method = RequestMethod.GET)
@@ -387,9 +434,12 @@ public class TaskController extends AbstractBaseController {
 
 		return prepareSuccessResponse(response);
 	}
+
 	/**
 	 * search tasks and return results
-	 * @param q search text
+	 * 
+	 * @param q
+	 *            search text
 	 * @param model
 	 * @param request
 	 * @return
@@ -423,11 +473,15 @@ public class TaskController extends AbstractBaseController {
 
 		return "searchResult.view";
 	}
+
 	/**
 	 * response vote request of an user
+	 * 
 	 * @param request
-	 * @param taskId task id voted
-	 * @param directionStr shows whether vote is upvote or downvote
+	 * @param taskId
+	 *            task id voted
+	 * @param directionStr
+	 *            shows whether vote is upvote or downvote
 	 * @return
 	 */
 	@RequestMapping(value = "voteTask", method = RequestMethod.POST)
@@ -455,10 +509,13 @@ public class TaskController extends AbstractBaseController {
 
 		return prepareSuccessResponse(response);
 	}
+
 	/**
 	 * remove a vote previously given to a specific task
+	 * 
 	 * @param request
-	 * @param taskId id of task
+	 * @param taskId
+	 *            id of task
 	 * @return
 	 */
 	@RequestMapping(value = "unvoteTask", method = RequestMethod.POST)
@@ -483,10 +540,14 @@ public class TaskController extends AbstractBaseController {
 
 		return prepareSuccessResponse(response);
 	}
+
 	/**
-	 * returns direction of vote of user previously given. Initial vote direction is determined with this.
+	 * returns direction of vote of user previously given. Initial vote
+	 * direction is determined with this.
+	 * 
 	 * @param request
-	 * @param taskId id of task
+	 * @param taskId
+	 *            id of task
 	 * @return
 	 */
 	@RequestMapping(value = "getUserVotes", method = RequestMethod.GET)
@@ -514,9 +575,12 @@ public class TaskController extends AbstractBaseController {
 
 		return prepareSuccessResponse(response);
 	}
+
 	/**
 	 * deletes a task
-	 * @param taskId id of task
+	 * 
+	 * @param taskId
+	 *            id of task
 	 * @return
 	 */
 	@RequestMapping(value = "delete", method = RequestMethod.GET)
@@ -539,9 +603,12 @@ public class TaskController extends AbstractBaseController {
 		Map<String, Object> response = new HashMap<String, Object>();
 		return prepareSuccessResponse(response);
 	}
+
 	/**
 	 * parse task reply from json object
-	 * @param json data parsed
+	 * 
+	 * @param json
+	 *            data parsed
 	 * @return
 	 * @throws JSONException
 	 */
@@ -582,9 +649,12 @@ public class TaskController extends AbstractBaseController {
 
 		return taskReply;
 	}
+
 	/**
 	 * parse task reply from json object
-	 * @param json data parsed
+	 * 
+	 * @param json
+	 *            data parsed
 	 * @return
 	 * @throws JSONException
 	 */
@@ -670,8 +740,10 @@ public class TaskController extends AbstractBaseController {
 
 		return task;
 	}
+
 	/**
 	 * get task attributes of a task
+	 * 
 	 * @param task
 	 * @return
 	 */
@@ -700,8 +772,10 @@ public class TaskController extends AbstractBaseController {
 		}
 		return attributes;
 	}
+
 	/**
 	 * puts task mobile to response model
+	 * 
 	 * @param tasks
 	 * @param response
 	 */
