@@ -11,7 +11,7 @@
 <table border="3">
 <tr>
 <td>H Anıl Özmen, Berhan Şenyazar, M Sabri Şahin</td>
-<td>Final Presentation(H Anıl + Berhan),db schema-web manual(H Anıl), android manuel(Sabri)</td>
+<td>Final Presentation(H Anıl + Berhan),db schema-web manual(H Anıl), android manual(Sabri)</td>
 </tr>
 
 <tr>
