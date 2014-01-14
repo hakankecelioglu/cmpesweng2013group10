@@ -15,10 +15,13 @@ import com.groupon.mobile.conn.GrouponTask;
 import com.groupon.mobile.exception.GrouponException;
 import com.groupon.mobile.model.Community;
 import com.groupon.mobile.utils.Constants;
+
 /**
- * Provides service functions related to community types such as creating community, returning communities, leaving and joining communities.
+ * Provides service functions related to community types such as creating
+ * community, returning communities, leaving and joining communities.
+ * 
  * @author serkan
- *
+ * 
  */
 public class CommunityService {
 	private GrouponApplication app;
@@ -26,10 +29,14 @@ public class CommunityService {
 	public CommunityService(GrouponApplication app) {
 		this.app = app;
 	}
+
 	/**
 	 * Makes a post request to create community
-	 * @param community	Community instance to create post data
-	 * @param callback	callback passed as parameter to GrouponTask
+	 * 
+	 * @param community
+	 *            Community instance to create post data
+	 * @param callback
+	 *            callback passed as parameter to GrouponTask
 	 */
 	public void createCommunity(final Community community, final GrouponCallback<Community> callback) {
 		GrouponTask<Community> communityTask = new GrouponTask<Community>(callback) {
@@ -59,18 +66,19 @@ public class CommunityService {
 
 		GrouponTask.execute(communityTask);
 	}
+
 	/**
 	 * Makes a post request and returns list of comunities
-	 * @param isAll returns all communities if true , communities of user if false
-	 * @param callback callback passed as parameter to GrouponTask
+	 * 
+	 * @param isAll
+	 *            returns all communities if true , communities of user if false
+	 * @param callback
+	 *            callback passed as parameter to GrouponTask
 	 */
-	public void getCommunities(final boolean isAll, final GrouponCallback<ArrayList<Community>> callback) {
+	public void getMyCommunities(final GrouponCallback<ArrayList<Community>> callback) {
 		GrouponTask<ArrayList<Community>> communityTask = new GrouponTask<ArrayList<Community>>(callback) {
 			public ArrayList<Community> run() throws GrouponException {
 				String url = Constants.SERVER + "getCommunitiesOfUser";
-
-				if (isAll)
-					url = Constants.SERVER + "getAllCommunities";
 				JSONObject json = ConnectionUtils.makePostRequest(url, null, app.getAuthToken());
 				ArrayList<Community> communities = new ArrayList<Community>();
 				if (json.has("communities")) {
@@ -93,10 +101,42 @@ public class CommunityService {
 
 		GrouponTask.execute(communityTask);
 	}
+	
+	public void getNewestCommunities(final GrouponCallback<ArrayList<Community>> callback) {
+		GrouponTask<ArrayList<Community>> communityTask = new GrouponTask<ArrayList<Community>>(callback) {
+			public ArrayList<Community> run() throws GrouponException {
+				String url = Constants.SERVER + "communities/mobile/newest";
+				JSONObject json = ConnectionUtils.makeGetRequest(url, null, app.getAuthToken());
+				
+				ArrayList<Community> communities = new ArrayList<Community>();
+				if (json.has("communities")) {
+					try {
+						JSONArray communitiesJson = json.getJSONArray("communities");
+
+						for (int i = 0; i < communitiesJson.length(); i++) {
+							communities.add(convertJsonToCommunity(communitiesJson.getJSONObject(i)));
+						}
+					} catch (JSONException e) {
+						throw new GrouponException("An error occured while parsing json returned from the server!");
+					}
+				} else {
+					throw new GrouponException("An unknown error occured while creating the community :(");
+				}
+
+				return communities;
+			}
+		};
+
+		GrouponTask.execute(communityTask);
+	}
+
 	/**
 	 * Make a post request and returns a community
-	 * @param communityId	Id of a community requested
-	 * @param callback  callback passed as parameter to GrouponTask
+	 * 
+	 * @param communityId
+	 *            Id of a community requested
+	 * @param callback
+	 *            callback passed as parameter to GrouponTask
 	 */
 	public void getCommunity(final Long communityId, final GrouponCallback<Community> callback) {
 		GrouponTask<Community> communityTask = new GrouponTask<Community>(callback) {
@@ -114,9 +154,12 @@ public class CommunityService {
 		};
 		GrouponTask.execute(communityTask);
 	}
+
 	/**
 	 * Convert JSONObject to Community
-	 * @param json json converted
+	 * 
+	 * @param json
+	 *            json converted
 	 * @return Community created
 	 * @throws JSONException
 	 */
@@ -138,21 +181,25 @@ public class CommunityService {
 		if (json.has("picture")) {
 			community.setPicture(json.getString("picture"));
 		}
-		
+
 		if (json.has("ownerUsername")) {
 			community.setOwnerUsername(json.getString("ownerUsername"));
 		}
-		
+
 		if (json.has("ownerId")) {
 			community.setOwnerId(json.getLong("ownerId"));
 		}
 
 		return community;
 	}
+
 	/**
 	 * Makes a post request to leave community
-	 * @param communityId id of community left
-	 * @param callback callback passed as parameter to GrouponTask
+	 * 
+	 * @param communityId
+	 *            id of community left
+	 * @param callback
+	 *            callback passed as parameter to GrouponTask
 	 */
 	public void leaveCommunity(final long communityId, GrouponCallback<Community> callback) {
 		GrouponTask<Community> taskCommunity = new GrouponTask<Community>(callback) {
@@ -171,10 +218,14 @@ public class CommunityService {
 		};
 		GrouponTask.execute(taskCommunity);
 	}
+
 	/**
 	 * Makes a post request to join community
-	 * @param communityId id of community joined
-	 * @param callback callback passed as parameter to GrouponTask
+	 * 
+	 * @param communityId
+	 *            id of community joined
+	 * @param callback
+	 *            callback passed as parameter to GrouponTask
 	 */
 	public void joinCommunity(final long communityId, GrouponCallback<Community> callback) {
 		GrouponTask<Community> taskCommunity = new GrouponTask<Community>(callback) {

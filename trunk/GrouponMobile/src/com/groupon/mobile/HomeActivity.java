@@ -204,7 +204,10 @@ public class HomeActivity extends BaseActivity {
 			fragment = new MyCommunitiesFragment();
 			break;
 		case 4:
-			doSearch();
+			fragment = new MyCommunitiesFragment();
+			Bundle args = new Bundle();
+			args.putBoolean("all", true);
+			fragment.setArguments(args);
 			break;
 		case 5:
 			doLogout();
@@ -234,10 +237,6 @@ public class HomeActivity extends BaseActivity {
 		}
 
 		mDrawerLayout.closeDrawer(leftBarListView);
-	}
-
-	private void doSearch() {
-		// TODO not implemented yet!
 	}
 
 	private void doLogout() {
