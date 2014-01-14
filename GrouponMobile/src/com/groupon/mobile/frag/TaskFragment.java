@@ -21,7 +21,7 @@ import android.widget.Toast;
 import com.groupon.mobile.GrouponApplication;
 import com.groupon.mobile.R;
 import com.groupon.mobile.conn.GrouponCallback;
-import com.groupon.mobile.frag.ReplyFragment.refreshListener;
+import com.groupon.mobile.frag.ReplyFragment.RefreshListener;
 import com.groupon.mobile.layout.TaskReplyAdapter;
 import com.groupon.mobile.model.Task;
 import com.groupon.mobile.model.TaskReply;
@@ -33,7 +33,7 @@ import com.groupon.mobile.service.TaskService;
  * @author serkan
  * 
  */
-public class TaskFragment extends Fragment implements refreshListener {
+public class TaskFragment extends Fragment implements RefreshListener {
 	private GrouponApplication app;
 
 	private ListView listview;
@@ -55,10 +55,11 @@ public class TaskFragment extends Fragment implements refreshListener {
 	private Button followTaskButton;
 	private Button unfollowTaskButton;
 	private Button replyTaskButton;
-	private  View rootView;
+	private View rootView;
+
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		rootView = inflater.inflate(R.layout.fragment_task, container, false);
-		
+
 		app = (GrouponApplication) getActivity().getApplication();
 
 		taskId = getArguments().getLong("taskId", -1);
@@ -120,14 +121,6 @@ public class TaskFragment extends Fragment implements refreshListener {
 		taskDescriptionField.setText(task.getDescription());
 		taskDeadlineField.setText(task.getDeadlineCount().toString() + " days left");
 		taskOwner.setText(task.getOwnerUsername());
-		String needType = task.getNeedType();
-
-		if (needType.equals("GOODS")) {
-			requirement.setText(task.getRequirementQuantity() + " more " + task.getRequirementName() + " needed");
-		} else if (needType.equals("SERVICE")) {
-			requirement.setText(task.getRequirementName() + " needed");
-		}
-
 		taskfollowercount.setText(task.getFollowerCount() + " followers");
 		setFollowerUI();
 		setNeedTypeUI();
@@ -162,6 +155,7 @@ public class TaskFragment extends Fragment implements refreshListener {
 		taskService.getTaskReplies(taskId, new GrouponCallback<List<TaskReply>>() {
 			@Override
 			public void onSuccess(List<TaskReply> response) {
+				taskReplies.clear();
 				taskReplies.addAll(response);
 				adapter.notifyDataSetChanged();
 
@@ -203,7 +197,11 @@ public class TaskFragment extends Fragment implements refreshListener {
 	private void setNeedTypeUI() {
 		String needType = task.getNeedType();
 		if (needType.equals("GOODS")) {
-			requirement.setText(task.getRequirementQuantity() + " more " + task.getRequirementName() + " needed");
+			if (task.getRequirementQuantity() > 0) {
+				requirement.setText(task.getRequirementQuantity() + " more " + task.getRequirementName() + " needed");
+			} else {
+				requirement.setText("Task Completed!");
+			}
 		} else if (needType.equals("SERVICE")) {
 			requirement.setText(task.getRequirementName() + " needed");
 		} else {
@@ -260,13 +258,19 @@ public class TaskFragment extends Fragment implements refreshListener {
 		}
 
 	};
-	public void refresh(int quantity){
-		if (task.getNeedType().equals("GOODS")){
-			task.setRequirementQuantity(task.getRequirementQuantity()-quantity);
-			requirement.setText(task.getRequirementQuantity()+ " more " + task.getRequirementName());
+
+	public void refresh(Integer quantity) {
+		if (task.getNeedType().equals("GOODS") && quantity != null) {
+			task.setRequirementQuantity(quantity);
+			if (quantity > 0) {
+				requirement.setText(quantity + " more " + task.getRequirementName());
+			} else {
+				requirement.setText("Task Completed!");
+			}
 		}
 		setTaskReplies();
 	}
+
 	private OnClickListener followTaskListener = new OnClickListener() {
 
 		@Override

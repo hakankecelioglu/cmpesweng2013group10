@@ -86,7 +86,7 @@
         <item>Create Community</item>
         <item>My Profile</item>
         <item>My Communities</item>
-        <item>Search</item>
+        <item>Newest Communities</item>
         <item>Logout</item>
     </string-array>
 
@@ -97,7 +97,7 @@
         <item>@drawable/create_community_icon</item>
         <item>@drawable/profile_icon</item>
         <item>@drawable/communities_icon</item>
-        <item>@drawable/search_icon</item>
+        <item>@drawable/newest_communities</item>
         <item>@drawable/logout_icon</item>
     </array>
 
