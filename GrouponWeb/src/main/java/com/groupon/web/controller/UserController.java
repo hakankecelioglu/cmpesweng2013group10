@@ -165,6 +165,7 @@ public class UserController extends AbstractBaseController {
 		user.setPassword(passwordHash);
 		user.setName(name);
 		user.setSurname(surname);
+		user.setStatus(UserStatus.ACTIVE);
 
 		userService.registerUser(user, RoleName.USER);
 		setUserSession(request, servletResponse, user);
