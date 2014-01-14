@@ -36,9 +36,13 @@ Purposeful Communities is an crowd sourcing application whose goal is to create 
  == 2.2 Task Types ==
 
 2.2.1. Community admins shall be able to create task types in their communities.
+
 2.2.2. Tasks types shall consist of generic information about how a task is created on replied and what is type of need of task.
+
 2.2.3. Task type creator shall specify need type as service, goods or only form.
-2.2.3. Task type creator shall be able to specify to form fields which will be filled by a possible task creator using this task type and  reply fields which will be filled by users replying a task created from this task type.
+
+2.2.4. Task type creator shall be able to specify to form fields which will be filled by a possible task creator using this task type and  reply fields which will be filled by users replying a task created from this task type.
+
   2.2.4.1 Forms shall consists of form fields which consists of a field label and a field type
   2.2.4.2 Single text line, text area, photo, multiple choice, single choice and optional set field types shall be provided
 
